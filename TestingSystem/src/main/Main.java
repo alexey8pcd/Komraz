@@ -6,6 +6,7 @@ public class Main {
         System.out.println("Hello");
         System.err.println("ashgchabc");
         System.err.println("vnjznvjc");
+        System.err.println("vnjznvjc");
     }
 
 }
