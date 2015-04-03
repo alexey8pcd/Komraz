@@ -1,150 +1,170 @@
 package main;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author Алексей
  */
 public class FormulaEditor extends javax.swing.JDialog {
+
+    private Formula formula;
+    private Graphics graphics;
+
     public FormulaEditor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        graphics = paneFormulaEditor.getGraphics();
+        formula = new Formula();
+        formula.add("[ ]");
+        formula.add("=");
+        formula.add("[ ]");
     }
+
+    public void draw(){
+        graphics.clearRect(0, 0, paneFormulaEditor.getWidth(), 
+                paneFormulaEditor.getHeight());
+        formula.show(graphics);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
+        paneFormulaEditor = new javax.swing.JPanel();
+        paneNumberButtons = new javax.swing.JPanel();
+        bPutNumber2 = new javax.swing.JButton();
+        bPutNumber1 = new javax.swing.JButton();
+        bPutNumber3 = new javax.swing.JButton();
+        bPutNumber4 = new javax.swing.JButton();
+        bPutNumber5 = new javax.swing.JButton();
+        bPutNumber6 = new javax.swing.JButton();
+        bPutNumber7 = new javax.swing.JButton();
+        bPutNumber8 = new javax.swing.JButton();
+        bPutNumber9 = new javax.swing.JButton();
+        bPutNumber0 = new javax.swing.JButton();
+        scrollPaneForLatinAlphabet = new javax.swing.JScrollPane();
+        tableLatinAlphabet = new javax.swing.JTable();
+        scrollPaneForGreekAlphabet = new javax.swing.JScrollPane();
+        tableGreekAlphabet = new javax.swing.JTable();
+        bChangeRegisterGreekAlphabet = new javax.swing.JButton();
+        bChangeRegisterLatinAlphabet = new javax.swing.JButton();
+        bPutSignMinus = new javax.swing.JButton();
+        bPutSignPlus = new javax.swing.JButton();
+        bPutSignMulti = new javax.swing.JButton();
+        bCloseForm = new javax.swing.JButton();
+        bSaveFormula = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 300));
+        paneFormulaEditor.setBackground(new java.awt.Color(153, 153, 153));
+        paneFormulaEditor.setPreferredSize(new java.awt.Dimension(500, 300));
+        paneFormulaEditor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paneFormulaEditorMouseClicked(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout paneFormulaEditorLayout = new javax.swing.GroupLayout(paneFormulaEditor);
+        paneFormulaEditor.setLayout(paneFormulaEditorLayout);
+        paneFormulaEditorLayout.setHorizontalGroup(
+            paneFormulaEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        paneFormulaEditorLayout.setVerticalGroup(
+            paneFormulaEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        paneNumberButtons.setBackground(new java.awt.Color(153, 153, 153));
 
-        jButton1.setText("2");
-        jButton1.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber2.setText("2");
+        bPutNumber2.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton2.setText("1");
-        jButton2.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber1.setText("1");
+        bPutNumber1.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton3.setText("3");
-        jButton3.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber3.setText("3");
+        bPutNumber3.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton4.setText("4");
-        jButton4.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber4.setText("4");
+        bPutNumber4.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton5.setText("5");
-        jButton5.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber5.setText("5");
+        bPutNumber5.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton6.setText("6");
-        jButton6.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber6.setText("6");
+        bPutNumber6.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton7.setText("7");
-        jButton7.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber7.setText("7");
+        bPutNumber7.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton8.setText("8");
-        jButton8.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber8.setText("8");
+        bPutNumber8.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton9.setText("9");
-        jButton9.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber9.setText("9");
+        bPutNumber9.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        jButton10.setText("0");
-        jButton10.setPreferredSize(new java.awt.Dimension(50, 50));
+        bPutNumber0.setText("0");
+        bPutNumber0.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout paneNumberButtonsLayout = new javax.swing.GroupLayout(paneNumberButtons);
+        paneNumberButtons.setLayout(paneNumberButtonsLayout);
+        paneNumberButtonsLayout.setHorizontalGroup(
+            paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneNumberButtonsLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneNumberButtonsLayout.createSequentialGroup()
+                        .addComponent(bPutNumber4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutNumber5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutNumber6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneNumberButtonsLayout.createSequentialGroup()
+                        .addComponent(bPutNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutNumber2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutNumber3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneNumberButtonsLayout.createSequentialGroup()
+                        .addComponent(bPutNumber7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bPutNumber0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(paneNumberButtonsLayout.createSequentialGroup()
+                                .addComponent(bPutNumber8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(bPutNumber9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        paneNumberButtonsLayout.setVerticalGroup(
+            paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneNumberButtonsLayout.createSequentialGroup()
+                .addGroup(paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bPutNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bPutNumber4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(paneNumberButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bPutNumber7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutNumber9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(bPutNumber0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 250));
+        scrollPaneForLatinAlphabet.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPaneForLatinAlphabet.setPreferredSize(new java.awt.Dimension(300, 250));
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        tableLatinAlphabet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"a", "b", "c", "d", "e", "f"},
                 {"g", "h", "i", "j", "k", "l"},
@@ -164,27 +184,27 @@ public class FormulaEditor extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jTable1.setAutoscrolls(false);
-        jTable1.setPreferredSize(new java.awt.Dimension(240, 200));
-        jTable1.setRowHeight(37);
-        jTable1.setRowSelectionAllowed(false);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        tableLatinAlphabet.setAutoscrolls(false);
+        tableLatinAlphabet.setPreferredSize(new java.awt.Dimension(240, 200));
+        tableLatinAlphabet.setRowHeight(37);
+        tableLatinAlphabet.setRowSelectionAllowed(false);
+        tableLatinAlphabet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollPaneForLatinAlphabet.setViewportView(tableLatinAlphabet);
+        tableLatinAlphabet.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tableLatinAlphabet.getColumnModel().getColumnCount() > 0) {
+            tableLatinAlphabet.getColumnModel().getColumn(0).setResizable(false);
+            tableLatinAlphabet.getColumnModel().getColumn(1).setResizable(false);
+            tableLatinAlphabet.getColumnModel().getColumn(2).setResizable(false);
+            tableLatinAlphabet.getColumnModel().getColumn(3).setResizable(false);
+            tableLatinAlphabet.getColumnModel().getColumn(4).setResizable(false);
+            tableLatinAlphabet.getColumnModel().getColumn(5).setResizable(false);
         }
-        jTable1.getAccessibleContext().setAccessibleParent(jTable1);
+        tableLatinAlphabet.getAccessibleContext().setAccessibleParent(tableLatinAlphabet);
 
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPaneForGreekAlphabet.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTable2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        tableGreekAlphabet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"α", "β", "γ", "δ", "ε"},
                 {"ζ", "η", "θ", "ι", "κ"},
@@ -204,40 +224,34 @@ public class FormulaEditor extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jTable2.setPreferredSize(new java.awt.Dimension(250, 200));
-        jTable2.setRowHeight(37);
-        jTable2.setRowSelectionAllowed(false);
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.getTableHeader().setResizingAllowed(false);
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
+        tableGreekAlphabet.setPreferredSize(new java.awt.Dimension(250, 200));
+        tableGreekAlphabet.setRowHeight(37);
+        tableGreekAlphabet.setRowSelectionAllowed(false);
+        tableGreekAlphabet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableGreekAlphabet.getTableHeader().setResizingAllowed(false);
+        tableGreekAlphabet.getTableHeader().setReorderingAllowed(false);
+        scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
-        jButton11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton11.setText("<html>δ\n<br>|\n<br>|\n<br>v\n<br>Δ");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        bChangeRegisterGreekAlphabet.setText("<html>δ\n<br>|\n<br>|\n<br>v\n<br>Δ");
+
+        bChangeRegisterLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        bChangeRegisterLatinAlphabet.setText("<html>a\n<br>|\n<br>|\n<br>v\n<br>A");
+
+        bPutSignMinus.setText("[ ] - [ ]");
+
+        bPutSignPlus.setText("[ ] + [ ]");
+        bPutSignPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                bPutSignPlusActionPerformed(evt);
             }
         });
 
-        jButton12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton12.setText("<html>a\n<br>|\n<br>|\n<br>v\n<br>A");
+        bPutSignMulti.setText("[ ] x [ ]");
 
-        jButton13.setText("[ ] - [ ]");
+        bCloseForm.setText("Закрыть");
 
-        jButton14.setText("[ ] + [ ]");
-
-        jButton15.setText("[ ] x [ ]");
-
-        jButton16.setText("Закрыть");
-
-        jButton17.setText("Сохранить");
-
-        jButton18.setText("[ ] + [ ]");
-
-        jButton19.setText("[ ] - [ ]");
-
-        jButton20.setText("[ ] x [ ]");
+        bSaveFormula.setText("Сохранить");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,32 +261,27 @@ public class FormulaEditor extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(paneNumberButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE))
+                        .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(paneFormulaEditor, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(128, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -280,69 +289,66 @@ public class FormulaEditor extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paneFormulaEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(paneNumberButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+    private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
+        draw();
+    }//GEN-LAST:event_bPutSignPlusActionPerformed
+
+    private void paneFormulaEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneFormulaEditorMouseClicked
+        formula.setSelectedAtom(evt.getX(), evt.getY());
+        System.out.println(evt.getX());
+        draw();
+    }//GEN-LAST:event_paneFormulaEditorMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JButton bChangeRegisterGreekAlphabet;
+    private javax.swing.JButton bChangeRegisterLatinAlphabet;
+    private javax.swing.JButton bCloseForm;
+    private javax.swing.JButton bPutNumber0;
+    private javax.swing.JButton bPutNumber1;
+    private javax.swing.JButton bPutNumber2;
+    private javax.swing.JButton bPutNumber3;
+    private javax.swing.JButton bPutNumber4;
+    private javax.swing.JButton bPutNumber5;
+    private javax.swing.JButton bPutNumber6;
+    private javax.swing.JButton bPutNumber7;
+    private javax.swing.JButton bPutNumber8;
+    private javax.swing.JButton bPutNumber9;
+    private javax.swing.JButton bPutSignMinus;
+    private javax.swing.JButton bPutSignMulti;
+    private javax.swing.JButton bPutSignPlus;
+    private javax.swing.JButton bSaveFormula;
+    private javax.swing.JPanel paneFormulaEditor;
+    private javax.swing.JPanel paneNumberButtons;
+    private javax.swing.JScrollPane scrollPaneForGreekAlphabet;
+    private javax.swing.JScrollPane scrollPaneForLatinAlphabet;
+    private javax.swing.JTable tableGreekAlphabet;
+    private javax.swing.JTable tableLatinAlphabet;
     // End of variables declaration//GEN-END:variables
 
 }
