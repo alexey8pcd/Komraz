@@ -8,8 +8,9 @@ import javax.swing.JOptionPane;
  *
  * @author Solovenko
  *
- * Методы 2х типов: 1) с возвратом значения: SELECT 2) без вовзрата значения:
- * INSERT, UPDATE, DELETE
+ * Методы 2х типов: 
+ * 1) с возвратом значения: SELECT 
+ * 2) без вовзрата значения: INSERT, UPDATE, DELETE
  *
  */
 public class DBManager {
