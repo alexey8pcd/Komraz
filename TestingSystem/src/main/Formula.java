@@ -17,6 +17,7 @@ public class Formula {
     private int startX;
     private int startY;
     private int size;
+    public static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
 
     private class Atom {
 
@@ -24,24 +25,41 @@ public class Formula {
         public int x;
         public int y;
         public int size;
-        public Font font = new Font("Arial", Font.BOLD, 20);
+        public boolean replaceble;
 
         public Atom(String text, int y, int size) {
             this.text = text;
             this.y = y;
             this.size = size;
+            replaceble = true;
         }
 
-        public void show(Graphics g, int x, boolean selected) {
+        public Atom(Atom toCopy) {
+            this.text = toCopy.text;
+            this.x = toCopy.x;
+            this.y = toCopy.y;
+            this.replaceble = toCopy.replaceble;
+            this.size = toCopy.size;
+        }
+
+        public void show(Graphics g, boolean selected) {
             g.setColor(Color.red);
-            g.drawRect(x + 1, y + 1, size - 2, size - 2);
+            if (replaceble) {
+                g.drawRect(x + 1, y + 1, size - 2, size - 2);
+            } else {
+                g.setColor(Color.gray);
+                g.fillRect(x + 1, y + 1, size - 2, size - 2);
+            }
+
             if (selected) {
                 g.setColor(Color.blue);
                 g.drawRect(x, y, size, size);
             }
             g.setColor(Color.black);
-            g.setFont(font);
-            g.drawString(text, x + size / 3, y + size / 2);
+            g.setFont(DEFAULT_FONT);
+            if (text != null) {
+                g.drawString(text, x + size / 3, y + size / 2);
+            }
         }
 
         public boolean containPoint(int x, int y) {
@@ -62,6 +80,17 @@ public class Formula {
         selectedIndex = -1;
     }
 
+    public Formula(Formula toCopy) {
+        elements = new ArrayList<>();
+        for (Atom atom : toCopy.elements) {
+            elements.add(new Atom(atom));
+        }
+        startX = toCopy.startX;
+        startY = toCopy.startY;
+        size = toCopy.size;
+        selectedIndex = toCopy.selectedIndex;
+    }
+
     public int getStartX() {
         return startX;
     }
@@ -73,6 +102,20 @@ public class Formula {
                 selectedIndex = i;
                 return;
             }
+        }
+    }
+
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public void replaceAtomText(String text, int index) {
+        if (index >= 0 && index < elements.size()) {
+            Atom toReplace = elements.get(index);
+            if (toReplace.replaceble) {
+                toReplace.text = text;
+            }
+
         }
     }
 
@@ -103,8 +146,34 @@ public class Formula {
         this.size = size;
     }
 
-    public void add(String text) {
-        elements.add(new Atom(text, startY, size));
+    private void countXPositions() {
+        for (int i = 0; i < elements.size(); i++) {
+            Atom atom = elements.get(i);
+            atom.x = startX + i * atom.size;
+        }
+    }
+
+    public boolean currentIsEmpty() {
+        if (selectedIndex == -1) {
+            return false;
+        } else {
+            return elements.get(selectedIndex).text == null;
+        }
+    }
+
+    public void addEmpty() {
+        add(null, true);
+    }
+
+    public void addEmptyIn(int index) {
+        insertIn(null, index, true);
+    }
+
+    public void add(String text, boolean replaceble) {
+        Atom atom = new Atom(text, startY, size);
+        atom.replaceble = replaceble;
+        elements.add(atom);
+        countXPositions();
     }
 
     /**
@@ -113,20 +182,24 @@ public class Formula {
      * @param text текст, который содержит элемент формулы
      * @param index индекс от 0 до количества элементов в формуле, Элемент не
      * вставляется, если индекс превышает количество элементов в формуле
+     * @param replaceble можно ли заменить символ в формуле(true можно, false
+     * нельзя)
      */
-    public void insertIn(String text, int index) {
+    public void insertIn(String text, int index, boolean replaceble) {
         if (index >= 0 || index < elements.size()) {
-            elements.add(index, new Atom(text, startY, size));
+            Atom atom = new Atom(text, startY, size);
+            atom.replaceble = replaceble;
+            elements.add(index, atom);
+            countXPositions();
         }
-
     }
 
     public void show(Graphics g) {
         for (int i = 0; i < elements.size(); i++) {
             if (selectedIndex == i) {
-                elements.get(i).show(g, startX + i * size, true);
+                elements.get(i).show(g, true);
             } else {
-                elements.get(i).show(g, startX + i * size, false);
+                elements.get(i).show(g, false);
             }
         }
     }
