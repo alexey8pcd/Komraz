@@ -1,10 +1,14 @@
 package main;
 
+import javax.swing.UIManager;
+
 public class Main {
     
     public static void main(String[] args) {
-        FormulaEditor editor = new FormulaEditor(null, true);
-        editor.setVisible(true);        
+        UIManager.put("OptionPane.yesButtonText", "Да");
+        UIManager.put("OptionPane.noButtonText", "Нет");
+        QuestionEditor editor = new QuestionEditor(null, true);
+        editor.setVisible(true);
     }
 
 }

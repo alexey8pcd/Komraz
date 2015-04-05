@@ -22,13 +22,23 @@ public class FormulaEditor extends javax.swing.JDialog {
         initComponents();
         graphics = paneEditFormula.getGraphics();
         stackFormula = new Stack<>();
+        makeDefaultFormula();
+        addFormulaCopyToStack();
+        smallLatinLetters = true;
+        smallGreekLetters = true;
+    }
+
+    private void makeDefaultFormula() {
         currentFormula = new Formula();
         currentFormula.addEmpty();
         currentFormula.add("=", false);
         currentFormula.addEmpty();
+    }
+
+    public void setFormula(String transcription) {
+        stackFormula.clear();
+        currentFormula = new Formula(transcription);
         addFormulaCopyToStack();
-        smallLatinLetters = true;
-        smallGreekLetters = true;
     }
 
     public void drawFormula() {
@@ -41,6 +51,21 @@ public class FormulaEditor extends javax.swing.JDialog {
         stackFormula.push(new Formula(currentFormula));
     }
 
+    private void insertSplitterAndEmptyElements(String splitter){
+        if (currentFormula.isEmptySelectedElement()) {
+            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
+                addFormulaCopyToStack();
+                currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
+                currentFormula.insertIn(splitter, 
+                        currentFormula.getSelectedIndex() + 1, false);
+                drawFormula();
+            }else{
+                JOptionPane.showConfirmDialog(null, "Максимальная длина формулы", 
+                        "Предупреждениеэ", JOptionPane.OK_OPTION);
+            }
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -312,6 +337,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignMinus.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignMinus.setText("[ ] - [ ]");
         bPutSignMinus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMinus.addActionListener(new java.awt.event.ActionListener() {
@@ -320,6 +346,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignPlus.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignPlus.setText("[ ] + [ ]");
         bPutSignPlus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignPlus.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +355,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignMulti.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignMulti.setText("[ ] ● [ ]");
         bPutSignMulti.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMulti.addActionListener(new java.awt.event.ActionListener() {
@@ -336,6 +364,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bCloseForm.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bCloseForm.setText("Закрыть");
         bCloseForm.setPreferredSize(new java.awt.Dimension(100, 30));
         bCloseForm.addActionListener(new java.awt.event.ActionListener() {
@@ -344,6 +373,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bSaveFormula.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bSaveFormula.setText("Сохранить");
         bSaveFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bSaveFormula.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +382,9 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        paneEditFormula.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Область редактирования", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.black)); // NOI18N
         paneEditFormula.setToolTipText("Кликните для создания формулы");
+        paneEditFormula.setPreferredSize(new java.awt.Dimension(670, 350));
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 paneEditFormulaMouseClicked(evt);
@@ -363,14 +395,14 @@ public class FormulaEditor extends javax.swing.JDialog {
         paneEditFormula.setLayout(paneEditFormulaLayout);
         paneEditFormulaLayout.setHorizontalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 654, Short.MAX_VALUE)
         );
         paneEditFormulaLayout.setVerticalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
+            .addGap(0, 326, Short.MAX_VALUE)
         );
 
-        bClear.setEnabled(false);
+        bClear.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bClear.setLabel("Очистить все");
         bClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +410,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignFrac.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignFrac.setText("<html>[ ]\n<br>---\n<br>[ ]");
         bPutSignFrac.setEnabled(false);
         bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -406,6 +439,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignSqrt.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignSqrt.setText("\\/[ ]");
         bPutSignSqrt.setEnabled(false);
         bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -415,6 +449,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignPower.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignPower.setText("<html>\n.  [ ]\n<br>\n[ ]");
         bPutSignPower.setEnabled(false);
         bPutSignPower.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -424,6 +459,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignIndex.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignIndex.setText("<html>\n[ ]\n<br>\n.[ ]");
         bPutSignIndex.setEnabled(false);
         bPutSignIndex.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -433,6 +469,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
+        bPutSignVector.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignVector.setText("<html>\n-->\n<br>\n[ ]");
         bPutSignVector.setEnabled(false);
         bPutSignVector.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -489,7 +526,7 @@ public class FormulaEditor extends javax.swing.JDialog {
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +539,7 @@ public class FormulaEditor extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bRedo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -519,13 +556,12 @@ public class FormulaEditor extends javax.swing.JDialog {
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(170, 170, 170)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -540,12 +576,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
-        if (currentFormula.isEmptySelectedElement()) {
-            addFormulaCopyToStack();
-            currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-            currentFormula.insertIn("+", currentFormula.getSelectedIndex() + 1, false);
-            drawFormula();
-        }
+        insertSplitterAndEmptyElements("+");
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
@@ -658,21 +689,11 @@ public class FormulaEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
 
     private void bPutSignMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMinusActionPerformed
-        if (currentFormula.isEmptySelectedElement()) {
-            addFormulaCopyToStack();
-            currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-            currentFormula.insertIn("-", currentFormula.getSelectedIndex() + 1, false);
-            drawFormula();
-        }
+        insertSplitterAndEmptyElements("-");
     }//GEN-LAST:event_bPutSignMinusActionPerformed
 
     private void bPutSignMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMultiActionPerformed
-        if (currentFormula.isEmptySelectedElement()) {
-            addFormulaCopyToStack();
-            currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-            currentFormula.insertIn("●", currentFormula.getSelectedIndex() + 1, false);
-            drawFormula();
-        }
+        insertSplitterAndEmptyElements("●");
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
     public String getFormulaTranscription() {
@@ -686,7 +707,8 @@ public class FormulaEditor extends javax.swing.JDialog {
     }
 
     private void bClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearActionPerformed
-        
+        makeDefaultFormula();
+        drawFormula();
     }//GEN-LAST:event_bClearActionPerformed
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
@@ -704,6 +726,7 @@ public class FormulaEditor extends javax.swing.JDialog {
                     "Предупреждение", JOptionPane.CLOSED_OPTION);
         } else {
             formulaTranscription = currentFormula.getTranscription();
+            dispose();
         }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 

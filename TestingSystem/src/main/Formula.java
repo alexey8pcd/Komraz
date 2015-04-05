@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Alexey
- * Класс для хранения, отображения и работы с формулами
+ * @author Alexey Класс для хранения, отображения и работы с формулами
  */
 public class Formula {
 
@@ -25,6 +24,7 @@ public class Formula {
 
         /**
          * Создает новый экземпляр класса Atom
+         *
          * @param text текст для отображения
          * @param y позиция левого верхнего угла по вертикали
          * @param size размер элемента
@@ -38,6 +38,7 @@ public class Formula {
 
         /**
          * Создает новый экземпляр класса Atom на основе существующего
+         *
          * @param toCopy объект, свойства которого копируются
          */
         public Atom(Atom toCopy) {
@@ -50,9 +51,10 @@ public class Formula {
 
         /**
          * Отображает на экране элемент формулы
+         *
          * @param g экземпляр класса java.awt.Graphics;
-         * @param selected атрибут выделения. 
-         * Выделенный элемент отображается в синей рамке
+         * @param selected атрибут выделения. Выделенный элемент отображается в
+         * синей рамке
          */
         public void show(Graphics g, boolean selected) {
             g.setColor(Color.red);
@@ -76,6 +78,7 @@ public class Formula {
 
         /**
          * Проверяет, содержит ли элемент точку на экране
+         *
          * @param x позиция точки по горизонтали
          * @param y позиция точки по вертикали
          * @return true, если элемент содержит точку, false иначе
@@ -87,20 +90,21 @@ public class Formula {
                     && y < this.y + size;
         }
     }
-    
+
     public static final int START_X_DEFAULT = 20;
-    public static final int START_Y_DEFAULT = 150;
+    public static final int START_Y_DEFAULT = 50;
     public static final int SIZE_DEFAULT = 40;
+    public static final int MAX_ITEM_AMOUNT = 16;
     private int startX;
     private int startY;
     private int size;
     public static final Font DEFAULT_FONT = new Font("Times New Roman", Font.BOLD, 20);
     private final List<Atom> elements;
     private int selectedIndex;
- 
+
     /**
-     * Cоздает новый экземпляр класса Formula
-     * Устанавливает все свойства по умолчанию
+     * Cоздает новый экземпляр класса Formula Устанавливает все свойства по
+     * умолчанию
      */
     public Formula() {
         elements = new ArrayList<>();
@@ -112,6 +116,7 @@ public class Formula {
 
     /**
      * Создает экземпляр класса Formula на основе существующего
+     *
      * @param toCopy экземпляр класса, с которого будут скопированы свойства
      */
     public Formula(Formula toCopy) {
@@ -124,7 +129,33 @@ public class Formula {
         size = toCopy.size;
         selectedIndex = toCopy.selectedIndex;
     }
-    
+
+    /**
+     * Создает экземпляр класса Formula на основе строковой записи
+     *
+     * @param transcription
+     */
+    public Formula(String transcription) {
+        elements = new ArrayList<>();
+        startX = START_X_DEFAULT;
+        startY = START_Y_DEFAULT;
+        size = SIZE_DEFAULT;
+        selectedIndex = -1;
+        if (transcription != null && !transcription.isEmpty()) {
+            for (int i = 0; i < transcription.length(); i++) {
+                Atom atom = new Atom(String.valueOf(transcription.charAt(i)),
+                        startY, size);
+                if (transcription.charAt(i) == '=') {
+                    atom.replaceble = false;
+                }
+                if (i < MAX_ITEM_AMOUNT) {
+                    elements.add(atom);
+                }
+            }
+            countXPositions();
+        }
+    }
+
     public Formula(int startX, int startY, int size) {
         elements = new ArrayList<>();
         this.startX = startX;
@@ -134,6 +165,7 @@ public class Formula {
 
     /**
      * Проверяет, присутствуют ли в формуле пустые элементы
+     *
      * @return true, если присутствуют, false, если нет таких
      */
     boolean hasEmptyElements() {
@@ -144,13 +176,14 @@ public class Formula {
         }
         return false;
     }
-    
+
     public int getStartX() {
         return startX;
     }
 
     /**
      * Выделяет элемент формулы, если он содержит координаты x и y
+     *
      * @param x координаты точки по горизонтали
      * @param y координаты точки по вертикали
      */
@@ -163,20 +196,26 @@ public class Formula {
             }
         }
     }
+    
+    public int getElementsCount(){
+        return elements.size();
+    }
 
     /**
      * Возвращает индекс выделенного элемента
-     * @return индекс выделенного элемента в списке, если он выделен или -1, 
-     * если нет выделенных элементов 
+     *
+     * @return индекс выделенного элемента в списке, если он выделен или -1,
+     * если нет выделенных элементов
      */
     public int getSelectedIndex() {
         return selectedIndex;
     }
 
     /**
-     * Заменяет текст элемента формулы на заданный по индексу
-     * Замена не происходит, если индекст указан вне границ списка элементов или
-     * элемент не допускает замену
+     * Заменяет текст элемента формулы на заданный по индексу Замена не
+     * происходит, если индекст указан вне границ списка элементов или элемент
+     * не допускает замену
+     *
      * @param text текст, который будет записан в элемент формулы
      * @param index номер элемента в списке элементов >= 0
      */
@@ -208,7 +247,7 @@ public class Formula {
     public void setSize(int size) {
         this.size = size;
     }
-   
+
     private void countXPositions() {
         for (int i = 0; i < elements.size(); i++) {
             Atom atom = elements.get(i);
@@ -218,6 +257,7 @@ public class Formula {
 
     /**
      * Проверяет выделенный элемент формулы, является ли он пустым
+     *
      * @return true, если элемент пустой, false, если не пустой
      */
     public boolean isEmptySelectedElement() {
@@ -237,6 +277,7 @@ public class Formula {
 
     /**
      * Возвращает строковое представление формулы
+     *
      * @return строка с записью формулы
      */
     public String getTranscription() {
@@ -248,8 +289,9 @@ public class Formula {
     }
 
     /**
-     * Добавляет пустой элемент в выбранную позицию в формуле, 
-     * если индекс не превышает размер списка
+     * Добавляет пустой элемент в выбранную позицию в формуле, если индекс не
+     * превышает размер списка
+     *
      * @param index позиция элемента в списке >= 0
      */
     public void addEmptyIn(int index) {
@@ -258,9 +300,10 @@ public class Formula {
 
     /**
      * Добавляет элемент в конец формулы
+     *
      * @param text текст элемента формулы
-     * @param replaceble можно ли заменить содержимое 
-     * элемента(true - можно, false - нельзя)
+     * @param replaceble можно ли заменить содержимое элемента(true - можно,
+     * false - нельзя)
      */
     public void add(String text, boolean replaceble) {
         Atom atom = new Atom(text, startY, size);
@@ -275,8 +318,8 @@ public class Formula {
      * @param text текст, который содержит элемент формулы
      * @param index индекс от 0 до количества элементов в формуле, Элемент не
      * вставляется, если индекс превышает количество элементов в формуле
-     * @param replaceble можно ли заменить содержимое 
-     * элемента(true - можно, false - нельзя)
+     * @param replaceble можно ли заменить содержимое элемента(true - можно,
+     * false - нельзя)
      */
     public void insertIn(String text, int index, boolean replaceble) {
         if (index >= 0 || index < elements.size()) {
@@ -289,6 +332,7 @@ public class Formula {
 
     /**
      * Отображает формулу на экране
+     *
      * @param graphics экземпляр класса java.awt.Graphics;
      */
     public void show(Graphics graphics) {
