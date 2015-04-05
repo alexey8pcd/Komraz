@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
+    <Property name="title" type="java.lang.String" value="&#x420;&#x435;&#x434;&#x430;&#x43a;&#x442;&#x43e;&#x440; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x44b;"/>
     <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[800, 600]"/>
@@ -41,56 +42,102 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="bChangeRegisterGreekAlphabet" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="paneEditFormula" min="-2" max="-2" attributes="0"/>
+                  <Component id="paneEditFormula" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="bPutSignMinus" min="-2" pref="80" max="-2" attributes="0"/>
-                  <Component id="bPutSignPlus" min="-2" pref="80" max="-2" attributes="0"/>
-                  <Component id="bPutSignMulti" min="-2" pref="80" max="-2" attributes="0"/>
-                  <Component id="bUndo" min="-2" pref="186" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="bPutSignMinus" min="-2" pref="95" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="bPutSignPower" min="-2" pref="95" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="bPutSignMulti" min="-2" pref="95" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="bPutSignIndex" min="-2" pref="95" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="bUndo" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="bRedo" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="bClear" min="-2" pref="200" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="bPutSignPlus" min="-2" pref="95" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="bPutSignSqrt" min="-2" pref="95" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="bCloseForm" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bSaveFormula" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="bPutSignFrac" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bPutSignVector" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="bCloseForm" min="-2" pref="90" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Component id="bSaveFormula" min="-2" pref="90" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="bUndo" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="bPutSignPlus" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bPutSignMinus" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bPutSignMulti" min="-2" pref="80" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="paneEditFormula" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="paneNumberButtons" max="32767" attributes="0"/>
-                      <Component id="scrollPaneForLatinAlphabet" pref="0" max="32767" attributes="0"/>
-                      <Component id="scrollPaneForGreekAlphabet" pref="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="bClear" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bUndo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="bRedo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bPutSignPlus" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignSqrt" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="bPutSignMinus" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignPower" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="bPutSignMulti" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignIndex" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="bPutSignFrac" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignVector" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
-                  <Component id="bChangeRegisterGreekAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="paneEditFormula" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="bChangeRegisterGreekAlphabet" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="paneNumberButtons" alignment="0" max="32767" attributes="0"/>
+                              <Component id="scrollPaneForLatinAlphabet" alignment="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="scrollPaneForGreekAlphabet" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -525,6 +572,9 @@
     <Component class="javax.swing.JButton" name="bPutSignMinus">
       <Properties>
         <Property name="text" type="java.lang.String" value="[ ] - [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignMinusActionPerformed"/>
@@ -533,6 +583,9 @@
     <Component class="javax.swing.JButton" name="bPutSignPlus">
       <Properties>
         <Property name="text" type="java.lang.String" value="[ ] + [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignPlusActionPerformed"/>
@@ -541,6 +594,9 @@
     <Component class="javax.swing.JButton" name="bPutSignMulti">
       <Properties>
         <Property name="text" type="java.lang.String" value="[ ] &#x25cf; [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignMultiActionPerformed"/>
@@ -549,6 +605,9 @@
     <Component class="javax.swing.JButton" name="bCloseForm">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[100, 30]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCloseFormActionPerformed"/>
@@ -557,6 +616,9 @@
     <Component class="javax.swing.JButton" name="bSaveFormula">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c;"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[100, 30]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bSaveFormulaActionPerformed"/>
@@ -578,17 +640,107 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="351" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
     </Container>
+    <Component class="javax.swing.JButton" name="bClear">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="label" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x432;&#x441;&#x435;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bClearActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignFrac">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;[ ]&#xa;&lt;br&gt;---&#xa;&lt;br&gt;[ ]"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignFracActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JButton" name="bUndo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x435;"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&#x428;&#x430;&#x433; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bUndoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bRedo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&#x428;&#x430;&#x433; &#x432;&#x43f;&#x435;&#x440;&#x435;&#x434;"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bRedoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignSqrt">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="\u005c/[ ]" containsInvalidXMLChars="true"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignSqrtActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignPower">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;.  [ ]&#xa;&lt;br&gt;&#xa;[ ]"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignPowerActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignIndex">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;[ ]&#xa;&lt;br&gt;&#xa;.[ ]"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignIndexActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignVector">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;--&gt;&#xa;&lt;br&gt;&#xa;[ ]"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignVectorActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

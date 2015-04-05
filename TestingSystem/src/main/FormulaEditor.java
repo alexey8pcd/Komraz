@@ -68,9 +68,17 @@ public class FormulaEditor extends javax.swing.JDialog {
         bCloseForm = new javax.swing.JButton();
         bSaveFormula = new javax.swing.JButton();
         paneEditFormula = new javax.swing.JPanel();
+        bClear = new javax.swing.JButton();
+        bPutSignFrac = new javax.swing.JButton();
         bUndo = new javax.swing.JButton();
+        bRedo = new javax.swing.JButton();
+        bPutSignSqrt = new javax.swing.JButton();
+        bPutSignPower = new javax.swing.JButton();
+        bPutSignIndex = new javax.swing.JButton();
+        bPutSignVector = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Редактор формулы");
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
@@ -305,6 +313,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bPutSignMinus.setText("[ ] - [ ]");
+        bPutSignMinus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPutSignMinusActionPerformed(evt);
@@ -312,6 +321,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bPutSignPlus.setText("[ ] + [ ]");
+        bPutSignPlus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPutSignPlusActionPerformed(evt);
@@ -319,6 +329,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bPutSignMulti.setText("[ ] ● [ ]");
+        bPutSignMulti.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMulti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPutSignMultiActionPerformed(evt);
@@ -326,6 +337,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bCloseForm.setText("Закрыть");
+        bCloseForm.setPreferredSize(new java.awt.Dimension(100, 30));
         bCloseForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCloseFormActionPerformed(evt);
@@ -333,6 +345,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bSaveFormula.setText("Сохранить");
+        bSaveFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bSaveFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveFormulaActionPerformed(evt);
@@ -354,13 +367,78 @@ public class FormulaEditor extends javax.swing.JDialog {
         );
         paneEditFormulaLayout.setVerticalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 351, Short.MAX_VALUE)
         );
 
-        bUndo.setText("Отменить действие");
+        bClear.setEnabled(false);
+        bClear.setLabel("Очистить все");
+        bClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bClearActionPerformed(evt);
+            }
+        });
+
+        bPutSignFrac.setText("<html>[ ]\n<br>---\n<br>[ ]");
+        bPutSignFrac.setEnabled(false);
+        bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignFrac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignFracActionPerformed(evt);
+            }
+        });
+
+        bUndo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bUndo.setText("Шаг назад");
+        bUndo.setPreferredSize(new java.awt.Dimension(80, 80));
         bUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bUndoActionPerformed(evt);
+            }
+        });
+
+        bRedo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bRedo.setText("Шаг вперед");
+        bRedo.setEnabled(false);
+        bRedo.setPreferredSize(new java.awt.Dimension(80, 80));
+        bRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRedoActionPerformed(evt);
+            }
+        });
+
+        bPutSignSqrt.setText("\\/[ ]");
+        bPutSignSqrt.setEnabled(false);
+        bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignSqrt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignSqrtActionPerformed(evt);
+            }
+        });
+
+        bPutSignPower.setText("<html>\n.  [ ]\n<br>\n[ ]");
+        bPutSignPower.setEnabled(false);
+        bPutSignPower.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignPower.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignPowerActionPerformed(evt);
+            }
+        });
+
+        bPutSignIndex.setText("<html>\n[ ]\n<br>\n.[ ]");
+        bPutSignIndex.setEnabled(false);
+        bPutSignIndex.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignIndexActionPerformed(evt);
+            }
+        });
+
+        bPutSignVector.setText("<html>\n-->\n<br>\n[ ]");
+        bPutSignVector.setEnabled(false);
+        bPutSignVector.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignVector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignVectorActionPerformed(evt);
             }
         });
 
@@ -382,46 +460,79 @@ public class FormulaEditor extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bRedo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bClear, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(paneNumberButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bClear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bRedo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(170, 170, 170)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(paneNumberButtons, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -574,14 +685,9 @@ public class FormulaEditor extends javax.swing.JDialog {
         drawFormula();
     }
 
-    private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-        if (stackFormula.size() > 1) {
-            currentFormula = new Formula(stackFormula.pop());
-        } else {
-            currentFormula = new Formula(stackFormula.peek());
-        }
-        drawFormula();
-    }//GEN-LAST:event_bUndoActionPerformed
+    private void bClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearActionPerformed
+        
+    }//GEN-LAST:event_bClearActionPerformed
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "Закрыть окно редактора?",
@@ -601,10 +707,44 @@ public class FormulaEditor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 
+    private void bPutSignFracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignFracActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignFracActionPerformed
+
+    private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
+        if (stackFormula.size() > 1) {
+            currentFormula = new Formula(stackFormula.pop());
+        } else {
+            currentFormula = new Formula(stackFormula.peek());
+        }
+        drawFormula();
+    }//GEN-LAST:event_bUndoActionPerformed
+
+    private void bRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRedoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bRedoActionPerformed
+
+    private void bPutSignSqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignSqrtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignSqrtActionPerformed
+
+    private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignPowerActionPerformed
+
+    private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignIndexActionPerformed
+
+    private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignVectorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bChangeRegisterGreekAlphabet;
     private javax.swing.JButton bChangeRegisterLatinAlphabet;
+    private javax.swing.JButton bClear;
     private javax.swing.JButton bCloseForm;
     private javax.swing.JButton bPutNumber0;
     private javax.swing.JButton bPutNumber1;
@@ -616,9 +756,15 @@ public class FormulaEditor extends javax.swing.JDialog {
     private javax.swing.JButton bPutNumber7;
     private javax.swing.JButton bPutNumber8;
     private javax.swing.JButton bPutNumber9;
+    private javax.swing.JButton bPutSignFrac;
+    private javax.swing.JButton bPutSignIndex;
     private javax.swing.JButton bPutSignMinus;
     private javax.swing.JButton bPutSignMulti;
     private javax.swing.JButton bPutSignPlus;
+    private javax.swing.JButton bPutSignPower;
+    private javax.swing.JButton bPutSignSqrt;
+    private javax.swing.JButton bPutSignVector;
+    private javax.swing.JButton bRedo;
     private javax.swing.JButton bSaveFormula;
     private javax.swing.JButton bUndo;
     private javax.swing.JPanel paneEditFormula;
