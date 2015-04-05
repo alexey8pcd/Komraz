@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Graphics;
 import java.util.Stack;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,7 +14,8 @@ public class FormulaEditor extends javax.swing.JDialog {
     private final Graphics graphics;
     private boolean smallLatinLetters;
     private boolean smallGreekLetters;
-    private Stack<Formula> stackFormula;
+    private final Stack<Formula> stackFormula;
+    private String formulaTranscription;
 
     public FormulaEditor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -24,7 +26,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         currentFormula.addEmpty();
         currentFormula.add("=", false);
         currentFormula.addEmpty();
-        stackFormula.add(new Formula(currentFormula));
+        addFormulaCopyToStack();
         smallLatinLetters = true;
         smallGreekLetters = true;
     }
@@ -36,7 +38,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }
 
     private void addFormulaCopyToStack() {
-        stackFormula.add(new Formula(currentFormula));
+        stackFormula.push(new Formula(currentFormula));
     }
 
     @SuppressWarnings("unchecked")
@@ -207,7 +209,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         scrollPaneForLatinAlphabet.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPaneForLatinAlphabet.setPreferredSize(new java.awt.Dimension(300, 250));
 
-        tableLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        tableLatinAlphabet.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         tableLatinAlphabet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"a", "b", "c", "d", "e", "f"},
@@ -252,14 +254,14 @@ public class FormulaEditor extends javax.swing.JDialog {
 
         scrollPaneForGreekAlphabet.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        tableGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        tableGreekAlphabet.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         tableGreekAlphabet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"α", "β", "γ", "δ", "ε"},
                 {"ζ", "η", "θ", "ι", "κ"},
-                {"λ", "μ", "ν", "ξ", "ο"},
-                {"π", "ρ", "σ", "τ", "υ"},
-                {"φ", "χ", "ψ", "ω", ""}
+                {"λ", "μ", "ν", "ξ", "π"},
+                {"ρ", "σ", "τ", "υ", "φ"},
+                {"χ", "ψ", "ω", "", ""}
             },
             new String [] {
                 "", "", "", "", ""
@@ -324,8 +326,18 @@ public class FormulaEditor extends javax.swing.JDialog {
         });
 
         bCloseForm.setText("Закрыть");
+        bCloseForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseFormActionPerformed(evt);
+            }
+        });
 
         bSaveFormula.setText("Сохранить");
+        bSaveFormula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSaveFormulaActionPerformed(evt);
+            }
+        });
 
         paneEditFormula.setToolTipText("Кликните для создания формулы");
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -417,7 +429,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
-        if (currentFormula.currentIsEmpty()) {
+        if (currentFormula.isEmptySelectedElement()) {
             addFormulaCopyToStack();
             currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
             currentFormula.insertIn("+", currentFormula.getSelectedIndex() + 1, false);
@@ -535,7 +547,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
 
     private void bPutSignMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMinusActionPerformed
-        if (currentFormula.currentIsEmpty()) {
+        if (currentFormula.isEmptySelectedElement()) {
             addFormulaCopyToStack();
             currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
             currentFormula.insertIn("-", currentFormula.getSelectedIndex() + 1, false);
@@ -544,7 +556,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignMinusActionPerformed
 
     private void bPutSignMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMultiActionPerformed
-        if (currentFormula.currentIsEmpty()) {
+        if (currentFormula.isEmptySelectedElement()) {
             addFormulaCopyToStack();
             currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
             currentFormula.insertIn("●", currentFormula.getSelectedIndex() + 1, false);
@@ -552,14 +564,42 @@ public class FormulaEditor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
+    public String getFormulaTranscription() {
+        return formulaTranscription;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        drawFormula();
+    }
+
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
         if (stackFormula.size() > 1) {
-            currentFormula = stackFormula.pop();
+            currentFormula = new Formula(stackFormula.pop());
         } else {
-            currentFormula = stackFormula.peek();
+            currentFormula = new Formula(stackFormula.peek());
         }
         drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
+
+    private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
+        int result = JOptionPane.showConfirmDialog(null, "Закрыть окно редактора?",
+                "Пдтверждение выхода", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_bCloseFormActionPerformed
+
+    private void bSaveFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveFormulaActionPerformed
+        if (currentFormula.hasEmptyElements()) {
+            JOptionPane.showMessageDialog(null,
+                    "В формуле не должно быть пустых элементов",
+                    "Предупреждение", JOptionPane.CLOSED_OPTION);
+        } else {
+            formulaTranscription = currentFormula.getTranscription();
+        }
+    }//GEN-LAST:event_bSaveFormulaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

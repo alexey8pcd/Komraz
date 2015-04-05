@@ -296,7 +296,7 @@
         <Component class="javax.swing.JTable" name="tableLatinAlphabet">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="18" style="1"/>
+              <Font name="Times New Roman" size="18" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="5">
@@ -412,7 +412,7 @@
         <Component class="javax.swing.JTable" name="tableGreekAlphabet">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="18" style="1"/>
+              <Font name="Times New Roman" size="18" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="5">
@@ -420,35 +420,35 @@
                   <Data value="&#x3b1;"/>
                   <Data value="&#x3b6;"/>
                   <Data value="&#x3bb;"/>
-                  <Data value="&#x3c0;"/>
-                  <Data value="&#x3c6;"/>
+                  <Data value="&#x3c1;"/>
+                  <Data value="&#x3c7;"/>
                 </Column>
                 <Column editable="true" title="" type="java.lang.String">
                   <Data value="&#x3b2;"/>
                   <Data value="&#x3b7;"/>
                   <Data value="&#x3bc;"/>
-                  <Data value="&#x3c1;"/>
-                  <Data value="&#x3c7;"/>
+                  <Data value="&#x3c3;"/>
+                  <Data value="&#x3c8;"/>
                 </Column>
                 <Column editable="true" title="" type="java.lang.String">
                   <Data value="&#x3b3;"/>
                   <Data value="&#x3b8;"/>
                   <Data value="&#x3bd;"/>
-                  <Data value="&#x3c3;"/>
-                  <Data value="&#x3c8;"/>
+                  <Data value="&#x3c4;"/>
+                  <Data value="&#x3c9;"/>
                 </Column>
                 <Column editable="true" title="" type="java.lang.String">
                   <Data value="&#x3b4;"/>
                   <Data value="&#x3b9;"/>
                   <Data value="&#x3be;"/>
-                  <Data value="&#x3c4;"/>
-                  <Data value="&#x3c9;"/>
+                  <Data value="&#x3c5;"/>
+                  <Data value=""/>
                 </Column>
                 <Column editable="true" title="" type="java.lang.String">
                   <Data value="&#x3b5;"/>
                   <Data value="&#x3ba;"/>
-                  <Data value="&#x3bf;"/>
-                  <Data value="&#x3c5;"/>
+                  <Data value="&#x3c0;"/>
+                  <Data value="&#x3c6;"/>
                   <Data value=""/>
                 </Column>
               </Table>
@@ -550,11 +550,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCloseFormActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bSaveFormula">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bSaveFormulaActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="paneEditFormula">
       <Properties>
