@@ -258,9 +258,16 @@ public class FormulaEditor extends javax.swing.JDialog {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tableLatinAlphabet.setAutoscrolls(false);
@@ -303,9 +310,16 @@ public class FormulaEditor extends javax.swing.JDialog {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tableGreekAlphabet.setPreferredSize(new java.awt.Dimension(250, 200));
@@ -382,7 +396,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
-        paneEditFormula.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Область редактирования", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.black)); // NOI18N
+        paneEditFormula.setBorder(javax.swing.BorderFactory.createTitledBorder("Область редактирования"));
         paneEditFormula.setToolTipText("Кликните для создания формулы");
         paneEditFormula.setPreferredSize(new java.awt.Dimension(670, 350));
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -395,11 +409,11 @@ public class FormulaEditor extends javax.swing.JDialog {
         paneEditFormula.setLayout(paneEditFormulaLayout);
         paneEditFormulaLayout.setHorizontalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 654, Short.MAX_VALUE)
+            .addGap(0, 658, Short.MAX_VALUE)
         );
         paneEditFormulaLayout.setVerticalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 326, Short.MAX_VALUE)
+            .addGap(0, 327, Short.MAX_VALUE)
         );
 
         bClear.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N

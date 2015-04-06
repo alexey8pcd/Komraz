@@ -12,21 +12,24 @@ public class QuestionEditor extends javax.swing.JDialog {
 
     private Question question;
     private String formulaTranscription;
-    private Graphics graphics;
+    private final Graphics graphics;
     private Formula formula;
+    private static final int LEFT_X_OFFSET = 5;
+    private static final int TOP_Y_OFFSET = 20;
+    private static final int RIGHT_X_OFFSET = 10;
+    private static final int BOTTOM_Y_OFFSET = 23;
 
     public QuestionEditor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         graphics = panePreviewFormula.getGraphics();
-//        formula = new Formula();
-//        formula.addEmpty();
     }
 
     public void draw() {
         graphics.setColor(panePreviewFormula.getBackground());
-        graphics.clearRect(0, 0, panePreviewFormula.getWidth(),
-                panePreviewFormula.getHeight());
+        graphics.clearRect(LEFT_X_OFFSET, TOP_Y_OFFSET, 
+                panePreviewFormula.getWidth() - RIGHT_X_OFFSET,
+                panePreviewFormula.getHeight() - BOTTOM_Y_OFFSET);
         if (formula != null) {
             formula.show(graphics);
         }
@@ -55,9 +58,9 @@ public class QuestionEditor extends javax.swing.JDialog {
         bCreateFormula = new javax.swing.JButton();
         bDeleteFormula = new javax.swing.JButton();
         bEditFormula = new javax.swing.JButton();
-        panePreviewFormula = new javax.swing.JPanel();
         bCloseForm = new javax.swing.JButton();
         bSaveQuestion = new javax.swing.JButton();
+        panePreviewFormula = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Новый вопрос");
@@ -113,20 +116,6 @@ public class QuestionEditor extends javax.swing.JDialog {
             }
         });
 
-        panePreviewFormula.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Предварительный просмотр", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.black)); // NOI18N
-        panePreviewFormula.setPreferredSize(new java.awt.Dimension(500, 200));
-
-        javax.swing.GroupLayout panePreviewFormulaLayout = new javax.swing.GroupLayout(panePreviewFormula);
-        panePreviewFormula.setLayout(panePreviewFormulaLayout);
-        panePreviewFormulaLayout.setHorizontalGroup(
-            panePreviewFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-        panePreviewFormulaLayout.setVerticalGroup(
-            panePreviewFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 176, Short.MAX_VALUE)
-        );
-
         bCloseForm.setText("Закрыть");
         bCloseForm.setPreferredSize(new java.awt.Dimension(100, 30));
         bCloseForm.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +131,20 @@ public class QuestionEditor extends javax.swing.JDialog {
                 bSaveQuestionActionPerformed(evt);
             }
         });
+
+        panePreviewFormula.setBorder(javax.swing.BorderFactory.createTitledBorder("Предварительный просмотр"));
+        panePreviewFormula.setPreferredSize(new java.awt.Dimension(650, 200));
+
+        javax.swing.GroupLayout panePreviewFormulaLayout = new javax.swing.GroupLayout(panePreviewFormula);
+        panePreviewFormula.setLayout(panePreviewFormulaLayout);
+        panePreviewFormulaLayout.setHorizontalGroup(
+            panePreviewFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 638, Short.MAX_VALUE)
+        );
+        panePreviewFormulaLayout.setVerticalGroup(
+            panePreviewFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 177, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,9 +176,9 @@ public class QuestionEditor extends javax.swing.JDialog {
                                         .addComponent(bDeleteFormula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                                         .addComponent(bCreateFormula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                                     .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(panePreviewFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 32, Short.MAX_VALUE)))
+                                .addGap(32, 32, 32)
+                                .addComponent(panePreviewFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 92, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -195,9 +198,9 @@ public class QuestionEditor extends javax.swing.JDialog {
                 .addComponent(rbConstructFormula)
                 .addGap(18, 18, 18)
                 .addComponent(rbAssembledFromulaFromPieces)
+                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
                         .addComponent(lFormula)
                         .addGap(18, 18, 18)
                         .addComponent(bCreateFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,10 +208,8 @@ public class QuestionEditor extends javax.swing.JDialog {
                         .addComponent(bDeleteFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(panePreviewFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                    .addComponent(panePreviewFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))

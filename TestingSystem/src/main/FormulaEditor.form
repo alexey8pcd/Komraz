@@ -346,42 +346,42 @@
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="5">
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="a"/>
                   <Data value="g"/>
                   <Data value="m"/>
                   <Data value="s"/>
                   <Data value="y"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="b"/>
                   <Data value="h"/>
                   <Data value="n"/>
                   <Data value="t"/>
                   <Data value="z"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="c"/>
                   <Data value="i"/>
                   <Data value="o"/>
                   <Data value="u"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="d"/>
                   <Data value="j"/>
                   <Data value="p"/>
                   <Data value="v"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="e"/>
                   <Data value="k"/>
                   <Data value="q"/>
                   <Data value="w"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="f"/>
                   <Data value="l"/>
                   <Data value="r"/>
@@ -462,35 +462,35 @@
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="5">
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="&#x3b1;"/>
                   <Data value="&#x3b6;"/>
                   <Data value="&#x3bb;"/>
                   <Data value="&#x3c1;"/>
                   <Data value="&#x3c7;"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="&#x3b2;"/>
                   <Data value="&#x3b7;"/>
                   <Data value="&#x3bc;"/>
                   <Data value="&#x3c3;"/>
                   <Data value="&#x3c8;"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="&#x3b3;"/>
                   <Data value="&#x3b8;"/>
                   <Data value="&#x3bd;"/>
                   <Data value="&#x3c4;"/>
                   <Data value="&#x3c9;"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="&#x3b4;"/>
                   <Data value="&#x3b9;"/>
                   <Data value="&#x3be;"/>
                   <Data value="&#x3c5;"/>
                   <Data value=""/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="&#x3b5;"/>
                   <Data value="&#x3ba;"/>
                   <Data value="&#x3c0;"/>
@@ -642,9 +642,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="&#x41e;&#x431;&#x43b;&#x430;&#x441;&#x442;&#x44c; &#x440;&#x435;&#x434;&#x430;&#x43a;&#x442;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f;">
-              <Color PropertyName="color" blue="0" green="0" id="black" palette="1" red="0" type="palette"/>
-            </TitledBorder>
+            <TitledBorder title="&#x41e;&#x431;&#x43b;&#x430;&#x441;&#x442;&#x44c; &#x440;&#x435;&#x434;&#x430;&#x43a;&#x442;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f;"/>
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="&#x41a;&#x43b;&#x438;&#x43a;&#x43d;&#x438;&#x442;&#x435; &#x434;&#x43b;&#x44f; &#x441;&#x43e;&#x437;&#x434;&#x430;&#x43d;&#x438;&#x44f; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x44b;"/>
@@ -659,12 +657,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="654" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="658" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="326" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="327" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
