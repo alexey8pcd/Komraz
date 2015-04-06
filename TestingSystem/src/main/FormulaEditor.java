@@ -3,6 +3,8 @@ package main;
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
+import resources.Parameters;
+import static resources.Parameters.*;
 
 /**
  *
@@ -42,8 +44,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     }
 
     public void drawFormula() {
-        graphics.clearRect(0, 0, this.getWidth(),
-                this.getHeight());
+        graphics.clearRect(0, 0,this.getWidth(),this.getHeight());
         currentFormula.show(graphics);
     }
 
@@ -51,21 +52,21 @@ public class FormulaEditor extends javax.swing.JDialog {
         stackFormula.push(new Formula(currentFormula));
     }
 
-    private void insertSplitterAndEmptyElements(String splitter){
+    private void insertSplitterAndEmptyElements(String splitter) {
         if (currentFormula.isEmptySelectedElement()) {
             if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
                 addFormulaCopyToStack();
                 currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-                currentFormula.insertIn(splitter, 
+                currentFormula.insertIn(splitter,
                         currentFormula.getSelectedIndex() + 1, false);
                 drawFormula();
-            }else{
-                JOptionPane.showConfirmDialog(null, "Максимальная длина формулы", 
-                        "Предупреждениеэ", JOptionPane.OK_OPTION);
+            } else {
+                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
+                        "Предупреждение", JOptionPane.OK_OPTION);
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -92,6 +93,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         bPutSignMulti = new javax.swing.JButton();
         bCloseForm = new javax.swing.JButton();
         bSaveFormula = new javax.swing.JButton();
+        paneBorder = new javax.swing.JPanel();
         paneEditFormula = new javax.swing.JPanel();
         bClear = new javax.swing.JButton();
         bPutSignFrac = new javax.swing.JButton();
@@ -102,7 +104,7 @@ public class FormulaEditor extends javax.swing.JDialog {
         bPutSignIndex = new javax.swing.JButton();
         bPutSignVector = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Редактор формулы");
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
@@ -396,9 +398,11 @@ public class FormulaEditor extends javax.swing.JDialog {
             }
         });
 
-        paneEditFormula.setBorder(javax.swing.BorderFactory.createTitledBorder("Область редактирования"));
-        paneEditFormula.setToolTipText("Кликните для создания формулы");
-        paneEditFormula.setPreferredSize(new java.awt.Dimension(670, 350));
+        paneBorder.setBackground(new java.awt.Color(204, 204, 204));
+        paneBorder.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Область редактирования"));
+        paneBorder.setToolTipText("Кликните для создания формулы");
+        paneBorder.setPreferredSize(new java.awt.Dimension(650, 350));
+
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 paneEditFormulaMouseClicked(evt);
@@ -409,11 +413,27 @@ public class FormulaEditor extends javax.swing.JDialog {
         paneEditFormula.setLayout(paneEditFormulaLayout);
         paneEditFormulaLayout.setHorizontalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 658, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
         paneEditFormulaLayout.setVerticalGroup(
             paneEditFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 327, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout paneBorderLayout = new javax.swing.GroupLayout(paneBorder);
+        paneBorder.setLayout(paneBorderLayout);
+        paneBorderLayout.setHorizontalGroup(
+            paneBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(paneEditFormula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        paneBorderLayout.setVerticalGroup(
+            paneBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneBorderLayout.createSequentialGroup()
+                .addComponent(paneEditFormula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         bClear.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
@@ -510,8 +530,8 @@ public class FormulaEditor extends javax.swing.JDialog {
                         .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -546,7 +566,7 @@ public class FormulaEditor extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bClear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -569,13 +589,13 @@ public class FormulaEditor extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(paneEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -592,11 +612,6 @@ public class FormulaEditor extends javax.swing.JDialog {
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
         insertSplitterAndEmptyElements("+");
     }//GEN-LAST:event_bPutSignPlusActionPerformed
-
-    private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
-        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
-        drawFormula();
-    }//GEN-LAST:event_paneEditFormulaMouseClicked
 
     private void bPutNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber1ActionPerformed
         currentFormula.replaceAtomText("1", currentFormula.getSelectedIndex());
@@ -777,6 +792,11 @@ public class FormulaEditor extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_bPutSignVectorActionPerformed
 
+    private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
+        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
+        drawFormula();
+    }//GEN-LAST:event_paneEditFormulaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bChangeRegisterGreekAlphabet;
@@ -804,6 +824,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     private javax.swing.JButton bRedo;
     private javax.swing.JButton bSaveFormula;
     private javax.swing.JButton bUndo;
+    private javax.swing.JPanel paneBorder;
     private javax.swing.JPanel paneEditFormula;
     private javax.swing.JPanel paneNumberButtons;
     private javax.swing.JScrollPane scrollPaneForGreekAlphabet;

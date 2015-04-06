@@ -91,7 +91,7 @@ public class Formula {
         }
     }
 
-    public static final int START_X_DEFAULT = 20;
+    public static final int START_X_DEFAULT = 10;
     public static final int START_Y_DEFAULT = 50;
     public static final int SIZE_DEFAULT = 40;
     public static final int MAX_ITEM_AMOUNT = 16;
