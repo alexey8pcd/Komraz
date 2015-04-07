@@ -68,8 +68,6 @@ public class AddTest extends javax.swing.JDialog {
 
         jButton5.setText("Поиск");
 
-        jTextField2.setText("jTextField2");
-
         jButton6.setText("Сохранить");
 
         jButton8.setText("Закрыть");
