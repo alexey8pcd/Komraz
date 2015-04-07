@@ -45,6 +45,7 @@ public class AddTest extends javax.swing.JDialog {
         jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Название теста:");
 
