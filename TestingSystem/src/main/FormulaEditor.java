@@ -45,7 +45,7 @@ public class FormulaEditor extends javax.swing.JDialog {
 
     public void drawFormula() {
         graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
-        currentFormula.show(graphics);
+        currentFormula.displayForEditing(graphics);
     }
 
     private void addFormulaCopyToStack() {

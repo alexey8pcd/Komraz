@@ -24,7 +24,7 @@ public class QuestionEditor extends javax.swing.JDialog {
         graphics.clearRect(0, 0, panePreview.getWidth(),
                 panePreview.getHeight());
         if (formula != null) {
-            formula.show(graphics);
+            formula.preview(graphics);
         }
     }
 
@@ -250,6 +250,7 @@ public class QuestionEditor extends javax.swing.JDialog {
 
     private void bDeleteFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteFormulaActionPerformed
         formula = null;
+        formulaTranscription = null;
         draw();
     }//GEN-LAST:event_bDeleteFormulaActionPerformed
 

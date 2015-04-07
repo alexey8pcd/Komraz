@@ -20,7 +20,7 @@ public class Formula {
         public int x;//позиция левого верхнего угла на экране по горизонтали
         public int y;//позиция левого верхнего угла на экране по вертикали
         public int size;//размер элемента
-        public boolean replaceble;//можно ли заменить содержимое элемента
+        public boolean mutable;//можно ли заменить содержимое элемента
 
         /**
          * Создает новый экземпляр класса Atom
@@ -33,7 +33,7 @@ public class Formula {
             this.text = text;
             this.y = y;
             this.size = size;
-            replaceble = true;
+            mutable = true;
         }
 
         /**
@@ -45,7 +45,7 @@ public class Formula {
             this.text = toCopy.text;
             this.x = toCopy.x;
             this.y = toCopy.y;
-            this.replaceble = toCopy.replaceble;
+            this.mutable = toCopy.mutable;
             this.size = toCopy.size;
         }
 
@@ -55,19 +55,23 @@ public class Formula {
          * @param g экземпляр класса java.awt.Graphics;
          * @param selected атрибут выделения. Выделенный элемент отображается в
          * синей рамке
+         * @param editing атрибут редактирования. Редактируемый элемент
+         * отображается в красной рамке.
          */
-        public void show(Graphics g, boolean selected) {
-            g.setColor(Color.red);
-            if (replaceble) {
-                g.drawRect(x + 1, y + 1, size - 2, size - 2);
-            } else {
-                g.setColor(Color.gray);
-                g.fillRect(x + 1, y + 1, size - 2, size - 2);
-            }
+        public void display(Graphics g, boolean selected, boolean editing) {
+            if (editing) {
+                g.setColor(Color.red);
+                if (mutable) {
+                    g.drawRect(x + 1, y + 1, size - 2, size - 2);
+                } else {
+                    g.setColor(Color.gray);
+                    g.fillRect(x + 1, y + 1, size - 2, size - 2);
+                }
 
-            if (selected) {
-                g.setColor(Color.blue);
-                g.drawRect(x, y, size, size);
+                if (selected) {
+                    g.setColor(Color.blue);
+                    g.drawRect(x, y, size, size);
+                }
             }
             g.setColor(Color.black);
             g.setFont(DEFAULT_FONT);
@@ -95,6 +99,12 @@ public class Formula {
     public static final int START_Y_DEFAULT = 50;
     public static final int SIZE_DEFAULT = 40;
     public static final int MAX_ITEM_AMOUNT = 16;
+    public char[] immutableSymbols = {
+        '=',
+        '+',
+        '-',
+        '●'
+    };
     private int startX;
     private int startY;
     private int size;
@@ -143,10 +153,13 @@ public class Formula {
         selectedIndex = -1;
         if (transcription != null && !transcription.isEmpty()) {
             for (int i = 0; i < transcription.length(); i++) {
-                Atom atom = new Atom(String.valueOf(transcription.charAt(i)),
+                char brick = transcription.charAt(i);
+                Atom atom = new Atom(String.valueOf(brick),
                         startY, size);
-                if (transcription.charAt(i) == '=') {
-                    atom.replaceble = false;
+                for (char immutable : immutableSymbols) {
+                    if (brick == immutable) {
+                        atom.mutable = false;
+                    }
                 }
                 if (i < MAX_ITEM_AMOUNT) {
                     elements.add(atom);
@@ -196,8 +209,8 @@ public class Formula {
             }
         }
     }
-    
-    public int getElementsCount(){
+
+    public int getElementsCount() {
         return elements.size();
     }
 
@@ -212,7 +225,7 @@ public class Formula {
     }
 
     /**
-     * Заменяет текст элемента формулы на заданный по индексу Замена не
+     * Заменяет текст элемента формулы на заданный по индексу. Замена не
      * происходит, если индекст указан вне границ списка элементов или элемент
      * не допускает замену
      *
@@ -222,7 +235,7 @@ public class Formula {
     public void replaceAtomText(String text, int index) {
         if (index >= 0 && index < elements.size()) {
             Atom toReplace = elements.get(index);
-            if (toReplace.replaceble) {
+            if (toReplace.mutable) {
                 toReplace.text = text;
             }
         }
@@ -302,12 +315,12 @@ public class Formula {
      * Добавляет элемент в конец формулы
      *
      * @param text текст элемента формулы
-     * @param replaceble можно ли заменить содержимое элемента(true - можно,
-     * false - нельзя)
+     * @param mutable можно ли заменить содержимое элемента(true - можно, false
+     * - нельзя)
      */
-    public void add(String text, boolean replaceble) {
+    public void add(String text, boolean mutable) {
         Atom atom = new Atom(text, startY, size);
-        atom.replaceble = replaceble;
+        atom.mutable = mutable;
         elements.add(atom);
         countXPositions();
     }
@@ -318,13 +331,13 @@ public class Formula {
      * @param text текст, который содержит элемент формулы
      * @param index индекс от 0 до количества элементов в формуле, Элемент не
      * вставляется, если индекс превышает количество элементов в формуле
-     * @param replaceble можно ли заменить содержимое элемента(true - можно,
-     * false - нельзя)
+     * @param mutable можно ли заменить содержимое элемента(true - можно, false
+     * - нельзя)
      */
-    public void insertIn(String text, int index, boolean replaceble) {
+    public void insertIn(String text, int index, boolean mutable) {
         if (index >= 0 || index < elements.size()) {
             Atom atom = new Atom(text, startY, size);
-            atom.replaceble = replaceble;
+            atom.mutable = mutable;
             elements.add(index, atom);
             countXPositions();
         }
@@ -335,13 +348,19 @@ public class Formula {
      *
      * @param graphics экземпляр класса java.awt.Graphics;
      */
-    public void show(Graphics graphics) {
+    public void displayForEditing(Graphics graphics) {
         for (int i = 0; i < elements.size(); i++) {
             if (selectedIndex == i) {
-                elements.get(i).show(graphics, true);
+                elements.get(i).display(graphics, true, true);
             } else {
-                elements.get(i).show(graphics, false);
+                elements.get(i).display(graphics, false, true);
             }
+        }
+    }
+
+    public void preview(Graphics graphics) {
+        for (Atom atom : elements) {
+            atom.display(graphics, false, false);
         }
     }
 }
