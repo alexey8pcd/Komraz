@@ -16,6 +16,7 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        jButton2.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")

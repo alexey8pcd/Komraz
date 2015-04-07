@@ -17,6 +17,10 @@ public class AddTest extends javax.swing.JDialog {
     public AddTest(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton5.setEnabled(false);
+        jTextField2.setEnabled(false);
     }
 
     /**
