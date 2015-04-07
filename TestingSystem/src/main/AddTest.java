@@ -165,6 +165,8 @@ public class AddTest extends javax.swing.JDialog {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

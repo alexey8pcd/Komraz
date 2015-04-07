@@ -48,6 +48,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         jButton4.setText("Закрыть");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setName("qqq"); // NOI18N
 
@@ -113,6 +118,12 @@ public class MainForm extends javax.swing.JFrame {
         QuestionsForm questionsForm = new QuestionsForm(this, true);
         questionsForm.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
