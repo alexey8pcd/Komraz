@@ -12,7 +12,6 @@ import static resources.Parameters.*;
  */
 public class QuestionEditor extends javax.swing.JDialog {
 
-    private String formulaTranscription;
     private final Graphics graphics;
     private Formula formula;
 
@@ -247,8 +246,7 @@ public class QuestionEditor extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Формулировка вопроса не может "
                     + "быть пустой", "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
-        } else if (formulaTranscription == null
-                || formulaTranscription.isEmpty()) {
+        } else if (formula == null) {
             JOptionPane.showMessageDialog(this, "Формула отсутствует",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
@@ -260,7 +258,7 @@ public class QuestionEditor extends javax.swing.JDialog {
             vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
             VoprosLatex voprosLatex = new VoprosLatex();
             voprosLatex.setVopros(vopros);
-            voprosLatex.setLatexZapis(formulaTranscription);
+            voprosLatex.setLatexZapis(formula.getTranscription());
             //*******Артем запиши в базу********************
             System.out.println(voprosLatex.toString());
         }
@@ -269,7 +267,7 @@ public class QuestionEditor extends javax.swing.JDialog {
     private void bCreateFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateFormulaActionPerformed
         FormulaEditor formulaEditor = new FormulaEditor(null, true);
         formulaEditor.setVisible(true);
-        formulaTranscription = formulaEditor.getFormulaTranscription();
+        String formulaTranscription = formulaEditor.getFormulaTranscription();
         if (formulaTranscription != null) {
             formula = new Formula(formulaTranscription);
         }
@@ -278,16 +276,15 @@ public class QuestionEditor extends javax.swing.JDialog {
 
     private void bDeleteFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteFormulaActionPerformed
         formula = null;
-        formulaTranscription = null;
         draw();
     }//GEN-LAST:event_bDeleteFormulaActionPerformed
 
     private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
-        if (formulaTranscription != null) {
+        if (formula != null) {
             FormulaEditor formulaEditor = new FormulaEditor(null, true);
-            formulaEditor.setFormula(formulaTranscription);
+            formulaEditor.setFormula(formula.getTranscription());
             formulaEditor.setVisible(true);
-            formulaTranscription = formulaEditor.getFormulaTranscription();
+            String formulaTranscription = formulaEditor.getFormulaTranscription();
             if (formulaTranscription != null) {
                 formula = new Formula(formulaTranscription);
             }
