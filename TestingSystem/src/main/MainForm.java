@@ -49,6 +49,8 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton4.setText("Закрыть");
 
+        jPanel1.setName("qqq"); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -95,6 +97,8 @@ public class MainForm extends javax.swing.JFrame {
         );
 
         jButton2.getAccessibleContext().setAccessibleName("jButtonGroup");
+        jPanel1.getAccessibleContext().setAccessibleName("");
+        jPanel1.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

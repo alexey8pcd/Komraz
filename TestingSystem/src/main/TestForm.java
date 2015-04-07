@@ -38,6 +38,7 @@ public class TestForm extends javax.swing.JDialog {
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Тесты");
         setResizable(false);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
