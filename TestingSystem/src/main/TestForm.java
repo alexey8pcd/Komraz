@@ -76,6 +76,11 @@ public class TestForm extends javax.swing.JDialog {
         jButton2.setText("Удалить");
 
         jButton1.setText("Создать");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Закрыть");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +154,12 @@ public class TestForm extends javax.swing.JDialog {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        AddTest addTest = new AddTest(null, true);
+        addTest.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
