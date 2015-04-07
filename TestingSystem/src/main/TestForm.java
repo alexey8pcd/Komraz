@@ -72,6 +72,11 @@ public class TestForm extends javax.swing.JDialog {
         jButton5.setText("<html>\n<center>\nЗакрыть <br>\nдоступ к тесту\n</html>");
 
         jButton6.setText("<html>\n<center>\nПросмотреть <br>\nрезультаты\n</html>");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Редактировать");
 
@@ -170,6 +175,12 @@ public class TestForm extends javax.swing.JDialog {
         OpenTest openTest = new OpenTest(null, true);
         openTest.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        TestResult testResult = new TestResult(null, true);
+        testResult.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
