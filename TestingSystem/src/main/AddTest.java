@@ -50,19 +50,12 @@ public class AddTest extends javax.swing.JDialog {
 
         jLabel1.setText("Название теста:");
 
-        jTextField1.setText("jTextField1");
-
         jLabel2.setText("Вопросы теста:");
 
         jButton1.setText("Переместить выше");
 
         jButton2.setText("Переместить ниже");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jButton3.setText("<");
@@ -71,11 +64,6 @@ public class AddTest extends javax.swing.JDialog {
         jButton4.setText(">");
         jButton4.setSize(new java.awt.Dimension(42, 42));
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(jList2);
 
         jButton5.setText("Поиск");

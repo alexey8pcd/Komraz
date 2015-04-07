@@ -44,15 +44,8 @@ public class QuestionsForm extends javax.swing.JDialog {
 
         jLabel1.setText("Список вопросов:");
 
-        jTextField1.setText("jTextField1");
-
         jButton1.setText("Поиск");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jButton2.setText("Создать");
