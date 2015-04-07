@@ -54,6 +54,11 @@ public class QuestionsForm extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jList1);
 
         jButton2.setText("Создать");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Удалить");
 
@@ -115,6 +120,12 @@ public class QuestionsForm extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        QuestionEditor questionEditor = new QuestionEditor(null, true);
+        questionEditor.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
