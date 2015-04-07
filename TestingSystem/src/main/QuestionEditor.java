@@ -1,6 +1,9 @@
 package main;
 
+import entities.Vopros;
+import entities.VoprosLatex;
 import java.awt.Graphics;
+import javax.swing.JOptionPane;
 import static resources.Parameters.*;
 
 /**
@@ -235,7 +238,32 @@ public class QuestionEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseFormActionPerformed
 
     private void bSaveQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveQuestionActionPerformed
-
+        boolean correct = true;
+        if (tQuestionTitle.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Название вопроса не может быть "
+                    + "пустым", "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        } else if (textAreaForQuestionFormulation.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Формулировка вопроса не может "
+                    + "быть пустой", "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        } else if (formulaTranscription == null
+                || formulaTranscription.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Формула отсутствует",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        }
+        if (correct) {
+            Vopros vopros = new Vopros();
+            vopros.setBall(1);
+            vopros.setNazvanie(tQuestionTitle.getText());
+            vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
+            VoprosLatex voprosLatex = new VoprosLatex();
+            voprosLatex.setVopros(vopros);
+            voprosLatex.setLatexZapis(formulaTranscription);
+            //*******Артем запиши в базу********************
+            System.out.println(voprosLatex.toString());
+        }
     }//GEN-LAST:event_bSaveQuestionActionPerformed
 
     private void bCreateFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateFormulaActionPerformed
