@@ -40,6 +40,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         jButton3.setText("Вопросы");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Закрыть");
 
@@ -97,6 +102,12 @@ public class MainForm extends javax.swing.JFrame {
         TestForm tests = new TestForm(this, true);
         tests.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        QuestionsForm questionsForm = new QuestionsForm(this, true);
+        questionsForm.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
