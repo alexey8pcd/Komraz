@@ -17,6 +17,8 @@ public class QuestionsForm extends javax.swing.JDialog {
     public QuestionsForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jButton1.setEnabled(false);
+        jTextField1.setEnabled(false);
     }
 
     /**
