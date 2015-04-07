@@ -1,6 +1,5 @@
 package main;
 
-import entities.questions.Question;
 import java.awt.Graphics;
 import static resources.Parameters.*;
 
@@ -10,7 +9,6 @@ import static resources.Parameters.*;
  */
 public class QuestionEditor extends javax.swing.JDialog {
 
-    private Question question;
     private String formulaTranscription;
     private final Graphics graphics;
     private Formula formula;
