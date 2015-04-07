@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package forms;
 
 /**
  *
@@ -125,7 +125,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        QuestionEditor questionEditor = new QuestionEditor(null, true);
+        QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

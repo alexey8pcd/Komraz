@@ -1,15 +1,15 @@
-package main;
+package forms;
 
 /**
  *
  * @author ScanNorOne
  */
-public class TestResult extends javax.swing.JDialog {
+public class TestResultForm extends javax.swing.JDialog {
 
     /**
      * Creates new form TestResult
      */
-    public TestResult(java.awt.Frame parent, boolean modal) {
+    public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         jButton2.setEnabled(false);

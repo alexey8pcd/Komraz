@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package forms;
 
 /**
  *
  * @author ScanNorOne
  */
-public class AddTest extends javax.swing.JDialog {
+public class AddTestForm extends javax.swing.JDialog {
 
     /**
      * Creates new form AddTest
      */
-    public AddTest(java.awt.Frame parent, boolean modal) {
+    public AddTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         jButton1.setEnabled(false);
@@ -63,10 +63,8 @@ public class AddTest extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jList1);
 
         jButton3.setText("<");
-        jButton3.setSize(new java.awt.Dimension(42, 42));
 
         jButton4.setText(">");
-        jButton4.setSize(new java.awt.Dimension(42, 42));
 
         jScrollPane2.setViewportView(jList2);
 

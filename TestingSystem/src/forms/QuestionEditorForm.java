@@ -1,21 +1,22 @@
-package main;
+package forms;
 
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
 import javax.swing.JOptionPane;
+import main.Formula;
 import static resources.Parameters.*;
 
 /**
  *
  * @author Алексей
  */
-public class QuestionEditor extends javax.swing.JDialog {
+public class QuestionEditorForm extends javax.swing.JDialog {
 
     private final Graphics graphics;
     private Formula formula;
 
-    public QuestionEditor(java.awt.Frame parent, boolean modal) {
+    public QuestionEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         graphics = panePreview.getGraphics();
@@ -265,7 +266,7 @@ public class QuestionEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_bSaveQuestionActionPerformed
 
     private void bCreateFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateFormulaActionPerformed
-        FormulaEditor formulaEditor = new FormulaEditor(null, true);
+        FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
         formulaEditor.setVisible(true);
         String formulaTranscription = formulaEditor.getFormulaTranscription();
         if (formulaTranscription != null) {
@@ -281,7 +282,7 @@ public class QuestionEditor extends javax.swing.JDialog {
 
     private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
         if (formula != null) {
-            FormulaEditor formulaEditor = new FormulaEditor(null, true);
+            FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
             formulaEditor.setFormula(formula.getTranscription());
             formulaEditor.setVisible(true);
             String formulaTranscription = formulaEditor.getFormulaTranscription();

@@ -181,7 +181,7 @@ public class Formula {
      *
      * @return true, если присутствуют, false, если нет таких
      */
-    boolean hasEmptyElements() {
+    public boolean hasEmptyElements() {
         for (Atom atom : elements) {
             if (atom.text == null) {
                 return true;

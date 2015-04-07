@@ -1,16 +1,15 @@
-package main;
+package forms;
 
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
-import resources.Parameters;
-import static resources.Parameters.*;
+import main.Formula;
 
 /**
  *
  * @author Алексей
  */
-public class FormulaEditor extends javax.swing.JDialog {
+public class FormulaEditorForm extends javax.swing.JDialog {
 
     private Formula currentFormula;
     private final Graphics graphics;
@@ -19,7 +18,7 @@ public class FormulaEditor extends javax.swing.JDialog {
     private final Stack<Formula> stackFormula;
     private String formulaTranscription;
 
-    public FormulaEditor(java.awt.Frame parent, boolean modal) {
+    public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         graphics = paneEditFormula.getGraphics();

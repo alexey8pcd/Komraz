@@ -1,4 +1,4 @@
-package main;
+package forms;
 
 /**
  *
@@ -183,17 +183,17 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        AddTest addTest = new AddTest(null, true);
+        AddTestForm addTest = new AddTestForm(null, true);
         addTest.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        OpenTest openTest = new OpenTest(null, true);
+        OpenTestForm openTest = new OpenTestForm(null, true);
         openTest.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        TestResult testResult = new TestResult(null, true);
+        TestResultForm testResult = new TestResultForm(null, true);
         testResult.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
