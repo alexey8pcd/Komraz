@@ -12,27 +12,27 @@ public class TestResultForm extends javax.swing.JDialog {
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        jButton2.setEnabled(false);
-        jButton3.setEnabled(false);
+        bExportToFile.setEnabled(false);
+        bPrint.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        lTestName = new javax.swing.JLabel();
+        sPaneForTestResult = new javax.swing.JScrollPane();
+        tableForTestResult = new javax.swing.JTable();
+        bClose = new javax.swing.JButton();
+        bExportToFile = new javax.swing.JButton();
+        bPrint = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Результаты теста");
 
-        jLabel1.setText("Имя теста");
+        lTestName.setText("Имя теста");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableForTestResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -43,18 +43,18 @@ public class TestResultForm extends javax.swing.JDialog {
                 "№", "ФИО", "Правильные ответы", "Оценка"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        sPaneForTestResult.setViewportView(tableForTestResult);
 
-        jButton1.setText("Закрыть");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bClose.setText("Закрыть");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bCloseActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Экспорт в файл");
+        bExportToFile.setText("Экспорт в файл");
 
-        jButton3.setText("Печать");
+        bPrint.setText("Печать");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,48 +63,48 @@ public class TestResultForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lTestName)
+                    .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(bPrint)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(bExportToFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(bClose)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lTestName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(bClose)
+                    .addComponent(bExportToFile)
+                    .addComponent(bPrint))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         this.setVisible(false);
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bCloseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton bClose;
+    private javax.swing.JButton bExportToFile;
+    private javax.swing.JButton bPrint;
+    private javax.swing.JLabel lTestName;
+    private javax.swing.JScrollPane sPaneForTestResult;
+    private javax.swing.JTable tableForTestResult;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,11 +28,11 @@ public class AddTestForm extends javax.swing.JDialog {
         lQuestions = new javax.swing.JLabel();
         bPlaceHigh = new javax.swing.JButton();
         bPlaceLow = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollPaneForAllQuestions = new javax.swing.JScrollPane();
         listAllQuestions = new javax.swing.JList();
         bAddQuestionToTest = new javax.swing.JButton();
         bRemoveQuestionFromTest = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scrollPaneForTestQuestions = new javax.swing.JScrollPane();
         listTestQuestions = new javax.swing.JList();
         bSearch = new javax.swing.JButton();
         textSearch = new javax.swing.JTextField();
@@ -53,13 +53,13 @@ public class AddTestForm extends javax.swing.JDialog {
         bPlaceLow.setText("Переместить ниже");
         bPlaceLow.setEnabled(false);
 
-        jScrollPane1.setViewportView(listAllQuestions);
+        scrollPaneForAllQuestions.setViewportView(listAllQuestions);
 
         bAddQuestionToTest.setText("<");
 
         bRemoveQuestionFromTest.setText(">");
 
-        jScrollPane2.setViewportView(listTestQuestions);
+        scrollPaneForTestQuestions.setViewportView(listTestQuestions);
 
         bSearch.setText("Поиск");
         bSearch.setEnabled(false);
@@ -97,7 +97,7 @@ public class AddTestForm extends javax.swing.JDialog {
                                         .addComponent(bPlaceLow))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
-                                        .addComponent(jScrollPane2)))
+                                        .addComponent(scrollPaneForTestQuestions)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -110,7 +110,7 @@ public class AddTestForm extends javax.swing.JDialog {
                                                 .addComponent(textSearch)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(bSearch))
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(3, 3, 3))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(bClose)
@@ -135,7 +135,7 @@ public class AddTestForm extends javax.swing.JDialog {
                             .addComponent(bPlaceHigh)
                             .addComponent(bPlaceLow))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(scrollPaneForTestQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -143,7 +143,7 @@ public class AddTestForm extends javax.swing.JDialog {
                                     .addComponent(bSearch)
                                     .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,12 +176,12 @@ public class AddTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bRemoveQuestionFromTest;
     private javax.swing.JButton bSaveTest;
     private javax.swing.JButton bSearch;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lQuestions;
     private javax.swing.JLabel lTestName;
     private javax.swing.JList listAllQuestions;
     private javax.swing.JList listTestQuestions;
+    private javax.swing.JScrollPane scrollPaneForAllQuestions;
+    private javax.swing.JScrollPane scrollPaneForTestQuestions;
     private javax.swing.JTextField textSearch;
     private javax.swing.JTextField textTestName;
     // End of variables declaration//GEN-END:variables

@@ -18,27 +18,27 @@ public class TestForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        sPaneForListSubjects = new javax.swing.JScrollPane();
+        listSubjects = new javax.swing.JList();
+        lSubjects = new javax.swing.JLabel();
+        sPaneForTests = new javax.swing.JScrollPane();
         tableListOfTests = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        lTests = new javax.swing.JLabel();
+        bOpenAccess = new javax.swing.JButton();
+        bCloseAccess = new javax.swing.JButton();
+        bViewResult = new javax.swing.JButton();
+        bEditTest = new javax.swing.JButton();
+        bDeleteTest = new javax.swing.JButton();
+        bCreateTest = new javax.swing.JButton();
+        bClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Тесты");
         setResizable(false);
 
-        jScrollPane1.setViewportView(jList1);
+        sPaneForListSubjects.setViewportView(listSubjects);
 
-        jLabel1.setText("Дисциплины:");
+        lSubjects.setText("Дисциплины:");
 
         tableListOfTests.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,46 +72,46 @@ public class TestForm extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tableListOfTests);
+        sPaneForTests.setViewportView(tableListOfTests);
         if (tableListOfTests.getColumnModel().getColumnCount() > 0) {
             tableListOfTests.getColumnModel().getColumn(0).setMinWidth(40);
             tableListOfTests.getColumnModel().getColumn(0).setPreferredWidth(50);
             tableListOfTests.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
-        jLabel2.setText("Тесты:");
+        lTests.setText("Тесты:");
 
-        jButton4.setText("<html>\n<center>\nОткрыть <br>\nдоступ к тесту\n</html>");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        bOpenAccess.setText("<html>\n<center>\nОткрыть <br>\nдоступ к тесту\n</html>");
+        bOpenAccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                bOpenAccessActionPerformed(evt);
             }
         });
 
-        jButton5.setText("<html>\n<center>\nЗакрыть <br>\nдоступ к тесту\n</html>");
+        bCloseAccess.setText("<html>\n<center>\nЗакрыть <br>\nдоступ к тесту\n</html>");
 
-        jButton6.setText("<html>\n<center>\nПросмотреть <br>\nрезультаты\n</html>");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        bViewResult.setText("<html>\n<center>\nПросмотреть <br>\nрезультаты\n</html>");
+        bViewResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                bViewResultActionPerformed(evt);
             }
         });
 
-        jButton8.setText("Редактировать");
+        bEditTest.setText("Редактировать");
 
-        jButton2.setText("Удалить");
+        bDeleteTest.setText("Удалить");
 
-        jButton1.setText("Создать");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bCreateTest.setText("Создать");
+        bCreateTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bCreateTestActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Закрыть");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        bClose.setText("Закрыть");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                bCloseActionPerformed(evt);
             }
         });
 
@@ -122,26 +122,26 @@ public class TestForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton7)
+                    .addComponent(bClose)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lSubjects)
+                            .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
+                            .addComponent(lTests)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bCreateTest, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bDeleteTest, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(bEditTest))
+                            .addComponent(sPaneForTests, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)
-                            .addComponent(jButton6))))
+                            .addComponent(bOpenAccess)
+                            .addComponent(bCloseAccess)
+                            .addComponent(bViewResult))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -149,68 +149,68 @@ public class TestForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(lSubjects)
+                    .addComponent(lTests))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(sPaneForTests, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bOpenAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bCloseAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bViewResult, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 119, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton8)))
-                    .addComponent(jScrollPane1))
+                            .addComponent(bCreateTest)
+                            .addComponent(bDeleteTest)
+                            .addComponent(bEditTest)))
+                    .addComponent(sPaneForListSubjects))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton7)
+                .addComponent(bClose)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         this.setVisible(false);
         dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_bCloseActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bCreateTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateTestActionPerformed
         AddTestForm addTest = new AddTestForm(null, true);
         addTest.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bCreateTestActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
         OpenTestForm openTest = new OpenTestForm(null, true);
         openTest.setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_bOpenAccessActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void bViewResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bViewResultActionPerformed
         TestResultForm testResult = new TestResultForm(null, true);
         testResult.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_bViewResultActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton bClose;
+    private javax.swing.JButton bCloseAccess;
+    private javax.swing.JButton bCreateTest;
+    private javax.swing.JButton bDeleteTest;
+    private javax.swing.JButton bEditTest;
+    private javax.swing.JButton bOpenAccess;
+    private javax.swing.JButton bViewResult;
+    private javax.swing.JLabel lSubjects;
+    private javax.swing.JLabel lTests;
+    private javax.swing.JList listSubjects;
+    private javax.swing.JScrollPane sPaneForListSubjects;
+    private javax.swing.JScrollPane sPaneForTests;
     private javax.swing.JTable tableListOfTests;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,7 +16,7 @@ public class PassageTestForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        sPaneForSymbolsTable = new javax.swing.JScrollPane();
         tableSymbols = new javax.swing.JTable();
         bCompleteTest = new javax.swing.JButton();
         bUndo = new javax.swing.JButton();
@@ -67,7 +67,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         tableSymbols.setRowHeight(40);
         tableSymbols.setRowSelectionAllowed(false);
         tableSymbols.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tableSymbols);
+        sPaneForSymbolsTable.setViewportView(tableSymbols);
         if (tableSymbols.getColumnModel().getColumnCount() > 0) {
             tableSymbols.getColumnModel().getColumn(0).setResizable(false);
             tableSymbols.getColumnModel().getColumn(1).setResizable(false);
@@ -205,7 +205,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bCompleteTest)
                         .addGap(56, 56, 56))
@@ -292,7 +292,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bCompleteTest)
@@ -353,8 +353,8 @@ public class PassageTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bRestartConstruction;
     private javax.swing.JButton bUndo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lQuestionFormulation;
+    private javax.swing.JScrollPane sPaneForSymbolsTable;
     private javax.swing.JTable tableSymbols;
     private javax.swing.JToolBar toolBarQuestionNumbers;
     // End of variables declaration//GEN-END:variables

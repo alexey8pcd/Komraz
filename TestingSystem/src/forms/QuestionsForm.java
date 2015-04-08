@@ -17,8 +17,8 @@ public class QuestionsForm extends javax.swing.JDialog {
     public QuestionsForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        jButton1.setEnabled(false);
-        jTextField1.setEnabled(false);
+        bSearchQuestion.setEnabled(false);
+        textSearchQuestion.setEnabled(false);
     }
 
     /**
@@ -30,41 +30,41 @@ public class QuestionsForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        lQuestionsList = new javax.swing.JLabel();
+        textSearchQuestion = new javax.swing.JTextField();
+        bSearchQuestion = new javax.swing.JButton();
+        sPaneForListQuestions = new javax.swing.JScrollPane();
+        listQuestions = new javax.swing.JList();
+        bCreateQuestion = new javax.swing.JButton();
+        bDeleteQuestion = new javax.swing.JButton();
+        bEditQuestion = new javax.swing.JButton();
+        bClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Вопросы");
         setResizable(false);
 
-        jLabel1.setText("Список вопросов:");
+        lQuestionsList.setText("Список вопросов:");
 
-        jButton1.setText("Поиск");
+        bSearchQuestion.setText("Поиск");
 
-        jScrollPane1.setViewportView(jList1);
+        sPaneForListQuestions.setViewportView(listQuestions);
 
-        jButton2.setText("Создать");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        bCreateQuestion.setText("Создать");
+        bCreateQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                bCreateQuestionActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Удалить");
+        bDeleteQuestion.setText("Удалить");
 
-        jButton4.setText("Редактировать");
+        bEditQuestion.setText("Редактировать");
 
-        jButton5.setText("Закрыть");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        bClose.setText("Закрыть");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                bCloseActionPerformed(evt);
             }
         });
 
@@ -78,73 +78,73 @@ public class QuestionsForm extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(lQuestionsList)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(textSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
+                                .addComponent(bSearchQuestion))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(sPaneForListQuestions)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bCreateQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bDeleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)
+                                .addComponent(bEditQuestion)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(bClose)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lQuestionsList)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(textSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSearchQuestion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPaneForListQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(bCreateQuestion)
+                    .addComponent(bDeleteQuestion)
+                    .addComponent(bEditQuestion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(bClose)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void bCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateQuestionActionPerformed
         // TODO add your handling code here:
         QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_bCreateQuestionActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_bCloseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton bClose;
+    private javax.swing.JButton bCreateQuestion;
+    private javax.swing.JButton bDeleteQuestion;
+    private javax.swing.JButton bEditQuestion;
+    private javax.swing.JButton bSearchQuestion;
+    private javax.swing.JLabel lQuestionsList;
+    private javax.swing.JList listQuestions;
+    private javax.swing.JScrollPane sPaneForListQuestions;
+    private javax.swing.JTextField textSearchQuestion;
     // End of variables declaration//GEN-END:variables
 }
