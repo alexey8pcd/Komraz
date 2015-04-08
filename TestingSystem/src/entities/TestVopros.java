@@ -22,8 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "test-vopros")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TestVopros.findAll", query = "SELECT t FROM TestVopros t"),
-    @NamedQuery(name = "TestVopros.findByIdTestVopros", query = "SELECT t FROM TestVopros t WHERE t.idTestVopros = :idTestVopros")})
+    @NamedQuery(name = "TestVopros.findAll", 
+            query = "SELECT t FROM TestVopros t"),
+    @NamedQuery(name = "TestVopros.findByIdTestVopros", 
+            query = "SELECT t FROM TestVopros t "
+                    + "WHERE t.idTestVopros = :idTestVopros")})
 public class TestVopros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,7 +86,9 @@ public class TestVopros implements Serializable {
             return false;
         }
         TestVopros other = (TestVopros) object;
-        if ((this.idTestVopros == null && other.idTestVopros != null) || (this.idTestVopros != null && !this.idTestVopros.equals(other.idTestVopros))) {
+        if ((this.idTestVopros == null && other.idTestVopros != null) 
+                || (this.idTestVopros != null 
+                && !this.idTestVopros.equals(other.idTestVopros))) {
             return false;
         }
         return true;

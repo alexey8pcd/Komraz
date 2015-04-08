@@ -26,11 +26,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "vopros")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Vopros.findAll", query = "SELECT v FROM Vopros v"),
-    @NamedQuery(name = "Vopros.findByIdVopros", query = "SELECT v FROM Vopros v WHERE v.idVopros = :idVopros"),
-    @NamedQuery(name = "Vopros.findByNazvanie", query = "SELECT v FROM Vopros v WHERE v.nazvanie = :nazvanie"),
-    @NamedQuery(name = "Vopros.findByFormulirovka", query = "SELECT v FROM Vopros v WHERE v.formulirovka = :formulirovka"),
-    @NamedQuery(name = "Vopros.findByBall", query = "SELECT v FROM Vopros v WHERE v.ball = :ball")})
+    @NamedQuery(name = "Vopros.findAll", 
+            query = "SELECT v FROM Vopros v"),
+    @NamedQuery(name = "Vopros.findByIdVopros", 
+            query = "SELECT v FROM Vopros v WHERE v.idVopros = :idVopros"),
+    @NamedQuery(name = "Vopros.findByNazvanie", 
+            query = "SELECT v FROM Vopros v WHERE v.nazvanie = :nazvanie"),
+    @NamedQuery(name = "Vopros.findByFormulirovka", 
+            query = "SELECT v FROM Vopros v WHERE v.formulirovka = :formulirovka"),
+    @NamedQuery(name = "Vopros.findByBall", 
+            query = "SELECT v FROM Vopros v WHERE v.ball = :ball")})
 public class Vopros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,13 +53,16 @@ public class Vopros implements Serializable {
     private List<VoprosLatex> voprosLatexList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
     private List<VoprosPeretaskivanieKartinok> voprosPeretaskivanieKartinokList;
-    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA")
+    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", 
+            referencedColumnName = "ID_DISCIPLINA")
     @ManyToOne(optional = false)
     private Disciplina disciplinaIdDisciplina;
-    @JoinColumn(name = "KATEGORIYA_SLOZHNOSTI_ID_ KATEGORIYA_SLOZHNOSTI", referencedColumnName = "ID_ KATEGORIYA_SLOZHNOSTI")
+    @JoinColumn(name = "KATEGORIYA_SLOZHNOSTI_ID_KATEGORIYA_SLOZHNOSTI", 
+            referencedColumnName = "ID_KATEGORIYA_SLOZHNOSTI")
     @ManyToOne(optional = false)
     private KategoriyaSlozhnosti kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
-    @JoinColumn(name = "TIP_VOPROSA_ID_ TIP_VOPROSA", referencedColumnName = "ID_ TIP_VOPROSA")
+    @JoinColumn(name = "TIP_VOPROSA_ID_TIP_VOPROSA", 
+            referencedColumnName = "ID_TIP_VOPROSA")
     @ManyToOne(optional = false)
     private TipVoprosa tipVoprosaIdTipVoprosa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
@@ -115,7 +123,8 @@ public class Vopros implements Serializable {
         return voprosPeretaskivanieKartinokList;
     }
 
-    public void setVoprosPeretaskivanieKartinokList(List<VoprosPeretaskivanieKartinok> voprosPeretaskivanieKartinokList) {
+    public void setVoprosPeretaskivanieKartinokList(
+            List<VoprosPeretaskivanieKartinok> voprosPeretaskivanieKartinokList) {
         this.voprosPeretaskivanieKartinokList = voprosPeretaskivanieKartinokList;
     }
 
@@ -131,8 +140,10 @@ public class Vopros implements Serializable {
         return kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
     }
 
-    public void setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(KategoriyaSlozhnosti kategoriyaSlozhnostiIdKategoriyaSlozhnosti) {
-        this.kategoriyaSlozhnostiIdKategoriyaSlozhnosti = kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
+    public void setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
+            KategoriyaSlozhnosti kategoriyaSlozhnostiIdKategoriyaSlozhnosti) {
+        this.kategoriyaSlozhnostiIdKategoriyaSlozhnosti = 
+                kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
     }
 
     public TipVoprosa getTipVoprosaIdTipVoprosa() {
@@ -148,7 +159,8 @@ public class Vopros implements Serializable {
         return voprosSoedinenieLiniyamiList;
     }
 
-    public void setVoprosSoedinenieLiniyamiList(List<VoprosSoedinenieLiniyami> voprosSoedinenieLiniyamiList) {
+    public void setVoprosSoedinenieLiniyamiList(
+            List<VoprosSoedinenieLiniyami> voprosSoedinenieLiniyamiList) {
         this.voprosSoedinenieLiniyamiList = voprosSoedinenieLiniyamiList;
     }
 
@@ -175,7 +187,9 @@ public class Vopros implements Serializable {
             return false;
         }
         Vopros other = (Vopros) object;
-        if ((this.idVopros == null && other.idVopros != null) || (this.idVopros != null && !this.idVopros.equals(other.idVopros))) {
+        if ((this.idVopros == null && other.idVopros != null) 
+                || (this.idVopros != null 
+                && !this.idVopros.equals(other.idVopros))) {
             return false;
         }
         return true;

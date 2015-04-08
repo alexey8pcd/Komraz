@@ -31,10 +31,8 @@
                       <Component id="bQuestions" alignment="0" max="32767" attributes="0"/>
                       <Component id="bPassageTest" alignment="0" pref="120" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="bTests" max="32767" attributes="0"/>
-                      <Component id="bGroups" pref="120" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="bTests" max="32767" attributes="0"/>
+                  <Component id="bGroups" pref="120" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">

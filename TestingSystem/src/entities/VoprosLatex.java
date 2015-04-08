@@ -22,15 +22,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "vopros_latex")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "VoprosLatex.findAll", query = "SELECT v FROM VoprosLatex v"),
-    @NamedQuery(name = "VoprosLatex.findByIdVoprosLatex", query = "SELECT v FROM VoprosLatex v WHERE v.idVoprosLatex = :idVoprosLatex"),
-    @NamedQuery(name = "VoprosLatex.findByLatexZapis", query = "SELECT v FROM VoprosLatex v WHERE v.latexZapis = :latexZapis")})
+    @NamedQuery(name = "VoprosLatex.findAll", 
+            query = "SELECT v FROM VoprosLatex v"),
+    @NamedQuery(name = "VoprosLatex.findByIdVoprosLatex", 
+            query = "SELECT v FROM VoprosLatex v "
+                    + "WHERE v.idVoprosLatex = :idVoprosLatex"),
+    @NamedQuery(name = "VoprosLatex.findByLatexZapis", 
+            query = "SELECT v FROM VoprosLatex v "
+                    + "WHERE v.latexZapis = :latexZapis")})
 public class VoprosLatex implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_ VOPROS_LATEX")
+    @Column(name = "ID_VOPROS_LATEX")
     private Integer idVoprosLatex;
     @Column(name = "LATEX_ZAPIS")
     private String latexZapis;
@@ -83,7 +88,9 @@ public class VoprosLatex implements Serializable {
             return false;
         }
         VoprosLatex other = (VoprosLatex) object;
-        if ((this.idVoprosLatex == null && other.idVoprosLatex != null) || (this.idVoprosLatex != null && !this.idVoprosLatex.equals(other.idVoprosLatex))) {
+        if ((this.idVoprosLatex == null && other.idVoprosLatex != null) 
+                || (this.idVoprosLatex != null 
+                && !this.idVoprosLatex.equals(other.idVoprosLatex))) {
             return false;
         }
         return true;

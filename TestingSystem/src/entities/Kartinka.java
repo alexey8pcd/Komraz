@@ -26,9 +26,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "kartinka")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Kartinka.findAll", query = "SELECT k FROM Kartinka k"),
-    @NamedQuery(name = "Kartinka.findByIdKartinka", query = "SELECT k FROM Kartinka k WHERE k.idKartinka = :idKartinka"),
-    @NamedQuery(name = "Kartinka.findByImgLink", query = "SELECT k FROM Kartinka k WHERE k.imgLink = :imgLink")})
+    @NamedQuery(name = "Kartinka.findAll", 
+            query = "SELECT k FROM Kartinka k"),
+    @NamedQuery(name = "Kartinka.findByIdKartinka", 
+            query = "SELECT k FROM Kartinka k WHERE k.idKartinka = :idKartinka"),
+    @NamedQuery(name = "Kartinka.findByImgLink",
+            query = "SELECT k FROM Kartinka k WHERE k.imgLink = :imgLink")})
 public class Kartinka implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

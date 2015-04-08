@@ -26,8 +26,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "vopros-peretaskivanie_kartinok")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "VoprosPeretaskivanieKartinok.findAll", query = "SELECT v FROM VoprosPeretaskivanieKartinok v"),
-    @NamedQuery(name = "VoprosPeretaskivanieKartinok.findByIdVoprosPeretaskivanieKartinok", query = "SELECT v FROM VoprosPeretaskivanieKartinok v WHERE v.idVoprosPeretaskivanieKartinok = :idVoprosPeretaskivanieKartinok")})
+    @NamedQuery(name = "VoprosPeretaskivanieKartinok.findAll", 
+            query = "SELECT v FROM VoprosPeretaskivanieKartinok v"),
+    @NamedQuery(name = "VoprosPeretaskivanieKartinok."
+            + "findByIdVoprosPeretaskivanieKartinok", 
+            query = "SELECT v FROM VoprosPeretaskivanieKartinok v "
+                    + "WHERE v.idVoprosPeretaskivanieKartinok = "
+                    + ":idVoprosPeretaskivanieKartinok")})
 public class VoprosPeretaskivanieKartinok implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,13 +40,15 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_VOPROS-PERETASKIVANIE_KARTINOK")
     private Integer idVoprosPeretaskivanieKartinok;
-    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", referencedColumnName = "ID_KOLVO_OBLASTEY")
+    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", 
+            referencedColumnName = "ID_KOLVO_OBLASTEY")
     @ManyToOne(optional = false)
     private KolvoOblastey kolvoOblasteyIdKolvoOblastey;
     @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS")
     @ManyToOne(optional = false)
     private Vopros voprosIdVopros;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok")
+    @OneToMany(cascade = CascadeType.ALL, 
+            mappedBy = "voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok")
     private List<PolozhenieKartinki> polozhenieKartinkiList;
 
     public VoprosPeretaskivanieKartinok() {
@@ -55,7 +62,8 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
         return idVoprosPeretaskivanieKartinok;
     }
 
-    public void setIdVoprosPeretaskivanieKartinok(Integer idVoprosPeretaskivanieKartinok) {
+    public void setIdVoprosPeretaskivanieKartinok(
+            Integer idVoprosPeretaskivanieKartinok) {
         this.idVoprosPeretaskivanieKartinok = idVoprosPeretaskivanieKartinok;
     }
 
@@ -63,7 +71,8 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
         return kolvoOblasteyIdKolvoOblastey;
     }
 
-    public void setKolvoOblasteyIdKolvoOblastey(KolvoOblastey kolvoOblasteyIdKolvoOblastey) {
+    public void setKolvoOblasteyIdKolvoOblastey(
+            KolvoOblastey kolvoOblasteyIdKolvoOblastey) {
         this.kolvoOblasteyIdKolvoOblastey = kolvoOblasteyIdKolvoOblastey;
     }
 
@@ -80,14 +89,16 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
         return polozhenieKartinkiList;
     }
 
-    public void setPolozhenieKartinkiList(List<PolozhenieKartinki> polozhenieKartinkiList) {
+    public void setPolozhenieKartinkiList(
+            List<PolozhenieKartinki> polozhenieKartinkiList) {
         this.polozhenieKartinkiList = polozhenieKartinkiList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idVoprosPeretaskivanieKartinok != null ? idVoprosPeretaskivanieKartinok.hashCode() : 0);
+        hash += (idVoprosPeretaskivanieKartinok != null 
+                ? idVoprosPeretaskivanieKartinok.hashCode() : 0);
         return hash;
     }
 
@@ -98,7 +109,11 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
             return false;
         }
         VoprosPeretaskivanieKartinok other = (VoprosPeretaskivanieKartinok) object;
-        if ((this.idVoprosPeretaskivanieKartinok == null && other.idVoprosPeretaskivanieKartinok != null) || (this.idVoprosPeretaskivanieKartinok != null && !this.idVoprosPeretaskivanieKartinok.equals(other.idVoprosPeretaskivanieKartinok))) {
+        if ((this.idVoprosPeretaskivanieKartinok == null && 
+                other.idVoprosPeretaskivanieKartinok != null) 
+                || (this.idVoprosPeretaskivanieKartinok != null 
+                && !this.idVoprosPeretaskivanieKartinok.
+                        equals(other.idVoprosPeretaskivanieKartinok))) {
             return false;
         }
         return true;
@@ -106,7 +121,9 @@ public class VoprosPeretaskivanieKartinok implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VoprosPeretaskivanieKartinok[ idVoprosPeretaskivanieKartinok=" + idVoprosPeretaskivanieKartinok + " ]";
+        return "entities.VoprosPeretaskivanieKartinok[ "
+                + "idVoprosPeretaskivanieKartinok=" + 
+                idVoprosPeretaskivanieKartinok + " ]";
     }
 
 }

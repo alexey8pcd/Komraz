@@ -24,11 +24,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "prepodavatel")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Prepodavatel.findAll", query = "SELECT p FROM Prepodavatel p"),
-    @NamedQuery(name = "Prepodavatel.findByIdPrepodavatel", query = "SELECT p FROM Prepodavatel p WHERE p.idPrepodavatel = :idPrepodavatel"),
-    @NamedQuery(name = "Prepodavatel.findByFio", query = "SELECT p FROM Prepodavatel p WHERE p.fio = :fio"),
-    @NamedQuery(name = "Prepodavatel.findByLogin", query = "SELECT p FROM Prepodavatel p WHERE p.login = :login"),
-    @NamedQuery(name = "Prepodavatel.findByPassword", query = "SELECT p FROM Prepodavatel p WHERE p.password = :password")})
+    @NamedQuery(name = "Prepodavatel.findAll", 
+            query = "SELECT p FROM Prepodavatel p"),
+    @NamedQuery(name = "Prepodavatel.findByIdPrepodavatel", 
+            query = "SELECT p FROM Prepodavatel p "
+                    + "WHERE p.idPrepodavatel = :idPrepodavatel"),
+    @NamedQuery(name = "Prepodavatel.findByFio", 
+            query = "SELECT p FROM Prepodavatel p WHERE p.fio = :fio"),
+    @NamedQuery(name = "Prepodavatel.findByLogin", 
+            query = "SELECT p FROM Prepodavatel p WHERE p.login = :login"),
+    @NamedQuery(name = "Prepodavatel.findByPassword", 
+            query = "SELECT p FROM Prepodavatel p WHERE p.password = :password")})
 public class Prepodavatel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -89,7 +95,8 @@ public class Prepodavatel implements Serializable {
         return prepodavatelDisciplinaList;
     }
 
-    public void setPrepodavatelDisciplinaList(List<PrepodavatelDisciplina> prepodavatelDisciplinaList) {
+    public void setPrepodavatelDisciplinaList(
+            List<PrepodavatelDisciplina> prepodavatelDisciplinaList) {
         this.prepodavatelDisciplinaList = prepodavatelDisciplinaList;
     }
 
@@ -107,7 +114,9 @@ public class Prepodavatel implements Serializable {
             return false;
         }
         Prepodavatel other = (Prepodavatel) object;
-        if ((this.idPrepodavatel == null && other.idPrepodavatel != null) || (this.idPrepodavatel != null && !this.idPrepodavatel.equals(other.idPrepodavatel))) {
+        if ((this.idPrepodavatel == null && other.idPrepodavatel != null) 
+                || (this.idPrepodavatel != null 
+                && !this.idPrepodavatel.equals(other.idPrepodavatel))) {
             return false;
         }
         return true;

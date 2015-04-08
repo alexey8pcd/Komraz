@@ -22,8 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "prepodavatel-disciplina")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PrepodavatelDisciplina.findAll", query = "SELECT p FROM PrepodavatelDisciplina p"),
-    @NamedQuery(name = "PrepodavatelDisciplina.findByIdPrepodavatelDisciplina", query = "SELECT p FROM PrepodavatelDisciplina p WHERE p.idPrepodavatelDisciplina = :idPrepodavatelDisciplina")})
+    @NamedQuery(name = "PrepodavatelDisciplina.findAll", 
+            query = "SELECT p FROM PrepodavatelDisciplina p"),
+    @NamedQuery(name = "PrepodavatelDisciplina.findByIdPrepodavatelDisciplina", 
+            query = "SELECT p FROM PrepodavatelDisciplina p "
+                    + "WHERE p.idPrepodavatelDisciplina = :idPrepodavatelDisciplina")})
 public class PrepodavatelDisciplina implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,10 +34,12 @@ public class PrepodavatelDisciplina implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_PREPODAVATEL-DISCIPLINA")
     private Integer idPrepodavatelDisciplina;
-    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA")
+    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", 
+            referencedColumnName = "ID_DISCIPLINA")
     @ManyToOne(optional = false)
     private Disciplina disciplinaIdDisciplina;
-    @JoinColumn(name = "PREPODAVATEL_ID_PREPODAVATEL", referencedColumnName = "ID_PREPODAVATEL")
+    @JoinColumn(name = "PREPODAVATEL_ID_PREPODAVATEL", 
+            referencedColumnName = "ID_PREPODAVATEL")
     @ManyToOne(optional = false)
     private Prepodavatel prepodavatelIdPrepodavatel;
 
@@ -83,7 +88,11 @@ public class PrepodavatelDisciplina implements Serializable {
             return false;
         }
         PrepodavatelDisciplina other = (PrepodavatelDisciplina) object;
-        if ((this.idPrepodavatelDisciplina == null && other.idPrepodavatelDisciplina != null) || (this.idPrepodavatelDisciplina != null && !this.idPrepodavatelDisciplina.equals(other.idPrepodavatelDisciplina))) {
+        if ((this.idPrepodavatelDisciplina == null 
+                && other.idPrepodavatelDisciplina != null) 
+                || (this.idPrepodavatelDisciplina != null 
+                && !this.idPrepodavatelDisciplina.equals(
+                        other.idPrepodavatelDisciplina))) {
             return false;
         }
         return true;
@@ -91,7 +100,8 @@ public class PrepodavatelDisciplina implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PrepodavatelDisciplina[ idPrepodavatelDisciplina=" + idPrepodavatelDisciplina + " ]";
+        return "entities.PrepodavatelDisciplina[ idPrepodavatelDisciplina=" 
+                + idPrepodavatelDisciplina + " ]";
     }
 
 }

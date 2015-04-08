@@ -24,15 +24,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "tip_voprosa")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipVoprosa.findAll", query = "SELECT t FROM TipVoprosa t"),
-    @NamedQuery(name = "TipVoprosa.findByIdTipVoprosa", query = "SELECT t FROM TipVoprosa t WHERE t.idTipVoprosa = :idTipVoprosa"),
-    @NamedQuery(name = "TipVoprosa.findByNazvanie", query = "SELECT t FROM TipVoprosa t WHERE t.nazvanie = :nazvanie")})
+    @NamedQuery(name = "TipVoprosa.findAll", 
+            query = "SELECT t FROM TipVoprosa t"),
+    @NamedQuery(name = "TipVoprosa.findByIdTipVoprosa", 
+            query = "SELECT t FROM TipVoprosa t WHERE t.idTipVoprosa = :idTipVoprosa"),
+    @NamedQuery(name = "TipVoprosa.findByNazvanie", 
+            query = "SELECT t FROM TipVoprosa t WHERE t.nazvanie = :nazvanie")})
 public class TipVoprosa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_ TIP_VOPROSA")
+    @Column(name = "ID_TIP_VOPROSA")
     private Integer idTipVoprosa;
     @Column(name = "NAZVANIE")
     private String nazvanie;
@@ -85,7 +88,9 @@ public class TipVoprosa implements Serializable {
             return false;
         }
         TipVoprosa other = (TipVoprosa) object;
-        if ((this.idTipVoprosa == null && other.idTipVoprosa != null) || (this.idTipVoprosa != null && !this.idTipVoprosa.equals(other.idTipVoprosa))) {
+        if ((this.idTipVoprosa == null && other.idTipVoprosa != null) 
+                || (this.idTipVoprosa != null 
+                && !this.idTipVoprosa.equals(other.idTipVoprosa))) {
             return false;
         }
         return true;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forms;
 
 /**
@@ -16,7 +11,6 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
-        bGroups.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +121,6 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bTestsActionPerformed
 
     private void bQuestionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bQuestionsActionPerformed
-        // TODO add your handling code here:
         QuestionsForm questionsForm = new QuestionsForm(this, true);
         questionsForm.setVisible(true);
     }//GEN-LAST:event_bQuestionsActionPerformed
@@ -137,7 +130,6 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bPassageTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPassageTestActionPerformed
-        // TODO add your handling code here:
         ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
         chooseTestForm.setVisible(true);
     }//GEN-LAST:event_bPassageTestActionPerformed

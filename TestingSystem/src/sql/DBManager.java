@@ -2,6 +2,9 @@ package sql;
 
 import java.sql.*;
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -14,6 +17,16 @@ import java.util.ArrayList;
  */
 public class DBManager {
 
+    public static final EntityManagerFactory managerFactory = 
+            Persistence.createEntityManagerFactory("TestingSystemPU");
+    public static EntityManager entityManager = managerFactory.createEntityManager();
+    
+    public static void writeObject(Object object){
+        entityManager.getTransaction().begin();
+        entityManager.persist(object);
+        entityManager.getTransaction().commit();
+    }
+    
     /**
      * Метод с возвратом значений. Используется для SELECT-запросов
      *

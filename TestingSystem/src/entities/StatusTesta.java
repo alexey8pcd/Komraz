@@ -24,15 +24,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "status_testa")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StatusTesta.findAll", query = "SELECT s FROM StatusTesta s"),
-    @NamedQuery(name = "StatusTesta.findByIdStatusTesta", query = "SELECT s FROM StatusTesta s WHERE s.idStatusTesta = :idStatusTesta"),
-    @NamedQuery(name = "StatusTesta.findByNaimenovanie", query = "SELECT s FROM StatusTesta s WHERE s.naimenovanie = :naimenovanie")})
+    @NamedQuery(name = "StatusTesta.findAll", 
+            query = "SELECT s FROM StatusTesta s"),
+    @NamedQuery(name = "StatusTesta.findByIdStatusTesta", 
+            query = "SELECT s FROM StatusTesta s "
+                    + "WHERE s.idStatusTesta = :idStatusTesta"),
+    @NamedQuery(name = "StatusTesta.findByNaimenovanie", 
+            query = "SELECT s FROM StatusTesta s "
+                    + "WHERE s.naimenovanie = :naimenovanie")})
 public class StatusTesta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_ STATUS_TESTA")
+    @Column(name = "ID_STATUS_TESTA")
     private Integer idStatusTesta;
     @Column(name = "NAIMENOVANIE")
     private String naimenovanie;
@@ -85,7 +90,9 @@ public class StatusTesta implements Serializable {
             return false;
         }
         StatusTesta other = (StatusTesta) object;
-        if ((this.idStatusTesta == null && other.idStatusTesta != null) || (this.idStatusTesta != null && !this.idStatusTesta.equals(other.idStatusTesta))) {
+        if ((this.idStatusTesta == null && other.idStatusTesta != null) || 
+                (this.idStatusTesta != null 
+                && !this.idStatusTesta.equals(other.idStatusTesta))) {
             return false;
         }
         return true;
