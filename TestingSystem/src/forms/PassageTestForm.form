@@ -162,52 +162,52 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="10" rowCount="3">
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="0"/>
                   <Data value="a"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="1"/>
                   <Data value="s"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="2"/>
                   <Data value="v"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="3"/>
                   <Data value="t"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="4"/>
                   <Data value="i"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="5"/>
                   <Data value="j"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="6"/>
                   <Data value="k"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="7"/>
                   <Data value="n"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="8"/>
                   <Data value="m"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="" type="java.lang.String">
+                <Column editable="false" title="" type="java.lang.String">
                   <Data value="9"/>
                   <Data value="p"/>
                   <Data value="null"/>
@@ -269,6 +269,7 @@
               </TableColumnModel>
             </Property>
             <Property name="rowHeight" type="int" value="40"/>
+            <Property name="rowSelectionAllowed" type="boolean" value="false"/>
             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
               <JTableSelectionModel selectionMode="0"/>
             </Property>
