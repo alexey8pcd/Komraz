@@ -3,10 +3,13 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -27,44 +30,42 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Test.findAll", query = "SELECT t FROM Test t"),
-    @NamedQuery(name = "Test.findByIdTest", query = "SELECT t FROM Test t WHERE t.testPK.idTest = :idTest"),
+    @NamedQuery(name = "Test.findByIdTest", query = "SELECT t FROM Test t WHERE t.idTest = :idTest"),
     @NamedQuery(name = "Test.findByNazvanie", query = "SELECT t FROM Test t WHERE t.nazvanie = :nazvanie"),
-    @NamedQuery(name = "Test.findByVremyaProhozhdeniya", query = "SELECT t FROM Test t WHERE t.vremyaProhozhdeniya = :vremyaProhozhdeniya"),
-    @NamedQuery(name = "Test.findByStatusTestaIdStatusTesta", query = "SELECT t FROM Test t WHERE t.testPK.statusTestaIdStatusTesta = :statusTestaIdStatusTesta")})
+    @NamedQuery(name = "Test.findByVremyaProhozhdeniya", query = "SELECT t FROM Test t WHERE t.vremyaProhozhdeniya = :vremyaProhozhdeniya")})
 public class Test implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected TestPK testPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_TEST")
+    private Integer idTest;
     @Column(name = "NAZVANIE")
     private String nazvanie;
     @Column(name = "VREMYA_PROHOZHDENIYA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date vremyaProhozhdeniya;
-    @JoinColumn(name = "STATUS_TESTA_ID_ STATUS_TESTA", referencedColumnName = "ID_ STATUS_TESTA", insertable = false, updatable = false)
+    @JoinColumn(name = "STATUS_TESTA_ID_ STATUS_TESTA", referencedColumnName = "ID_ STATUS_TESTA")
     @ManyToOne(optional = false)
-    private StatusTesta statusTesta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "test")
+    private StatusTesta statusTestaIdStatusTesta;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testIdTest")
     private List<StudentTest> studentTestList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "test")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testIdTest")
     private List<TestVopros> testVoprosList;
 
     public Test() {
     }
 
-    public Test(TestPK testPK) {
-        this.testPK = testPK;
+    public Test(Integer idTest) {
+        this.idTest = idTest;
     }
 
-    public Test(int idTest, int statusTestaIdStatusTesta) {
-        this.testPK = new TestPK(idTest, statusTestaIdStatusTesta);
+    public Integer getIdTest() {
+        return idTest;
     }
 
-    public TestPK getTestPK() {
-        return testPK;
-    }
-
-    public void setTestPK(TestPK testPK) {
-        this.testPK = testPK;
+    public void setIdTest(Integer idTest) {
+        this.idTest = idTest;
     }
 
     public String getNazvanie() {
@@ -83,12 +84,12 @@ public class Test implements Serializable {
         this.vremyaProhozhdeniya = vremyaProhozhdeniya;
     }
 
-    public StatusTesta getStatusTesta() {
-        return statusTesta;
+    public StatusTesta getStatusTestaIdStatusTesta() {
+        return statusTestaIdStatusTesta;
     }
 
-    public void setStatusTesta(StatusTesta statusTesta) {
-        this.statusTesta = statusTesta;
+    public void setStatusTestaIdStatusTesta(StatusTesta statusTestaIdStatusTesta) {
+        this.statusTestaIdStatusTesta = statusTestaIdStatusTesta;
     }
 
     @XmlTransient
@@ -112,7 +113,7 @@ public class Test implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (testPK != null ? testPK.hashCode() : 0);
+        hash += (idTest != null ? idTest.hashCode() : 0);
         return hash;
     }
 
@@ -123,7 +124,7 @@ public class Test implements Serializable {
             return false;
         }
         Test other = (Test) object;
-        if ((this.testPK == null && other.testPK != null) || (this.testPK != null && !this.testPK.equals(other.testPK))) {
+        if ((this.idTest == null && other.idTest != null) || (this.idTest != null && !this.idTest.equals(other.idTest))) {
             return false;
         }
         return true;
@@ -131,7 +132,7 @@ public class Test implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Test[ testPK=" + testPK + " ]";
+        return "entities.Test[ idTest=" + idTest + " ]";
     }
 
 }

@@ -36,9 +36,9 @@ public class KolvoOblastey implements Serializable {
     private Integer idKolvoOblastey;
     @Column(name = "KOLVO")
     private Integer kolvo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kolvoOblastey")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kolvoOblasteyIdKolvoOblastey")
     private List<VoprosPeretaskivanieKartinok> voprosPeretaskivanieKartinokList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kolvoOblastey")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kolvoOblasteyIdKolvoOblastey")
     private List<VoprosSoedinenieLiniyami> voprosSoedinenieLiniyamiList;
 
     public KolvoOblastey() {

@@ -1,8 +1,12 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,71 +23,67 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SootvetstvieKartinok.findAll", query = "SELECT s FROM SootvetstvieKartinok s"),
-    @NamedQuery(name = "SootvetstvieKartinok.findByIdSootvetstvieKartinok", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.sootvetstvieKartinokPK.idSootvetstvieKartinok = :idSootvetstvieKartinok"),
-    @NamedQuery(name = "SootvetstvieKartinok.findByVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.sootvetstvieKartinokPK.voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami = :voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami"),
-    @NamedQuery(name = "SootvetstvieKartinok.findByKartinkaIdKartinka", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.sootvetstvieKartinokPK.kartinkaIdKartinka = :kartinkaIdKartinka"),
-    @NamedQuery(name = "SootvetstvieKartinok.findByKartinkaIdKartinka2", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.sootvetstvieKartinokPK.kartinkaIdKartinka2 = :kartinkaIdKartinka2")})
+    @NamedQuery(name = "SootvetstvieKartinok.findByIdSootvetstvieKartinok", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.idSootvetstvieKartinok = :idSootvetstvieKartinok")})
 public class SootvetstvieKartinok implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SootvetstvieKartinokPK sootvetstvieKartinokPK;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA", insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_SOOTVETSTVIE_KARTINOK")
+    private Integer idSootvetstvieKartinok;
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
-    private Kartinka kartinka;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA2", referencedColumnName = "ID_KARTINKA", insertable = false, updatable = false)
+    private Kartinka kartinkaIdKartinka;
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA2", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
-    private Kartinka kartinka1;
-    @JoinColumn(name = "VOPROS-SOEDINENIE_LINIYAMI_ID_VOPROS-SOEDINENIE_LINIYAMI", referencedColumnName = "ID_VOPROS-SOEDINENIE_LINIYAMI", insertable = false, updatable = false)
+    private Kartinka kartinkaIdKartinka2;
+    @JoinColumn(name = "VOPROS-SOEDINENIE_LINIYAMI_ID_VOPROS-SOEDINENIE_LINIYAMI", referencedColumnName = "ID_VOPROS-SOEDINENIE_LINIYAMI")
     @ManyToOne(optional = false)
-    private VoprosSoedinenieLiniyami voprosSoedinenieLiniyami;
+    private VoprosSoedinenieLiniyami voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
 
     public SootvetstvieKartinok() {
     }
 
-    public SootvetstvieKartinok(SootvetstvieKartinokPK sootvetstvieKartinokPK) {
-        this.sootvetstvieKartinokPK = sootvetstvieKartinokPK;
+    public SootvetstvieKartinok(Integer idSootvetstvieKartinok) {
+        this.idSootvetstvieKartinok = idSootvetstvieKartinok;
     }
 
-    public SootvetstvieKartinok(int idSootvetstvieKartinok, int voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami, int kartinkaIdKartinka, int kartinkaIdKartinka2) {
-        this.sootvetstvieKartinokPK = new SootvetstvieKartinokPK(idSootvetstvieKartinok, voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami, kartinkaIdKartinka, kartinkaIdKartinka2);
+    public Integer getIdSootvetstvieKartinok() {
+        return idSootvetstvieKartinok;
     }
 
-    public SootvetstvieKartinokPK getSootvetstvieKartinokPK() {
-        return sootvetstvieKartinokPK;
+    public void setIdSootvetstvieKartinok(Integer idSootvetstvieKartinok) {
+        this.idSootvetstvieKartinok = idSootvetstvieKartinok;
     }
 
-    public void setSootvetstvieKartinokPK(SootvetstvieKartinokPK sootvetstvieKartinokPK) {
-        this.sootvetstvieKartinokPK = sootvetstvieKartinokPK;
+    public Kartinka getKartinkaIdKartinka() {
+        return kartinkaIdKartinka;
     }
 
-    public Kartinka getKartinka() {
-        return kartinka;
+    public void setKartinkaIdKartinka(Kartinka kartinkaIdKartinka) {
+        this.kartinkaIdKartinka = kartinkaIdKartinka;
     }
 
-    public void setKartinka(Kartinka kartinka) {
-        this.kartinka = kartinka;
+    public Kartinka getKartinkaIdKartinka2() {
+        return kartinkaIdKartinka2;
     }
 
-    public Kartinka getKartinka1() {
-        return kartinka1;
+    public void setKartinkaIdKartinka2(Kartinka kartinkaIdKartinka2) {
+        this.kartinkaIdKartinka2 = kartinkaIdKartinka2;
     }
 
-    public void setKartinka1(Kartinka kartinka1) {
-        this.kartinka1 = kartinka1;
+    public VoprosSoedinenieLiniyami getVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami() {
+        return voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
     }
 
-    public VoprosSoedinenieLiniyami getVoprosSoedinenieLiniyami() {
-        return voprosSoedinenieLiniyami;
-    }
-
-    public void setVoprosSoedinenieLiniyami(VoprosSoedinenieLiniyami voprosSoedinenieLiniyami) {
-        this.voprosSoedinenieLiniyami = voprosSoedinenieLiniyami;
+    public void setVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami(VoprosSoedinenieLiniyami voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami) {
+        this.voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami = voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sootvetstvieKartinokPK != null ? sootvetstvieKartinokPK.hashCode() : 0);
+        hash += (idSootvetstvieKartinok != null ? idSootvetstvieKartinok.hashCode() : 0);
         return hash;
     }
 
@@ -94,7 +94,7 @@ public class SootvetstvieKartinok implements Serializable {
             return false;
         }
         SootvetstvieKartinok other = (SootvetstvieKartinok) object;
-        if ((this.sootvetstvieKartinokPK == null && other.sootvetstvieKartinokPK != null) || (this.sootvetstvieKartinokPK != null && !this.sootvetstvieKartinokPK.equals(other.sootvetstvieKartinokPK))) {
+        if ((this.idSootvetstvieKartinok == null && other.idSootvetstvieKartinok != null) || (this.idSootvetstvieKartinok != null && !this.idSootvetstvieKartinok.equals(other.idSootvetstvieKartinok))) {
             return false;
         }
         return true;
@@ -102,7 +102,7 @@ public class SootvetstvieKartinok implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.SootvetstvieKartinok[ sootvetstvieKartinokPK=" + sootvetstvieKartinokPK + " ]";
+        return "entities.SootvetstvieKartinok[ idSootvetstvieKartinok=" + idSootvetstvieKartinok + " ]";
     }
 
 }

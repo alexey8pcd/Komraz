@@ -36,7 +36,7 @@ public class PoryadkoviyNomer implements Serializable {
     private Integer idPoryadkoviyNomer;
     @Column(name = "NOMER")
     private Integer nomer;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poryadkoviyNomer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poryadkoviyNomerIdPoryadkoviyNomer")
     private List<PolozhenieKartinki> polozhenieKartinkiList;
 
     public PoryadkoviyNomer() {

@@ -36,7 +36,7 @@ public class KategoriyaSlozhnosti implements Serializable {
     private Integer idKategoriyaSlozhnosti;
     @Column(name = "NAZVANIE")
     private String nazvanie;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kategoriyaSlozhnosti")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kategoriyaSlozhnostiIdKategoriyaSlozhnosti")
     private List<Vopros> voprosList;
 
     public KategoriyaSlozhnosti() {

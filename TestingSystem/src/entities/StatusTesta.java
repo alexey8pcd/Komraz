@@ -36,7 +36,7 @@ public class StatusTesta implements Serializable {
     private Integer idStatusTesta;
     @Column(name = "NAIMENOVANIE")
     private String naimenovanie;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusTesta")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusTestaIdStatusTesta")
     private List<Test> testList;
 
     public StatusTesta() {

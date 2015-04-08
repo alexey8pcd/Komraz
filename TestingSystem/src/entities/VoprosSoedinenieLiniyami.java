@@ -2,11 +2,14 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,41 +27,36 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VoprosSoedinenieLiniyami.findAll", query = "SELECT v FROM VoprosSoedinenieLiniyami v"),
-    @NamedQuery(name = "VoprosSoedinenieLiniyami.findByIdVoprosSoedinenieLiniyami", query = "SELECT v FROM VoprosSoedinenieLiniyami v WHERE v.voprosSoedinenieLiniyamiPK.idVoprosSoedinenieLiniyami = :idVoprosSoedinenieLiniyami"),
-    @NamedQuery(name = "VoprosSoedinenieLiniyami.findByKolvoOblasteyIdKolvoOblastey", query = "SELECT v FROM VoprosSoedinenieLiniyami v WHERE v.voprosSoedinenieLiniyamiPK.kolvoOblasteyIdKolvoOblastey = :kolvoOblasteyIdKolvoOblastey")})
+    @NamedQuery(name = "VoprosSoedinenieLiniyami.findByIdVoprosSoedinenieLiniyami", query = "SELECT v FROM VoprosSoedinenieLiniyami v WHERE v.idVoprosSoedinenieLiniyami = :idVoprosSoedinenieLiniyami")})
 public class VoprosSoedinenieLiniyami implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected VoprosSoedinenieLiniyamiPK voprosSoedinenieLiniyamiPK;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosSoedinenieLiniyami")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_VOPROS-SOEDINENIE_LINIYAMI")
+    private Integer idVoprosSoedinenieLiniyami;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami")
     private List<SootvetstvieKartinok> sootvetstvieKartinokList;
-    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", referencedColumnName = "ID_KOLVO_OBLASTEY", insertable = false, updatable = false)
+    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", referencedColumnName = "ID_KOLVO_OBLASTEY")
     @ManyToOne(optional = false)
-    private KolvoOblastey kolvoOblastey;
-    @JoinColumns({
-        @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS"),
-        @JoinColumn(name = "VOPROS_KATEGORIYA_SLOZHNOSTI_ID_ KATEGORIYA_SLOZHNOSTI", referencedColumnName = "KATEGORIYA_SLOZHNOSTI_ID_ KATEGORIYA_SLOZHNOSTI"),
-        @JoinColumn(name = "VOPROS_TIP_VOPROSA_ID_ TIP_VOPROSA", referencedColumnName = "TIP_VOPROSA_ID_ TIP_VOPROSA")})
+    private KolvoOblastey kolvoOblasteyIdKolvoOblastey;
+    @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS")
     @ManyToOne(optional = false)
-    private Vopros vopros;
+    private Vopros voprosIdVopros;
 
     public VoprosSoedinenieLiniyami() {
     }
 
-    public VoprosSoedinenieLiniyami(VoprosSoedinenieLiniyamiPK voprosSoedinenieLiniyamiPK) {
-        this.voprosSoedinenieLiniyamiPK = voprosSoedinenieLiniyamiPK;
+    public VoprosSoedinenieLiniyami(Integer idVoprosSoedinenieLiniyami) {
+        this.idVoprosSoedinenieLiniyami = idVoprosSoedinenieLiniyami;
     }
 
-    public VoprosSoedinenieLiniyami(int idVoprosSoedinenieLiniyami, int kolvoOblasteyIdKolvoOblastey) {
-        this.voprosSoedinenieLiniyamiPK = new VoprosSoedinenieLiniyamiPK(idVoprosSoedinenieLiniyami, kolvoOblasteyIdKolvoOblastey);
+    public Integer getIdVoprosSoedinenieLiniyami() {
+        return idVoprosSoedinenieLiniyami;
     }
 
-    public VoprosSoedinenieLiniyamiPK getVoprosSoedinenieLiniyamiPK() {
-        return voprosSoedinenieLiniyamiPK;
-    }
-
-    public void setVoprosSoedinenieLiniyamiPK(VoprosSoedinenieLiniyamiPK voprosSoedinenieLiniyamiPK) {
-        this.voprosSoedinenieLiniyamiPK = voprosSoedinenieLiniyamiPK;
+    public void setIdVoprosSoedinenieLiniyami(Integer idVoprosSoedinenieLiniyami) {
+        this.idVoprosSoedinenieLiniyami = idVoprosSoedinenieLiniyami;
     }
 
     @XmlTransient
@@ -70,26 +68,26 @@ public class VoprosSoedinenieLiniyami implements Serializable {
         this.sootvetstvieKartinokList = sootvetstvieKartinokList;
     }
 
-    public KolvoOblastey getKolvoOblastey() {
-        return kolvoOblastey;
+    public KolvoOblastey getKolvoOblasteyIdKolvoOblastey() {
+        return kolvoOblasteyIdKolvoOblastey;
     }
 
-    public void setKolvoOblastey(KolvoOblastey kolvoOblastey) {
-        this.kolvoOblastey = kolvoOblastey;
+    public void setKolvoOblasteyIdKolvoOblastey(KolvoOblastey kolvoOblasteyIdKolvoOblastey) {
+        this.kolvoOblasteyIdKolvoOblastey = kolvoOblasteyIdKolvoOblastey;
     }
 
-    public Vopros getVopros() {
-        return vopros;
+    public Vopros getVoprosIdVopros() {
+        return voprosIdVopros;
     }
 
-    public void setVopros(Vopros vopros) {
-        this.vopros = vopros;
+    public void setVoprosIdVopros(Vopros voprosIdVopros) {
+        this.voprosIdVopros = voprosIdVopros;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (voprosSoedinenieLiniyamiPK != null ? voprosSoedinenieLiniyamiPK.hashCode() : 0);
+        hash += (idVoprosSoedinenieLiniyami != null ? idVoprosSoedinenieLiniyami.hashCode() : 0);
         return hash;
     }
 
@@ -100,7 +98,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
             return false;
         }
         VoprosSoedinenieLiniyami other = (VoprosSoedinenieLiniyami) object;
-        if ((this.voprosSoedinenieLiniyamiPK == null && other.voprosSoedinenieLiniyamiPK != null) || (this.voprosSoedinenieLiniyamiPK != null && !this.voprosSoedinenieLiniyamiPK.equals(other.voprosSoedinenieLiniyamiPK))) {
+        if ((this.idVoprosSoedinenieLiniyami == null && other.idVoprosSoedinenieLiniyami != null) || (this.idVoprosSoedinenieLiniyami != null && !this.idVoprosSoedinenieLiniyami.equals(other.idVoprosSoedinenieLiniyami))) {
             return false;
         }
         return true;
@@ -108,7 +106,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VoprosSoedinenieLiniyami[ voprosSoedinenieLiniyamiPK=" + voprosSoedinenieLiniyamiPK + " ]";
+        return "entities.VoprosSoedinenieLiniyami[ idVoprosSoedinenieLiniyami=" + idVoprosSoedinenieLiniyami + " ]";
     }
 
 }

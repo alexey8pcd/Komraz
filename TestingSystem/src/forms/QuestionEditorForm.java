@@ -3,6 +3,9 @@ package forms;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import main.Formula;
 import static resources.Parameters.*;
@@ -257,11 +260,16 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             vopros.setBall(1);
             vopros.setNazvanie(tQuestionTitle.getText());
             vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
+            
             VoprosLatex voprosLatex = new VoprosLatex();
-            voprosLatex.setVopros(vopros);
             voprosLatex.setLatexZapis(formula.getTranscription());
             //*******Артем запиши в базу********************
             System.out.println(voprosLatex.toString());
+//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestingSystemPU");
+//            EntityManager em = emf.createEntityManager();
+//            em.getTransaction().begin();
+//            em.persist(voprosLatex);
+//            em.getTransaction().commit();
         }
     }//GEN-LAST:event_bSaveQuestionActionPerformed
 

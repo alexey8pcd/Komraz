@@ -1,10 +1,13 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,62 +23,56 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TestVopros.findAll", query = "SELECT t FROM TestVopros t"),
-    @NamedQuery(name = "TestVopros.findByIdTestVopros", query = "SELECT t FROM TestVopros t WHERE t.testVoprosPK.idTestVopros = :idTestVopros"),
-    @NamedQuery(name = "TestVopros.findByTestIdTest", query = "SELECT t FROM TestVopros t WHERE t.testVoprosPK.testIdTest = :testIdTest"),
-    @NamedQuery(name = "TestVopros.findByTestStatusTestaIdStatusTesta", query = "SELECT t FROM TestVopros t WHERE t.testVoprosPK.testStatusTestaIdStatusTesta = :testStatusTestaIdStatusTesta"),
-    @NamedQuery(name = "TestVopros.findByVoprosIdVopros", query = "SELECT t FROM TestVopros t WHERE t.testVoprosPK.voprosIdVopros = :voprosIdVopros")})
+    @NamedQuery(name = "TestVopros.findByIdTestVopros", query = "SELECT t FROM TestVopros t WHERE t.idTestVopros = :idTestVopros")})
 public class TestVopros implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected TestVoprosPK testVoprosPK;
-    @JoinColumns({
-        @JoinColumn(name = "TEST_ID_TEST", referencedColumnName = "ID_TEST", insertable = false, updatable = false),
-        @JoinColumn(name = "TEST_STATUS_TESTA_ID_ STATUS_TESTA", referencedColumnName = "STATUS_TESTA_ID_ STATUS_TESTA", insertable = false, updatable = false)})
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_TEST-VOPROS")
+    private Integer idTestVopros;
+    @JoinColumn(name = "TEST_ID_TEST", referencedColumnName = "ID_TEST")
     @ManyToOne(optional = false)
-    private Test test;
-    @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS", insertable = false, updatable = false)
+    private Test testIdTest;
+    @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS")
     @ManyToOne(optional = false)
-    private Vopros vopros;
+    private Vopros voprosIdVopros;
 
     public TestVopros() {
     }
 
-    public TestVopros(TestVoprosPK testVoprosPK) {
-        this.testVoprosPK = testVoprosPK;
+    public TestVopros(Integer idTestVopros) {
+        this.idTestVopros = idTestVopros;
     }
 
-    public TestVopros(int idTestVopros, int testIdTest, int testStatusTestaIdStatusTesta, int voprosIdVopros) {
-        this.testVoprosPK = new TestVoprosPK(idTestVopros, testIdTest, testStatusTestaIdStatusTesta, voprosIdVopros);
+    public Integer getIdTestVopros() {
+        return idTestVopros;
     }
 
-    public TestVoprosPK getTestVoprosPK() {
-        return testVoprosPK;
+    public void setIdTestVopros(Integer idTestVopros) {
+        this.idTestVopros = idTestVopros;
     }
 
-    public void setTestVoprosPK(TestVoprosPK testVoprosPK) {
-        this.testVoprosPK = testVoprosPK;
+    public Test getTestIdTest() {
+        return testIdTest;
     }
 
-    public Test getTest() {
-        return test;
+    public void setTestIdTest(Test testIdTest) {
+        this.testIdTest = testIdTest;
     }
 
-    public void setTest(Test test) {
-        this.test = test;
+    public Vopros getVoprosIdVopros() {
+        return voprosIdVopros;
     }
 
-    public Vopros getVopros() {
-        return vopros;
-    }
-
-    public void setVopros(Vopros vopros) {
-        this.vopros = vopros;
+    public void setVoprosIdVopros(Vopros voprosIdVopros) {
+        this.voprosIdVopros = voprosIdVopros;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (testVoprosPK != null ? testVoprosPK.hashCode() : 0);
+        hash += (idTestVopros != null ? idTestVopros.hashCode() : 0);
         return hash;
     }
 
@@ -86,7 +83,7 @@ public class TestVopros implements Serializable {
             return false;
         }
         TestVopros other = (TestVopros) object;
-        if ((this.testVoprosPK == null && other.testVoprosPK != null) || (this.testVoprosPK != null && !this.testVoprosPK.equals(other.testVoprosPK))) {
+        if ((this.idTestVopros == null && other.idTestVopros != null) || (this.idTestVopros != null && !this.idTestVopros.equals(other.idTestVopros))) {
             return false;
         }
         return true;
@@ -94,7 +91,7 @@ public class TestVopros implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.TestVopros[ testVoprosPK=" + testVoprosPK + " ]";
+        return "entities.TestVopros[ idTestVopros=" + idTestVopros + " ]";
     }
 
 }

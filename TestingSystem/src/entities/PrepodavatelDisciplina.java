@@ -1,8 +1,12 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,59 +23,56 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PrepodavatelDisciplina.findAll", query = "SELECT p FROM PrepodavatelDisciplina p"),
-    @NamedQuery(name = "PrepodavatelDisciplina.findByIdPrepodavatelDisciplina", query = "SELECT p FROM PrepodavatelDisciplina p WHERE p.prepodavatelDisciplinaPK.idPrepodavatelDisciplina = :idPrepodavatelDisciplina"),
-    @NamedQuery(name = "PrepodavatelDisciplina.findByPrepodavatelIdPrepodavatel", query = "SELECT p FROM PrepodavatelDisciplina p WHERE p.prepodavatelDisciplinaPK.prepodavatelIdPrepodavatel = :prepodavatelIdPrepodavatel"),
-    @NamedQuery(name = "PrepodavatelDisciplina.findByDisciplinaIdDisciplina", query = "SELECT p FROM PrepodavatelDisciplina p WHERE p.prepodavatelDisciplinaPK.disciplinaIdDisciplina = :disciplinaIdDisciplina")})
+    @NamedQuery(name = "PrepodavatelDisciplina.findByIdPrepodavatelDisciplina", query = "SELECT p FROM PrepodavatelDisciplina p WHERE p.idPrepodavatelDisciplina = :idPrepodavatelDisciplina")})
 public class PrepodavatelDisciplina implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PrepodavatelDisciplinaPK prepodavatelDisciplinaPK;
-    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA", insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_PREPODAVATEL-DISCIPLINA")
+    private Integer idPrepodavatelDisciplina;
+    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA")
     @ManyToOne(optional = false)
-    private Disciplina disciplina;
-    @JoinColumn(name = "PREPODAVATEL_ID_PREPODAVATEL", referencedColumnName = "ID_PREPODAVATEL", insertable = false, updatable = false)
+    private Disciplina disciplinaIdDisciplina;
+    @JoinColumn(name = "PREPODAVATEL_ID_PREPODAVATEL", referencedColumnName = "ID_PREPODAVATEL")
     @ManyToOne(optional = false)
-    private Prepodavatel prepodavatel;
+    private Prepodavatel prepodavatelIdPrepodavatel;
 
     public PrepodavatelDisciplina() {
     }
 
-    public PrepodavatelDisciplina(PrepodavatelDisciplinaPK prepodavatelDisciplinaPK) {
-        this.prepodavatelDisciplinaPK = prepodavatelDisciplinaPK;
+    public PrepodavatelDisciplina(Integer idPrepodavatelDisciplina) {
+        this.idPrepodavatelDisciplina = idPrepodavatelDisciplina;
     }
 
-    public PrepodavatelDisciplina(int idPrepodavatelDisciplina, int prepodavatelIdPrepodavatel, int disciplinaIdDisciplina) {
-        this.prepodavatelDisciplinaPK = new PrepodavatelDisciplinaPK(idPrepodavatelDisciplina, prepodavatelIdPrepodavatel, disciplinaIdDisciplina);
+    public Integer getIdPrepodavatelDisciplina() {
+        return idPrepodavatelDisciplina;
     }
 
-    public PrepodavatelDisciplinaPK getPrepodavatelDisciplinaPK() {
-        return prepodavatelDisciplinaPK;
+    public void setIdPrepodavatelDisciplina(Integer idPrepodavatelDisciplina) {
+        this.idPrepodavatelDisciplina = idPrepodavatelDisciplina;
     }
 
-    public void setPrepodavatelDisciplinaPK(PrepodavatelDisciplinaPK prepodavatelDisciplinaPK) {
-        this.prepodavatelDisciplinaPK = prepodavatelDisciplinaPK;
+    public Disciplina getDisciplinaIdDisciplina() {
+        return disciplinaIdDisciplina;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public void setDisciplinaIdDisciplina(Disciplina disciplinaIdDisciplina) {
+        this.disciplinaIdDisciplina = disciplinaIdDisciplina;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public Prepodavatel getPrepodavatelIdPrepodavatel() {
+        return prepodavatelIdPrepodavatel;
     }
 
-    public Prepodavatel getPrepodavatel() {
-        return prepodavatel;
-    }
-
-    public void setPrepodavatel(Prepodavatel prepodavatel) {
-        this.prepodavatel = prepodavatel;
+    public void setPrepodavatelIdPrepodavatel(Prepodavatel prepodavatelIdPrepodavatel) {
+        this.prepodavatelIdPrepodavatel = prepodavatelIdPrepodavatel;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (prepodavatelDisciplinaPK != null ? prepodavatelDisciplinaPK.hashCode() : 0);
+        hash += (idPrepodavatelDisciplina != null ? idPrepodavatelDisciplina.hashCode() : 0);
         return hash;
     }
 
@@ -82,7 +83,7 @@ public class PrepodavatelDisciplina implements Serializable {
             return false;
         }
         PrepodavatelDisciplina other = (PrepodavatelDisciplina) object;
-        if ((this.prepodavatelDisciplinaPK == null && other.prepodavatelDisciplinaPK != null) || (this.prepodavatelDisciplinaPK != null && !this.prepodavatelDisciplinaPK.equals(other.prepodavatelDisciplinaPK))) {
+        if ((this.idPrepodavatelDisciplina == null && other.idPrepodavatelDisciplina != null) || (this.idPrepodavatelDisciplina != null && !this.idPrepodavatelDisciplina.equals(other.idPrepodavatelDisciplina))) {
             return false;
         }
         return true;
@@ -90,7 +91,7 @@ public class PrepodavatelDisciplina implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PrepodavatelDisciplina[ prepodavatelDisciplinaPK=" + prepodavatelDisciplinaPK + " ]";
+        return "entities.PrepodavatelDisciplina[ idPrepodavatelDisciplina=" + idPrepodavatelDisciplina + " ]";
     }
 
 }

@@ -42,7 +42,7 @@ public class Prepodavatel implements Serializable {
     private String login;
     @Column(name = "PASSWORD")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prepodavatel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prepodavatelIdPrepodavatel")
     private List<PrepodavatelDisciplina> prepodavatelDisciplinaList;
 
     public Prepodavatel() {

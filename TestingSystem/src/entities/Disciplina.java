@@ -38,9 +38,9 @@ public class Disciplina implements Serializable {
     private String nazvanie;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
     private List<Kartinka> kartinkaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplina")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
     private List<Vopros> voprosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplina")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
     private List<PrepodavatelDisciplina> prepodavatelDisciplinaList;
 
     public Disciplina() {

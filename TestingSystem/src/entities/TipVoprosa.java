@@ -36,7 +36,7 @@ public class TipVoprosa implements Serializable {
     private Integer idTipVoprosa;
     @Column(name = "NAZVANIE")
     private String nazvanie;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipVoprosa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipVoprosaIdTipVoprosa")
     private List<Vopros> voprosList;
 
     public TipVoprosa() {

@@ -1,8 +1,12 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,71 +23,67 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PolozhenieKartinki.findAll", query = "SELECT p FROM PolozhenieKartinki p"),
-    @NamedQuery(name = "PolozhenieKartinki.findByIdPolozhenieKartinki", query = "SELECT p FROM PolozhenieKartinki p WHERE p.polozhenieKartinkiPK.idPolozhenieKartinki = :idPolozhenieKartinki"),
-    @NamedQuery(name = "PolozhenieKartinki.findByKartinkaIdKartinka", query = "SELECT p FROM PolozhenieKartinki p WHERE p.polozhenieKartinkiPK.kartinkaIdKartinka = :kartinkaIdKartinka"),
-    @NamedQuery(name = "PolozhenieKartinki.findByVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok", query = "SELECT p FROM PolozhenieKartinki p WHERE p.polozhenieKartinkiPK.voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok = :voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok"),
-    @NamedQuery(name = "PolozhenieKartinki.findByPoryadkoviyNomerIdPoryadkoviyNomer", query = "SELECT p FROM PolozhenieKartinki p WHERE p.polozhenieKartinkiPK.poryadkoviyNomerIdPoryadkoviyNomer = :poryadkoviyNomerIdPoryadkoviyNomer")})
+    @NamedQuery(name = "PolozhenieKartinki.findByIdPolozhenieKartinki", query = "SELECT p FROM PolozhenieKartinki p WHERE p.idPolozhenieKartinki = :idPolozhenieKartinki")})
 public class PolozhenieKartinki implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PolozhenieKartinkiPK polozhenieKartinkiPK;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA", insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_POLOZHENIE_KARTINKI")
+    private Integer idPolozhenieKartinki;
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
-    private Kartinka kartinka;
-    @JoinColumn(name = "PORYADKOVIY_NOMER_ID_PORYADKOVIY_NOMER", referencedColumnName = "ID_PORYADKOVIY_NOMER", insertable = false, updatable = false)
+    private Kartinka kartinkaIdKartinka;
+    @JoinColumn(name = "PORYADKOVIY_NOMER_ID_PORYADKOVIY_NOMER", referencedColumnName = "ID_PORYADKOVIY_NOMER")
     @ManyToOne(optional = false)
-    private PoryadkoviyNomer poryadkoviyNomer;
-    @JoinColumn(name = "VOPROS-PERETASKIVANIE_KARTINOK_ID_VOPROS-PERETASKIVANIE_KARTINOK", referencedColumnName = "ID_VOPROS-PERETASKIVANIE_KARTINOK", insertable = false, updatable = false)
+    private PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer;
+    @JoinColumn(name = "VOPROS-PERETASKIVANIE_KARTINOK_ID_VOPROS-PERETASKIVANIE_KARTINOK", referencedColumnName = "ID_VOPROS-PERETASKIVANIE_KARTINOK")
     @ManyToOne(optional = false)
-    private VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinok;
+    private VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
 
     public PolozhenieKartinki() {
     }
 
-    public PolozhenieKartinki(PolozhenieKartinkiPK polozhenieKartinkiPK) {
-        this.polozhenieKartinkiPK = polozhenieKartinkiPK;
+    public PolozhenieKartinki(Integer idPolozhenieKartinki) {
+        this.idPolozhenieKartinki = idPolozhenieKartinki;
     }
 
-    public PolozhenieKartinki(int idPolozhenieKartinki, int kartinkaIdKartinka, int voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok, int poryadkoviyNomerIdPoryadkoviyNomer) {
-        this.polozhenieKartinkiPK = new PolozhenieKartinkiPK(idPolozhenieKartinki, kartinkaIdKartinka, voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok, poryadkoviyNomerIdPoryadkoviyNomer);
+    public Integer getIdPolozhenieKartinki() {
+        return idPolozhenieKartinki;
     }
 
-    public PolozhenieKartinkiPK getPolozhenieKartinkiPK() {
-        return polozhenieKartinkiPK;
+    public void setIdPolozhenieKartinki(Integer idPolozhenieKartinki) {
+        this.idPolozhenieKartinki = idPolozhenieKartinki;
     }
 
-    public void setPolozhenieKartinkiPK(PolozhenieKartinkiPK polozhenieKartinkiPK) {
-        this.polozhenieKartinkiPK = polozhenieKartinkiPK;
+    public Kartinka getKartinkaIdKartinka() {
+        return kartinkaIdKartinka;
     }
 
-    public Kartinka getKartinka() {
-        return kartinka;
+    public void setKartinkaIdKartinka(Kartinka kartinkaIdKartinka) {
+        this.kartinkaIdKartinka = kartinkaIdKartinka;
     }
 
-    public void setKartinka(Kartinka kartinka) {
-        this.kartinka = kartinka;
+    public PoryadkoviyNomer getPoryadkoviyNomerIdPoryadkoviyNomer() {
+        return poryadkoviyNomerIdPoryadkoviyNomer;
     }
 
-    public PoryadkoviyNomer getPoryadkoviyNomer() {
-        return poryadkoviyNomer;
+    public void setPoryadkoviyNomerIdPoryadkoviyNomer(PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer) {
+        this.poryadkoviyNomerIdPoryadkoviyNomer = poryadkoviyNomerIdPoryadkoviyNomer;
     }
 
-    public void setPoryadkoviyNomer(PoryadkoviyNomer poryadkoviyNomer) {
-        this.poryadkoviyNomer = poryadkoviyNomer;
+    public VoprosPeretaskivanieKartinok getVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok() {
+        return voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
     }
 
-    public VoprosPeretaskivanieKartinok getVoprosPeretaskivanieKartinok() {
-        return voprosPeretaskivanieKartinok;
-    }
-
-    public void setVoprosPeretaskivanieKartinok(VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinok) {
-        this.voprosPeretaskivanieKartinok = voprosPeretaskivanieKartinok;
+    public void setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok) {
+        this.voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok = voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (polozhenieKartinkiPK != null ? polozhenieKartinkiPK.hashCode() : 0);
+        hash += (idPolozhenieKartinki != null ? idPolozhenieKartinki.hashCode() : 0);
         return hash;
     }
 
@@ -94,7 +94,7 @@ public class PolozhenieKartinki implements Serializable {
             return false;
         }
         PolozhenieKartinki other = (PolozhenieKartinki) object;
-        if ((this.polozhenieKartinkiPK == null && other.polozhenieKartinkiPK != null) || (this.polozhenieKartinkiPK != null && !this.polozhenieKartinkiPK.equals(other.polozhenieKartinkiPK))) {
+        if ((this.idPolozhenieKartinki == null && other.idPolozhenieKartinki != null) || (this.idPolozhenieKartinki != null && !this.idPolozhenieKartinki.equals(other.idPolozhenieKartinki))) {
             return false;
         }
         return true;
@@ -102,7 +102,7 @@ public class PolozhenieKartinki implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PolozhenieKartinki[ polozhenieKartinkiPK=" + polozhenieKartinkiPK + " ]";
+        return "entities.PolozhenieKartinki[ idPolozhenieKartinki=" + idPolozhenieKartinki + " ]";
     }
 
 }

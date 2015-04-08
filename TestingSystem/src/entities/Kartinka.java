@@ -41,11 +41,11 @@ public class Kartinka implements Serializable {
     @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA")
     @ManyToOne(optional = false)
     private Disciplina disciplinaIdDisciplina;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinka")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinkaIdKartinka")
     private List<SootvetstvieKartinok> sootvetstvieKartinokList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinka1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinkaIdKartinka2")
     private List<SootvetstvieKartinok> sootvetstvieKartinokList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinka")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kartinkaIdKartinka")
     private List<PolozhenieKartinki> polozhenieKartinkiList;
 
     public Kartinka() {

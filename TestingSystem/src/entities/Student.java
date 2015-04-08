@@ -2,10 +2,13 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,44 +27,42 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
-    @NamedQuery(name = "Student.findByIdStudent", query = "SELECT s FROM Student s WHERE s.studentPK.idStudent = :idStudent"),
+    @NamedQuery(name = "Student.findByIdStudent", query = "SELECT s FROM Student s WHERE s.idStudent = :idStudent"),
     @NamedQuery(name = "Student.findByFio", query = "SELECT s FROM Student s WHERE s.fio = :fio"),
     @NamedQuery(name = "Student.findByLogin", query = "SELECT s FROM Student s WHERE s.login = :login"),
-    @NamedQuery(name = "Student.findByPassword", query = "SELECT s FROM Student s WHERE s.password = :password"),
-    @NamedQuery(name = "Student.findByGruppaIdGruppa", query = "SELECT s FROM Student s WHERE s.studentPK.gruppaIdGruppa = :gruppaIdGruppa")})
+    @NamedQuery(name = "Student.findByPassword", query = "SELECT s FROM Student s WHERE s.password = :password")})
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected StudentPK studentPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_STUDENT")
+    private Integer idStudent;
     @Column(name = "FIO")
     private String fio;
     @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
     private String password;
-    @JoinColumn(name = "GRUPPA_ID_GRUPPA", referencedColumnName = "ID_GRUPPA", insertable = false, updatable = false)
+    @JoinColumn(name = "GRUPPA_ID_GRUPPA", referencedColumnName = "ID_GRUPPA")
     @ManyToOne(optional = false)
-    private Gruppa gruppa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Gruppa gruppaIdGruppa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentIdStudent")
     private List<StudentTest> studentTestList;
 
     public Student() {
     }
 
-    public Student(StudentPK studentPK) {
-        this.studentPK = studentPK;
+    public Student(Integer idStudent) {
+        this.idStudent = idStudent;
     }
 
-    public Student(int idStudent, int gruppaIdGruppa) {
-        this.studentPK = new StudentPK(idStudent, gruppaIdGruppa);
+    public Integer getIdStudent() {
+        return idStudent;
     }
 
-    public StudentPK getStudentPK() {
-        return studentPK;
-    }
-
-    public void setStudentPK(StudentPK studentPK) {
-        this.studentPK = studentPK;
+    public void setIdStudent(Integer idStudent) {
+        this.idStudent = idStudent;
     }
 
     public String getFio() {
@@ -88,12 +89,12 @@ public class Student implements Serializable {
         this.password = password;
     }
 
-    public Gruppa getGruppa() {
-        return gruppa;
+    public Gruppa getGruppaIdGruppa() {
+        return gruppaIdGruppa;
     }
 
-    public void setGruppa(Gruppa gruppa) {
-        this.gruppa = gruppa;
+    public void setGruppaIdGruppa(Gruppa gruppaIdGruppa) {
+        this.gruppaIdGruppa = gruppaIdGruppa;
     }
 
     @XmlTransient
@@ -108,7 +109,7 @@ public class Student implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (studentPK != null ? studentPK.hashCode() : 0);
+        hash += (idStudent != null ? idStudent.hashCode() : 0);
         return hash;
     }
 
@@ -119,7 +120,7 @@ public class Student implements Serializable {
             return false;
         }
         Student other = (Student) object;
-        if ((this.studentPK == null && other.studentPK != null) || (this.studentPK != null && !this.studentPK.equals(other.studentPK))) {
+        if ((this.idStudent == null && other.idStudent != null) || (this.idStudent != null && !this.idStudent.equals(other.idStudent))) {
             return false;
         }
         return true;
@@ -127,7 +128,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Student[ studentPK=" + studentPK + " ]";
+        return "entities.Student[ idStudent=" + idStudent + " ]";
     }
 
 }

@@ -36,7 +36,7 @@ public class Gruppa implements Serializable {
     private Integer idGruppa;
     @Column(name = "NAZVANIE")
     private String nazvanie;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gruppa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gruppaIdGruppa")
     private List<Student> studentList;
 
     public Gruppa() {

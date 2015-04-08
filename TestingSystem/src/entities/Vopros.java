@@ -2,10 +2,13 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,58 +27,54 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Vopros.findAll", query = "SELECT v FROM Vopros v"),
-    @NamedQuery(name = "Vopros.findByIdVopros", query = "SELECT v FROM Vopros v WHERE v.voprosPK.idVopros = :idVopros"),
+    @NamedQuery(name = "Vopros.findByIdVopros", query = "SELECT v FROM Vopros v WHERE v.idVopros = :idVopros"),
     @NamedQuery(name = "Vopros.findByNazvanie", query = "SELECT v FROM Vopros v WHERE v.nazvanie = :nazvanie"),
     @NamedQuery(name = "Vopros.findByFormulirovka", query = "SELECT v FROM Vopros v WHERE v.formulirovka = :formulirovka"),
-    @NamedQuery(name = "Vopros.findByBall", query = "SELECT v FROM Vopros v WHERE v.ball = :ball"),
-    @NamedQuery(name = "Vopros.findByKategoriyaSlozhnostiIdKategoriyaSlozhnosti", query = "SELECT v FROM Vopros v WHERE v.voprosPK.kategoriyaSlozhnostiIdKategoriyaSlozhnosti = :kategoriyaSlozhnostiIdKategoriyaSlozhnosti"),
-    @NamedQuery(name = "Vopros.findByTipVoprosaIdTipVoprosa", query = "SELECT v FROM Vopros v WHERE v.voprosPK.tipVoprosaIdTipVoprosa = :tipVoprosaIdTipVoprosa"),
-    @NamedQuery(name = "Vopros.findByDisciplinaIdDisciplina", query = "SELECT v FROM Vopros v WHERE v.voprosPK.disciplinaIdDisciplina = :disciplinaIdDisciplina")})
+    @NamedQuery(name = "Vopros.findByBall", query = "SELECT v FROM Vopros v WHERE v.ball = :ball")})
 public class Vopros implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected VoprosPK voprosPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_VOPROS")
+    private Integer idVopros;
     @Column(name = "NAZVANIE")
     private String nazvanie;
     @Column(name = "FORMULIROVKA")
     private String formulirovka;
     @Column(name = "BALL")
     private Integer ball;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vopros")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
     private List<VoprosLatex> voprosLatexList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vopros")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
     private List<VoprosPeretaskivanieKartinok> voprosPeretaskivanieKartinokList;
-    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA", insertable = false, updatable = false)
+    @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", referencedColumnName = "ID_DISCIPLINA")
     @ManyToOne(optional = false)
-    private Disciplina disciplina;
-    @JoinColumn(name = "KATEGORIYA_SLOZHNOSTI_ID_ KATEGORIYA_SLOZHNOSTI", referencedColumnName = "ID_ KATEGORIYA_SLOZHNOSTI", insertable = false, updatable = false)
+    private Disciplina disciplinaIdDisciplina;
+    @JoinColumn(name = "KATEGORIYA_SLOZHNOSTI_ID_ KATEGORIYA_SLOZHNOSTI", referencedColumnName = "ID_ KATEGORIYA_SLOZHNOSTI")
     @ManyToOne(optional = false)
-    private KategoriyaSlozhnosti kategoriyaSlozhnosti;
-    @JoinColumn(name = "TIP_VOPROSA_ID_ TIP_VOPROSA", referencedColumnName = "ID_ TIP_VOPROSA", insertable = false, updatable = false)
+    private KategoriyaSlozhnosti kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
+    @JoinColumn(name = "TIP_VOPROSA_ID_ TIP_VOPROSA", referencedColumnName = "ID_ TIP_VOPROSA")
     @ManyToOne(optional = false)
-    private TipVoprosa tipVoprosa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vopros")
+    private TipVoprosa tipVoprosaIdTipVoprosa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
     private List<VoprosSoedinenieLiniyami> voprosSoedinenieLiniyamiList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vopros")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosIdVopros")
     private List<TestVopros> testVoprosList;
 
     public Vopros() {
     }
 
-    public Vopros(VoprosPK voprosPK) {
-        this.voprosPK = voprosPK;
+    public Vopros(Integer idVopros) {
+        this.idVopros = idVopros;
     }
 
-    public Vopros(int idVopros, int kategoriyaSlozhnostiIdKategoriyaSlozhnosti, int tipVoprosaIdTipVoprosa, int disciplinaIdDisciplina) {
-        this.voprosPK = new VoprosPK(idVopros, kategoriyaSlozhnostiIdKategoriyaSlozhnosti, tipVoprosaIdTipVoprosa, disciplinaIdDisciplina);
+    public Integer getIdVopros() {
+        return idVopros;
     }
 
-    public VoprosPK getVoprosPK() {
-        return voprosPK;
-    }
-
-    public void setVoprosPK(VoprosPK voprosPK) {
-        this.voprosPK = voprosPK;
+    public void setIdVopros(Integer idVopros) {
+        this.idVopros = idVopros;
     }
 
     public String getNazvanie() {
@@ -120,28 +119,28 @@ public class Vopros implements Serializable {
         this.voprosPeretaskivanieKartinokList = voprosPeretaskivanieKartinokList;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public Disciplina getDisciplinaIdDisciplina() {
+        return disciplinaIdDisciplina;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public void setDisciplinaIdDisciplina(Disciplina disciplinaIdDisciplina) {
+        this.disciplinaIdDisciplina = disciplinaIdDisciplina;
     }
 
-    public KategoriyaSlozhnosti getKategoriyaSlozhnosti() {
-        return kategoriyaSlozhnosti;
+    public KategoriyaSlozhnosti getKategoriyaSlozhnostiIdKategoriyaSlozhnosti() {
+        return kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
     }
 
-    public void setKategoriyaSlozhnosti(KategoriyaSlozhnosti kategoriyaSlozhnosti) {
-        this.kategoriyaSlozhnosti = kategoriyaSlozhnosti;
+    public void setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(KategoriyaSlozhnosti kategoriyaSlozhnostiIdKategoriyaSlozhnosti) {
+        this.kategoriyaSlozhnostiIdKategoriyaSlozhnosti = kategoriyaSlozhnostiIdKategoriyaSlozhnosti;
     }
 
-    public TipVoprosa getTipVoprosa() {
-        return tipVoprosa;
+    public TipVoprosa getTipVoprosaIdTipVoprosa() {
+        return tipVoprosaIdTipVoprosa;
     }
 
-    public void setTipVoprosa(TipVoprosa tipVoprosa) {
-        this.tipVoprosa = tipVoprosa;
+    public void setTipVoprosaIdTipVoprosa(TipVoprosa tipVoprosaIdTipVoprosa) {
+        this.tipVoprosaIdTipVoprosa = tipVoprosaIdTipVoprosa;
     }
 
     @XmlTransient
@@ -165,7 +164,7 @@ public class Vopros implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (voprosPK != null ? voprosPK.hashCode() : 0);
+        hash += (idVopros != null ? idVopros.hashCode() : 0);
         return hash;
     }
 
@@ -176,7 +175,7 @@ public class Vopros implements Serializable {
             return false;
         }
         Vopros other = (Vopros) object;
-        if ((this.voprosPK == null && other.voprosPK != null) || (this.voprosPK != null && !this.voprosPK.equals(other.voprosPK))) {
+        if ((this.idVopros == null && other.idVopros != null) || (this.idVopros != null && !this.idVopros.equals(other.idVopros))) {
             return false;
         }
         return true;
@@ -184,7 +183,7 @@ public class Vopros implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Vopros[ voprosPK=" + voprosPK + " ]";
+        return "entities.Vopros[ idVopros=" + idVopros + " ]";
     }
 
 }
