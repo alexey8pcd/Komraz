@@ -11,7 +11,9 @@ public class Main {
         UIManager.put("OptionPane.noButtonText", "Нет");
 //        new QuestionEditor(null, true).setVisible(true);
 //        new MainForm().setVisible(true);
-        new PassageTestForm(null, true).setVisible(true);
+//        new PassageTestForm(null, true).setVisible(true);
+        MainForm mainForm = new MainForm();
+        mainForm.setVisible(true);
     }
 
 }
