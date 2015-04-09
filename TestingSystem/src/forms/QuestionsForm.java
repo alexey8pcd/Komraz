@@ -223,7 +223,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
         int index = tableQuestions.getSelectedRow();
-        if (index != -1) {
+        if (index != -1 && index < questions.size()) {
             switch (questions.get(index).
                     getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                 case 1:

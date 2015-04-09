@@ -3,6 +3,7 @@ package forms;
 import entities.Disciplina;
 import entities.Test;
 import java.util.List;
+import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -10,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import sql.DBManager;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -19,7 +21,7 @@ public class TestForm extends javax.swing.JDialog {
 
     private List<Disciplina> subjects;
     private List<Test> tests;
-    private final ListModel listModel = new AbstractListModel() {
+    private final ListModel SUBJECT_LIST_MODEL = new AbstractListModel() {
 
         @Override
         public int getSize() {
@@ -31,13 +33,13 @@ public class TestForm extends javax.swing.JDialog {
             return subjects.get(index).getNazvanie();
         }
     };
-    private final TableModel tableModel = new AbstractTableModel() {
+    private final TableModel TEST_TABLE_MODEL = new AbstractTableModel() {
 
         @Override
         public int getRowCount() {
             if (tests != null) {
                 return tests.size();
-            }else{
+            } else {
                 return 0;
             }
         }
@@ -61,30 +63,35 @@ public class TestForm extends javax.swing.JDialog {
     public TestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        listSubjects.setModel(listModel);
-        tableListOfTests.setModel(tableModel);
+        listSubjects.setModel(SUBJECT_LIST_MODEL);
+        tableListOfTests.setModel(TEST_TABLE_MODEL);
+        refresh();
         JTableHeader header = tableListOfTests.getTableHeader();
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
         header.getColumnModel().getColumn(1).setHeaderValue("Название теста");
         tableListOfTests.setTableHeader(header);
+        if (subjects != null) {
+            listSubjects.updateUI();
+        }
+
+    }
+
+    private void refresh() {
         try {
-            //способ 1
-//            subjects = DBManager.entityManager.createQuery(
-//                    "SELECT d FROM Disciplina d",
-//                    Disciplina.class).getResultList();
-            //способ 2
-            subjects = DBManager.entityManager.createNamedQuery(
+            subjects = entityManager.createNamedQuery(
                     "Disciplina.findAll",
                     Disciplina.class).getResultList();
+            int selectedIndex = listSubjects.getSelectedIndex();
+            if (selectedIndex != -1 && selectedIndex < subjects.size()) {
+//                TypedQuery<Test> query = entityManager.createQuery(
+//                        "SELECT t FROM Test t WHERE t.", Test.class);
+            }
+            
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(),
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-        if (subjects != null) {
-            listSubjects.updateUI();
-        }
-
     }
 
     @SuppressWarnings("unchecked")

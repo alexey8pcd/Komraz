@@ -1,13 +1,21 @@
 package forms;
 
 import entities.Disciplina;
+import entities.StatusTesta;
+import entities.Test;
+import entities.TestVopros;
 import entities.Vopros;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import sql.DBManager;
 import static sql.DBManager.entityManager;
 
 /**
@@ -132,6 +140,11 @@ public class AddTestForm extends javax.swing.JDialog {
         textSearch.setEnabled(false);
 
         bSaveTest.setText("Сохранить");
+        bSaveTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSaveTestActionPerformed(evt);
+            }
+        });
 
         bClose.setText("Закрыть");
         bClose.addActionListener(new java.awt.event.ActionListener() {
@@ -247,6 +260,46 @@ public class AddTestForm extends javax.swing.JDialog {
             listTestQuestions.updateUI();
         }
     }//GEN-LAST:event_bRemoveQuestionFromTestActionPerformed
+
+    private void bSaveTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveTestActionPerformed
+        boolean correct = true;
+        if (textTestName.getText().isEmpty()) {
+            correct = false;
+            JOptionPane.showMessageDialog(this,
+                    "Название теста не может быть пустым",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+        } else if (TEST_QUESTIONS.isEmpty()) {
+            correct = false;
+            JOptionPane.showMessageDialog(this,
+                    "Не выбрано ни одного вопроса",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+        }
+        if (correct) {
+            Test test = new Test();
+            test.setNazvanie(new String(textTestName.getText().getBytes(), UTF_8));
+            StatusTesta statusTesta;
+            TypedQuery<StatusTesta> query = entityManager.createNamedQuery(
+                    "StatusTesta.findByNaimenovanie", StatusTesta.class);
+            query.setParameter("naimenovanie", "Закрыт");
+            statusTesta = query.getSingleResult();
+            test.setStatusTestaIdStatusTesta(statusTesta);
+            //добавить данные о соответствии тестов и вопросов
+            List<TestVopros> listTestVopros = new ArrayList<>();
+            for (Vopros v : TEST_QUESTIONS) {
+                TestVopros testVopros = new TestVopros();
+                testVopros.setTestIdTest(test);
+                testVopros.setVoprosIdVopros(v);
+                listTestVopros.add(testVopros);
+            }
+            test.setTestVoprosList(listTestVopros);
+            try {
+                DBManager.writeObject(test);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.toString(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_bSaveTestActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;

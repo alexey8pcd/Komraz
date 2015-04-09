@@ -6,13 +6,9 @@ import entities.TipVoprosa;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -417,9 +413,9 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         }
         if (correct) {
             Vopros vopros = new Vopros();
-            vopros.setBall(1);            
-            vopros.setNazvanie(tQuestionTitle.getText());
-            vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
+            vopros.setBall(1);
+            vopros.setNazvanie(new String(tQuestionTitle.getText().getBytes(), UTF_8));
+            vopros.setFormulirovka(new String(textAreaForQuestionFormulation.getText().getBytes(), UTF_8));
             vopros.setDisciplinaIdDisciplina(subjects.get(listSubjects.getSelectedIndex()));
             vopros.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
                     difficulty.get(listDifficulty.getSelectedIndex()));
@@ -431,7 +427,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
             VoprosLatex voprosLatex = new VoprosLatex();
-            voprosLatex.setLatexZapis(formula.getTranscription());
+            voprosLatex.setLatexZapis(
+                    new String(formula.getTranscription().getBytes(), UTF_8));
             voprosLatex.setVoprosIdVopros(vopros);
             try {
                 DBManager.writeObject(voprosLatex);
