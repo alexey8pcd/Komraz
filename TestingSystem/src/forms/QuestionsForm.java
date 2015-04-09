@@ -241,7 +241,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                                 entityManager.remove(voprosLatex);
                                 entityManager.getTransaction().commit();
                             }
-                            entityManager.getTransaction().begin();                            
+                            entityManager.getTransaction().begin();
                             Query query = entityManager.createQuery(
                                     "DELETE FROM Vopros v WHERE v.idVopros=:id");
                             query.setParameter("id", vopros.getIdVopros());

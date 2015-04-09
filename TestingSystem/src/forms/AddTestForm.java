@@ -1,11 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forms;
 
 import entities.Disciplina;
+import entities.Vopros;
+import java.util.List;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.swing.AbstractListModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -13,12 +16,48 @@ import entities.Disciplina;
  */
 public class AddTestForm extends javax.swing.JDialog {
 
-    /**
-     * Creates new form AddTest
-     */
+    private Disciplina subject;
+    private List<Vopros> questions;
+    private final ListModel QUESTION_LIST_MODEL = new AbstractListModel() {
+
+        @Override
+        public int getSize() {
+            return questions.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return questions.get(index).getNazvanie();
+        }
+    };
+
+    private void loadQuestions() {
+        try {
+            Query query = entityManager.createQuery(
+                    "SELECT v FROM Vopros v WHERE "
+                    + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                    Vopros.class);
+            query.setParameter("id", 1);
+            questions = query.getResultList();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     public AddTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public void setSubject(Disciplina subject) {
+        this.subject = subject;
+        loadQuestions();
+        if (questions != null) {
+            listAllQuestions.setModel(QUESTION_LIST_MODEL);
+            listAllQuestions.updateUI();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -165,11 +204,6 @@ public class AddTestForm extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_bCloseActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;
     private javax.swing.JButton bClose;
@@ -187,7 +221,4 @@ public class AddTestForm extends javax.swing.JDialog {
     private javax.swing.JTextField textSearch;
     private javax.swing.JTextField textTestName;
     // End of variables declaration//GEN-END:variables
-
-    void setSubject(Disciplina get) {
-    }
 }
