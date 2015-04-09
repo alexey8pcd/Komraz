@@ -35,7 +35,11 @@ public class TestForm extends javax.swing.JDialog {
 
         @Override
         public int getRowCount() {
-            return tests.size();
+            if (tests != null) {
+                return tests.size();
+            }else{
+                return 0;
+            }
         }
 
         @Override
@@ -65,15 +69,14 @@ public class TestForm extends javax.swing.JDialog {
         tableListOfTests.setTableHeader(header);
         try {
             //способ 1
-            subjects = DBManager.entityManager.createQuery(
-                    "SELECT d FROM Disciplina d",
-                    Disciplina.class).getResultList();
+//            subjects = DBManager.entityManager.createQuery(
+//                    "SELECT d FROM Disciplina d",
+//                    Disciplina.class).getResultList();
             //способ 2
             subjects = DBManager.entityManager.createNamedQuery(
                     "Disciplina.findAll",
                     Disciplina.class).getResultList();
-            tests = DBManager.entityManager.createQuery(
-                    "SELECT t FROM Test t", Test.class).getResultList();
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(),
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -81,9 +84,7 @@ public class TestForm extends javax.swing.JDialog {
         if (subjects != null) {
             listSubjects.updateUI();
         }
-        if (tests != null) {
-            tableListOfTests.updateUI();
-        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -108,6 +109,11 @@ public class TestForm extends javax.swing.JDialog {
         setTitle("Тесты");
         setResizable(false);
 
+        listSubjects.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listSubjectsValueChanged(evt);
+            }
+        });
         sPaneForListSubjects.setViewportView(listSubjects);
 
         lSubjects.setText("Дисциплины:");
@@ -205,13 +211,13 @@ public class TestForm extends javax.swing.JDialog {
                         .addComponent(bDeleteTest, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(bEditTest))
-                    .addComponent(sPaneForTests, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
+                    .addComponent(sPaneForTests, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bClose, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bOpenAccess, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCloseAccess, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bViewResult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bOpenAccess, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCloseAccess, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bViewResult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -235,11 +241,11 @@ public class TestForm extends javax.swing.JDialog {
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(bOpenAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bOpenAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bCloseAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bCloseAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bViewResult, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bViewResult, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(sPaneForTests, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,8 +266,16 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bCreateTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateTestActionPerformed
-        AddTestForm addTest = new AddTestForm(null, true);
-        addTest.setVisible(true);
+        int selectedIndex = listSubjects.getSelectedIndex();
+        if (selectedIndex != -1) {
+            AddTestForm addTest = new AddTestForm(null, true);
+            addTest.setSubject(subjects.get(selectedIndex));
+            addTest.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Дисциплина не выбрана",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
@@ -273,6 +287,14 @@ public class TestForm extends javax.swing.JDialog {
         TestResultForm testResult = new TestResultForm(null, true);
         testResult.setVisible(true);
     }//GEN-LAST:event_bViewResultActionPerformed
+
+    private void listSubjectsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listSubjectsValueChanged
+//        tests = DBManager.entityManager.createQuery(
+//                    "SELECT t FROM Test t", Test.class).getResultList();
+//        if (tests != null) {
+//            tableListOfTests.updateUI();
+//        }
+    }//GEN-LAST:event_listSubjectsValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

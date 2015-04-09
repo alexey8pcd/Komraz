@@ -5,6 +5,8 @@
  */
 package forms;
 
+import entities.Disciplina;
+
 /**
  *
  * @author ScanNorOne
@@ -185,4 +187,7 @@ public class AddTestForm extends javax.swing.JDialog {
     private javax.swing.JTextField textSearch;
     private javax.swing.JTextField textTestName;
     // End of variables declaration//GEN-END:variables
+
+    void setSubject(Disciplina get) {
+    }
 }

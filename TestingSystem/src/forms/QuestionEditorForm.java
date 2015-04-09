@@ -1,14 +1,18 @@
 package forms;
 
+import entities.Disciplina;
+import entities.KategoriyaSlozhnosti;
+import entities.TipVoprosa;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.util.List;
+import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import main.Formula;
-import static resources.Parameters.*;
+import sql.DBManager;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -18,11 +22,60 @@ public class QuestionEditorForm extends javax.swing.JDialog {
 
     private final Graphics graphics;
     private Formula formula;
+    private List<Disciplina> subjects;
+    private List<KategoriyaSlozhnosti> difficulty;
+    private List<TipVoprosa> typesOfQuestion;
+    private final ListModel subjectsListModel = new AbstractListModel() {
+
+        @Override
+        public int getSize() {
+            return subjects.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return subjects.get(index).getNazvanie();
+        }
+    };
+    private final ListModel difficultyListModel = new AbstractListModel() {
+
+        @Override
+        public int getSize() {
+            return difficulty.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return difficulty.get(index).getNazvanie();
+        }
+    };
 
     public QuestionEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         graphics = panePreview.getGraphics();
+        listSubjects.setModel(subjectsListModel);
+        listDifficulty.setModel(difficultyListModel);
+        try {
+            subjects = entityManager.createNamedQuery(
+                    "Disciplina.findAll", Disciplina.class).getResultList();
+            difficulty = entityManager.createNamedQuery(
+                    "KategoriyaSlozhnosti.findAll",
+                    KategoriyaSlozhnosti.class).getResultList();
+            typesOfQuestion = entityManager.createNamedQuery(
+                    "TipVoprosa.findAll",
+                    TipVoprosa.class).getResultList();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+        if (subjects != null) {
+            listSubjects.updateUI();
+        }
+        if (difficulty != null) {
+            listDifficulty.updateUI();
+        }
     }
 
     public void draw() {
@@ -44,7 +97,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroupQuestionType = new javax.swing.ButtonGroup();
         lQuestionTitle = new javax.swing.JLabel();
         tQuestionTitle = new javax.swing.JTextField();
         lQuestionFormulation = new javax.swing.JLabel();
@@ -61,6 +114,17 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         bSaveQuestion = new javax.swing.JButton();
         paneBorder = new javax.swing.JPanel();
         panePreview = new javax.swing.JPanel();
+        sPaneForListDifficulty = new javax.swing.JScrollPane();
+        listDifficulty = new javax.swing.JList();
+        lSubject = new javax.swing.JLabel();
+        rbLinkingPictures = new javax.swing.JRadioButton();
+        textSearch = new javax.swing.JTextField();
+        bSearch = new javax.swing.JButton();
+        lDifficulty = new javax.swing.JLabel();
+        sPaneForListSubjects = new javax.swing.JScrollPane();
+        listSubjects = new javax.swing.JList();
+        lPoints = new javax.swing.JLabel();
+        spinnerPoints = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Новый вопрос");
@@ -79,12 +143,12 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lQuestionType.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lQuestionType.setText("Тип вопроса:");
 
-        buttonGroup1.add(rbConstructFormula);
+        buttonGroupQuestionType.add(rbConstructFormula);
         rbConstructFormula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rbConstructFormula.setSelected(true);
         rbConstructFormula.setText("Конструирование формулы");
 
-        buttonGroup1.add(rbAssembledFromulaFromPieces);
+        buttonGroupQuestionType.add(rbAssembledFromulaFromPieces);
         rbAssembledFromulaFromPieces.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rbAssembledFromulaFromPieces.setText("Сборка формулы из кусочков");
         rbAssembledFromulaFromPieces.setEnabled(false);
@@ -134,7 +198,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
 
         paneBorder.setBackground(new java.awt.Color(204, 204, 204));
         paneBorder.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Предварительный просмотр"));
-        paneBorder.setPreferredSize(new java.awt.Dimension(650, 200));
+        paneBorder.setPreferredSize(new java.awt.Dimension(650, 150));
 
         javax.swing.GroupLayout panePreviewLayout = new javax.swing.GroupLayout(panePreview);
         panePreview.setLayout(panePreviewLayout);
@@ -144,7 +208,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         );
         panePreviewLayout.setVerticalGroup(
             panePreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout paneBorderLayout = new javax.swing.GroupLayout(paneBorder);
@@ -158,10 +222,38 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         );
         paneBorderLayout.setVerticalGroup(
             paneBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneBorderLayout.createSequentialGroup()
+            .addGroup(paneBorderLayout.createSequentialGroup()
                 .addComponent(panePreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        listDifficulty.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        sPaneForListDifficulty.setViewportView(listDifficulty);
+
+        lSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lSubject.setText("Дисциплина:");
+
+        buttonGroupQuestionType.add(rbLinkingPictures);
+        rbLinkingPictures.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rbLinkingPictures.setText("Соединение картинок линиями");
+        rbLinkingPictures.setEnabled(false);
+
+        textSearch.setEnabled(false);
+
+        bSearch.setText("Поиск");
+        bSearch.setEnabled(false);
+
+        lDifficulty.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lDifficulty.setText("Сложность:");
+
+        listSubjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        sPaneForListSubjects.setViewportView(listSubjects);
+
+        lPoints.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lPoints.setText("Балл:");
+
+        spinnerPoints.setEnabled(false);
+        spinnerPoints.setValue(1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,22 +264,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sPaneForQuestionFormulation)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lQuestionTitle)
-                        .addGap(18, 18, 18)
-                        .addComponent(tQuestionTitle))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbAssembledFromulaFromPieces)
-                            .addComponent(lQuestionFormulation)
-                            .addComponent(lQuestionType)
-                            .addComponent(rbConstructFormula))
-                        .addGap(0, 685, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lFormula)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -195,7 +271,41 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                                 .addComponent(bCreateFormula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                             .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32)
-                        .addComponent(paneBorder, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)))
+                        .addComponent(paneBorder, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lQuestionTitle)
+                        .addGap(18, 18, 18)
+                        .addComponent(tQuestionTitle))
+                    .addComponent(lQuestionFormulation)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbAssembledFromulaFromPieces)
+                            .addComponent(lQuestionType)
+                            .addComponent(rbConstructFormula)
+                            .addComponent(rbLinkingPictures))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(textSearch)
+                                .addGap(18, 18, 18)
+                                .addComponent(bSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lSubject)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sPaneForListDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lDifficulty))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lPoints)
+                            .addComponent(spinnerPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -205,17 +315,38 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lQuestionTitle)
                     .addComponent(tQuestionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lQuestionFormulation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sPaneForQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(sPaneForQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lQuestionType)
+                            .addComponent(lSubject))
+                        .addGap(18, 18, 18)
+                        .addComponent(rbConstructFormula)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbAssembledFromulaFromPieces)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbLinkingPictures))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lDifficulty)
+                                    .addComponent(lPoints))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sPaneForListDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bSearch))))
                 .addGap(18, 18, 18)
-                .addComponent(lQuestionType)
-                .addGap(18, 18, 18)
-                .addComponent(rbConstructFormula)
-                .addGap(18, 18, 18)
-                .addComponent(rbAssembledFromulaFromPieces)
-                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lFormula)
@@ -226,11 +357,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,22 +385,59 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Формула отсутствует",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
+        } else if (listSubjects.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "Дисциплина не выбрана",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        } else if (listDifficulty.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "Сложность не выбрана",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        }
+        int type;
+        if (rbConstructFormula.isSelected()) {
+            type = 0;
+        } else if (rbAssembledFromulaFromPieces.isSelected()) {
+            type = 1;
+        } else if (rbLinkingPictures.isSelected()) {
+            type = 2;
+        } else {
+            type = 3;
+        }
+        if (type == 3) {
+            JOptionPane.showMessageDialog(this, "Тип вопроса не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
         }
         if (correct) {
             Vopros vopros = new Vopros();
             vopros.setBall(1);
             vopros.setNazvanie(tQuestionTitle.getText());
             vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
-            
+            vopros.setDisciplinaIdDisciplina(subjects.get(listSubjects.getSelectedIndex()));
+            vopros.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
+                    difficulty.get(listDifficulty.getSelectedIndex()));
+            vopros.setTipVoprosaIdTipVoprosa(typesOfQuestion.get(type));
+            try {
+                DBManager.entityManager.getTransaction().begin();
+                DBManager.entityManager.persist(vopros);
+                DBManager.entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.toString(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
             VoprosLatex voprosLatex = new VoprosLatex();
             voprosLatex.setLatexZapis(formula.getTranscription());
-            //*******Артем запиши в базу********************
-            System.out.println(voprosLatex.toString());
-//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestingSystemPU");
-//            EntityManager em = emf.createEntityManager();
-//            em.getTransaction().begin();
-//            em.persist(voprosLatex);
-//            em.getTransaction().commit();
+            voprosLatex.setVoprosIdVopros(vopros);
+            try {
+                DBManager.entityManager.getTransaction().begin();
+                DBManager.entityManager.persist(voprosLatex);
+                DBManager.entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.toString(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+            dispose();
         }
     }//GEN-LAST:event_bSaveQuestionActionPerformed
 
@@ -307,17 +475,28 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JButton bDeleteFormula;
     private javax.swing.JButton bEditFormula;
     private javax.swing.JButton bSaveQuestion;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton bSearch;
+    private javax.swing.ButtonGroup buttonGroupQuestionType;
+    private javax.swing.JLabel lDifficulty;
     private javax.swing.JLabel lFormula;
+    private javax.swing.JLabel lPoints;
     private javax.swing.JLabel lQuestionFormulation;
     private javax.swing.JLabel lQuestionTitle;
     private javax.swing.JLabel lQuestionType;
+    private javax.swing.JLabel lSubject;
+    private javax.swing.JList listDifficulty;
+    private javax.swing.JList listSubjects;
     private javax.swing.JPanel paneBorder;
     private javax.swing.JPanel panePreview;
     private javax.swing.JRadioButton rbAssembledFromulaFromPieces;
     private javax.swing.JRadioButton rbConstructFormula;
+    private javax.swing.JRadioButton rbLinkingPictures;
+    private javax.swing.JScrollPane sPaneForListDifficulty;
+    private javax.swing.JScrollPane sPaneForListSubjects;
     private javax.swing.JScrollPane sPaneForQuestionFormulation;
+    private javax.swing.JSpinner spinnerPoints;
     private javax.swing.JTextField tQuestionTitle;
     private javax.swing.JTextArea textAreaForQuestionFormulation;
+    private javax.swing.JTextField textSearch;
     // End of variables declaration//GEN-END:variables
 }
