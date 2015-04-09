@@ -6,7 +6,13 @@ import entities.TipVoprosa;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -411,7 +417,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         }
         if (correct) {
             Vopros vopros = new Vopros();
-            vopros.setBall(1);
+            vopros.setBall(1);            
             vopros.setNazvanie(tQuestionTitle.getText());
             vopros.setFormulirovka(textAreaForQuestionFormulation.getText());
             vopros.setDisciplinaIdDisciplina(subjects.get(listSubjects.getSelectedIndex()));
@@ -419,9 +425,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     difficulty.get(listDifficulty.getSelectedIndex()));
             vopros.setTipVoprosaIdTipVoprosa(typesOfQuestion.get(type));
             try {
-                DBManager.entityManager.getTransaction().begin();
-                DBManager.entityManager.persist(vopros);
-                DBManager.entityManager.getTransaction().commit();
+                DBManager.writeObject(vopros);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.toString(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -430,9 +434,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             voprosLatex.setLatexZapis(formula.getTranscription());
             voprosLatex.setVoprosIdVopros(vopros);
             try {
-                DBManager.entityManager.getTransaction().begin();
-                DBManager.entityManager.persist(voprosLatex);
-                DBManager.entityManager.getTransaction().commit();
+                DBManager.writeObject(voprosLatex);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.toString(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);

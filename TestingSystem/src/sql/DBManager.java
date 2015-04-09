@@ -21,7 +21,7 @@ public class DBManager {
             Persistence.createEntityManagerFactory("TestingSystemPU");
     public static EntityManager entityManager = managerFactory.createEntityManager();
     
-    public static void writeObject(Object object){
+    public static void writeObject(Object object) throws Exception{
         entityManager.getTransaction().begin();
         entityManager.persist(object);
         entityManager.getTransaction().commit();

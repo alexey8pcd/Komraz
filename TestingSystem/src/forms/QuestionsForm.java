@@ -1,7 +1,11 @@
 package forms;
 
+import entities.Disciplina;
 import entities.Vopros;
+import entities.VoprosLatex;
 import java.util.List;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
@@ -31,7 +35,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
         @Override
         public int getColumnCount() {
-            return 5;
+            return tableHeaderValues.length;
         }
 
         @Override
@@ -56,9 +60,7 @@ public class QuestionsForm extends javax.swing.JDialog {
         }
     };
 
-    public QuestionsForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();        
+    private void loadQuestionsFromDB() {
         try {
             questions = entityManager.createNamedQuery("Vopros.findAll",
                     Vopros.class).getResultList();
@@ -67,9 +69,15 @@ public class QuestionsForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
         if (questions != null) {
-            tableQuestions.setModel(tableModel);
             tableQuestions.updateUI();
         }
+    }
+
+    public QuestionsForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        tableQuestions.setModel(tableModel);
+        loadQuestionsFromDB();
         JTableHeader header = tableQuestions.getTableHeader();
         for (int i = 0; i < tableHeaderValues.length; i++) {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
@@ -111,6 +119,11 @@ public class QuestionsForm extends javax.swing.JDialog {
         });
 
         bDeleteQuestion.setText("Удалить");
+        bDeleteQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteQuestionActionPerformed(evt);
+            }
+        });
 
         bEditQuestion.setText("Редактировать");
 
@@ -200,13 +213,50 @@ public class QuestionsForm extends javax.swing.JDialog {
     private void bCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateQuestionActionPerformed
         QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
-        tableQuestions.updateUI();
+        loadQuestionsFromDB();
     }//GEN-LAST:event_bCreateQuestionActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         this.setVisible(false);
         dispose();
     }//GEN-LAST:event_bCloseActionPerformed
+
+    private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
+        int index = tableQuestions.getSelectedRow();
+        if (index != -1) {
+            switch (questions.get(index).
+                    getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
+                case 1:
+                    //вопрос Latex
+                    Vopros vopros = entityManager.find(
+                            Vopros.class, questions.get(index).getIdVopros());
+                    VoprosLatex voprosLatex = null;
+                    if (vopros != null) {
+                        if (!vopros.getVoprosLatexList().isEmpty()) {
+                            voprosLatex = vopros.getVoprosLatexList().get(0);
+                        }
+                        try {
+                            if (voprosLatex != null) {
+                                entityManager.getTransaction().begin();
+                                entityManager.remove(voprosLatex);
+                                entityManager.getTransaction().commit();
+                            }
+                            entityManager.getTransaction().begin();                            
+                            Query query = entityManager.createQuery(
+                                    "DELETE FROM Vopros v WHERE v.idVopros=:id");
+                            query.setParameter("id", vopros.getIdVopros());
+                            query.executeUpdate();
+                            entityManager.getTransaction().commit();
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, ex.toString(),
+                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    }
+            }
+        }
+        loadQuestionsFromDB();
+    }//GEN-LAST:event_bDeleteQuestionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
