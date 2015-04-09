@@ -2,9 +2,9 @@ package forms;
 
 import entities.Disciplina;
 import entities.Vopros;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -17,19 +17,48 @@ import static sql.DBManager.entityManager;
 public class AddTestForm extends javax.swing.JDialog {
 
     private Disciplina subject;
-    private List<Vopros> questions;
-    private final ListModel QUESTION_LIST_MODEL = new AbstractListModel() {
+    private List<Vopros> allQuestions;
+    private final List<Vopros> TEST_QUESTIONS;
+    private final ListModel ALL_QUESTION_LIST_MODEL = new AbstractListModel() {
 
         @Override
         public int getSize() {
-            return questions.size();
+            return allQuestions.size();
         }
 
         @Override
         public Object getElementAt(int index) {
-            return questions.get(index).getNazvanie();
+            return allQuestions.get(index).getNazvanie();
         }
     };
+    private final ListModel TEST_QUESTION_LIST_MODEL = new AbstractListModel() {
+
+        @Override
+        public int getSize() {
+            return TEST_QUESTIONS.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return TEST_QUESTIONS.get(index).getNazvanie();
+        }
+    };
+
+    public AddTestForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        TEST_QUESTIONS = new ArrayList<>();
+        listTestQuestions.setModel(TEST_QUESTION_LIST_MODEL);
+    }
+
+    public void setSubject(Disciplina subject) {
+        this.subject = subject;
+        loadQuestions();
+        if (allQuestions != null) {
+            listAllQuestions.setModel(ALL_QUESTION_LIST_MODEL);
+            listAllQuestions.updateUI();
+        }
+    }
 
     private void loadQuestions() {
         try {
@@ -37,26 +66,11 @@ public class AddTestForm extends javax.swing.JDialog {
                     "SELECT v FROM Vopros v WHERE "
                     + "v.disciplinaIdDisciplina.idDisciplina=:id",
                     Vopros.class);
-            query.setParameter("id", 1);
-            questions = query.getResultList();
+            query.setParameter("id", subject.getIdDisciplina());
+            allQuestions = query.getResultList();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(),
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    public AddTestForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-    }
-
-    public void setSubject(Disciplina subject) {
-        this.subject = subject;
-        loadQuestions();
-        if (questions != null) {
-            listAllQuestions.setModel(QUESTION_LIST_MODEL);
-            listAllQuestions.updateUI();
         }
     }
 
@@ -97,8 +111,18 @@ public class AddTestForm extends javax.swing.JDialog {
         scrollPaneForAllQuestions.setViewportView(listAllQuestions);
 
         bAddQuestionToTest.setText("<");
+        bAddQuestionToTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAddQuestionToTestActionPerformed(evt);
+            }
+        });
 
         bRemoveQuestionFromTest.setText(">");
+        bRemoveQuestionFromTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRemoveQuestionFromTestActionPerformed(evt);
+            }
+        });
 
         scrollPaneForTestQuestions.setViewportView(listTestQuestions);
 
@@ -203,6 +227,26 @@ public class AddTestForm extends javax.swing.JDialog {
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         dispose();
     }//GEN-LAST:event_bCloseActionPerformed
+
+    private void bAddQuestionToTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuestionToTestActionPerformed
+        int selectedIndex = listAllQuestions.getSelectedIndex();
+        if (selectedIndex != -1 && selectedIndex < allQuestions.size()) {
+            TEST_QUESTIONS.add(allQuestions.get(selectedIndex));
+            allQuestions.remove(selectedIndex);
+            listAllQuestions.updateUI();
+            listTestQuestions.updateUI();
+        }
+    }//GEN-LAST:event_bAddQuestionToTestActionPerformed
+
+    private void bRemoveQuestionFromTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRemoveQuestionFromTestActionPerformed
+        int selectedIndex = listTestQuestions.getSelectedIndex();
+        if (selectedIndex != -1 && selectedIndex < TEST_QUESTIONS.size()) {
+            allQuestions.add(TEST_QUESTIONS.get(selectedIndex));
+            TEST_QUESTIONS.remove(selectedIndex);
+            listAllQuestions.updateUI();
+            listTestQuestions.updateUI();
+        }
+    }//GEN-LAST:event_bRemoveQuestionFromTestActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;
