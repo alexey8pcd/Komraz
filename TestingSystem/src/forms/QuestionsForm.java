@@ -81,6 +81,8 @@ public class QuestionsForm extends javax.swing.JDialog {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
         }
         tableQuestions.setTableHeader(header);
+        
+        bEditQuestion.setEnabled(false); //Для первой итерации
     }
 
     @SuppressWarnings("unchecked")
