@@ -35,7 +35,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          <Component id="jPanel1" max="32767" attributes="0"/>
+                          <Component id="paneForFormulaConstruct" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -72,8 +72,8 @@
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="toolBarQuestionNumbers" min="-2" pref="580" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="labelQuestionNumber" min="-2" pref="548" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           <Component id="bPreviusQuestion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="bNextQuestion" min="-2" max="-2" attributes="0"/>
@@ -91,13 +91,18 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="bPreviusQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="bNextQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bPreviusQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bNextQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="toolBarQuestionNumbers" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelQuestionNumber" min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lQuestionFormulation" min="-2" pref="56" max="-2" attributes="0"/>
@@ -134,7 +139,7 @@
                           <Component id="bPutSignVector" alignment="1" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Component id="paneForFormulaConstruct" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="11" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -278,6 +283,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableSymbolsMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -444,7 +452,11 @@
     <Component class="javax.swing.JButton" name="bPreviusQuestion">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x435;&#x434;&#x44b;&#x434;&#x443;&#x449;&#x438;&#x439; &#x432;&#x43e;&#x43f;&#x440;&#x43e;&#x441;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPreviusQuestionActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bNextQuestion">
       <Properties>
@@ -454,12 +466,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bNextQuestionActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanel1">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-      </Properties>
+    <Container class="javax.swing.JPanel" name="paneForFormulaConstruct">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="paneForFormulaConstructMouseClicked"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -479,13 +489,10 @@
         <Property name="text" type="java.lang.String" value="&#x424;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x438;&#x440;&#x43e;&#x432;&#x43a;&#x430; &#x432;&#x43e;&#x43f;&#x440;&#x43e;&#x441;&#x430;"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JToolBar" name="toolBarQuestionNumbers">
+    <Component class="javax.swing.JLabel" name="labelQuestionNumber">
       <Properties>
-        <Property name="floatable" type="boolean" value="false"/>
-        <Property name="rollover" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="&#x412;&#x43e;&#x43f;&#x440;&#x43e;&#x441; N/M"/>
       </Properties>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-    </Container>
+    </Component>
   </SubComponents>
 </Form>

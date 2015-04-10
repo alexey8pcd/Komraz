@@ -1,7 +1,11 @@
 package forms;
 
 import entities.Test;
-import javax.swing.JButton;
+import entities.Vopros;
+import java.awt.Graphics;
+import java.util.Stack;
+import javax.swing.JOptionPane;
+import main.Formula;
 
 /**
  *
@@ -10,14 +14,104 @@ import javax.swing.JButton;
 public class PassageTestForm extends javax.swing.JDialog {
 
     private Test testForPassage;
+    private Vopros currentQuestion;
+    private int currentQuestionIndex;
+    private int questionsAmount;
+    private final Graphics graphics;
+    private Formula currentFormula;
+    private final Stack<Formula> stackFormula;
+    private String[] answers;
 
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        stackFormula = new Stack<>();
+        makeDefaultFormula();
+        addFormulaCopyToStack();
+        graphics = paneForFormulaConstruct.getGraphics();
+        currentQuestionIndex = 0;
+        bPreviusQuestion.setEnabled(false);
     }
 
-    void setTestForPassage(Test get) {
+    private void updateLabel() {
+        labelQuestionNumber.setText("Вопрос "
+                + (currentQuestionIndex + 1) + "/" + questionsAmount);
+    }
+
+    private void setButtonNextAndPreviusProperties() {
+        /**********НУЖНОЕ***************
+        if (currentQuestionIndex == 0) {
+            bPreviusQuestion.setEnabled(false);
+        } else {
+            bPreviusQuestion.setEnabled(true);
+        }
+        */
+        if (currentQuestionIndex == questionsAmount - 1) {
+            bNextQuestion.setEnabled(false);
+        } else {
+            bNextQuestion.setEnabled(true);
+        }
+    }
+
+    private void updateQuestion() {        
+        currentQuestion = testForPassage.getTestVoprosList().
+                get(currentQuestionIndex).getVoprosIdVopros();
+        if (currentQuestion != null) {
+            lQuestionFormulation.setText(currentQuestion.getFormulirovka());
+        }
+        makeDefaultFormula();
+    }
+
+    private void makeDefaultFormula() {
+        currentFormula = new Formula();
+        currentFormula.addEmpty();
+        currentFormula.add("=", false);
+        currentFormula.addEmpty();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        drawFormula();
+    }
+
+    public void drawFormula() {
+        graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+        currentFormula.displayForEditing(graphics);
+    }
+
+    private void addFormulaCopyToStack() {
+        stackFormula.push(new Formula(currentFormula));
+    }
+
+    /**
+     * Устанавливает тест для прохождения
+     *
+     * @param testForPassage
+     */
+    public void setTestForPassage(Test testForPassage) {
         this.testForPassage = testForPassage;
+        currentQuestion = testForPassage.getTestVoprosList().
+                get(currentQuestionIndex).getVoprosIdVopros();
+        questionsAmount = testForPassage.getTestVoprosList().size();
+        answers = new String[questionsAmount];
+        updateLabel();
+        updateQuestion();
+    }
+
+    private void insertSplitterAndEmptyElements(String splitter) {
+        if (currentFormula.isEmptySelectedElement()) {
+            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
+                addFormulaCopyToStack();
+                currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
+                currentFormula.insertIn(splitter,
+                        currentFormula.getSelectedIndex() + 1, false);
+                drawFormula();
+            } else {
+                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
+                        "Предупреждение", JOptionPane.OK_OPTION);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -41,9 +135,9 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignFrac = new javax.swing.JButton();
         bPreviusQuestion = new javax.swing.JButton();
         bNextQuestion = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        paneForFormulaConstruct = new javax.swing.JPanel();
         lQuestionFormulation = new javax.swing.JLabel();
-        toolBarQuestionNumbers = new javax.swing.JToolBar();
+        labelQuestionNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -75,6 +169,11 @@ public class PassageTestForm extends javax.swing.JDialog {
         tableSymbols.setRowHeight(40);
         tableSymbols.setRowSelectionAllowed(false);
         tableSymbols.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableSymbols.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableSymbolsMouseClicked(evt);
+            }
+        });
         sPaneForSymbolsTable.setViewportView(tableSymbols);
         if (tableSymbols.getColumnModel().getColumnCount() > 0) {
             tableSymbols.getColumnModel().getColumn(0).setResizable(false);
@@ -179,6 +278,12 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
 
         bPreviusQuestion.setText("Предыдущий вопрос");
+        bPreviusQuestion.setEnabled(false);
+        bPreviusQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPreviusQuestionActionPerformed(evt);
+            }
+        });
 
         bNextQuestion.setText("Следующий вопрос");
         bNextQuestion.addActionListener(new java.awt.event.ActionListener() {
@@ -187,23 +292,26 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        paneForFormulaConstruct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paneForFormulaConstructMouseClicked(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout paneForFormulaConstructLayout = new javax.swing.GroupLayout(paneForFormulaConstruct);
+        paneForFormulaConstruct.setLayout(paneForFormulaConstructLayout);
+        paneForFormulaConstructLayout.setHorizontalGroup(
+            paneForFormulaConstructLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        paneForFormulaConstructLayout.setVerticalGroup(
+            paneForFormulaConstructLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
         lQuestionFormulation.setText("Формулировка вопроса");
 
-        toolBarQuestionNumbers.setFloatable(false);
-        toolBarQuestionNumbers.setRollover(true);
+        labelQuestionNumber.setText("Вопрос N/M");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,7 +328,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGap(6, 6, 6)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
@@ -249,8 +357,8 @@ public class PassageTestForm extends javax.swing.JDialog {
                                     .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(12, 12, 12))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(toolBarQuestionNumbers, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(42, 42, 42)
                             .addComponent(bPreviusQuestion)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(bNextQuestion)
@@ -262,12 +370,15 @@ public class PassageTestForm extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bPreviusQuestion)
-                        .addComponent(bNextQuestion))
-                    .addComponent(toolBarQuestionNumbers, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bPreviusQuestion)
+                            .addComponent(bNextQuestion)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -296,7 +407,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -311,37 +422,84 @@ public class PassageTestForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-
+        if (stackFormula.size() > 1) {
+            currentFormula = new Formula(stackFormula.pop());
+        } else {
+            currentFormula = new Formula(stackFormula.peek());
+        }
+        drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
 
     private void bRestartConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRestartConstructionActionPerformed
-
+        makeDefaultFormula();
+        drawFormula();
     }//GEN-LAST:event_bRestartConstructionActionPerformed
 
     private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
-
+        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
+            currentFormula.replaceAtomText(null, i);
+        }
+        drawFormula();
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bClearElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearElementActionPerformed
-
+        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
+        drawFormula();
     }//GEN-LAST:event_bClearElementActionPerformed
 
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
-
+        insertSplitterAndEmptyElements("+");
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void bPutSignMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMinusActionPerformed
-
+        insertSplitterAndEmptyElements("-");
     }//GEN-LAST:event_bPutSignMinusActionPerformed
 
     private void bPutSignMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMultiActionPerformed
-
+        insertSplitterAndEmptyElements("●");
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
     private void bNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNextQuestionActionPerformed
-        toolBarQuestionNumbers.add(new JButton("1"));
-        toolBarQuestionNumbers.updateUI();
+        if (currentQuestionIndex < questionsAmount - 1) {
+            if (currentFormula.hasEmptyElements()) {
+                JOptionPane.showMessageDialog(null,
+                        "В формуле не должно быть пустых элементов",
+                        "Предупреждение", JOptionPane.CLOSED_OPTION);
+            } else {
+                answers[currentQuestionIndex] = currentFormula.getTranscription();
+                currentQuestionIndex++;
+                updateQuestion();
+                drawFormula();
+            }
+        }
+        setButtonNextAndPreviusProperties();
+        updateLabel();
     }//GEN-LAST:event_bNextQuestionActionPerformed
+
+    private void bPreviusQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviusQuestionActionPerformed
+        setButtonNextAndPreviusProperties();
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            updateQuestion();
+            drawFormula();
+        }
+        updateLabel();
+    }//GEN-LAST:event_bPreviusQuestionActionPerformed
+
+    private void paneForFormulaConstructMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForFormulaConstructMouseClicked
+        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
+        drawFormula();
+    }//GEN-LAST:event_paneForFormulaConstructMouseClicked
+
+    private void tableSymbolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseClicked
+        Object value = tableSymbols.getValueAt(
+                tableSymbols.getSelectedRow(),
+                tableSymbols.getSelectedColumn());
+        if (value != null) {
+            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
+        }
+        drawFormula();
+    }//GEN-LAST:event_tableSymbolsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -360,11 +518,11 @@ public class PassageTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bPutSignVector;
     private javax.swing.JButton bRestartConstruction;
     private javax.swing.JButton bUndo;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lQuestionFormulation;
+    private javax.swing.JLabel labelQuestionNumber;
+    private javax.swing.JPanel paneForFormulaConstruct;
     private javax.swing.JScrollPane sPaneForSymbolsTable;
     private javax.swing.JTable tableSymbols;
-    private javax.swing.JToolBar toolBarQuestionNumbers;
     // End of variables declaration//GEN-END:variables
 
 }

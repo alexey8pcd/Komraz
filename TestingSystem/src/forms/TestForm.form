@@ -172,7 +172,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="bOpenAccess">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;center&gt;&#xa;&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &lt;br&gt;&#xa;&#x434;&#x43e;&#x441;&#x442;&#x443;&#x43f; &#x43a; &#x442;&#x435;&#x441;&#x442;&#x443;&#xa;&lt;/html&gt;"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt; &lt;center&gt; &#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x434;&#x43e;&#x441;&#x442;&#x443;&#x43f; &#x43a; &#x442;&#x435;&#x441;&#x442;&#x443;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bOpenAccessActionPerformed"/>
@@ -180,7 +183,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="bCloseAccess">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;center&gt;&#xa;&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &lt;br&gt;&#xa;&#x434;&#x43e;&#x441;&#x442;&#x443;&#x43f; &#x43a; &#x442;&#x435;&#x441;&#x442;&#x443;&#xa;&lt;/html&gt;"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt; &lt;center&gt;&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x434;&#x43e;&#x441;&#x442;&#x443;&#x43f; &#x43a; &#x442;&#x435;&#x441;&#x442;&#x443;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCloseAccessActionPerformed"/>
@@ -188,7 +194,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="bViewResult">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;center&gt;&#xa;&#x41f;&#x440;&#x43e;&#x441;&#x43c;&#x43e;&#x442;&#x440;&#x435;&#x442;&#x44c; &lt;br&gt;&#xa;&#x440;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&#x44b;&#xa;&lt;/html&gt;"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41f;&#x440;&#x43e;&#x441;&#x43c;&#x43e;&#x442;&#x440;&#x435;&#x442;&#x44c; &#x440;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&#x44b;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bViewResultActionPerformed"/>

@@ -187,21 +187,24 @@ public class TestForm extends javax.swing.JDialog {
 
         lTests.setText("Тесты:");
 
-        bOpenAccess.setText("<html>\n<center>\nОткрыть <br>\nдоступ к тесту\n</html>");
+        bOpenAccess.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bOpenAccess.setText("<html> <center> Открыть доступ к тесту");
         bOpenAccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bOpenAccessActionPerformed(evt);
             }
         });
 
-        bCloseAccess.setText("<html>\n<center>\nЗакрыть <br>\nдоступ к тесту\n</html>");
+        bCloseAccess.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bCloseAccess.setText("<html> <center>Закрыть доступ к тесту");
         bCloseAccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCloseAccessActionPerformed(evt);
             }
         });
 
-        bViewResult.setText("<html>\n<center>\nПросмотреть <br>\nрезультаты\n</html>");
+        bViewResult.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bViewResult.setText("<html><center>Просмотреть результаты");
         bViewResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bViewResultActionPerformed(evt);
