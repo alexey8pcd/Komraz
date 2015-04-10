@@ -1,11 +1,9 @@
 package forms;
 
-import entities.Disciplina;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.util.List;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;

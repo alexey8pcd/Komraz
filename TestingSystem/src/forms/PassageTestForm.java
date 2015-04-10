@@ -1,17 +1,25 @@
 package forms;
 
+import entities.Test;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 /**
  *
  * @author Алексей
  */
 public class PassageTestForm extends javax.swing.JDialog {
+
+    private Test testForPassage;
+
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
+
+    void setTestForPassage(Test get) {
+        this.testForPassage = testForPassage;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
