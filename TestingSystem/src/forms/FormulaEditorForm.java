@@ -128,7 +128,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Редактор формулы");
         setResizable(false);
-        setSize(new java.awt.Dimension(800, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -364,7 +363,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
         bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterGreekAlphabet.setText("<html>δ\n<br>|\n<br>|\n<br>v\n<br>Δ");
+        bChangeRegisterGreekAlphabet.setText("<html>Δ\n<br>^\n<br>|\n<br>|\n<br>δ");
         bChangeRegisterGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bChangeRegisterGreekAlphabetMouseClicked(evt);
@@ -372,7 +371,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bChangeRegisterLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterLatinAlphabet.setText("<html>a\n<br>|\n<br>|\n<br>v\n<br>A");
+        bChangeRegisterLatinAlphabet.setText("<html>A\n<br>^\n<br>|\n<br>|\n<br>a");
         bChangeRegisterLatinAlphabet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bChangeRegisterLatinAlphabetActionPerformed(evt);

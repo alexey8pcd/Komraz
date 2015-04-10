@@ -19,8 +19,14 @@ public class DBManager {
 
     public static final EntityManagerFactory managerFactory = 
             Persistence.createEntityManagerFactory("TestingSystemPU");
-    public static EntityManager entityManager = managerFactory.createEntityManager();
+    public static EntityManager entityManager = 
+            managerFactory.createEntityManager();
     
+    /**
+     * Метод сохранения объекта в БД посредством ORM (Eclipse JPA 2.0)
+     * @param object сохраняем объект
+     * @throws Exception возможное исключение на запись в БД
+     */
     public static void writeObject(Object object) throws Exception{
         entityManager.getTransaction().begin();
         entityManager.persist(object);
