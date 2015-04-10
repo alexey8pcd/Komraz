@@ -1,6 +1,7 @@
 package forms;
 
 import entities.Disciplina;
+import entities.StatusTesta;
 import entities.Test;
 import entities.TestVopros;
 import entities.Vopros;
@@ -199,6 +200,11 @@ public class TestForm extends javax.swing.JDialog {
         });
 
         bCloseAccess.setText("<html>\n<center>\nЗакрыть <br>\nдоступ к тесту\n</html>");
+        bCloseAccess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseAccessActionPerformed(evt);
+            }
+        });
 
         bViewResult.setText("<html>\n<center>\nПросмотреть <br>\nрезультаты\n</html>");
         bViewResult.addActionListener(new java.awt.event.ActionListener() {
@@ -316,8 +322,38 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
-        OpenTestForm openTest = new OpenTestForm(null, true);
-        openTest.setVisible(true);
+        
+        boolean correct = true; 
+        
+        if (tableListOfTests.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Тест не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        }
+        
+        
+        if (correct) {
+            
+            Test test = tests.get(tableListOfTests.getSelectedRow());
+            
+            StatusTesta st = new StatusTesta();
+            st.setIdStatusTesta(1);
+            test.setStatusTestaIdStatusTesta(st);
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(test);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+            
+//            OpenTestForm openTest = new OpenTestForm(null, true);
+//            openTest.setTest(test);
+//            openTest.setVisible(true);
+            
+            refresh();
+        }
     }//GEN-LAST:event_bOpenAccessActionPerformed
 
     private void bViewResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bViewResultActionPerformed
@@ -329,6 +365,38 @@ public class TestForm extends javax.swing.JDialog {
         refresh();
     }//GEN-LAST:event_listSubjectsMouseClicked
 
+    private void bCloseAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseAccessActionPerformed
+        // TODO add your handling code here:
+        
+        boolean correct = true; 
+        
+        if (tableListOfTests.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Тест не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        }
+        
+        if (correct) {
+            
+            Test test = tests.get(tableListOfTests.getSelectedRow());
+            
+            StatusTesta st = new StatusTesta();
+            st.setIdStatusTesta(2);
+            test.setStatusTestaIdStatusTesta(st);
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(test);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            refresh();
+        }
+        
+        
+    }//GEN-LAST:event_bCloseAccessActionPerformed
     private void bDeleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteTestActionPerformed
         int selectedIndex = tableListOfTests.getSelectedRow();
 

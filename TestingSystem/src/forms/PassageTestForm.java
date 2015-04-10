@@ -1,5 +1,6 @@
 package forms;
 
+import entities.Test;
 import javax.swing.JButton;
 
 /**
@@ -7,10 +8,18 @@ import javax.swing.JButton;
  * @author Алексей
  */
 public class PassageTestForm extends javax.swing.JDialog {
+
+    private Test testForPassage;
+
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
+
+    void setTestForPassage(Test get) {
+        this.testForPassage = testForPassage;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,6 +46,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         toolBarQuestionNumbers = new javax.swing.JToolBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Прохождение теста");
+        setResizable(false);
 
         tableSymbols.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
