@@ -316,8 +316,13 @@ public class TestForm extends javax.swing.JDialog {
             correct = false;
         }
         
+        
         if (correct) {
+            
+            Test test = tests.get(tableListOfTests.getSelectedRow());
+            
             OpenTestForm openTest = new OpenTestForm(null, true);
+            openTest.setTest(test);
             openTest.setVisible(true);
         }
     }//GEN-LAST:event_bOpenAccessActionPerformed
