@@ -6,7 +6,6 @@ import entities.TipVoprosa;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
-import java.nio.charset.StandardCharsets;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
 import javax.swing.AbstractListModel;
