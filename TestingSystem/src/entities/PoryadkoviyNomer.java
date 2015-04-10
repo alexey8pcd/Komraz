@@ -91,13 +91,10 @@ public class PoryadkoviyNomer implements Serializable {
             return false;
         }
         PoryadkoviyNomer other = (PoryadkoviyNomer) object;
-        if ((this.idPoryadkoviyNomer == null
+        return !((this.idPoryadkoviyNomer == null
                 && other.idPoryadkoviyNomer != null)
-                || (this.idPoryadkoviyNomer != null 
-                && !this.idPoryadkoviyNomer.equals(other.idPoryadkoviyNomer))) {
-            return false;
-        }
-        return true;
+                || (this.idPoryadkoviyNomer != null
+                && !this.idPoryadkoviyNomer.equals(other.idPoryadkoviyNomer)));
     }
 
     @Override

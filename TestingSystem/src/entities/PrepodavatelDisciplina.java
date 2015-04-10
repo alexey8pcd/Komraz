@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Solovenko
  */
 @Entity
-@Table(name = "prepodavatel-disciplina")
+@Table(name = "prepodavatel_disciplina")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PrepodavatelDisciplina.findAll", 
@@ -32,7 +32,7 @@ public class PrepodavatelDisciplina implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_PREPODAVATEL-DISCIPLINA")
+    @Column(name = "ID_PREPODAVATEL_DISCIPLINA")
     private Integer idPrepodavatelDisciplina;
     @JoinColumn(name = "DISCIPLINA_ID_DISCIPLINA", 
             referencedColumnName = "ID_DISCIPLINA")

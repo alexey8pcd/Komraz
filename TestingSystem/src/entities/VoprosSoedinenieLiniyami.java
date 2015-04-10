@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Solovenko
  */
 @Entity
-@Table(name = "vopros-soedinenie_liniyami")
+@Table(name = "vopros_soedinenie_liniyami")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VoprosSoedinenieLiniyami.findAll", 
@@ -37,7 +37,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_VOPROS-SOEDINENIE_LINIYAMI")
+    @Column(name = "ID_VOPROS_SOEDINENIE_LINIYAMI")
     private Integer idVoprosSoedinenieLiniyami;
     @OneToMany(cascade = CascadeType.ALL, 
             mappedBy = "voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami")

@@ -283,22 +283,24 @@ public class AddTestForm extends javax.swing.JDialog {
             query.setParameter("naimenovanie", "Закрыт");
             statusTesta = query.getSingleResult();
             test.setStatusTestaIdStatusTesta(statusTesta);
-            //добавить данные о соответствии тестов и вопросов
-            List<TestVopros> listTestVopros = new ArrayList<>();
-            for (Vopros v : TEST_QUESTIONS) {
-                TestVopros testVopros = new TestVopros();
-                testVopros.setTestIdTest(test);
-                testVopros.setVoprosIdVopros(v);
-                listTestVopros.add(testVopros);
-            }
-            test.setTestVoprosList(listTestVopros);
             try {
                 DBManager.writeObject(test);
+                //добавить данные о соответствии тестов и вопросов
+                entityManager.getTransaction().begin();
+                for (Vopros v : TEST_QUESTIONS) {
+                    TestVopros testVopros = new TestVopros();
+                    testVopros.setTestIdTest(test);
+                    testVopros.setVoprosIdVopros(v);
+                    entityManager.persist(testVopros);
+                }
+                entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.toString(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
+            dispose();
         }
+        
     }//GEN-LAST:event_bSaveTestActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

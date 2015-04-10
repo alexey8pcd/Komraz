@@ -2,7 +2,10 @@ package forms;
 
 import entities.Disciplina;
 import entities.Test;
+import entities.TestVopros;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
@@ -10,7 +13,6 @@ import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
-import sql.DBManager;
 import static sql.DBManager.entityManager;
 
 /**
@@ -70,6 +72,7 @@ public class TestForm extends javax.swing.JDialog {
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
         header.getColumnModel().getColumn(1).setHeaderValue("Название теста");
         tableListOfTests.setTableHeader(header);
+        tableListOfTests.getColumnModel().getColumn(0);
         if (subjects != null) {
             listSubjects.updateUI();
         }
@@ -82,12 +85,23 @@ public class TestForm extends javax.swing.JDialog {
                     "Disciplina.findAll",
                     Disciplina.class).getResultList();
             int selectedIndex = listSubjects.getSelectedIndex();
-            if (selectedIndex != -1 && selectedIndex < subjects.size()) {
-//                TypedQuery<Test> query = entityManager.createQuery(
-//                        "SELECT t FROM Test t WHERE t.", Test.class);
+            if (selectedIndex == -1) {
+                //отобразить все тесты
+                tests = entityManager.createNamedQuery("Test.findAll",
+                        Test.class).getResultList();
+            } else if (selectedIndex < subjects.size()) {
+                //отобразить тесты, которые содержат только вопросы по
+                //заданной дисциплине
+                TypedQuery<Test> query = entityManager.createQuery(
+                        "SELECT tv.testIdTest from TestVopros tv WHERE "
+                        + "tv.voprosIdVopros.disciplinaIdDisciplina."
+                        + "idDisciplina=:id GROUP BY tv.testIdTest.idTest", 
+                        Test.class);
+                query.setParameter("id",
+                        subjects.get(selectedIndex).getIdDisciplina());
+                tests = query.getResultList();
             }
-            
-
+            tableListOfTests.updateUI();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(),
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -116,9 +130,9 @@ public class TestForm extends javax.swing.JDialog {
         setTitle("Тесты");
         setResizable(false);
 
-        listSubjects.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listSubjectsValueChanged(evt);
+        listSubjects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listSubjectsMouseClicked(evt);
             }
         });
         sPaneForListSubjects.setViewportView(listSubjects);
@@ -278,6 +292,7 @@ public class TestForm extends javax.swing.JDialog {
             AddTestForm addTest = new AddTestForm(null, true);
             addTest.setSubject(subjects.get(selectedIndex));
             addTest.setVisible(true);
+            refresh();
         } else {
             JOptionPane.showMessageDialog(null, "Дисциплина не выбрана",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -295,13 +310,9 @@ public class TestForm extends javax.swing.JDialog {
         testResult.setVisible(true);
     }//GEN-LAST:event_bViewResultActionPerformed
 
-    private void listSubjectsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listSubjectsValueChanged
-//        tests = DBManager.entityManager.createQuery(
-//                    "SELECT t FROM Test t", Test.class).getResultList();
-//        if (tests != null) {
-//            tableListOfTests.updateUI();
-//        }
-    }//GEN-LAST:event_listSubjectsValueChanged
+    private void listSubjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSubjectsMouseClicked
+        refresh();
+    }//GEN-LAST:event_listSubjectsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

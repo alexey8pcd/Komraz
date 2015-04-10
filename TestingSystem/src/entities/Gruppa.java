@@ -87,7 +87,8 @@ public class Gruppa implements Serializable {
             return false;
         }
         Gruppa other = (Gruppa) object;
-        if ((this.idGruppa == null && other.idGruppa != null) || (this.idGruppa != null && !this.idGruppa.equals(other.idGruppa))) {
+        if ((this.idGruppa == null && other.idGruppa != null) || 
+                (this.idGruppa != null && !this.idGruppa.equals(other.idGruppa))) {
             return false;
         }
         return true;

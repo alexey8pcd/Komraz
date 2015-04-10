@@ -42,8 +42,8 @@ public class SootvetstvieKartinok implements Serializable {
             referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
     private Kartinka kartinkaIdKartinka2;
-    @JoinColumn(name = "VOPROS-SOEDINENIE_LINIYAMI_ID_VOPROS-SOEDINENIE_LINIYAMI", 
-            referencedColumnName = "ID_VOPROS-SOEDINENIE_LINIYAMI")
+    @JoinColumn(name = "VOPROS_SOEDINENIE_LINIYAMI_ID_VOPROS_SOEDINENIE_LINIYAMI", 
+            referencedColumnName = "ID_VOPROS_SOEDINENIE_LINIYAMI")
     @ManyToOne(optional = false)
     private VoprosSoedinenieLiniyami 
             voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;

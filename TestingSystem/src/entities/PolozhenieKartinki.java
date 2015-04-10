@@ -42,9 +42,9 @@ public class PolozhenieKartinki implements Serializable {
             referencedColumnName = "ID_PORYADKOVIY_NOMER")
     @ManyToOne(optional = false)
     private PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer;
-    @JoinColumn(name = "VOPROS-PERETASKIVANIE_KARTINOK_"
-            + "ID_VOPROS-PERETASKIVANIE_KARTINOK", 
-            referencedColumnName = "ID_VOPROS-PERETASKIVANIE_KARTINOK")
+    @JoinColumn(name = "VOPROS_PERETASKIVANIE_KARTINOK_"
+            + "ID_VOPROS_PERETASKIVANIE_KARTINOK", 
+            referencedColumnName = "ID_VOPROS_PERETASKIVANIE_KARTINOK")
     @ManyToOne(optional = false)
     private VoprosPeretaskivanieKartinok 
             voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
@@ -107,7 +107,8 @@ public class PolozhenieKartinki implements Serializable {
             return false;
         }
         PolozhenieKartinki other = (PolozhenieKartinki) object;
-        if ((this.idPolozhenieKartinki == null && other.idPolozhenieKartinki != null) || (this.idPolozhenieKartinki != null && !this.idPolozhenieKartinki.equals(other.idPolozhenieKartinki))) {
+        if ((this.idPolozhenieKartinki == null && other.idPolozhenieKartinki != null) 
+                || (this.idPolozhenieKartinki != null && !this.idPolozhenieKartinki.equals(other.idPolozhenieKartinki))) {
             return false;
         }
         return true;
