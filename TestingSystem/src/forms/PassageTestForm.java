@@ -5,6 +5,8 @@ import entities.Vopros;
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import main.Formula;
 
 /**
@@ -21,7 +23,44 @@ public class PassageTestForm extends javax.swing.JDialog {
     private Formula currentFormula;
     private final Stack<Formula> stackFormula;
     private String[] answers;
+    /*
+    * НУЖНЫЙ КОД ДЛЯ КОРРЕКТНЫХ БУКВ В tableSymbols
+    *
+    private final TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
 
+        @Override
+        public int getRowCount() {
+            if (tests != null) {
+                return tests.size();
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            if (columnIndex == 0) {
+                return tests.get(rowIndex).getStatusTestaIdStatusTesta().
+                        getNaimenovanie().equalsIgnoreCase("Открыт");
+            } else {
+                return tests.get(rowIndex).getNazvanie();
+            }
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            if (columnIndex == 0) {
+                return Boolean.class;
+            }
+            return super.getColumnClass(columnIndex); 
+        }
+    };
+*/
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
