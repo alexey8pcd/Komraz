@@ -26,16 +26,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "student")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Student.findAll", 
-            query = "SELECT s FROM Student s"),
-    @NamedQuery(name = "Student.findByIdStudent", 
-            query = "SELECT s FROM Student s WHERE s.idStudent = :idStudent"),
-    @NamedQuery(name = "Student.findByFio", 
-            query = "SELECT s FROM Student s WHERE s.fio = :fio"),
-    @NamedQuery(name = "Student.findByLogin", 
-            query = "SELECT s FROM Student s WHERE s.login = :login"),
-    @NamedQuery(name = "Student.findByPassword", 
-            query = "SELECT s FROM Student s WHERE s.password = :password")})
+    @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
+    @NamedQuery(name = "Student.findByIdStudent", query = "SELECT s FROM Student s WHERE s.idStudent = :idStudent"),
+    @NamedQuery(name = "Student.findByFio", query = "SELECT s FROM Student s WHERE s.fio = :fio"),
+    @NamedQuery(name = "Student.findByLogin", query = "SELECT s FROM Student s WHERE s.login = :login"),
+    @NamedQuery(name = "Student.findByPassword", query = "SELECT s FROM Student s WHERE s.password = :password")})
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,9 +120,7 @@ public class Student implements Serializable {
             return false;
         }
         Student other = (Student) object;
-        if ((this.idStudent == null && other.idStudent != null) 
-                || (this.idStudent != null 
-                && !this.idStudent.equals(other.idStudent))) {
+        if ((this.idStudent == null && other.idStudent != null) || (this.idStudent != null && !this.idStudent.equals(other.idStudent))) {
             return false;
         }
         return true;

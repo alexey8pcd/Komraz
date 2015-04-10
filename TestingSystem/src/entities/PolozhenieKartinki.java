@@ -22,11 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "polozhenie_kartinki")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PolozhenieKartinki.findAll", 
-            query = "SELECT p FROM PolozhenieKartinki p"),
-    @NamedQuery(name = "PolozhenieKartinki.findByIdPolozhenieKartinki", 
-            query = "SELECT p FROM PolozhenieKartinki p "
-                    + "WHERE p.idPolozhenieKartinki = :idPolozhenieKartinki")})
+    @NamedQuery(name = "PolozhenieKartinki.findAll", query = "SELECT p FROM PolozhenieKartinki p"),
+    @NamedQuery(name = "PolozhenieKartinki.findByIdPolozhenieKartinki", query = "SELECT p FROM PolozhenieKartinki p WHERE p.idPolozhenieKartinki = :idPolozhenieKartinki")})
 public class PolozhenieKartinki implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,20 +31,15 @@ public class PolozhenieKartinki implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_POLOZHENIE_KARTINKI")
     private Integer idPolozhenieKartinki;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA", 
-            referencedColumnName = "ID_KARTINKA")
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
     private Kartinka kartinkaIdKartinka;
-    @JoinColumn(name = "PORYADKOVIY_NOMER_ID_PORYADKOVIY_NOMER", 
-            referencedColumnName = "ID_PORYADKOVIY_NOMER")
+    @JoinColumn(name = "PORYADKOVIY_NOMER_ID_PORYADKOVIY_NOMER", referencedColumnName = "ID_PORYADKOVIY_NOMER")
     @ManyToOne(optional = false)
     private PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer;
-    @JoinColumn(name = "VOPROS-PERETASKIVANIE_KARTINOK_"
-            + "ID_VOPROS-PERETASKIVANIE_KARTINOK", 
-            referencedColumnName = "ID_VOPROS-PERETASKIVANIE_KARTINOK")
+    @JoinColumn(name = "VOPROS_PERETASKIVANIE_KARTINOK_ID_VOPROS_PERETASKIVANIE_KARTINOK", referencedColumnName = "ID_VOPROS_PERETASKIVANIE_KARTINOK")
     @ManyToOne(optional = false)
-    private VoprosPeretaskivanieKartinok 
-            voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
+    private VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
 
     public PolozhenieKartinki() {
     }
@@ -76,21 +68,16 @@ public class PolozhenieKartinki implements Serializable {
         return poryadkoviyNomerIdPoryadkoviyNomer;
     }
 
-    public void setPoryadkoviyNomerIdPoryadkoviyNomer(
-            PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer) {
-        this.poryadkoviyNomerIdPoryadkoviyNomer = 
-                poryadkoviyNomerIdPoryadkoviyNomer;
+    public void setPoryadkoviyNomerIdPoryadkoviyNomer(PoryadkoviyNomer poryadkoviyNomerIdPoryadkoviyNomer) {
+        this.poryadkoviyNomerIdPoryadkoviyNomer = poryadkoviyNomerIdPoryadkoviyNomer;
     }
 
-    public VoprosPeretaskivanieKartinok 
-        getVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok() {
+    public VoprosPeretaskivanieKartinok getVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok() {
         return voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
     }
 
-    public void setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
-            VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok) {
-        this.voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok = 
-                voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
+    public void setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok) {
+        this.voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok = voprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok;
     }
 
     @Override

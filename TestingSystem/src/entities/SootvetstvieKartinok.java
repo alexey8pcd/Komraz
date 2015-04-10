@@ -22,11 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sootvetstvie_kartinok")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SootvetstvieKartinok.findAll", 
-            query = "SELECT s FROM SootvetstvieKartinok s"),
-    @NamedQuery(name = "SootvetstvieKartinok.findByIdSootvetstvieKartinok", 
-            query = "SELECT s FROM SootvetstvieKartinok s "
-                    + "WHERE s.idSootvetstvieKartinok = :idSootvetstvieKartinok")})
+    @NamedQuery(name = "SootvetstvieKartinok.findAll", query = "SELECT s FROM SootvetstvieKartinok s"),
+    @NamedQuery(name = "SootvetstvieKartinok.findByIdSootvetstvieKartinok", query = "SELECT s FROM SootvetstvieKartinok s WHERE s.idSootvetstvieKartinok = :idSootvetstvieKartinok")})
 public class SootvetstvieKartinok implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,19 +31,15 @@ public class SootvetstvieKartinok implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_SOOTVETSTVIE_KARTINOK")
     private Integer idSootvetstvieKartinok;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA", 
-            referencedColumnName = "ID_KARTINKA")
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
     private Kartinka kartinkaIdKartinka;
-    @JoinColumn(name = "KARTINKA_ID_KARTINKA2", 
-            referencedColumnName = "ID_KARTINKA")
+    @JoinColumn(name = "KARTINKA_ID_KARTINKA2", referencedColumnName = "ID_KARTINKA")
     @ManyToOne(optional = false)
     private Kartinka kartinkaIdKartinka2;
-    @JoinColumn(name = "VOPROS-SOEDINENIE_LINIYAMI_ID_VOPROS-SOEDINENIE_LINIYAMI", 
-            referencedColumnName = "ID_VOPROS-SOEDINENIE_LINIYAMI")
+    @JoinColumn(name = "VOPROS_SOEDINENIE_LINIYAMI_ID_VOPROS_SOEDINENIE_LINIYAMI", referencedColumnName = "ID_VOPROS_SOEDINENIE_LINIYAMI")
     @ManyToOne(optional = false)
-    private VoprosSoedinenieLiniyami 
-            voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
+    private VoprosSoedinenieLiniyami voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
 
     public SootvetstvieKartinok() {
     }
@@ -79,15 +72,12 @@ public class SootvetstvieKartinok implements Serializable {
         this.kartinkaIdKartinka2 = kartinkaIdKartinka2;
     }
 
-    public VoprosSoedinenieLiniyami 
-        getVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami() {
+    public VoprosSoedinenieLiniyami getVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami() {
         return voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
     }
 
-    public void setVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami(
-            VoprosSoedinenieLiniyami voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami) {
-        this.voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami = 
-                voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
+    public void setVoprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami(VoprosSoedinenieLiniyami voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami) {
+        this.voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami = voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami;
     }
 
     @Override
@@ -104,10 +94,7 @@ public class SootvetstvieKartinok implements Serializable {
             return false;
         }
         SootvetstvieKartinok other = (SootvetstvieKartinok) object;
-        if ((this.idSootvetstvieKartinok == null 
-                && other.idSootvetstvieKartinok != null) 
-                || (this.idSootvetstvieKartinok != null 
-                && !this.idSootvetstvieKartinok.equals(other.idSootvetstvieKartinok))) {
+        if ((this.idSootvetstvieKartinok == null && other.idSootvetstvieKartinok != null) || (this.idSootvetstvieKartinok != null && !this.idSootvetstvieKartinok.equals(other.idSootvetstvieKartinok))) {
             return false;
         }
         return true;
@@ -115,8 +102,7 @@ public class SootvetstvieKartinok implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.SootvetstvieKartinok[ idSootvetstvieKartinok=" + 
-                idSootvetstvieKartinok + " ]";
+        return "entities.SootvetstvieKartinok[ idSootvetstvieKartinok=" + idSootvetstvieKartinok + " ]";
     }
 
 }

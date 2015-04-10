@@ -24,12 +24,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "disciplina")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Disciplina.findAll", 
-            query = "SELECT d FROM Disciplina d"),
-    @NamedQuery(name = "Disciplina.findByIdDisciplina", 
-            query = "SELECT d FROM Disciplina d WHERE d.idDisciplina = :idDisciplina"),
-    @NamedQuery(name = "Disciplina.findByNazvanie", 
-            query = "SELECT d FROM Disciplina d WHERE d.nazvanie = :nazvanie")})
+    @NamedQuery(name = "Disciplina.findAll", query = "SELECT d FROM Disciplina d"),
+    @NamedQuery(name = "Disciplina.findByIdDisciplina", query = "SELECT d FROM Disciplina d WHERE d.idDisciplina = :idDisciplina"),
+    @NamedQuery(name = "Disciplina.findByNazvanie", query = "SELECT d FROM Disciplina d WHERE d.nazvanie = :nazvanie")})
 public class Disciplina implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,9 +39,9 @@ public class Disciplina implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
     private List<Kartinka> kartinkaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
-    private List<Vopros> voprosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
     private List<PrepodavatelDisciplina> prepodavatelDisciplinaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplinaIdDisciplina")
+    private List<Vopros> voprosList;
 
     public Disciplina() {
     }
@@ -79,21 +76,21 @@ public class Disciplina implements Serializable {
     }
 
     @XmlTransient
-    public List<Vopros> getVoprosList() {
-        return voprosList;
-    }
-
-    public void setVoprosList(List<Vopros> voprosList) {
-        this.voprosList = voprosList;
-    }
-
-    @XmlTransient
     public List<PrepodavatelDisciplina> getPrepodavatelDisciplinaList() {
         return prepodavatelDisciplinaList;
     }
 
     public void setPrepodavatelDisciplinaList(List<PrepodavatelDisciplina> prepodavatelDisciplinaList) {
         this.prepodavatelDisciplinaList = prepodavatelDisciplinaList;
+    }
+
+    @XmlTransient
+    public List<Vopros> getVoprosList() {
+        return voprosList;
+    }
+
+    public void setVoprosList(List<Vopros> voprosList) {
+        this.voprosList = voprosList;
     }
 
     @Override

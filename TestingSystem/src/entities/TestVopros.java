@@ -19,20 +19,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Solovenko
  */
 @Entity
-@Table(name = "test-vopros")
+@Table(name = "test_vopros")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TestVopros.findAll", 
-            query = "SELECT t FROM TestVopros t"),
-    @NamedQuery(name = "TestVopros.findByIdTestVopros", 
-            query = "SELECT t FROM TestVopros t "
-                    + "WHERE t.idTestVopros = :idTestVopros")})
+    @NamedQuery(name = "TestVopros.findAll", query = "SELECT t FROM TestVopros t"),
+    @NamedQuery(name = "TestVopros.findByIdTestVopros", query = "SELECT t FROM TestVopros t WHERE t.idTestVopros = :idTestVopros")})
 public class TestVopros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_TEST-VOPROS")
+    @Column(name = "ID_TEST_VOPROS")
     private Integer idTestVopros;
     @JoinColumn(name = "TEST_ID_TEST", referencedColumnName = "ID_TEST")
     @ManyToOne(optional = false)
@@ -86,9 +83,7 @@ public class TestVopros implements Serializable {
             return false;
         }
         TestVopros other = (TestVopros) object;
-        if ((this.idTestVopros == null && other.idTestVopros != null) 
-                || (this.idTestVopros != null 
-                && !this.idTestVopros.equals(other.idTestVopros))) {
+        if ((this.idTestVopros == null && other.idTestVopros != null) || (this.idTestVopros != null && !this.idTestVopros.equals(other.idTestVopros))) {
             return false;
         }
         return true;
