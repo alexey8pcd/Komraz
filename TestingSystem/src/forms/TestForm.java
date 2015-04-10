@@ -75,7 +75,9 @@ public class TestForm extends javax.swing.JDialog {
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
         refresh();
+//        tableListOfTests.getColumnModel().getColumn(0).setWidth(5);
         JTableHeader header = tableListOfTests.getTableHeader();
+        header.getColumnModel().getColumn(1).setWidth(50);
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
         header.getColumnModel().getColumn(1).setHeaderValue("Название теста");
         tableListOfTests.setTableHeader(header);
