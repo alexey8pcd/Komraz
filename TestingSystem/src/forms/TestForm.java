@@ -2,10 +2,7 @@ package forms;
 
 import entities.Disciplina;
 import entities.Test;
-import entities.TestVopros;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
