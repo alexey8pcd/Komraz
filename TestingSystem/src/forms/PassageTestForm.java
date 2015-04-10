@@ -97,6 +97,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         answers = new String[questionsAmount];
         updateLabel();
         updateQuestion();
+        setButtonNextAndPreviusProperties();
 
     }
 
@@ -512,6 +513,7 @@ public class PassageTestForm extends javax.swing.JDialog {
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
         int scored = 0;
         int maximalScore = 0;
+        answers[currentQuestionIndex] = currentFormula.getTranscription();
         for (int i = 0; i < questionsAmount; i++) {
             Vopros vopros = this.testForPassage.
                     getTestVoprosList().get(i).getVoprosIdVopros();
