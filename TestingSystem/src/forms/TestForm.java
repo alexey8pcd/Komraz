@@ -84,6 +84,7 @@ public class TestForm extends javax.swing.JDialog {
         tableListOfTests.getColumnModel().getColumn(0);
         if (subjects != null) {
             listSubjects.updateUI();
+            listSubjects.setSelectedIndex(0);
         }
 
     }
