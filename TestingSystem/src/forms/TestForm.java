@@ -4,8 +4,6 @@ import entities.Disciplina;
 import entities.StatusTesta;
 import entities.Test;
 import entities.TestVopros;
-import entities.Vopros;
-import entities.VoprosLatex;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -78,7 +76,6 @@ public class TestForm extends javax.swing.JDialog {
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
         refresh();
-//        tableListOfTests.getColumnModel().getColumn(0).setWidth(5);
         JTableHeader header = tableListOfTests.getTableHeader();
         header.getColumnModel().getColumn(1).setWidth(50);
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
@@ -90,7 +87,7 @@ public class TestForm extends javax.swing.JDialog {
         }
 
     }
-
+    
     private void refresh() {
         try {
             subjects = entityManager.createNamedQuery(
@@ -331,7 +328,6 @@ public class TestForm extends javax.swing.JDialog {
             correct = false;
         }
         
-        
         if (correct) {
             
             Test test = tests.get(tableListOfTests.getSelectedRow());
@@ -348,6 +344,7 @@ public class TestForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
             
+//            Для 2ой и 3ей итерации
 //            OpenTestForm openTest = new OpenTestForm(null, true);
 //            openTest.setTest(test);
 //            openTest.setVisible(true);

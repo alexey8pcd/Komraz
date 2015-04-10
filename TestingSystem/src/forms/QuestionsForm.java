@@ -58,7 +58,7 @@ public class QuestionsForm extends javax.swing.JDialog {
         }
     };
 
-    private void loadQuestionsFromDB() {
+    private void refresh() {
         try {
             questions = entityManager.createNamedQuery("Vopros.findAll",
                     Vopros.class).getResultList();
@@ -75,7 +75,7 @@ public class QuestionsForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         tableQuestions.setModel(tableModel);
-        loadQuestionsFromDB();
+        refresh();
         JTableHeader header = tableQuestions.getTableHeader();
         for (int i = 0; i < tableHeaderValues.length; i++) {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
@@ -211,7 +211,7 @@ public class QuestionsForm extends javax.swing.JDialog {
     private void bCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateQuestionActionPerformed
         QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
-        loadQuestionsFromDB();
+        refresh();
     }//GEN-LAST:event_bCreateQuestionActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
@@ -251,7 +251,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                         }
                     }
             }
-            loadQuestionsFromDB();
+            refresh();
         }
     }//GEN-LAST:event_bDeleteQuestionActionPerformed
 
