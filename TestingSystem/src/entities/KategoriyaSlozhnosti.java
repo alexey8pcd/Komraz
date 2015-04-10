@@ -24,14 +24,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "kategoriya_slozhnosti")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "KategoriyaSlozhnosti.findAll", 
-            query = "SELECT k FROM KategoriyaSlozhnosti k"),
-    @NamedQuery(name = "KategoriyaSlozhnosti.findByIdKategoriyaSlozhnosti", 
-            query = "SELECT k FROM KategoriyaSlozhnosti k "
-                    + "WHERE k.idKategoriyaSlozhnosti = :idKategoriyaSlozhnosti"),
-    @NamedQuery(name = "KategoriyaSlozhnosti.findByNazvanie", 
-            query = "SELECT k FROM KategoriyaSlozhnosti k "
-                    + "WHERE k.nazvanie = :nazvanie")})
+    @NamedQuery(name = "KategoriyaSlozhnosti.findAll", query = "SELECT k FROM KategoriyaSlozhnosti k"),
+    @NamedQuery(name = "KategoriyaSlozhnosti.findByIdKategoriyaSlozhnosti", query = "SELECT k FROM KategoriyaSlozhnosti k WHERE k.idKategoriyaSlozhnosti = :idKategoriyaSlozhnosti"),
+    @NamedQuery(name = "KategoriyaSlozhnosti.findByNazvanie", query = "SELECT k FROM KategoriyaSlozhnosti k WHERE k.nazvanie = :nazvanie")})
 public class KategoriyaSlozhnosti implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,8 +36,7 @@ public class KategoriyaSlozhnosti implements Serializable {
     private Integer idKategoriyaSlozhnosti;
     @Column(name = "NAZVANIE")
     private String nazvanie;
-    @OneToMany(cascade = CascadeType.ALL, 
-            mappedBy = "kategoriyaSlozhnostiIdKategoriyaSlozhnosti")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kategoriyaSlozhnostiIdKategoriyaSlozhnosti")
     private List<Vopros> voprosList;
 
     public KategoriyaSlozhnosti() {

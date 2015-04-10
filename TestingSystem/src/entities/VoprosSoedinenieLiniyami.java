@@ -26,12 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "vopros_soedinenie_liniyami")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "VoprosSoedinenieLiniyami.findAll", 
-            query = "SELECT v FROM VoprosSoedinenieLiniyami v"),
-    @NamedQuery(name = "VoprosSoedinenieLiniyami.findByIdVoprosSoedinenieLiniyami", 
-            query = "SELECT v FROM VoprosSoedinenieLiniyami v "
-                    + "WHERE v.idVoprosSoedinenieLiniyami = "
-                    + ":idVoprosSoedinenieLiniyami")})
+    @NamedQuery(name = "VoprosSoedinenieLiniyami.findAll", query = "SELECT v FROM VoprosSoedinenieLiniyami v"),
+    @NamedQuery(name = "VoprosSoedinenieLiniyami.findByIdVoprosSoedinenieLiniyami", query = "SELECT v FROM VoprosSoedinenieLiniyami v WHERE v.idVoprosSoedinenieLiniyami = :idVoprosSoedinenieLiniyami")})
 public class VoprosSoedinenieLiniyami implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,11 +35,9 @@ public class VoprosSoedinenieLiniyami implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_VOPROS_SOEDINENIE_LINIYAMI")
     private Integer idVoprosSoedinenieLiniyami;
-    @OneToMany(cascade = CascadeType.ALL, 
-            mappedBy = "voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voprosSoedinenieLiniyamiIdVoprosSoedinenieLiniyami")
     private List<SootvetstvieKartinok> sootvetstvieKartinokList;
-    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", 
-            referencedColumnName = "ID_KOLVO_OBLASTEY")
+    @JoinColumn(name = "KOLVO_OBLASTEY_ID_KOLVO_OBLASTEY", referencedColumnName = "ID_KOLVO_OBLASTEY")
     @ManyToOne(optional = false)
     private KolvoOblastey kolvoOblasteyIdKolvoOblastey;
     @JoinColumn(name = "VOPROS_ID_VOPROS", referencedColumnName = "ID_VOPROS")
@@ -61,8 +55,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
         return idVoprosSoedinenieLiniyami;
     }
 
-    public void setIdVoprosSoedinenieLiniyami(
-            Integer idVoprosSoedinenieLiniyami) {
+    public void setIdVoprosSoedinenieLiniyami(Integer idVoprosSoedinenieLiniyami) {
         this.idVoprosSoedinenieLiniyami = idVoprosSoedinenieLiniyami;
     }
 
@@ -71,8 +64,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
         return sootvetstvieKartinokList;
     }
 
-    public void setSootvetstvieKartinokList(
-            List<SootvetstvieKartinok> sootvetstvieKartinokList) {
+    public void setSootvetstvieKartinokList(List<SootvetstvieKartinok> sootvetstvieKartinokList) {
         this.sootvetstvieKartinokList = sootvetstvieKartinokList;
     }
 
@@ -80,8 +72,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
         return kolvoOblasteyIdKolvoOblastey;
     }
 
-    public void setKolvoOblasteyIdKolvoOblastey(
-            KolvoOblastey kolvoOblasteyIdKolvoOblastey) {
+    public void setKolvoOblasteyIdKolvoOblastey(KolvoOblastey kolvoOblasteyIdKolvoOblastey) {
         this.kolvoOblasteyIdKolvoOblastey = kolvoOblasteyIdKolvoOblastey;
     }
 
@@ -96,8 +87,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idVoprosSoedinenieLiniyami != null ? 
-                idVoprosSoedinenieLiniyami.hashCode() : 0);
+        hash += (idVoprosSoedinenieLiniyami != null ? idVoprosSoedinenieLiniyami.hashCode() : 0);
         return hash;
     }
 
@@ -108,11 +98,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
             return false;
         }
         VoprosSoedinenieLiniyami other = (VoprosSoedinenieLiniyami) object;
-        if ((this.idVoprosSoedinenieLiniyami == null 
-                && other.idVoprosSoedinenieLiniyami != null) 
-                || (this.idVoprosSoedinenieLiniyami != null 
-                && !this.idVoprosSoedinenieLiniyami.
-                        equals(other.idVoprosSoedinenieLiniyami))) {
+        if ((this.idVoprosSoedinenieLiniyami == null && other.idVoprosSoedinenieLiniyami != null) || (this.idVoprosSoedinenieLiniyami != null && !this.idVoprosSoedinenieLiniyami.equals(other.idVoprosSoedinenieLiniyami))) {
             return false;
         }
         return true;
@@ -120,8 +106,7 @@ public class VoprosSoedinenieLiniyami implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VoprosSoedinenieLiniyami[ idVoprosSoedinenieLiniyami=" 
-                + idVoprosSoedinenieLiniyami + " ]";
+        return "entities.VoprosSoedinenieLiniyami[ idVoprosSoedinenieLiniyami=" + idVoprosSoedinenieLiniyami + " ]";
     }
 
 }

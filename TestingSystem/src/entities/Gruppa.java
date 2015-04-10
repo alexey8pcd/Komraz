@@ -25,10 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Gruppa.findAll", query = "SELECT g FROM Gruppa g"),
-    @NamedQuery(name = "Gruppa.findByIdGruppa", 
-            query = "SELECT g FROM Gruppa g WHERE g.idGruppa = :idGruppa"),
-    @NamedQuery(name = "Gruppa.findByNazvanie", 
-            query = "SELECT g FROM Gruppa g WHERE g.nazvanie = :nazvanie")})
+    @NamedQuery(name = "Gruppa.findByIdGruppa", query = "SELECT g FROM Gruppa g WHERE g.idGruppa = :idGruppa"),
+    @NamedQuery(name = "Gruppa.findByNazvanie", query = "SELECT g FROM Gruppa g WHERE g.nazvanie = :nazvanie")})
 public class Gruppa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
