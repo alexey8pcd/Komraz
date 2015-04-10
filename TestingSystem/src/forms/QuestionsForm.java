@@ -220,14 +220,14 @@ public class QuestionsForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
-        int index = tableQuestions.getSelectedRow();
-        if (index != -1 && index < questions.size()) {
-            switch (questions.get(index).
+        int selectedIndex = tableQuestions.getSelectedRow();
+        if (selectedIndex != -1 && selectedIndex < questions.size()) {
+            switch (questions.get(selectedIndex).
                     getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                 case 1:
                     //вопрос Latex
                     Vopros vopros = entityManager.find(
-                            Vopros.class, questions.get(index).getIdVopros());
+                            Vopros.class, questions.get(selectedIndex).getIdVopros());
                     VoprosLatex voprosLatex = null;
                     if (vopros != null) {
                         if (!vopros.getVoprosLatexList().isEmpty()) {
@@ -249,11 +249,10 @@ public class QuestionsForm extends javax.swing.JDialog {
                             JOptionPane.showMessageDialog(null, ex.toString(),
                                     "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
-
                     }
             }
+            loadQuestionsFromDB();
         }
-        loadQuestionsFromDB();
     }//GEN-LAST:event_bDeleteQuestionActionPerformed
 
 
