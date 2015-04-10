@@ -60,6 +60,13 @@ public class TestForm extends javax.swing.JDialog {
                 return tests.get(rowIndex).getNazvanie();
             }
         }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            if (columnIndex == 0)
+                return Boolean.class;
+            return super.getColumnClass(columnIndex); //To change body of generated methods, choose Tools | Templates.
+        }
     };
 
     public TestForm(java.awt.Frame parent, boolean modal) {
