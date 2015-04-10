@@ -182,6 +182,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;center&gt;&#xa;&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &lt;br&gt;&#xa;&#x434;&#x43e;&#x441;&#x442;&#x443;&#x43f; &#x43a; &#x442;&#x435;&#x441;&#x442;&#x443;&#xa;&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCloseAccessActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bViewResult">
       <Properties>
