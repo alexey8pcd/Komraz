@@ -307,8 +307,19 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
-        OpenTestForm openTest = new OpenTestForm(null, true);
-        openTest.setVisible(true);
+        
+        boolean correct = true; 
+        
+        if (tableListOfTests.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Тест не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            correct = false;
+        }
+        
+        if (correct) {
+            OpenTestForm openTest = new OpenTestForm(null, true);
+            openTest.setVisible(true);
+        }
     }//GEN-LAST:event_bOpenAccessActionPerformed
 
     private void bViewResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bViewResultActionPerformed
