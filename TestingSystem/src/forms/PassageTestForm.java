@@ -2,6 +2,7 @@ package forms;
 
 import entities.Test;
 import entities.Vopros;
+import entities.VoprosLatex;
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
@@ -78,13 +79,11 @@ public class PassageTestForm extends javax.swing.JDialog {
     }
 
     private void setButtonNextAndPreviusProperties() {
-        /**********НУЖНОЕ***************
-        if (currentQuestionIndex == 0) {
-            bPreviusQuestion.setEnabled(false);
-        } else {
-            bPreviusQuestion.setEnabled(true);
-        }
-        */
+        /**
+         * ********НУЖНОЕ*************** if (currentQuestionIndex == 0) {
+         * bPreviusQuestion.setEnabled(false); } else {
+         * bPreviusQuestion.setEnabled(true); }
+         */
         if (currentQuestionIndex == questionsAmount - 1) {
             bNextQuestion.setEnabled(false);
         } else {
@@ -92,7 +91,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
     }
 
-    private void updateQuestion() {        
+    private void updateQuestion() {
         currentQuestion = testForPassage.getTestVoprosList().
                 get(currentQuestionIndex).getVoprosIdVopros();
         if (currentQuestion != null) {
@@ -132,10 +131,12 @@ public class PassageTestForm extends javax.swing.JDialog {
         this.testForPassage = testForPassage;
         currentQuestion = testForPassage.getTestVoprosList().
                 get(currentQuestionIndex).getVoprosIdVopros();
+
         questionsAmount = testForPassage.getTestVoprosList().size();
         answers = new String[questionsAmount];
         updateLabel();
         updateQuestion();
+
     }
 
     private void insertSplitterAndEmptyElements(String splitter) {
@@ -230,6 +231,11 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
 
         bCompleteTest.setText("Завершить тест");
+        bCompleteTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCompleteTestActionPerformed(evt);
+            }
+        });
 
         bUndo.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         bUndo.setText("Шаг назад");
@@ -541,6 +547,27 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
         drawFormula();
     }//GEN-LAST:event_tableSymbolsMouseClicked
+
+    private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
+        int scored = 0;
+        int maximalScore = 0;
+        for (int i = 0; i < questionsAmount; i++) {
+            Vopros vopros = this.testForPassage.
+                    getTestVoprosList().get(i).getVoprosIdVopros();
+            String answer = answers[i];
+            if (answer != null) {
+                if (answer.equals(vopros.getVoprosLatexList().
+                        get(0).getLatexZapis())) {
+                    scored += vopros.getBall();
+                }
+            }
+            maximalScore += vopros.getBall();
+        }
+        JOptionPane.showMessageDialog(null, "Вы набрали баллов "
+                + scored + "/" + maximalScore,
+                "Результат", JOptionPane.OK_OPTION);
+        dispose();
+    }//GEN-LAST:event_bCompleteTestActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
