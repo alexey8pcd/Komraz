@@ -58,7 +58,7 @@ public class QuestionsForm extends javax.swing.JDialog {
         }
     };
 
-    private void loadQuestionsFromDB() {
+    private void refresh() {
         try {
             questions = entityManager.createNamedQuery("Vopros.findAll",
                     Vopros.class).getResultList();
@@ -75,12 +75,14 @@ public class QuestionsForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         tableQuestions.setModel(tableModel);
-        loadQuestionsFromDB();
+        refresh();
         JTableHeader header = tableQuestions.getTableHeader();
         for (int i = 0; i < tableHeaderValues.length; i++) {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
         }
         tableQuestions.setTableHeader(header);
+        
+        bEditQuestion.setEnabled(false); //Для первой итерации
     }
 
     @SuppressWarnings("unchecked")
@@ -211,7 +213,7 @@ public class QuestionsForm extends javax.swing.JDialog {
     private void bCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateQuestionActionPerformed
         QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
-        loadQuestionsFromDB();
+        refresh();
     }//GEN-LAST:event_bCreateQuestionActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
@@ -220,14 +222,14 @@ public class QuestionsForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
-        int index = tableQuestions.getSelectedRow();
-        if (index != -1 && index < questions.size()) {
-            switch (questions.get(index).
+        int selectedIndex = tableQuestions.getSelectedRow();
+        if (selectedIndex != -1 && selectedIndex < questions.size()) {
+            switch (questions.get(selectedIndex).
                     getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                 case 1:
                     //вопрос Latex
                     Vopros vopros = entityManager.find(
-                            Vopros.class, questions.get(index).getIdVopros());
+                            Vopros.class, questions.get(selectedIndex).getIdVopros());
                     VoprosLatex voprosLatex = null;
                     if (vopros != null) {
                         if (!vopros.getVoprosLatexList().isEmpty()) {
@@ -249,11 +251,10 @@ public class QuestionsForm extends javax.swing.JDialog {
                             JOptionPane.showMessageDialog(null, ex.toString(),
                                     "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
-
                     }
             }
+            refresh();
         }
-        loadQuestionsFromDB();
     }//GEN-LAST:event_bDeleteQuestionActionPerformed
 
 

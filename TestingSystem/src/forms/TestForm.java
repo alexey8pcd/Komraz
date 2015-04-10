@@ -3,7 +3,9 @@ package forms;
 import entities.Disciplina;
 import entities.StatusTesta;
 import entities.Test;
+import entities.TestVopros;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
@@ -61,8 +63,9 @@ public class TestForm extends javax.swing.JDialog {
 
         @Override
         public Class<?> getColumnClass(int columnIndex) {
-            if (columnIndex == 0)
+            if (columnIndex == 0) {
                 return Boolean.class;
+            }
             return super.getColumnClass(columnIndex); //To change body of generated methods, choose Tools | Templates.
         }
     };
@@ -73,7 +76,6 @@ public class TestForm extends javax.swing.JDialog {
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
         refresh();
-//        tableListOfTests.getColumnModel().getColumn(0).setWidth(5);
         JTableHeader header = tableListOfTests.getTableHeader();
         header.getColumnModel().getColumn(1).setWidth(50);
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
@@ -85,7 +87,7 @@ public class TestForm extends javax.swing.JDialog {
         }
 
     }
-
+    
     private void refresh() {
         try {
             subjects = entityManager.createNamedQuery(
@@ -102,7 +104,7 @@ public class TestForm extends javax.swing.JDialog {
                 TypedQuery<Test> query = entityManager.createQuery(
                         "SELECT tv.testIdTest from TestVopros tv WHERE "
                         + "tv.voprosIdVopros.disciplinaIdDisciplina."
-                        + "idDisciplina=:id GROUP BY tv.testIdTest.idTest", 
+                        + "idDisciplina=:id GROUP BY tv.testIdTest.idTest",
                         Test.class);
                 query.setParameter("id",
                         subjects.get(selectedIndex).getIdDisciplina());
@@ -214,6 +216,11 @@ public class TestForm extends javax.swing.JDialog {
         bEditTest.setText("Редактировать");
 
         bDeleteTest.setText("Удалить");
+        bDeleteTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteTestActionPerformed(evt);
+            }
+        });
 
         bCreateTest.setText("Создать");
         bCreateTest.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +319,6 @@ public class TestForm extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Дисциплина не выбрана",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
@@ -324,7 +330,6 @@ public class TestForm extends javax.swing.JDialog {
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
         }
-        
         
         if (correct) {
             
@@ -342,6 +347,7 @@ public class TestForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
             
+//            Для 2ой и 3ей итерации
 //            OpenTestForm openTest = new OpenTestForm(null, true);
 //            openTest.setTest(test);
 //            openTest.setVisible(true);
@@ -391,6 +397,42 @@ public class TestForm extends javax.swing.JDialog {
         
         
     }//GEN-LAST:event_bCloseAccessActionPerformed
+    private void bDeleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteTestActionPerformed
+        int selectedIndex = tableListOfTests.getSelectedRow();
+
+        if (selectedIndex < tableListOfTests.getRowCount()
+                && selectedIndex >= 0) {
+            //Удаляем выбранную строку в таблице
+            Test test = entityManager.find(Test.class, 
+                    tests.get(selectedIndex).getIdTest());
+            TestVopros testVopros = null;
+            if (test != null) {
+                if (!test.getTestVoprosList().isEmpty()) {
+                    testVopros = test.getTestVoprosList().get(0);
+                }
+                try {
+                    if (testVopros != null) {
+                        entityManager.getTransaction().begin();
+                        entityManager.remove(testVopros);
+                        entityManager.getTransaction().commit();
+                    }
+                    entityManager.getTransaction().begin();
+                    Query query = entityManager.createQuery(
+                            "DELETE FROM Test v WHERE v.idTest=:id");
+                    query.setParameter("id", test.getIdTest());
+                    query.executeUpdate();
+                    entityManager.getTransaction().commit();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString(),
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Тест не выбран",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bDeleteTestActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

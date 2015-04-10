@@ -70,6 +70,7 @@
     <Component class="javax.swing.JButton" name="bGroups">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x413;&#x440;&#x443;&#x43f;&#x43f;&#x44b;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="jButtonGroup"/>

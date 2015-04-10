@@ -59,14 +59,14 @@ public class AddTestForm extends javax.swing.JDialog {
 
     public void setSubject(Disciplina subject) {
         this.subject = subject;
-        loadQuestions();
+        refresh();
         if (allQuestions != null) {
             listAllQuestions.setModel(ALL_QUESTION_LIST_MODEL);
             listAllQuestions.updateUI();
         }
     }
 
-    private void loadQuestions() {
+    private void refresh() {
         try {
             Query query = entityManager.createQuery(
                     "SELECT v FROM Vopros v WHERE "

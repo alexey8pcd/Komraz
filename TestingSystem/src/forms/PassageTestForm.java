@@ -140,6 +140,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         labelQuestionNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Прохождение теста");
+        setResizable(false);
 
         tableSymbols.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
