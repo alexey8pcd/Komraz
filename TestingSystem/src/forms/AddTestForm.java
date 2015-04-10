@@ -284,13 +284,16 @@ public class AddTestForm extends javax.swing.JDialog {
             try {
                 DBManager.writeObject(test);
                 //добавить данные о соответствии тестов и вопросов
-                entityManager.getTransaction().begin();
+                List<TestVopros> testVoproses = new ArrayList<>();
                 for (Vopros v : TEST_QUESTIONS) {
                     TestVopros testVopros = new TestVopros();
                     testVopros.setTestIdTest(test);
                     testVopros.setVoprosIdVopros(v);
-                    entityManager.persist(testVopros);
+                    testVoproses.add(testVopros);//                    
                 }
+                test.setTestVoprosList(testVoproses);
+                entityManager.getTransaction().begin();
+                entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.toString(),
@@ -298,7 +301,7 @@ public class AddTestForm extends javax.swing.JDialog {
             }
             dispose();
         }
-        
+
     }//GEN-LAST:event_bSaveTestActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
