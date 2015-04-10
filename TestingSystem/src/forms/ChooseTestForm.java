@@ -122,6 +122,9 @@ public class ChooseTestForm extends javax.swing.JDialog {
             PassageTestForm passageTestForm = new PassageTestForm(null, true);
             passageTestForm.setTestForPassage(availableTests.get(selectedIndex));
             passageTestForm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Тест не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_bStartTestActionPerformed
 
