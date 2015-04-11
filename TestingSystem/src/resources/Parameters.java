@@ -34,7 +34,7 @@ public class Parameters {
                 {"ζ", "η", "θ", "ι", "κ"},
                 {"λ", "μ", "ν", "ξ", "π"},
                 {"ρ", "σ", "τ", "υ", "φ"},
-                {"χ", "ψ", "ω", "", ""}
+                {"χ", "ψ", "ω", null, null}
             };
     public static final Object[][] upperCaseGreekAlphabet
             = new Object[][]{
@@ -42,6 +42,6 @@ public class Parameters {
                 {"Z", "H", "Θ", "I", "K"},
                 {"Λ", "M", "N", "Ξ", "Π"},
                 {"P", "Σ", "T", "Y", "Φ"},
-                {"X", "Ψ", "Ω", "", ""}
+                {"X", "Ψ", "Ω", null, null}
             };
 }

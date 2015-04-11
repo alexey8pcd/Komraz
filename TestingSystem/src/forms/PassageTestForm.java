@@ -6,8 +6,8 @@ import entities.Test;
 import entities.Vopros;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
-import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.Stack;
 import javax.swing.JOptionPane;
@@ -15,6 +15,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import main.Formula;
+import org.eclipse.persistence.internal.core.helper.CoreClassConstants;
 import static resources.Parameters.*;
 import static sql.DBManager.entityManager;
 
@@ -38,7 +39,9 @@ public class PassageTestForm extends javax.swing.JDialog {
     private final Stack<Formula> stackFormula;
     private String[] answers;
 
-    private TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
+    private final Random RANDOM = new Random();
+
+    private final TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
 
         @Override
         public int getRowCount() {
@@ -123,6 +126,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         }
         tableSymbols.setModel(TABLE_SYBOLS_MODEL);
+
         //Установим заголовки таблицы букв пустыми
         JTableHeader header = tableSymbols.getTableHeader();
         for (int i = 0; i < 10; i++) {
@@ -144,107 +148,53 @@ public class PassageTestForm extends javax.swing.JDialog {
             resultArray.add(element);
         }
 
-        Random r1 = new Random();
-
         for (int index = resultArray.size(); index < MAX_AMOUNT_OF_WORDS; index++) {
-            boolean isComplete = false;
-            switch (r1.nextInt(4)) {
+            
+            switch (RANDOM.nextInt(4)) {
                 case 0:
-                    //Берем значения из латинского списка нижнего регистра                    
-                    while (!isComplete) {
-                        int m = r1.nextInt(lowerCaseLatinAlphabet.length);
-                        int n = r1.nextInt(lowerCaseLatinAlphabet[0].length);
-                        boolean allowToInsert = true;
-
-                        for (String elementInResult : resultArray) {
-                            if (lowerCaseLatinAlphabet[m][n] != null) {
-                                if (lowerCaseLatinAlphabet[m][n].toString().
-                                        equalsIgnoreCase(elementInResult)) {
-                                    allowToInsert = false;
-                                }
-                            } else {
-                                allowToInsert = false;
-                            }
-                        }
-                        if (allowToInsert) {
-                            isComplete = true;
-                            resultArray.add(lowerCaseLatinAlphabet[m][n].toString());
-                        }
-                    }
+                    //Берем значения из латинского списка нижнего регистра
+                    checkAndInsertWord(lowerCaseLatinAlphabet, resultArray);
                     break;
                 case 1:
                     //Берем значения из латинского списка верхнего регистра
-                    while (!isComplete) {
-                        int m = r1.nextInt(upperCaseLatinAlphabet.length);
-                        int n = r1.nextInt(upperCaseLatinAlphabet[0].length);
-                        boolean allowToInsert = true;
-
-                        for (String elementInResult : resultArray) {
-                            if (upperCaseLatinAlphabet[m][n] != null) {
-                                if (upperCaseLatinAlphabet[m][n].toString().
-                                        equalsIgnoreCase(elementInResult)) {
-                                    allowToInsert = false;
-                                }
-                            } else {
-                                allowToInsert = false;
-                            }
-                        }
-                        if (allowToInsert) {
-                            isComplete = true;
-                            resultArray.add(upperCaseLatinAlphabet[m][n].toString());
-                        }
-                    }
+                    checkAndInsertWord(upperCaseLatinAlphabet, resultArray);
                     break;
                 case 2:
-                    //Берем значения из греческого списка нижнего регистра                    
-                    while (!isComplete) {
-                        int m = r1.nextInt(lowerCaseGreekAlphabet.length);
-                        int n = r1.nextInt(lowerCaseGreekAlphabet[0].length);
-                        boolean allowToInsert = true;
-
-                        for (String elementInResult : resultArray) {
-                            if (lowerCaseGreekAlphabet[m][n] != null) {
-                                if (lowerCaseGreekAlphabet[m][n].toString().
-                                        equalsIgnoreCase(elementInResult)) {
-                                    allowToInsert = false;
-                                }
-                            } else {
-                                allowToInsert = false;
-                            }
-                        }
-                        if (allowToInsert) {
-                            isComplete = true;
-                            resultArray.add(lowerCaseGreekAlphabet[m][n].toString());
-                        }
-                    }
+                    //Берем значения из греческого списка нижнего регистра
+                    checkAndInsertWord(lowerCaseGreekAlphabet, resultArray);
                     break;
                 case 3:
-                    //Берем значения из греческого списка нижнего регистра                    
-                    while (!isComplete) {
-                        int m = r1.nextInt(upperCaseGreekAlphabet.length);
-                        int n = r1.nextInt(upperCaseGreekAlphabet[0].length);
-                        boolean allowToInsert = true;
-
-                        for (String elementInResult : resultArray) {
-                            if (upperCaseGreekAlphabet[m][n] != null) {
-                                if (upperCaseGreekAlphabet[m][n].toString().
-                                        equalsIgnoreCase(elementInResult)) {
-                                    allowToInsert = false;
-                                }
-                            } else {
-                                allowToInsert = false;
-                            }
-                        }
-                        if (allowToInsert) {
-                            isComplete = true;
-                            resultArray.add(upperCaseGreekAlphabet[m][n].toString());
-                        }
-                    }
+                    //Берем значения из греческого списка нижнего регистра
+                    checkAndInsertWord(upperCaseGreekAlphabet, resultArray);
                     break;
             }
         }
-
+        Collections.shuffle(resultArray, RANDOM);
         return resultArray;
+    }
+
+    private void checkAndInsertWord(Object[][] dictionary, ArrayList<String> listOfWords) {
+        boolean isComplete = false;
+        
+        while (!isComplete) {
+            int rowIndex = RANDOM.nextInt(dictionary.length);
+            int columnIndex = RANDOM.nextInt(dictionary[0].length);
+            boolean allowToInsert = true;
+
+            String temp = (String) dictionary[rowIndex][columnIndex];
+
+            for (String elementInResult : listOfWords) {
+                if (temp == null) {
+                    allowToInsert = false;
+                } else if (temp.equals(elementInResult)) {
+                    allowToInsert = false;
+                }
+            }
+            if (allowToInsert) {
+                isComplete = true;
+                listOfWords.add(temp);
+            }
+        }
     }
 
     /**
@@ -775,7 +725,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(null, "Вы набрали баллов "
                 + scored + "/" + maximalScore,
                 "Результат", JOptionPane.INFORMATION_MESSAGE);
-        
+
         try {
             //выбор студента
             Student student = entityManager.createNamedQuery(
