@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
@@ -75,25 +76,26 @@ public class TestForm extends javax.swing.JDialog {
         initComponents();
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
-        refresh();
+        subjects = entityManager.createNamedQuery("Disciplina.findAll",
+                Disciplina.class).getResultList();
         JTableHeader header = tableListOfTests.getTableHeader();
         header.getColumnModel().getColumn(1).setWidth(50);
         header.getColumnModel().getColumn(0).setHeaderValue("Открыт");
         header.getColumnModel().getColumn(1).setHeaderValue("Название теста");
         tableListOfTests.setTableHeader(header);
-        tableListOfTests.getColumnModel().getColumn(0);
+        tableListOfTests.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableListOfTests.getColumnModel().getColumn(0).setPreferredWidth(75);
+        tableListOfTests.getColumnModel().getColumn(1).setPreferredWidth(
+                tableListOfTests.getWidth() - 75);
         if (subjects != null) {
             listSubjects.updateUI();
             listSubjects.setSelectedIndex(0);
         }
-
+        refresh();
     }
 
     private void refresh() {
         try {
-            subjects = entityManager.createNamedQuery(
-                    "Disciplina.findAll",
-                    Disciplina.class).getResultList();
             int selectedIndex = listSubjects.getSelectedIndex();
             if (selectedIndex == -1) {
                 //отобразить все тесты
@@ -181,6 +183,7 @@ public class TestForm extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tableListOfTests.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sPaneForTests.setViewportView(tableListOfTests);
         if (tableListOfTests.getColumnModel().getColumnCount() > 0) {
             tableListOfTests.getColumnModel().getColumn(0).setMinWidth(40);
@@ -311,7 +314,7 @@ public class TestForm extends javax.swing.JDialog {
 
     private void bCreateTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateTestActionPerformed
         int selectedIndex = listSubjects.getSelectedIndex();
-        if (selectedIndex != -1) {
+        if (selectedIndex != -1 && selectedIndex < subjects.size()) {
             AddTestForm addTest = new AddTestForm(null, true);
             addTest.setSubject(subjects.get(selectedIndex));
             addTest.setVisible(true);
@@ -323,19 +326,14 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
-
         boolean correct = true;
-
         if (tableListOfTests.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Тест не выбран",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
         }
-
         if (correct) {
-
             Test test = tests.get(tableListOfTests.getSelectedRow());
-
             StatusTesta st = new StatusTesta();
             st.setIdStatusTesta(1);
             test.setStatusTestaIdStatusTesta(st);
@@ -347,7 +345,6 @@ public class TestForm extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, ex.toString(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
-
 //            Для 2ой и 3ей итерации
 //            OpenTestForm openTest = new OpenTestForm(null, true);
 //            openTest.setTest(test);
@@ -378,7 +375,7 @@ public class TestForm extends javax.swing.JDialog {
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Тест не выбран",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
-        }else{
+        } else {
             Test test = tests.get(selectedRow);
             StatusTesta st = new StatusTesta();
             st.setIdStatusTesta(2);

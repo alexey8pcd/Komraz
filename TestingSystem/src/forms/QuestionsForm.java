@@ -1,5 +1,6 @@
 package forms;
 
+import entities.TestVopros;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.util.List;
@@ -81,7 +82,7 @@ public class QuestionsForm extends javax.swing.JDialog {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
         }
         tableQuestions.setTableHeader(header);
-        
+
         bEditQuestion.setEnabled(false); //Для первой итерации
     }
 
@@ -224,37 +225,49 @@ public class QuestionsForm extends javax.swing.JDialog {
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
         int selectedIndex = tableQuestions.getSelectedRow();
         if (selectedIndex != -1 && selectedIndex < questions.size()) {
-            switch (questions.get(selectedIndex).
-                    getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
-                case 1:
-                    //вопрос Latex
-                    Vopros vopros = entityManager.find(
-                            Vopros.class, questions.get(selectedIndex).getIdVopros());
-                    VoprosLatex voprosLatex = null;
-                    if (vopros != null) {
-                        if (!vopros.getVoprosLatexList().isEmpty()) {
-                            voprosLatex = vopros.getVoprosLatexList().get(0);
-                        }
-                        try {
-                            if (voprosLatex != null) {
-                                entityManager.getTransaction().begin();
-                                entityManager.remove(voprosLatex);
-                                entityManager.getTransaction().commit();
-                            }
-                            entityManager.getTransaction().begin();
-                            Query query = entityManager.createQuery(
-                                    "DELETE FROM Vopros v WHERE v.idVopros=:id");
-                            query.setParameter("id", vopros.getIdVopros());
-                            query.executeUpdate();
-                            entityManager.getTransaction().commit();
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, ex.toString(),
-                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-                        }
+            Vopros vopros = entityManager.find(Vopros.class,
+                    questions.get(selectedIndex).getIdVopros());
+            if (vopros != null) {
+                List<TestVopros> relativeTests = vopros.getTestVoprosList();
+                boolean allowDelete = true;
+                if (!relativeTests.isEmpty()) {
+                    int result = JOptionPane.showConfirmDialog(null,
+                            "Данный вопрос содержится в тестах. Вы действительно "
+                            + "хотите удалить его? Он также будет удален из всех "
+                            + "тестов, где содержится.",
+                            "Предупреждение", JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+                    allowDelete = result == JOptionPane.YES_OPTION;
+                }
+                if (allowDelete) {
+                    boolean deleted = false;
+                    switch (questions.get(selectedIndex).
+                            getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
+                        case 1:
+                            //вопрос Latex
+                            if (!vopros.getVoprosLatexList().isEmpty()) {
+                                VoprosLatex voprosLatex = vopros.
+                                        getVoprosLatexList().get(0);
+                                try {
+                                    entityManager.getTransaction().begin();
+                                    if (voprosLatex != null) {                                        
+                                        entityManager.remove(voprosLatex);
+                                    }
+                                    entityManager.remove(vopros);
+                                    entityManager.getTransaction().commit();
+                                    deleted = true;
+                                } catch (Exception ex) {
+                                    JOptionPane.showMessageDialog(null, ex.toString(),
+                                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }//endif
+                    }//end switch
+                    if (deleted) {
+                        refresh();
                     }
-            }
-            refresh();
-        }
+                }//end if(allowDelete)
+            }//end if(vopros ? null)
+        }//end if(selected index ? -1 || selected index ? question.size)
     }//GEN-LAST:event_bDeleteQuestionActionPerformed
 
 

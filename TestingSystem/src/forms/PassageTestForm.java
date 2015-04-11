@@ -149,7 +149,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
 
         for (int index = resultArray.size(); index < MAX_AMOUNT_OF_WORDS; index++) {
-            
+
             switch (RANDOM.nextInt(4)) {
                 case 0:
                     //Берем значения из латинского списка нижнего регистра
@@ -175,7 +175,7 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     private void checkAndInsertWord(Object[][] dictionary, ArrayList<String> listOfWords) {
         boolean isComplete = false;
-        
+
         while (!isComplete) {
             int rowIndex = RANDOM.nextInt(dictionary.length);
             int columnIndex = RANDOM.nextInt(dictionary[0].length);
@@ -733,7 +733,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             StudentTest studentTest = new StudentTest();
             studentTest.setStudentIdStudent(student);
             studentTest.setTestIdTest(testForPassage);
-            studentTest.setProcentBallov(scored / maximalScore);
+            studentTest.setProcentBallov(scored * 100 / maximalScore);
             studentTest.setDataProhozhdeniya(GregorianCalendar.
                     getInstance().getTime());
             entityManager.getTransaction().begin();
