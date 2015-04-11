@@ -15,7 +15,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import main.Formula;
-import org.eclipse.persistence.internal.core.helper.CoreClassConstants;
 import static resources.Parameters.*;
 import static sql.DBManager.entityManager;
 
@@ -68,7 +67,6 @@ public class PassageTestForm extends javax.swing.JDialog {
         graphics = paneForFormulaConstruct.getGraphics();
         currentQuestionIndex = 0;
         bPreviousQuestion.setEnabled(false);
-
         wordsToInsert = new ArrayList<>();
         tableSymbols.setFont(new java.awt.Font("Times New Roman", 1, 18));
     }
@@ -147,7 +145,6 @@ public class PassageTestForm extends javax.swing.JDialog {
         for (String element : inputArray) {
             resultArray.add(element);
         }
-
         for (int index = resultArray.size(); index < MAX_AMOUNT_OF_WORDS; index++) {
 
             switch (RANDOM.nextInt(4)) {

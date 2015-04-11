@@ -20,10 +20,11 @@ import static sql.DBManager.entityManager;
  *
  * @author ScanNorOne
  */
-public class AddTestForm extends javax.swing.JDialog {
+public class EditTestForm extends javax.swing.JDialog {
 
     private Disciplina subject;
     private List<Vopros> allQuestions;
+    private Test test;
     private final List<Vopros> TEST_QUESTIONS;
     private final ListModel ALL_QUESTION_LIST_MODEL = new AbstractListModel() {
 
@@ -50,7 +51,7 @@ public class AddTestForm extends javax.swing.JDialog {
         }
     };
 
-    public AddTestForm(java.awt.Frame parent, boolean modal) {
+    public EditTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         TEST_QUESTIONS = new ArrayList<>();
@@ -59,11 +60,34 @@ public class AddTestForm extends javax.swing.JDialog {
 
     public void setSubject(Disciplina subject) {
         this.subject = subject;
+        lQuestionsInSubject.setText("Все вопросы по дисциплине: "
+                + subject.getNazvanie());
         refresh();
         if (allQuestions != null) {
             listAllQuestions.setModel(ALL_QUESTION_LIST_MODEL);
             listAllQuestions.updateUI();
         }
+    }
+
+    public void setTestForEdit(Test test, Disciplina subject) {
+        setSubject(subject);
+        this.test = test;
+        this.textTestName.setText(test.getNazvanie());
+        TEST_QUESTIONS.clear();
+        for (int i = 0; i < test.getTestVoprosList().size(); i++) {
+            TEST_QUESTIONS.add(test.getTestVoprosList().get(i).
+                    getVoprosIdVopros());
+        }
+        for (int i = 0; i < allQuestions.size(); i++) {
+            Vopros v = allQuestions.get(i);
+            if (TEST_QUESTIONS.contains(v)) {
+                allQuestions.remove(v);
+            } else {
+                i++;
+            }
+        }
+        listTestQuestions.updateUI();
+        listAllQuestions.updateUI();
     }
 
     private void refresh() {
@@ -99,13 +123,17 @@ public class AddTestForm extends javax.swing.JDialog {
         textSearch = new javax.swing.JTextField();
         bSaveTest = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
+        lQuestionsInSubject = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Новый тест");
         setResizable(false);
 
+        lTestName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lTestName.setText("Название теста:");
 
+        lQuestions.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lQuestions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lQuestions.setText("Вопросы теста");
 
         bPlaceHigh.setText("Переместить выше");
@@ -134,6 +162,11 @@ public class AddTestForm extends javax.swing.JDialog {
 
         bSearch.setText("Поиск");
         bSearch.setEnabled(false);
+        bSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSearchActionPerformed(evt);
+            }
+        });
 
         textSearch.setEnabled(false);
 
@@ -151,6 +184,9 @@ public class AddTestForm extends javax.swing.JDialog {
             }
         });
 
+        lQuestionsInSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lQuestionsInSubject.setText("Все вопросы по дисциплине");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,39 +196,35 @@ public class AddTestForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lTestName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textTestName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(textTestName, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bClose)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bSaveTest))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lQuestions)
+                            .addComponent(scrollPaneForTestQuestions)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(bPlaceHigh)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bPlaceLow))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(scrollPaneForTestQuestions)))
+                                .addComponent(bPlaceHigh)
+                                .addGap(18, 18, 18)
+                                .addComponent(bPlaceLow)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bRemoveQuestionFromTest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(bRemoveQuestionFromTest, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(textSearch)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bSearch))
-                                            .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(3, 3, 3))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(bClose)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bSaveTest)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(bSearch))
+                            .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lQuestionsInSubject))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -202,34 +234,38 @@ public class AddTestForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lTestName)
                     .addComponent(textTestName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lQuestions)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lQuestionsInSubject)
+                    .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPlaceHigh)
-                            .addComponent(bPlaceLow))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPaneForTestQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bPlaceLow)
+                            .addComponent(bPlaceHigh))
+                        .addGap(18, 18, 18)
+                        .addComponent(scrollPaneForTestQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(bSearch)
-                                    .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bRemoveQuestionFromTest, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(134, 134, 134)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bSaveTest)
-                            .addComponent(bClose))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bSearch))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(bSaveTest)
+                                    .addComponent(bClose))
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bRemoveQuestionFromTest, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(206, 206, 206))))))
         );
 
         pack();
@@ -273,7 +309,10 @@ public class AddTestForm extends javax.swing.JDialog {
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
         }
         if (correct) {
-            Test test = new Test();
+            if (test == null) {
+                //создаем новый
+                test = new Test();
+            }
             test.setNazvanie(new String(textTestName.getText().getBytes(), UTF_8));
             StatusTesta statusTesta;
             TypedQuery<StatusTesta> query = entityManager.createNamedQuery(
@@ -304,6 +343,10 @@ public class AddTestForm extends javax.swing.JDialog {
 
     }//GEN-LAST:event_bSaveTestActionPerformed
 
+    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bSearchActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;
     private javax.swing.JButton bClose;
@@ -313,6 +356,7 @@ public class AddTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bSaveTest;
     private javax.swing.JButton bSearch;
     private javax.swing.JLabel lQuestions;
+    private javax.swing.JLabel lQuestionsInSubject;
     private javax.swing.JLabel lTestName;
     private javax.swing.JList listAllQuestions;
     private javax.swing.JList listTestQuestions;

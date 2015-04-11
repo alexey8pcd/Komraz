@@ -218,6 +218,11 @@ public class TestForm extends javax.swing.JDialog {
         });
 
         bEditTest.setText("Редактировать");
+        bEditTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEditTestActionPerformed(evt);
+            }
+        });
 
         bDeleteTest.setText("Удалить");
         bDeleteTest.addActionListener(new java.awt.event.ActionListener() {
@@ -315,7 +320,7 @@ public class TestForm extends javax.swing.JDialog {
     private void bCreateTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateTestActionPerformed
         int selectedIndex = listSubjects.getSelectedIndex();
         if (selectedIndex != -1 && selectedIndex < subjects.size()) {
-            AddTestForm addTest = new AddTestForm(null, true);
+            EditTestForm addTest = new EditTestForm(null, true);
             addTest.setSubject(subjects.get(selectedIndex));
             addTest.setVisible(true);
             refresh();
@@ -393,12 +398,10 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseAccessActionPerformed
     private void bDeleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteTestActionPerformed
         int selectedIndex = tableListOfTests.getSelectedRow();
-
         if (selectedIndex < tableListOfTests.getRowCount()
                 && selectedIndex >= 0) {
             //Удаляем выбранную строку в таблице
-            Test test = entityManager.find(Test.class,
-                    tests.get(selectedIndex).getIdTest());
+            Test test = tests.get(selectedIndex);
             TestVopros testVopros = null;
             if (test != null) {
                 if (!test.getTestVoprosList().isEmpty()) {
@@ -427,6 +430,23 @@ public class TestForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bDeleteTestActionPerformed
+
+    private void bEditTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditTestActionPerformed
+        int selectedIndex = tableListOfTests.getSelectedRow();
+        if (selectedIndex < tableListOfTests.getRowCount()
+                && selectedIndex >= 0) {
+            //Удаляем выбранную строку в таблице
+            Test test = tests.get(selectedIndex);
+            EditTestForm editTestForm = new EditTestForm(null, true);
+            editTestForm.setTestForEdit(test,
+                    subjects.get(listSubjects.getSelectedIndex()));
+            editTestForm.setVisible(true);
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Тест не выбран",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bEditTestActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
