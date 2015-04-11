@@ -2,13 +2,16 @@ package forms;
 
 import entities.Test;
 import entities.Vopros;
-import entities.VoprosLatex;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import main.Formula;
+import static resources.Parameters.*;
 
 /**
  *
@@ -20,48 +23,34 @@ public class PassageTestForm extends javax.swing.JDialog {
     private Vopros currentQuestion;
     private int currentQuestionIndex;
     private int questionsAmount;
+
+    private ArrayList<String> wordsToInsert; //Буквы, которые собираемся вставить
+    private final int MAX_AMOUNT_OF_WORDS = 20;
+    private ArrayList<Object[]> insertValues;
+
     private final Graphics graphics;
     private Formula currentFormula;
     private final Stack<Formula> stackFormula;
     private String[] answers;
-    /*
-    * НУЖНЫЙ КОД ДЛЯ КОРРЕКТНЫХ БУКВ В tableSymbols
-    *
-    private final TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
+
+    private TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
 
         @Override
         public int getRowCount() {
-            if (tests != null) {
-                return tests.size();
-            } else {
-                return 0;
-            }
+            return 3;
         }
 
         @Override
         public int getColumnCount() {
-            return 2;
+            return 10;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            if (columnIndex == 0) {
-                return tests.get(rowIndex).getStatusTestaIdStatusTesta().
-                        getNaimenovanie().equalsIgnoreCase("Открыт");
-            } else {
-                return tests.get(rowIndex).getNazvanie();
-            }
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            if (columnIndex == 0) {
-                return Boolean.class;
-            }
-            return super.getColumnClass(columnIndex); 
+            return insertValues.get(rowIndex)[columnIndex];
         }
     };
-*/
+
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -70,7 +59,10 @@ public class PassageTestForm extends javax.swing.JDialog {
         addFormulaCopyToStack();
         graphics = paneForFormulaConstruct.getGraphics();
         currentQuestionIndex = 0;
-        bPreviusQuestion.setEnabled(false);
+        bPreviousQuestion.setEnabled(false);
+
+        wordsToInsert = new ArrayList<>();
+        tableSymbols.setFont(new java.awt.Font("Times New Roman", 1, 18));
     }
 
     private void updateLabel() {
@@ -78,7 +70,214 @@ public class PassageTestForm extends javax.swing.JDialog {
                 + (currentQuestionIndex + 1) + "/" + questionsAmount);
     }
 
-    private void setButtonNextAndPreviusProperties() {
+    /**
+     * Обновление таблицы алфавита
+     */
+    private void updateAlphabet() {
+        wordsToInsert.clear(); //Подчистим массив
+
+        Vopros vopros = testForPassage.
+                getTestVoprosList().get(currentQuestionIndex).getVoprosIdVopros();
+
+        String currentLatexString = "";
+        try {
+            currentLatexString = vopros.getVoprosLatexList().
+                    get(0).getLatexZapis();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.toString());
+        }
+
+        for (int i = 0; i < currentLatexString.length(); i++) {
+            if (isCharacter(currentLatexString.charAt(i))) {
+                wordsToInsert.add(String.valueOf(currentLatexString.charAt(i)));
+            }
+        }
+
+        wordsToInsert = fillTheArrayByRandomWords(wordsToInsert);
+
+        //Выделяем память
+        insertValues = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            insertValues.add(i, new Object[10]);
+        }
+
+        //Вставка значений в модель
+        int countOfResultArray = 0;
+        for (int i = 0; i < TABLE_SYBOLS_MODEL.getRowCount(); i++) {
+            for (int j = 0; j < TABLE_SYBOLS_MODEL.getColumnCount(); j++) {
+                if (i == 0) {
+                    //В первую строку вставляем цифры от 0 до 9
+                    insertValues.get(i)[j] = j;
+                } else {
+                    //В остальные строки вставляем буквы
+                    if (countOfResultArray < wordsToInsert.size()) {
+                        insertValues.get(i)[j] = wordsToInsert.get(countOfResultArray);
+                        countOfResultArray++;
+                    }
+                }
+            }
+        }
+        tableSymbols.setModel(TABLE_SYBOLS_MODEL);
+        //Установим заголовки таблицы букв пустыми
+        JTableHeader header = tableSymbols.getTableHeader();
+        for (int i = 0; i < 10; i++) {
+            header.getColumnModel().getColumn(i).setHeaderValue("");
+        }
+        tableSymbols.setTableHeader(header);
+        tableSymbols.updateUI();
+    }
+
+    /**
+     * На основе записанных в массив букв дополняет массив рандомными
+     *
+     * @param inputArray входной массив
+     * @return готовый
+     */
+    private ArrayList<String> fillTheArrayByRandomWords(ArrayList<String> inputArray) {
+        ArrayList<String> resultArray = new ArrayList<>();
+        for (String element : inputArray) {
+            resultArray.add(element);
+        }
+
+        Random r1 = new Random();
+
+        for (int index = resultArray.size(); index < MAX_AMOUNT_OF_WORDS; index++) {
+            boolean isComplete = false;
+            switch (r1.nextInt(4)) {
+                case 0:
+                    //Берем значения из латинского списка нижнего регистра                    
+                    while (!isComplete) {
+                        int m = r1.nextInt(lowerCaseLatinAlphabet.length);
+                        int n = r1.nextInt(lowerCaseLatinAlphabet[0].length);
+                        boolean allowToInsert = true;
+
+                        for (String elementInResult : resultArray) {
+                            if (lowerCaseLatinAlphabet[m][n] != null) {
+                                if (lowerCaseLatinAlphabet[m][n].toString().
+                                        equalsIgnoreCase(elementInResult)) {
+                                    allowToInsert = false;
+                                }
+                            } else {
+                                allowToInsert = false;
+                            }
+                        }
+                        if (allowToInsert) {
+                            isComplete = true;
+                            resultArray.add(lowerCaseLatinAlphabet[m][n].toString());
+                        }
+                    }
+                    break;
+                case 1:
+                    //Берем значения из латинского списка верхнего регистра
+                    while (!isComplete) {
+                        int m = r1.nextInt(upperCaseLatinAlphabet.length);
+                        int n = r1.nextInt(upperCaseLatinAlphabet[0].length);
+                        boolean allowToInsert = true;
+
+                        for (String elementInResult : resultArray) {
+                            if (upperCaseLatinAlphabet[m][n] != null) {
+                                if (upperCaseLatinAlphabet[m][n].toString().
+                                        equalsIgnoreCase(elementInResult)) {
+                                    allowToInsert = false;
+                                }
+                            } else {
+                                allowToInsert = false;
+                            }
+                        }
+                        if (allowToInsert) {
+                            isComplete = true;
+                            resultArray.add(upperCaseLatinAlphabet[m][n].toString());
+                        }
+                    }
+                    break;
+                case 2:
+                    //Берем значения из греческого списка нижнего регистра                    
+                    while (!isComplete) {
+                        int m = r1.nextInt(lowerCaseGreekAlphabet.length);
+                        int n = r1.nextInt(lowerCaseGreekAlphabet[0].length);
+                        boolean allowToInsert = true;
+
+                        for (String elementInResult : resultArray) {
+                            if (lowerCaseGreekAlphabet[m][n] != null) {
+                                if (lowerCaseGreekAlphabet[m][n].toString().
+                                        equalsIgnoreCase(elementInResult)) {
+                                    allowToInsert = false;
+                                }
+                            } else {
+                                allowToInsert = false;
+                            }
+                        }
+                        if (allowToInsert) {
+                            isComplete = true;
+                            resultArray.add(lowerCaseGreekAlphabet[m][n].toString());
+                        }
+                    }
+                    break;
+                case 3:
+                    //Берем значения из греческого списка нижнего регистра                    
+                    while (!isComplete) {
+                        int m = r1.nextInt(upperCaseGreekAlphabet.length);
+                        int n = r1.nextInt(upperCaseGreekAlphabet[0].length);
+                        boolean allowToInsert = true;
+
+                        for (String elementInResult : resultArray) {
+                            if (upperCaseGreekAlphabet[m][n] != null) {
+                                if (upperCaseGreekAlphabet[m][n].toString().
+                                        equalsIgnoreCase(elementInResult)) {
+                                    allowToInsert = false;
+                                }
+                            } else {
+                                allowToInsert = false;
+                            }
+                        }
+                        if (allowToInsert) {
+                            isComplete = true;
+                            resultArray.add(upperCaseGreekAlphabet[m][n].toString());
+                        }
+                    }
+                    break;
+            }
+        }
+
+        return resultArray;
+    }
+
+    /**
+     * Проверка, является ли символ буквой
+     *
+     * @param t
+     * @return true - да; <br>false - нет
+     */
+    private boolean isCharacter(char t) {
+
+        if (t >= 'a' && t <= 'z') {
+            return true;
+        }
+        if (t >= 'A' && t <= 'Z') {
+            return true;
+        }
+        for (int i = 0; i < lowerCaseGreekAlphabet.length; i++) {
+            for (int j = 0; j < lowerCaseGreekAlphabet[i].length; j++) {
+                if (lowerCaseGreekAlphabet[i][j] != null) {
+                    if (lowerCaseGreekAlphabet[i][j].toString().equalsIgnoreCase(String.valueOf(t))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < upperCaseGreekAlphabet.length; i++) {
+            for (int j = 0; j < upperCaseGreekAlphabet[i].length; j++) {
+                if (lowerCaseGreekAlphabet[i][j] != null) {
+                    if (upperCaseGreekAlphabet[i][j].toString().equalsIgnoreCase(String.valueOf(t))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void setButtonNextAndPreviousProperties() {
         /**
          * ********НУЖНОЕ*************** if (currentQuestionIndex == 0) {
          * bPreviusQuestion.setEnabled(false); } else {
@@ -136,7 +335,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         answers = new String[questionsAmount];
         updateLabel();
         updateQuestion();
-        setButtonNextAndPreviusProperties();
+        updateAlphabet();
+        setButtonNextAndPreviousProperties();
 
     }
 
@@ -174,7 +374,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignIndex = new javax.swing.JButton();
         bPutSignVector = new javax.swing.JButton();
         bPutSignFrac = new javax.swing.JButton();
-        bPreviusQuestion = new javax.swing.JButton();
+        bPreviousQuestion = new javax.swing.JButton();
         bNextQuestion = new javax.swing.JButton();
         paneForFormulaConstruct = new javax.swing.JPanel();
         lQuestionFormulation = new javax.swing.JLabel();
@@ -325,11 +525,11 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignFrac.setEnabled(false);
         bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
 
-        bPreviusQuestion.setText("Предыдущий вопрос");
-        bPreviusQuestion.setEnabled(false);
-        bPreviusQuestion.addActionListener(new java.awt.event.ActionListener() {
+        bPreviousQuestion.setText("Предыдущий вопрос");
+        bPreviousQuestion.setEnabled(false);
+        bPreviousQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPreviusQuestionActionPerformed(evt);
+                bPreviousQuestionActionPerformed(evt);
             }
         });
 
@@ -407,7 +607,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(42, 42, 42)
-                            .addComponent(bPreviusQuestion)
+                            .addComponent(bPreviousQuestion)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(bNextQuestion)
                             .addContainerGap()))
@@ -422,7 +622,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPreviusQuestion)
+                            .addComponent(bPreviousQuestion)
                             .addComponent(bNextQuestion)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -518,21 +718,23 @@ public class PassageTestForm extends javax.swing.JDialog {
                 currentQuestionIndex++;
                 updateQuestion();
                 drawFormula();
+                updateAlphabet();
             }
         }
-        setButtonNextAndPreviusProperties();
+        setButtonNextAndPreviousProperties();
         updateLabel();
     }//GEN-LAST:event_bNextQuestionActionPerformed
 
-    private void bPreviusQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviusQuestionActionPerformed
-        setButtonNextAndPreviusProperties();
+    private void bPreviousQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviousQuestionActionPerformed
+        setButtonNextAndPreviousProperties();
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             updateQuestion();
             drawFormula();
+            updateAlphabet();
         }
         updateLabel();
-    }//GEN-LAST:event_bPreviusQuestionActionPerformed
+    }//GEN-LAST:event_bPreviousQuestionActionPerformed
 
     private void paneForFormulaConstructMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForFormulaConstructMouseClicked
         currentFormula.setSelectedAtom(evt.getX(), evt.getY());
@@ -577,7 +779,7 @@ public class PassageTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bClearElement;
     private javax.swing.JButton bCompleteTest;
     private javax.swing.JButton bNextQuestion;
-    private javax.swing.JButton bPreviusQuestion;
+    private javax.swing.JButton bPreviousQuestion;
     private javax.swing.JButton bPutSignFrac;
     private javax.swing.JButton bPutSignIndex;
     private javax.swing.JButton bPutSignMinus;

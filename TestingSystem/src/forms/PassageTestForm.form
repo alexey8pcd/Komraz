@@ -76,7 +76,7 @@
                       <Group type="102" attributes="0">
                           <Component id="labelQuestionNumber" min="-2" pref="548" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Component id="bPreviusQuestion" min="-2" max="-2" attributes="0"/>
+                          <Component id="bPreviousQuestion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="bNextQuestion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -97,7 +97,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bPreviusQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bPreviousQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bNextQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -454,13 +454,13 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="bPreviusQuestion">
+    <Component class="javax.swing.JButton" name="bPreviousQuestion">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x435;&#x434;&#x44b;&#x434;&#x443;&#x449;&#x438;&#x439; &#x432;&#x43e;&#x43f;&#x440;&#x43e;&#x441;"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPreviusQuestionActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPreviousQuestionActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bNextQuestion">
