@@ -1,19 +1,100 @@
 package forms;
 
+import entities.StudentTest;
+import entities.Test;
+import java.util.List;
+import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import static sql.DBManager.entityManager;
+
 /**
  *
  * @author ScanNorOne
  */
 public class TestResultForm extends javax.swing.JDialog {
 
+    private final String[] HEADER_TITLES = {
+        "ФИО студента",
+        "Дата прохождения",
+        "% набранных баллов",
+        "Оценка"
+    };
+
+    private List<StudentTest> results;
+    private final TableModel RESULT_TABLE_MODEL = new AbstractTableModel() {
+
+        @Override
+        public int getRowCount() {
+            return results.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return HEADER_TITLES.length;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            switch (columnIndex) {
+                case 0:
+                    return results.get(rowIndex).getStudentIdStudent().getFio();
+                case 1:
+                    return results.get(rowIndex).
+                            getDataProhozhdeniya().toString();
+                case 2:
+                    return results.get(rowIndex).getProcentBallov();
+                case 3:
+                    return percentToMark(results.get(rowIndex).
+                            getProcentBallov());
+            }
+            return null;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return HEADER_TITLES[column];
+        }
+    };
+
     /**
      * Creates new form TestResult
+     *
+     * @param parent
+     * @param modal
      */
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        bExportToFile.setEnabled(false);
-        bPrint.setEnabled(false);
+    }
+
+    public void setTest(Test test) {
+        lTestName.setText(test.getNazvanie());
+        TypedQuery<StudentTest> query = entityManager.createQuery(
+                "SELECT s FROM StudentTest s WHERE s.testIdTest.idTest=:idTest",
+                StudentTest.class);
+        query.setParameter("idTest", test.getIdTest());
+        try {
+            results = query.getResultList();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+        tableForTestResult.setModel(RESULT_TABLE_MODEL);
+    }
+
+    private int percentToMark(int percent) {
+        if (percent < 50) {
+            return 2;
+        }
+        if (percent < 70) {
+            return 3;
+        }
+        if (percent < 90) {
+            return 4;
+        }
+        return 5;
     }
 
     @SuppressWarnings("unchecked")
@@ -30,7 +111,8 @@ public class TestResultForm extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Результаты теста");
 
-        lTestName.setText("Имя теста");
+        lTestName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lTestName.setText("Название теста");
 
         tableForTestResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -40,9 +122,24 @@ public class TestResultForm extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "№", "ФИО", "Правильные ответы", "Оценка"
+                "ФИО студента", "Дата прохождения", "% набранных баллов", "Оценка"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         sPaneForTestResult.setViewportView(tableForTestResult);
 
         bClose.setText("Закрыть");
@@ -53,8 +150,10 @@ public class TestResultForm extends javax.swing.JDialog {
         });
 
         bExportToFile.setText("Экспорт в файл");
+        bExportToFile.setEnabled(false);
 
         bPrint.setText("Печать");
+        bPrint.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,38 +162,36 @@ public class TestResultForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lTestName)
-                    .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bPrint)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bExportToFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bClose)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bPrint)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bExportToFile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bClose))
+                    .addComponent(sPaneForTestResult, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
+                    .addComponent(lTestName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lTestName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lTestName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bClose)
                     .addComponent(bExportToFile)
                     .addComponent(bPrint))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        this.setVisible(false);
         dispose();
     }//GEN-LAST:event_bCloseActionPerformed
 

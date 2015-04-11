@@ -88,7 +88,7 @@ public class TestForm extends javax.swing.JDialog {
         }
 
     }
-    
+
     private void refresh() {
         try {
             subjects = entityManager.createNamedQuery(
@@ -323,19 +323,19 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
-        
-        boolean correct = true; 
-        
+
+        boolean correct = true;
+
         if (tableListOfTests.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Тест не выбран",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
             correct = false;
         }
-        
+
         if (correct) {
-            
+
             Test test = tests.get(tableListOfTests.getSelectedRow());
-            
+
             StatusTesta st = new StatusTesta();
             st.setIdStatusTesta(1);
             test.setStatusTestaIdStatusTesta(st);
@@ -344,22 +344,29 @@ public class TestForm extends javax.swing.JDialog {
                 entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.toString(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
-            
+
 //            Для 2ой и 3ей итерации
 //            OpenTestForm openTest = new OpenTestForm(null, true);
 //            openTest.setTest(test);
 //            openTest.setVisible(true);
-            
             refresh();
         }
     }//GEN-LAST:event_bOpenAccessActionPerformed
 
     private void bViewResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bViewResultActionPerformed
-        TestResultForm testResult = new TestResultForm(null, true);
-        testResult.setVisible(true);
+        int selectedRow = tableListOfTests.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Тест не выбран",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+        } else {
+            Test test = tests.get(selectedRow);
+            TestResultForm testResult = new TestResultForm(null, true);
+            testResult.setTest(test);
+            testResult.setVisible(true);
+        }
     }//GEN-LAST:event_bViewResultActionPerformed
 
     private void listSubjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSubjectsMouseClicked
@@ -367,20 +374,12 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_listSubjectsMouseClicked
 
     private void bCloseAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseAccessActionPerformed
-        // TODO add your handling code here:
-        
-        boolean correct = true; 
-        
-        if (tableListOfTests.getSelectedRow() == -1) {
+        int selectedRow = tableListOfTests.getSelectedRow();
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Тест не выбран",
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
-            correct = false;
-        }
-        
-        if (correct) {
-            
-            Test test = tests.get(tableListOfTests.getSelectedRow());
-            
+        }else{
+            Test test = tests.get(selectedRow);
             StatusTesta st = new StatusTesta();
             st.setIdStatusTesta(2);
             test.setStatusTestaIdStatusTesta(st);
@@ -389,14 +388,11 @@ public class TestForm extends javax.swing.JDialog {
                 entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.toString(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
-            
             refresh();
         }
-        
-        
     }//GEN-LAST:event_bCloseAccessActionPerformed
     private void bDeleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteTestActionPerformed
         int selectedIndex = tableListOfTests.getSelectedRow();
@@ -404,7 +400,7 @@ public class TestForm extends javax.swing.JDialog {
         if (selectedIndex < tableListOfTests.getRowCount()
                 && selectedIndex >= 0) {
             //Удаляем выбранную строку в таблице
-            Test test = entityManager.find(Test.class, 
+            Test test = entityManager.find(Test.class,
                     tests.get(selectedIndex).getIdTest());
             TestVopros testVopros = null;
             if (test != null) {

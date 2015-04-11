@@ -1,10 +1,14 @@
 package forms;
 
+import entities.Student;
+import entities.StudentTest;
 import entities.Test;
 import entities.Vopros;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -12,6 +16,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import main.Formula;
 import static resources.Parameters.*;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -769,7 +774,25 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
         JOptionPane.showMessageDialog(null, "Вы набрали баллов "
                 + scored + "/" + maximalScore,
-                "Результат", JOptionPane.OK_OPTION);
+                "Результат", JOptionPane.INFORMATION_MESSAGE);
+        
+        try {
+            //выбор студента
+            Student student = entityManager.createNamedQuery(
+                    "Student.findAll", Student.class).getResultList().get(0);
+            StudentTest studentTest = new StudentTest();
+            studentTest.setStudentIdStudent(student);
+            studentTest.setTestIdTest(testForPassage);
+            studentTest.setProcentBallov(scored / maximalScore);
+            studentTest.setDataProhozhdeniya(GregorianCalendar.
+                    getInstance().getTime());
+            entityManager.getTransaction().begin();
+            entityManager.persist(studentTest);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
         dispose();
     }//GEN-LAST:event_bCompleteTestActionPerformed
 
