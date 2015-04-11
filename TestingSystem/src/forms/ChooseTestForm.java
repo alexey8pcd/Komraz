@@ -36,8 +36,7 @@ public class ChooseTestForm extends javax.swing.JDialog {
                     "SELECT t FROM Test t where "
                     + "t.statusTestaIdStatusTesta.idStatusTesta=1",
                     Test.class);
-            availableTests = query.getResultList();
-            
+            availableTests = query.getResultList();            
             listTests.setModel(LISTS_TEST_MODEL);
             listTests.updateUI();
         } catch (Exception ex) {

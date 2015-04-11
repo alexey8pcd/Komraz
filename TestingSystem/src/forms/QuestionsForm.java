@@ -241,6 +241,14 @@ public class QuestionsForm extends javax.swing.JDialog {
                 }
                 if (allowDelete) {
                     boolean deleted = false;
+                    entityManager.getTransaction().begin();
+                    //удалить тесты
+                    int linkedTestsAmpunt = vopros.getTestVoprosList().size();
+                    for (int i = 0; i < linkedTestsAmpunt; i++) {
+                        entityManager.remove(vopros.getTestVoprosList().
+                                get(i).getTestIdTest());
+                    }
+                    entityManager.getTransaction().commit();
                     switch (questions.get(selectedIndex).
                             getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                         case 1:
@@ -250,7 +258,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                                         getVoprosLatexList().get(0);
                                 try {
                                     entityManager.getTransaction().begin();
-                                    if (voprosLatex != null) {                                        
+                                    if (voprosLatex != null) {
                                         entityManager.remove(voprosLatex);
                                     }
                                     entityManager.remove(vopros);
