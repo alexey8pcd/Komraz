@@ -419,12 +419,12 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             vopros.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
                     difficulty.get(listDifficulty.getSelectedIndex()));
             vopros.setTipVoprosaIdTipVoprosa(typesOfQuestion.get(type));
-            try {
-                DBManager.writeObject(vopros);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.toString(),
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
+//            try {
+//                DBManager.writeObject(vopros);
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(this, ex.toString(),
+//                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+//            }
             VoprosLatex voprosLatex = new VoprosLatex();
             voprosLatex.setLatexZapis(
                     new String(formula.getTranscription().getBytes(), UTF_8));

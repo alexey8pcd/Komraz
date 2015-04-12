@@ -235,9 +235,9 @@ public class EditTestForm extends javax.swing.JDialog {
                     .addComponent(lTestName)
                     .addComponent(textTestName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lQuestionsInSubject)
-                    .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lQuestionsInSubject))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -321,7 +321,6 @@ public class EditTestForm extends javax.swing.JDialog {
             statusTesta = query.getSingleResult();
             test.setStatusTestaIdStatusTesta(statusTesta);
             try {
-                DBManager.writeObject(test);
                 //добавить данные о соответствии тестов и вопросов
                 List<TestVopros> testVoproses = new ArrayList<>();
                 for (Vopros v : TEST_QUESTIONS) {

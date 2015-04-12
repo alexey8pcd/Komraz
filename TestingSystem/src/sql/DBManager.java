@@ -29,7 +29,7 @@ public class DBManager {
      */
     public static void writeObject(Object object) throws Exception{
         entityManager.getTransaction().begin();
-        entityManager.persist(object);
+        entityManager.merge(object);
         entityManager.getTransaction().commit();
     }
     

@@ -91,11 +91,25 @@ public class TestForm extends javax.swing.JDialog {
             listSubjects.updateUI();
             listSubjects.setSelectedIndex(0);
         }
+        //удалить тесты, для которых нет вопросов
+        List<Test> allTests = entityManager.createNamedQuery("Test.findAll",
+                Test.class).getResultList();
+        entityManager.getTransaction().begin();
+        for (Test test : allTests) {
+            if (test.getTestVoprosList().isEmpty()) {
+                Query query = entityManager.createQuery(
+                        "DELETE FROM Test t WHERE t.idTest=:id");
+                query.setParameter("id", test.getIdTest());
+                query.executeUpdate();
+            }
+        }
+        entityManager.getTransaction().commit();
         refresh();
     }
 
     private void refresh() {
         try {
+
             int selectedIndex = listSubjects.getSelectedIndex();
             if (selectedIndex == -1) {
                 //отобразить все тесты
@@ -320,9 +334,9 @@ public class TestForm extends javax.swing.JDialog {
     private void bCreateTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateTestActionPerformed
         int selectedIndex = listSubjects.getSelectedIndex();
         if (selectedIndex != -1 && selectedIndex < subjects.size()) {
-            EditTestForm addTest = new EditTestForm(null, true);
-            addTest.setSubject(subjects.get(selectedIndex));
-            addTest.setVisible(true);
+            EditTestForm editTestForm = new EditTestForm(null, true);
+            editTestForm.setSubject(subjects.get(selectedIndex));
+            editTestForm.setVisible(true);
             refresh();
         } else {
             JOptionPane.showMessageDialog(null, "Дисциплина не выбрана",

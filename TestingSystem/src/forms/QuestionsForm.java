@@ -4,7 +4,7 @@ import entities.TestVopros;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.util.List;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
@@ -177,13 +177,13 @@ public class QuestionsForm extends javax.swing.JDialog {
                         .addComponent(bSearchQuestion))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lQuestionsList)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(bCreateQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bDeleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bEditQuestion))
-                            .addComponent(lQuestionsList))
+                                .addComponent(bEditQuestion)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -228,9 +228,14 @@ public class QuestionsForm extends javax.swing.JDialog {
             Vopros vopros = entityManager.find(Vopros.class,
                     questions.get(selectedIndex).getIdVopros());
             if (vopros != null) {
-                List<TestVopros> relativeTests = vopros.getTestVoprosList();
+                TypedQuery<TestVopros> queryForTestVopros = entityManager.createQuery(
+                        "SELECT tv FROM TestVopros tv "
+                        + "WHERE tv.voprosIdVopros.idVopros=:id",
+                        TestVopros.class);
+                queryForTestVopros.setParameter("id", vopros.getIdVopros());
+                List<TestVopros> relativeTestVoproses = queryForTestVopros.getResultList();
                 boolean allowDelete = true;
-                if (!relativeTests.isEmpty()) {
+                if (!relativeTestVoproses.isEmpty()) {
                     int result = JOptionPane.showConfirmDialog(null,
                             "Данный вопрос содержится в тестах. Вы действительно "
                             + "хотите удалить его? Он также будет удален из всех "
@@ -240,27 +245,22 @@ public class QuestionsForm extends javax.swing.JDialog {
                     allowDelete = result == JOptionPane.YES_OPTION;
                 }
                 if (allowDelete) {
-                    boolean deleted = false;
-                    entityManager.getTransaction().begin();
-                    //удалить тесты
-                    int linkedTestsAmpunt = vopros.getTestVoprosList().size();
-                    for (int i = 0; i < linkedTestsAmpunt; i++) {
-                        entityManager.remove(vopros.getTestVoprosList().
-                                get(i).getTestIdTest());
-                    }
-                    entityManager.getTransaction().commit();
+                    boolean deleted = false;                    
                     switch (questions.get(selectedIndex).
                             getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                         case 1:
                             //вопрос Latex
-                            if (!vopros.getVoprosLatexList().isEmpty()) {
-                                VoprosLatex voprosLatex = vopros.
-                                        getVoprosLatexList().get(0);
+                            TypedQuery<VoprosLatex> queryForVoprosLates = entityManager.
+                                    createQuery("Select v FROM VoprosLatex v "
+                                            + "WHERE v.voprosIdVopros.idVopros=:id",
+                                            VoprosLatex.class);
+                            queryForVoprosLates.setParameter("id", vopros.getIdVopros());
+                            VoprosLatex voprosLatex = queryForVoprosLates.
+                                    getSingleResult();
+                            if (voprosLatex != null) {
                                 try {
                                     entityManager.getTransaction().begin();
-                                    if (voprosLatex != null) {
-                                        entityManager.remove(voprosLatex);
-                                    }
+                                    entityManager.remove(voprosLatex);
                                     entityManager.remove(vopros);
                                     entityManager.getTransaction().commit();
                                     deleted = true;
@@ -270,6 +270,13 @@ public class QuestionsForm extends javax.swing.JDialog {
                                 }
                             }//endif
                     }//end switch
+                    entityManager.getTransaction().begin();
+                    //удалить тест-вопросы
+                    int linkedTestVoprosAmount = relativeTestVoproses.size();
+                    for (int i = 0; i < linkedTestVoprosAmount; i++) {
+                        entityManager.remove(relativeTestVoproses.get(i));
+                    }
+                    entityManager.getTransaction().commit();
                     if (deleted) {
                         refresh();
                     }

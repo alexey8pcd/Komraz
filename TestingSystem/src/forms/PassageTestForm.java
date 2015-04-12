@@ -3,13 +3,17 @@ package forms;
 import entities.Student;
 import entities.StudentTest;
 import entities.Test;
+import entities.TestVopros;
 import entities.Vopros;
+import entities.VoprosLatex;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Stack;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
@@ -26,12 +30,13 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     private Test testForPassage;
     private Vopros currentQuestion;
+    private List<Vopros> questions;
     private int currentQuestionIndex;
     private int questionsAmount;
 
-    private ArrayList<String> wordsToInsert; //Буквы, которые собираемся вставить
+    private List<String> wordsToInsert; //Буквы, которые собираемся вставить
     private final int MAX_AMOUNT_OF_WORDS = 20;
-    private ArrayList<Object[]> insertValues;
+    private List<Object[]> insertValues;
 
     private final Graphics graphics;
     private Formula currentFormula;
@@ -76,37 +81,32 @@ public class PassageTestForm extends javax.swing.JDialog {
                 + (currentQuestionIndex + 1) + "/" + questionsAmount);
     }
 
+    private String getLatexTranscription(Vopros question) {
+        TypedQuery<VoprosLatex> queryForVoprosLatex = entityManager.createQuery(
+                "SELECT vl FROM VoprosLatex vl "
+                + "WHERE vl.voprosIdVopros.idVopros=:id",
+                VoprosLatex.class);
+        queryForVoprosLatex.setParameter("id", question.getIdVopros());
+        return queryForVoprosLatex.getSingleResult().getLatexZapis();
+    }
+
     /**
      * Обновление таблицы алфавита
      */
     private void updateAlphabet() {
         wordsToInsert.clear(); //Подчистим массив
-
-        Vopros vopros = testForPassage.
-                getTestVoprosList().get(currentQuestionIndex).getVoprosIdVopros();
-
-        String currentLatexString = "";
-        try {
-            currentLatexString = vopros.getVoprosLatexList().
-                    get(0).getLatexZapis();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
-        }
-
+        String currentLatexString = getLatexTranscription(currentQuestion);
         for (int i = 0; i < currentLatexString.length(); i++) {
             if (isCharacter(currentLatexString.charAt(i))) {
                 wordsToInsert.add(String.valueOf(currentLatexString.charAt(i)));
             }
         }
-
         wordsToInsert = fillTheArrayByRandomWords(wordsToInsert);
-
         //Выделяем память
         insertValues = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             insertValues.add(i, new Object[10]);
         }
-
         //Вставка значений в модель
         int countOfResultArray = 0;
         for (int i = 0; i < TABLE_SYBOLS_MODEL.getRowCount(); i++) {
@@ -140,8 +140,8 @@ public class PassageTestForm extends javax.swing.JDialog {
      * @param inputArray входной массив
      * @return готовый
      */
-    private ArrayList<String> fillTheArrayByRandomWords(ArrayList<String> inputArray) {
-        ArrayList<String> resultArray = new ArrayList<>();
+    private List<String> fillTheArrayByRandomWords(List<String> inputArray) {
+        List<String> resultArray = new ArrayList<>();
         for (String element : inputArray) {
             resultArray.add(element);
         }
@@ -170,7 +170,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         return resultArray;
     }
 
-    private void checkAndInsertWord(Object[][] dictionary, ArrayList<String> listOfWords) {
+    private void checkAndInsertWord(Object[][] dictionary, List<String> listOfWords) {
         boolean isComplete = false;
 
         while (!isComplete) {
@@ -201,17 +201,16 @@ public class PassageTestForm extends javax.swing.JDialog {
      * @return true - да; <br>false - нет
      */
     private boolean isCharacter(char t) {
-
         if (t >= 'a' && t <= 'z') {
             return true;
         }
         if (t >= 'A' && t <= 'Z') {
             return true;
         }
-        for (int i = 0; i < lowerCaseGreekAlphabet.length; i++) {
-            for (int j = 0; j < lowerCaseGreekAlphabet[i].length; j++) {
-                if (lowerCaseGreekAlphabet[i][j] != null) {
-                    if (lowerCaseGreekAlphabet[i][j].toString().equalsIgnoreCase(String.valueOf(t))) {
+        for (Object[] lowerCaseGreekAlphabet2 : lowerCaseGreekAlphabet) {
+            for (Object lowerCaseGreekAlphabet1 : lowerCaseGreekAlphabet2) {
+                if (lowerCaseGreekAlphabet1 != null) {
+                    if (lowerCaseGreekAlphabet1.toString().equalsIgnoreCase(String.valueOf(t))) {
                         return true;
                     }
                 }
@@ -243,8 +242,7 @@ public class PassageTestForm extends javax.swing.JDialog {
     }
 
     private void updateQuestion() {
-        currentQuestion = testForPassage.getTestVoprosList().
-                get(currentQuestionIndex).getVoprosIdVopros();
+        currentQuestion = questions.get(currentQuestionIndex);
         if (currentQuestion != null) {
             lQuestionFormulation.setText(currentQuestion.getFormulirovka());
         }
@@ -279,11 +277,25 @@ public class PassageTestForm extends javax.swing.JDialog {
      * @param testForPassage
      */
     public void setTestForPassage(Test testForPassage) {
-        this.testForPassage = testForPassage;
-        currentQuestion = testForPassage.getTestVoprosList().
-                get(currentQuestionIndex).getVoprosIdVopros();
-
-        questionsAmount = testForPassage.getTestVoprosList().size();
+        List<TestVopros> testVoproses = null;
+        try {
+            this.testForPassage = entityManager.find(Test.class, testForPassage.getIdTest());
+            TypedQuery<TestVopros> queryForTestVopros = entityManager.createQuery(
+                    "SELECT tv FROM TestVopros tv WHERE tv.testIdTest.idTest=:id", 
+                    TestVopros.class);
+            queryForTestVopros.setParameter("id", this.testForPassage.getIdTest());
+            testVoproses = queryForTestVopros.getResultList();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+        questions = new ArrayList<>();
+        for (TestVopros testVopros : testVoproses) {
+            questions.add(testVopros.getVoprosIdVopros());
+        }
+        currentQuestion = questions.get(currentQuestionIndex);
+        questionsAmount = questions.size();
         answers = new String[questionsAmount];
         updateLabel();
         updateQuestion();
@@ -708,12 +720,10 @@ public class PassageTestForm extends javax.swing.JDialog {
         int maximalScore = 0;
         answers[currentQuestionIndex] = currentFormula.getTranscription();
         for (int i = 0; i < questionsAmount; i++) {
-            Vopros vopros = this.testForPassage.
-                    getTestVoprosList().get(i).getVoprosIdVopros();
+            Vopros vopros = questions.get(i);
             String answer = answers[i];
             if (answer != null) {
-                if (answer.equals(vopros.getVoprosLatexList().
-                        get(0).getLatexZapis())) {
+                if (answer.equals(getLatexTranscription(vopros))) {
                     scored += vopros.getBall();
                 }
             }

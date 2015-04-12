@@ -40,6 +40,7 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lQuestionsList" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="bCreateQuestion" min="-2" pref="138" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -47,7 +48,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="bEditQuestion" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lQuestionsList" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
