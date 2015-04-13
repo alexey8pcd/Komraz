@@ -22,7 +22,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         graphics = paneEditFormula.getGraphics();
         stackFormula = new Stack<>();
@@ -306,8 +306,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         tableLatinAlphabet.setRowSelectionAllowed(false);
         tableLatinAlphabet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableLatinAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableLatinAlphabetMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableLatinAlphabetMousePressed(evt);
             }
         });
         scrollPaneForLatinAlphabet.setViewportView(tableLatinAlphabet);
@@ -359,8 +359,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         tableGreekAlphabet.getTableHeader().setResizingAllowed(false);
         tableGreekAlphabet.getTableHeader().setReorderingAllowed(false);
         tableGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableGreekAlphabetMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableGreekAlphabetMousePressed(evt);
             }
         });
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
@@ -418,7 +418,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bSaveFormula.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bSaveFormula.setText("Сохранить");
+        bSaveFormula.setText("Продолжить");
         bSaveFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bSaveFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,6 +434,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 paneEditFormulaMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                paneEditFormulaMousePressed(evt);
             }
         });
 
@@ -464,8 +467,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        bClearAll.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bClearAll.setLabel("Очистить все");
+        bClearAll.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bClearAll.setText("<html><center>Очистить все ячейки");
+        bClearAll.setToolTipText("<html>Очищает содержимое все ячеек,<br> которые не содержат знаков операций");
         bClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bClearAllActionPerformed(evt);
@@ -477,8 +481,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutSignFrac.setEnabled(false);
         bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
 
-        bUndo.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bUndo.setText("Шаг назад");
+        bUndo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bUndo.setText("<html>Шаг назад");
+        bUndo.setToolTipText("<html>Возвращает предыдущую конструкцию формулы");
         bUndo.setPreferredSize(new java.awt.Dimension(80, 80));
         bUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -486,8 +491,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         });
 
-        bClearElement.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bClearElement.setText("Очистить");
+        bClearElement.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bClearElement.setText("<html><center>Очистить ячейку");
+        bClearElement.setToolTipText("<html>Очищает содержимое выбранной ячейки,<br> если она не содержит знаков операций");
         bClearElement.setPreferredSize(new java.awt.Dimension(80, 80));
         bClearElement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -515,8 +521,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutSignVector.setEnabled(false);
         bPutSignVector.setPreferredSize(new java.awt.Dimension(80, 80));
 
-        bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bRestartConstruction.setText("Сбросить");
+        bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bRestartConstruction.setText("[ ] = [ ]");
+        bRestartConstruction.setToolTipText("<html>Устанавливает формулу в начальное<br> состояние для редактирования");
         bRestartConstruction.setPreferredSize(new java.awt.Dimension(80, 80));
         bRestartConstruction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -585,10 +592,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                             .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bRestartConstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bClearElement, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -604,7 +611,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -629,74 +636,64 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void bPutNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber1ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("1", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber1ActionPerformed
 
     private void bPutNumber2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber2ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("2", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber2ActionPerformed
 
     private void bPutNumber3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber3ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("3", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber3ActionPerformed
 
     private void bPutNumber4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber4ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("4", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber4ActionPerformed
 
     private void bPutNumber5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber5ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("5", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber5ActionPerformed
 
     private void bPutNumber6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber6ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("6", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber6ActionPerformed
 
     private void bPutNumber7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber7ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("7", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber7ActionPerformed
 
     private void bPutNumber8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber8ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("8", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber8ActionPerformed
 
     private void bPutNumber9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber9ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("9", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber9ActionPerformed
 
     private void bPutNumber0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber0ActionPerformed
+        addFormulaCopyToStack();
         currentFormula.replaceAtomText("0", currentFormula.getSelectedIndex());
         drawFormula();
     }//GEN-LAST:event_bPutNumber0ActionPerformed
-
-    private void tableLatinAlphabetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLatinAlphabetMouseClicked
-        Object value = tableLatinAlphabet.getValueAt(
-                tableLatinAlphabet.getSelectedRow(),
-                tableLatinAlphabet.getSelectedColumn());
-        if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
-        }
-        drawFormula();
-    }//GEN-LAST:event_tableLatinAlphabetMouseClicked
-
-    private void tableGreekAlphabetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableGreekAlphabetMouseClicked
-        Object value = tableGreekAlphabet.getValueAt(
-                tableGreekAlphabet.getSelectedRow(),
-                tableGreekAlphabet.getSelectedColumn());
-        if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
-        }
-        drawFormula();
-    }//GEN-LAST:event_tableGreekAlphabetMouseClicked
 
     private void bChangeRegisterLatinAlphabetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeRegisterLatinAlphabetActionPerformed
         for (int i = 0; i < tableLatinAlphabet.getRowCount(); i++) {
@@ -776,11 +773,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         drawFormula();
     }//GEN-LAST:event_bClearElementActionPerformed
 
-    private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
-        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
-        drawFormula();
-    }//GEN-LAST:event_paneEditFormulaMouseClicked
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         confirmExit();
     }//GEN-LAST:event_formWindowClosing
@@ -789,6 +781,37 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         makeDefaultFormula();
         drawFormula();
     }//GEN-LAST:event_bRestartConstructionActionPerformed
+
+    private void tableLatinAlphabetMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLatinAlphabetMousePressed
+        addFormulaCopyToStack();
+        Object value = tableLatinAlphabet.getValueAt(
+                tableLatinAlphabet.getSelectedRow(),
+                tableLatinAlphabet.getSelectedColumn());
+        if (value != null) {
+            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
+        }
+        drawFormula();
+    }//GEN-LAST:event_tableLatinAlphabetMousePressed
+
+    private void tableGreekAlphabetMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableGreekAlphabetMousePressed
+        addFormulaCopyToStack();
+        Object value = tableGreekAlphabet.getValueAt(
+                tableGreekAlphabet.getSelectedRow(),
+                tableGreekAlphabet.getSelectedColumn());
+        if (value != null) {
+            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
+        }
+        drawFormula();
+    }//GEN-LAST:event_tableGreekAlphabetMousePressed
+
+    private void paneEditFormulaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMousePressed
+        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
+        drawFormula();
+    }//GEN-LAST:event_paneEditFormulaMousePressed
+
+    private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
+
+    }//GEN-LAST:event_paneEditFormulaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

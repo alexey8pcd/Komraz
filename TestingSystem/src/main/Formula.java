@@ -66,7 +66,7 @@ public class Formula {
                 if (mutable) {
                     g.drawRect(x + 1, y + 1, size - 2, size - 2);
                 } else {
-                    g.setColor(Color.gray);
+                    g.setColor(Color.LIGHT_GRAY);
                     g.fillRect(x + 1, y + 1, size - 2, size - 2);
                 }
 
@@ -110,7 +110,7 @@ public class Formula {
     private int startX;
     private int startY;
     private int size;
-    public static final Font DEFAULT_FONT = new Font("Times New Roman", Font.BOLD, 20);
+    public static final Font DEFAULT_FONT = new Font("Times New Roman", Font.BOLD, 22);
     private final List<Atom> elements;
     private int selectedIndex;
 

@@ -58,7 +58,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     public QuestionEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         GRAPHICS = panePreview.getGraphics();
         listSubjects.setModel(SUBJECTS_LIST_MODEL);
@@ -91,6 +91,17 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 panePreview.getHeight());
         if (formula != null) {
             formula.preview(GRAPHICS);
+        }
+    }
+
+    private void exitConfirm() {
+        int result = JOptionPane.showConfirmDialog(null, 
+                "Редактирование вопроса не завершено. "
+                + "Вы действительно хотите закрыть окно редактора?", 
+                "Подтверждение выхода",
+                JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            dispose();
         }
     }
 
@@ -133,9 +144,14 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lPoints = new javax.swing.JLabel();
         spinnerPoints = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый вопрос");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lQuestionTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lQuestionTitle.setText("Название вопроса:");
@@ -434,7 +450,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     }
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
-        dispose();
+        exitConfirm();
     }//GEN-LAST:event_bCloseFormActionPerformed
 
     private void bSaveQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveQuestionActionPerformed
@@ -531,6 +547,10 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             draw();
         }
     }//GEN-LAST:event_bEditFormulaActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        exitConfirm();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCloseForm;

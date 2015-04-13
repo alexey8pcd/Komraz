@@ -82,8 +82,8 @@ public class EditTestForm extends javax.swing.JDialog {
                 "TestVopros.findAll", TestVopros.class);
         List<TestVopros> allTestVoproses = queryForVopros.getResultList();
         for (int i = 0; i < allTestVoproses.size(); i++) {
-            if (allTestVoproses.get(i).getTestIdTest().getIdTest().intValue() == 
-                    test.getIdTest()) {
+            if (allTestVoproses.get(i).getTestIdTest().getIdTest().intValue()
+                    == test.getIdTest()) {
                 TEST_QUESTIONS.add(allTestVoproses.get(i).getVoprosIdVopros());
             }
         }
@@ -333,9 +333,12 @@ public class EditTestForm extends javax.swing.JDialog {
             if (test == null) {
                 //создаем новый
                 test = new Test();
-            }else{
+            } else {
                 //удалить связные тест-вопросы
-                DBManager.requestWithoutAnswerSQL("delete from test_vopros where test_vopros.TEST_ID_TEST="+test.getIdTest());
+                DBManager.requestWithoutAnswerSQL(
+                        "delete from test_vopros "
+                        + "where test_vopros.TEST_ID_TEST="
+                        + test.getIdTest());
             }
             testVoproses = test.getTestVoprosList();
             test.setNazvanie(new String(textTestName.getText().getBytes(), UTF_8));
