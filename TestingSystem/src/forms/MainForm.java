@@ -29,6 +29,7 @@ public class MainForm extends javax.swing.JFrame {
         panePicture = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Тестирующая система");
         setResizable(false);
 
         bGroups.setText("Группы");
@@ -67,6 +68,7 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         panePicture.setBackground(new java.awt.Color(204, 204, 204));
+        panePicture.setToolTipText("");
         panePicture.setName("qqq"); // NOI18N
 
         javax.swing.GroupLayout panePictureLayout = new javax.swing.GroupLayout(panePicture);
