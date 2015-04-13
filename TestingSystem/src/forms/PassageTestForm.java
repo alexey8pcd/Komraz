@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Stack;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -37,7 +38,7 @@ public class PassageTestForm extends javax.swing.JDialog {
     private List<String> wordsToInsert; //Буквы, которые собираемся вставить
     private final int MAX_AMOUNT_OF_WORDS = 20;
     private List<Object[]> insertValues;
-
+    private boolean mouseInTableClicked;
     private final Graphics GRAPHICS;
     private Formula currentFormula;
     private final Stack<Formula> STACK_FORMULA;
@@ -66,7 +67,8 @@ public class PassageTestForm extends javax.swing.JDialog {
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        mouseInTableClicked = false;
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         STACK_FORMULA = new Stack<>();
         makeDefaultFormula();
@@ -80,7 +82,7 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     private void updateLabel() {
         labelQuestionNumber.setText("Вопрос "
-                + (currentQuestionIndex + 1) + "/" + questionsAmount);
+                + (currentQuestionIndex + 1) + " из " + questionsAmount);
     }
 
     private String getLatexTranscription(Vopros question) {
@@ -125,14 +127,6 @@ public class PassageTestForm extends javax.swing.JDialog {
                 }
             }
         }
-        tableSymbols.setModel(TABLE_SYBOLS_MODEL);
-
-        //Установим заголовки таблицы букв пустыми
-        JTableHeader header = tableSymbols.getTableHeader();
-        for (int i = 0; i < 10; i++) {
-            header.getColumnModel().getColumn(i).setHeaderValue("");
-        }
-        tableSymbols.setTableHeader(header);
         tableSymbols.updateUI();
     }
 
@@ -283,7 +277,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         try {
             this.testForPassage = entityManager.find(Test.class, testForPassage.getIdTest());
             TypedQuery<TestVopros> queryForTestVopros = entityManager.createQuery(
-                    "SELECT tv FROM TestVopros tv WHERE tv.testIdTest.idTest=:id", 
+                    "SELECT tv FROM TestVopros tv WHERE tv.testIdTest.idTest=:id",
                     TestVopros.class);
             queryForTestVopros.setParameter("id", this.testForPassage.getIdTest());
             testVoproses = queryForTestVopros.getResultList();
@@ -299,6 +293,16 @@ public class PassageTestForm extends javax.swing.JDialog {
         currentQuestion = questions.get(currentQuestionIndex);
         questionsAmount = questions.size();
         answers = new String[questionsAmount];
+        tableSymbols.setModel(TABLE_SYBOLS_MODEL);
+        //Установим заголовки таблицы букв пустыми
+        JTableHeader header = tableSymbols.getTableHeader();
+        for (int i = 0; i < 10; i++) {
+            header.getColumnModel().getColumn(i).setHeaderValue("");
+        }
+        tableSymbols.setTableHeader(header);
+        tableSymbols.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableSymbols.getColumnModel().getSelectionModel().setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION);
         updateLabel();
         updateQuestion();
         updateAlphabet();
@@ -375,12 +379,21 @@ public class PassageTestForm extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tableSymbols.setAutoscrolls(false);
         tableSymbols.setRowHeight(40);
         tableSymbols.setRowSelectionAllowed(false);
         tableSymbols.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableSymbols.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                tableSymbolsMouseDragged(evt);
+            }
+        });
         tableSymbols.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableSymbolsMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableSymbolsMouseReleased(evt);
             }
         });
         sPaneForSymbolsTable.setViewportView(tableSymbols);
@@ -405,7 +418,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         bUndo.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bUndo.setText("Шаг назад");
+        bUndo.setText("<html>Шаг назад");
+        bUndo.setToolTipText("<html>Возвращает предыдущую конструкцию формулы");
         bUndo.setPreferredSize(new java.awt.Dimension(80, 80));
         bUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -414,7 +428,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bRestartConstruction.setText("Сбросить");
+        bRestartConstruction.setText("<html>Сбросить");
+        bRestartConstruction.setToolTipText("<html>Устанавливает формулу в  состояние [ ] = [ ]");
         bRestartConstruction.setPreferredSize(new java.awt.Dimension(80, 80));
         bRestartConstruction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -423,7 +438,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         bClearAll.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bClearAll.setLabel("Очистить все");
+        bClearAll.setText("<html><center>Очистить все ячейки");
+        bClearAll.setToolTipText("<html>Очищает содержимое все ячеек,<br> которые не содержат знаков операций");
         bClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bClearAllActionPerformed(evt);
@@ -431,7 +447,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         bClearElement.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        bClearElement.setText("Очистить");
+        bClearElement.setText("<html><center>Очистить ячейку");
+        bClearElement.setToolTipText("<html>Очищает содержимое выбранной ячейки,<br> если она не содержит знаков операций");
         bClearElement.setPreferredSize(new java.awt.Dimension(80, 80));
         bClearElement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -507,8 +524,8 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         paneForFormulaConstruct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paneForFormulaConstructMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                paneForFormulaConstructMousePressed(evt);
             }
         });
 
@@ -622,7 +639,7 @@ public class PassageTestForm extends javax.swing.JDialog {
                             .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -702,22 +719,16 @@ public class PassageTestForm extends javax.swing.JDialog {
         updateLabel();
     }//GEN-LAST:event_bPreviousQuestionActionPerformed
 
-    private void paneForFormulaConstructMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForFormulaConstructMouseClicked
-        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
-        drawFormula();
-    }//GEN-LAST:event_paneForFormulaConstructMouseClicked
-
-    private void tableSymbolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseClicked
-        Object value = tableSymbols.getValueAt(
-                tableSymbols.getSelectedRow(),
-                tableSymbols.getSelectedColumn());
-        if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
-        }
-        drawFormula();
-    }//GEN-LAST:event_tableSymbolsMouseClicked
-
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
+        if (currentQuestionIndex < questionsAmount - 1) {
+            int result = JOptionPane.showConfirmDialog(null,
+                    "Вы ответили не на все вопросы. Вы действительно "
+                    + "хотите завершить тест?", "Подтверждение",
+                    JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
         int scored = 0;
         int maximalScore = 0;
         answers[currentQuestionIndex] = currentFormula.getTranscription();
@@ -732,7 +743,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             maximalScore += vopros.getBall();
         }
         JOptionPane.showMessageDialog(null, "Вы набрали баллов "
-                + scored + "/" + maximalScore,
+                + scored + " из " + maximalScore,
                 "Результат", JOptionPane.INFORMATION_MESSAGE);
 
         try {
@@ -754,6 +765,47 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
         dispose();
     }//GEN-LAST:event_bCompleteTestActionPerformed
+
+    private void paneForFormulaConstructMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForFormulaConstructMousePressed
+        currentFormula.setSelectedAtom(evt.getX(), evt.getY());
+        drawFormula();
+    }//GEN-LAST:event_paneForFormulaConstructMousePressed
+
+    private void tableSymbolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseClicked
+        Object value = tableSymbols.getValueAt(
+                tableSymbols.getSelectedRow(),
+                tableSymbols.getSelectedColumn());
+        if (value != null) {
+            if (!mouseInTableClicked) {
+                addFormulaCopyToStack();
+            }
+            mouseInTableClicked = true;
+            currentFormula.replaceAtomText(value.toString(),
+                    currentFormula.getSelectedIndex());
+        }
+        drawFormula();
+
+    }//GEN-LAST:event_tableSymbolsMouseClicked
+
+    private void tableSymbolsMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseDragged
+
+        Object value = tableSymbols.getValueAt(
+                tableSymbols.getSelectedRow(),
+                tableSymbols.getSelectedColumn());
+        if (value != null) {
+            if (!mouseInTableClicked) {
+                addFormulaCopyToStack();
+            }
+            mouseInTableClicked = true;
+            currentFormula.replaceAtomText(value.toString(),
+                    currentFormula.getSelectedIndex());
+        }
+        drawFormula();
+    }//GEN-LAST:event_tableSymbolsMouseDragged
+
+    private void tableSymbolsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseReleased
+        mouseInTableClicked = false;
+    }//GEN-LAST:event_tableSymbolsMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

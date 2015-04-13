@@ -4,6 +4,10 @@ import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import main.Formula;
+import static resources.Parameters.BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE;
+import static resources.Parameters.BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE;
+import static resources.Parameters.BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE;
+import static resources.Parameters.BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE;
 import static resources.Parameters.SCREEN_SIZE;
 
 /**
@@ -366,7 +370,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
         bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterGreekAlphabet.setText("<html>Δ\n<br>^\n<br>|\n<br>|\n<br>δ");
+        bChangeRegisterGreekAlphabet.setText("<html>Δ\n<br>↑\n<br>δ");
+        bChangeRegisterGreekAlphabet.setToolTipText("Сменить регистр греческих букв");
         bChangeRegisterGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bChangeRegisterGreekAlphabetMouseClicked(evt);
@@ -374,7 +379,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bChangeRegisterLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterLatinAlphabet.setText("<html>A\n<br>^\n<br>|\n<br>|\n<br>a");
+        bChangeRegisterLatinAlphabet.setText("<html>A\n<br>↑\n<br>a");
+        bChangeRegisterLatinAlphabet.setToolTipText("Сменить регистр латинских букв");
         bChangeRegisterLatinAlphabet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bChangeRegisterLatinAlphabetActionPerformed(evt);
@@ -418,7 +424,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bSaveFormula.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bSaveFormula.setText("Продолжить");
+        bSaveFormula.setText("<html>Продолжить");
         bSaveFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bSaveFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,9 +438,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         paneBorder.setPreferredSize(new java.awt.Dimension(650, 350));
 
         paneEditFormula.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paneEditFormulaMouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 paneEditFormulaMousePressed(evt);
             }
@@ -522,8 +525,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutSignVector.setPreferredSize(new java.awt.Dimension(80, 80));
 
         bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bRestartConstruction.setText("[ ] = [ ]");
-        bRestartConstruction.setToolTipText("<html>Устанавливает формулу в начальное<br> состояние для редактирования");
+        bRestartConstruction.setText("<html><Сбросить");
+        bRestartConstruction.setToolTipText("<html>Устанавливает формулу в  состояние [ ] = [ ]");
         bRestartConstruction.setPreferredSize(new java.awt.Dimension(80, 80));
         bRestartConstruction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -709,6 +712,13 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 }
             }
         }
+        if (!smallLatinLetters) {
+            bChangeRegisterLatinAlphabet.setText(
+                    BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE);
+        } else {
+            bChangeRegisterLatinAlphabet.setText(
+                    BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE);
+        }
         smallLatinLetters = !smallLatinLetters;
     }//GEN-LAST:event_bChangeRegisterLatinAlphabetActionPerformed
 
@@ -725,6 +735,14 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                     }
                 }
             }
+        }
+        if (!smallGreekLetters) {
+            bChangeRegisterLatinAlphabet.setText(
+                    BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE
+            );
+        } else {
+            bChangeRegisterLatinAlphabet.setText(
+                    BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE);
         }
         smallGreekLetters = !smallGreekLetters;
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
@@ -799,7 +817,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 tableGreekAlphabet.getSelectedRow(),
                 tableGreekAlphabet.getSelectedColumn());
         if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
+            currentFormula.replaceAtomText(value.toString(), 
+                    currentFormula.getSelectedIndex());
         }
         drawFormula();
     }//GEN-LAST:event_tableGreekAlphabetMousePressed
@@ -808,10 +827,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         currentFormula.setSelectedAtom(evt.getX(), evt.getY());
         drawFormula();
     }//GEN-LAST:event_paneEditFormulaMousePressed
-
-    private void paneEditFormulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMouseClicked
-
-    }//GEN-LAST:event_paneEditFormulaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

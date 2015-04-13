@@ -143,7 +143,7 @@
                   </Group>
                   <Component id="paneForFormulaConstruct" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="11" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="sPaneForSymbolsTable" min="-2" pref="134" max="-2" attributes="0"/>
@@ -222,6 +222,7 @@
                 </Column>
               </Table>
             </Property>
+            <Property name="autoscrolls" type="boolean" value="false"/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
@@ -286,7 +287,9 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="tableSymbolsMouseDragged"/>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableSymbolsMouseClicked"/>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableSymbolsMouseReleased"/>
           </Events>
         </Component>
       </SubComponents>
@@ -304,7 +307,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x428;&#x430;&#x433; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x428;&#x430;&#x433; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x412;&#x43e;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442; &#x43f;&#x440;&#x435;&#x434;&#x44b;&#x434;&#x443;&#x449;&#x443;&#x44e; &#x43a;&#x43e;&#x43d;&#x441;&#x442;&#x440;&#x443;&#x43a;&#x446;&#x438;&#x44e; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x44b;"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
         </Property>
@@ -318,7 +322,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x421;&#x431;&#x440;&#x43e;&#x441;&#x438;&#x442;&#x44c;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x421;&#x431;&#x440;&#x43e;&#x441;&#x438;&#x442;&#x44c;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x423;&#x441;&#x442;&#x430;&#x43d;&#x430;&#x432;&#x43b;&#x438;&#x432;&#x430;&#x435;&#x442; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x443; &#x432;  &#x441;&#x43e;&#x441;&#x442;&#x43e;&#x44f;&#x43d;&#x438;&#x435; [ ] = [ ]"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
         </Property>
@@ -332,7 +337,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
         </Property>
-        <Property name="label" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x432;&#x441;&#x435;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x432;&#x441;&#x435; &#x44f;&#x447;&#x435;&#x439;&#x43a;&#x438;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x41e;&#x447;&#x438;&#x449;&#x430;&#x435;&#x442; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x438;&#x43c;&#x43e;&#x435; &#x432;&#x441;&#x435; &#x44f;&#x447;&#x435;&#x435;&#x43a;,&lt;br&gt; &#x43a;&#x43e;&#x442;&#x43e;&#x440;&#x44b;&#x435; &#x43d;&#x435; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x430;&#x442; &#x437;&#x43d;&#x430;&#x43a;&#x43e;&#x432; &#x43e;&#x43f;&#x435;&#x440;&#x430;&#x446;&#x438;&#x439;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bClearAllActionPerformed"/>
@@ -343,7 +349,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x44f;&#x447;&#x435;&#x439;&#x43a;&#x443;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x41e;&#x447;&#x438;&#x449;&#x430;&#x435;&#x442; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x438;&#x43c;&#x43e;&#x435; &#x432;&#x44b;&#x431;&#x440;&#x430;&#x43d;&#x43d;&#x43e;&#x439; &#x44f;&#x447;&#x435;&#x439;&#x43a;&#x438;,&lt;br&gt; &#x435;&#x441;&#x43b;&#x438; &#x43e;&#x43d;&#x430; &#x43d;&#x435; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x438;&#x442; &#x437;&#x43d;&#x430;&#x43a;&#x43e;&#x432; &#x43e;&#x43f;&#x435;&#x440;&#x430;&#x446;&#x438;&#x439;"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
         </Property>
@@ -473,7 +480,7 @@
     </Component>
     <Container class="javax.swing.JPanel" name="paneForFormulaConstruct">
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="paneForFormulaConstructMouseClicked"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="paneForFormulaConstructMousePressed"/>
       </Events>
 
       <Layout>

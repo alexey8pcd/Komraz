@@ -7,16 +7,23 @@ import java.awt.Toolkit;
  * @author Alexey
  */
 public class Parameters {
-    
-    
+
+    public static final String BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE
+            = "<html>A <br>↑ <br>a";
+    public static final String BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE
+            = "<html>A <br>↓ <br>a";
+    public static final String BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE
+            = "<html>Δ <br>↑ <br>δ";
+    public static final String BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE
+            = "<html>Δ <br>↓ <br>δ";
     public static final Dimension SCREEN_SIZE = Toolkit.
             getDefaultToolkit().getScreenSize();
     /**
-     * 4 статичных объекта - алфавитов верхнего и нижнего регистра
-     * для латинского и греческого
-     * 
-     * В случае дублирования букв верхнего регистра, у греческого
-     * алфавита стоят латинские по кодировке буквы, что облегчает сравнение.
+     * 4 статичных объекта - алфавитов верхнего и нижнего регистра для
+     * латинского и греческого
+     *
+     * В случае дублирования букв верхнего регистра, у греческого алфавита стоят
+     * латинские по кодировке буквы, что облегчает сравнение.
      */
     public static final Object[][] LOWER_CASE_LATIN_ALPHABET
             = new Object[][]{
