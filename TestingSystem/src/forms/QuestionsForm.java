@@ -82,8 +82,6 @@ public class QuestionsForm extends javax.swing.JDialog {
             header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
         }
         tableQuestions.setTableHeader(header);
-
-        bEditQuestion.setEnabled(false); //Для первой итерации
     }
 
     @SuppressWarnings("unchecked")
@@ -127,6 +125,11 @@ public class QuestionsForm extends javax.swing.JDialog {
         });
 
         bEditQuestion.setText("Редактировать");
+        bEditQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEditQuestionActionPerformed(evt);
+            }
+        });
 
         bClose.setText("Закрыть");
         bClose.addActionListener(new java.awt.event.ActionListener() {
@@ -284,6 +287,18 @@ public class QuestionsForm extends javax.swing.JDialog {
             }//end if(vopros ? null)
         }//end if(selected index ? -1 || selected index ? question.size)
     }//GEN-LAST:event_bDeleteQuestionActionPerformed
+
+    private void bEditQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditQuestionActionPerformed
+        int selectedIndex = tableQuestions.getSelectedRow();
+        if (selectedIndex != -1 && selectedIndex < questions.size()) {
+            Vopros vopros = entityManager.find(Vopros.class,
+                    questions.get(selectedIndex).getIdVopros());
+            QuestionEditorForm questionEditorForm = new QuestionEditorForm(null, true);
+            questionEditorForm.setQuestion(vopros);
+            questionEditorForm.setVisible(true);
+            refresh();
+        }
+    }//GEN-LAST:event_bEditQuestionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

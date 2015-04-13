@@ -8,6 +8,7 @@ import entities.VoprosLatex;
 import java.awt.Graphics;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
+import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -23,6 +24,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
 
     private final Graphics graphics;
     private Formula formula;
+    private Vopros question;
+    private VoprosLatex latexQuestion;
     private List<Disciplina> subjects;
     private List<KategoriyaSlozhnosti> difficulty;
     private List<TipVoprosa> typesOfQuestion;
@@ -368,6 +371,62 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setQuestion(Vopros question) {
+        try {
+            TypedQuery<Vopros> queryForVopros = entityManager.createNamedQuery(
+                    "Vopros.findByIdVopros", Vopros.class);
+            queryForVopros.setParameter("idVopros", question.getIdVopros());
+            this.question = queryForVopros.getSingleResult();
+            tQuestionTitle.setText(this.question.getNazvanie());
+            textAreaForQuestionFormulation.setText(
+                    this.question.getFormulirovka());
+            for (int i = 0; i < subjects.size(); i++) {
+                if (subjects.get(i).getIdDisciplina().intValue()
+                        == this.question.getDisciplinaIdDisciplina().
+                        getIdDisciplina()) {
+                    listSubjects.setSelectedIndex(i);
+                    break;
+                }
+            }
+            switch (this.question.getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
+                case 1:
+                    this.rbConstructFormula.setSelected(true);
+                    //исправить если не работает
+                    TypedQuery<VoprosLatex> queryForVoprosLatex
+                            = entityManager.createQuery("select vl from "
+                                    + "VoprosLatex vl WHERE "
+                                    + "vl.voprosIdVopros.idVopros=:id",
+                                    VoprosLatex.class);
+
+                    queryForVoprosLatex.setParameter("id",
+                            this.question.getIdVopros());
+                    latexQuestion = queryForVoprosLatex.getSingleResult();
+                    formula = new Formula(latexQuestion.getLatexZapis());
+                    break;
+                //
+                case 2:
+                    this.rbAssembledFromulaFromPieces.setSelected(true);
+                    break;
+                case 3:
+                    this.rbLinkingPictures.setSelected(true);
+            }
+            for (int i = 0; i < difficulty.size(); i++) {
+                if (difficulty.get(i).getIdKategoriyaSlozhnosti().intValue()
+                        == this.question.
+                        getKategoriyaSlozhnostiIdKategoriyaSlozhnosti().
+                        getIdKategoriyaSlozhnosti()) {
+                    listDifficulty.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+    }
+
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
         dispose();
     }//GEN-LAST:event_bCloseFormActionPerformed
@@ -411,26 +470,26 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             correct = false;
         }
         if (correct) {
-            Vopros vopros = new Vopros();
-            vopros.setBall(1);
-            vopros.setNazvanie(new String(tQuestionTitle.getText().getBytes(), UTF_8));
-            vopros.setFormulirovka(new String(textAreaForQuestionFormulation.getText().getBytes(), UTF_8));
-            vopros.setDisciplinaIdDisciplina(subjects.get(listSubjects.getSelectedIndex()));
-            vopros.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
+            if (question == null) {
+                question = new Vopros();
+                latexQuestion = new VoprosLatex();
+            }
+            question.setBall(1);
+            question.setNazvanie(new String(
+                    tQuestionTitle.getText().getBytes(), UTF_8));
+            question.setFormulirovka(new String(
+                    textAreaForQuestionFormulation.getText().getBytes(),
+                    UTF_8));
+            question.setDisciplinaIdDisciplina(subjects.get(
+                    listSubjects.getSelectedIndex()));
+            question.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
                     difficulty.get(listDifficulty.getSelectedIndex()));
-            vopros.setTipVoprosaIdTipVoprosa(typesOfQuestion.get(type));
-//            try {
-//                DBManager.writeObject(vopros);
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(this, ex.toString(),
-//                        "Ошибка", JOptionPane.ERROR_MESSAGE);
-//            }
-            VoprosLatex voprosLatex = new VoprosLatex();
-            voprosLatex.setLatexZapis(
-                    new String(formula.getTranscription().getBytes(), UTF_8));
-            voprosLatex.setVoprosIdVopros(vopros);
+            question.setTipVoprosaIdTipVoprosa(typesOfQuestion.get(type));
+            latexQuestion.setLatexZapis(new String(
+                    formula.getTranscription().getBytes(), UTF_8));
+            latexQuestion.setVoprosIdVopros(question);
             try {
-                DBManager.writeObject(voprosLatex);
+                DBManager.writeObject(latexQuestion);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.toString(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -497,4 +556,5 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JTextArea textAreaForQuestionFormulation;
     private javax.swing.JTextField textSearch;
     // End of variables declaration//GEN-END:variables
+
 }
