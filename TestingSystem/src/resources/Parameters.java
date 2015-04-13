@@ -1,10 +1,16 @@
 package resources;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  * @author Alexey
  */
 public class Parameters {
     
+    
+    public static final Dimension SCREEN_SIZE = Toolkit.
+            getDefaultToolkit().getScreenSize();
     /**
      * 4 статичных объекта - алфавитов верхнего и нижнего регистра
      * для латинского и греческого
@@ -12,7 +18,7 @@ public class Parameters {
      * В случае дублирования букв верхнего регистра, у греческого
      * алфавита стоят латинские по кодировке буквы, что облегчает сравнение.
      */
-    public static final Object[][] lowerCaseLatinAlphabet
+    public static final Object[][] LOWER_CASE_LATIN_ALPHABET
             = new Object[][]{
                 {"a", "b", "c", "d", "e", "f"},
                 {"g", "h", "i", "j", "k", "l"},
@@ -20,7 +26,7 @@ public class Parameters {
                 {"s", "t", "u", "v", "w", "x"},
                 {"y", "z", null, null, null, null}
             };
-    public static final Object[][] upperCaseLatinAlphabet
+    public static final Object[][] UPPER_CASE_LATIN_ALPHABET
             = new Object[][]{
                 {"A", "B", "C", "D", "E", "F"},
                 {"G", "H", "I", "J", "K", "L"},
@@ -28,7 +34,7 @@ public class Parameters {
                 {"S", "T", "U", "V", "W", "X"},
                 {"Y", "Z", null, null, null, null}
             };
-    public static final Object[][] lowerCaseGreekAlphabet
+    public static final Object[][] LOWER_CASE_GREEK_ALPHABET
             = new Object[][]{
                 {"α", "β", "γ", "δ", "ε"},
                 {"ζ", "η", "θ", "ι", "κ"},
@@ -36,7 +42,7 @@ public class Parameters {
                 {"ρ", "σ", "τ", "υ", "φ"},
                 {"χ", "ψ", "ω", null, null}
             };
-    public static final Object[][] upperCaseGreekAlphabet
+    public static final Object[][] UPPER_CASE_GREEK_ALPHABET
             = new Object[][]{
                 {"A", "B", "Γ", "Δ", "E"},
                 {"Z", "H", "Θ", "I", "K"},

@@ -13,6 +13,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import main.Formula;
+import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
 
@@ -22,14 +23,14 @@ import static sql.DBManager.entityManager;
  */
 public class QuestionEditorForm extends javax.swing.JDialog {
 
-    private final Graphics graphics;
+    private final Graphics GRAPHICS;
     private Formula formula;
     private Vopros question;
     private VoprosLatex latexQuestion;
     private List<Disciplina> subjects;
     private List<KategoriyaSlozhnosti> difficulty;
     private List<TipVoprosa> typesOfQuestion;
-    private final ListModel subjectsListModel = new AbstractListModel() {
+    private final ListModel SUBJECTS_LIST_MODEL = new AbstractListModel() {
 
         @Override
         public int getSize() {
@@ -41,7 +42,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             return subjects.get(index).getNazvanie();
         }
     };
-    private final ListModel difficultyListModel = new AbstractListModel() {
+    private final ListModel DIFFICULTY_LIST_MODEL = new AbstractListModel() {
 
         @Override
         public int getSize() {
@@ -57,9 +58,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     public QuestionEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        graphics = panePreview.getGraphics();
-        listSubjects.setModel(subjectsListModel);
-        listDifficulty.setModel(difficultyListModel);
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        GRAPHICS = panePreview.getGraphics();
+        listSubjects.setModel(SUBJECTS_LIST_MODEL);
+        listDifficulty.setModel(DIFFICULTY_LIST_MODEL);
         try {
             subjects = entityManager.createNamedQuery(
                     "Disciplina.findAll", Disciplina.class).getResultList();
@@ -83,11 +86,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     }
 
     public void draw() {
-        graphics.setColor(panePreview.getBackground());
-        graphics.clearRect(0, 0, panePreview.getWidth(),
+        GRAPHICS.setColor(panePreview.getBackground());
+        GRAPHICS.clearRect(0, 0, panePreview.getWidth(),
                 panePreview.getHeight());
         if (formula != null) {
-            formula.preview(graphics);
+            formula.preview(GRAPHICS);
         }
     }
 

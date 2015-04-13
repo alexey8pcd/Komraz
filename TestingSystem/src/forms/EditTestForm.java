@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -53,6 +54,8 @@ public class EditTestForm extends javax.swing.JDialog {
     public EditTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         TEST_QUESTIONS = new ArrayList<>();
         listTestQuestions.setModel(TEST_QUESTION_LIST_MODEL);
     }

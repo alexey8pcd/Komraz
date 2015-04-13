@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -18,14 +19,14 @@ import static sql.DBManager.entityManager;
 public class QuestionsForm extends javax.swing.JDialog {
 
     private List<Vopros> questions;
-    private final String[] tableHeaderValues = {
+    private final String[] TABLE_HEADERS = {
         "Название вопроса",
         "Дисциплина",
         "Тип вопроса",
         "Сложность",
         "Балл"
     };
-    private final TableModel tableModel = new AbstractTableModel() {
+    private final TableModel QUESTIONS_TABLE_MODEL = new AbstractTableModel() {
 
         @Override
         public int getRowCount() {
@@ -34,7 +35,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
         @Override
         public int getColumnCount() {
-            return tableHeaderValues.length;
+            return TABLE_HEADERS.length;
         }
 
         @Override
@@ -59,27 +60,16 @@ public class QuestionsForm extends javax.swing.JDialog {
         }
     };
 
-    private void refresh() {
-        try {
-            questions = entityManager.createNamedQuery("Vopros.findAll",
-                    Vopros.class).getResultList();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
-        if (questions != null) {
-            tableQuestions.updateUI();
-        }
-    }
-
     public QuestionsForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        tableQuestions.setModel(tableModel);
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        tableQuestions.setModel(QUESTIONS_TABLE_MODEL);
         refresh();
         JTableHeader header = tableQuestions.getTableHeader();
-        for (int i = 0; i < tableHeaderValues.length; i++) {
-            header.getColumnModel().getColumn(i).setHeaderValue(tableHeaderValues[i]);
+        for (int i = 0; i < TABLE_HEADERS.length; i++) {
+            header.getColumnModel().getColumn(i).setHeaderValue(TABLE_HEADERS[i]);
         }
         tableQuestions.setTableHeader(header);
     }
@@ -214,6 +204,19 @@ public class QuestionsForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void refresh() {
+        try {
+            questions = entityManager.createNamedQuery("Vopros.findAll",
+                    Vopros.class).getResultList();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+        if (questions != null) {
+            tableQuestions.updateUI();
+        }
+    }
+
     private void bCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateQuestionActionPerformed
         QuestionEditorForm questionEditor = new QuestionEditorForm(null, true);
         questionEditor.setVisible(true);
@@ -248,7 +251,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                     allowDelete = result == JOptionPane.YES_OPTION;
                 }
                 if (allowDelete) {
-                    boolean deleted = false;                    
+                    boolean deleted = false;
                     switch (questions.get(selectedIndex).
                             getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                         case 1:

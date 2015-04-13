@@ -38,9 +38,9 @@ public class PassageTestForm extends javax.swing.JDialog {
     private final int MAX_AMOUNT_OF_WORDS = 20;
     private List<Object[]> insertValues;
 
-    private final Graphics graphics;
+    private final Graphics GRAPHICS;
     private Formula currentFormula;
-    private final Stack<Formula> stackFormula;
+    private final Stack<Formula> STACK_FORMULA;
     private String[] answers;
 
     private final Random RANDOM = new Random();
@@ -66,10 +66,12 @@ public class PassageTestForm extends javax.swing.JDialog {
     public PassageTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        stackFormula = new Stack<>();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        STACK_FORMULA = new Stack<>();
         makeDefaultFormula();
         addFormulaCopyToStack();
-        graphics = paneForFormulaConstruct.getGraphics();
+        GRAPHICS = paneForFormulaConstruct.getGraphics();
         currentQuestionIndex = 0;
         bPreviousQuestion.setEnabled(false);
         wordsToInsert = new ArrayList<>();
@@ -150,19 +152,19 @@ public class PassageTestForm extends javax.swing.JDialog {
             switch (RANDOM.nextInt(4)) {
                 case 0:
                     //Берем значения из латинского списка нижнего регистра
-                    checkAndInsertWord(lowerCaseLatinAlphabet, resultArray);
+                    checkAndInsertWord(LOWER_CASE_LATIN_ALPHABET, resultArray);
                     break;
                 case 1:
                     //Берем значения из латинского списка верхнего регистра
-                    checkAndInsertWord(upperCaseLatinAlphabet, resultArray);
+                    checkAndInsertWord(UPPER_CASE_LATIN_ALPHABET, resultArray);
                     break;
                 case 2:
                     //Берем значения из греческого списка нижнего регистра
-                    checkAndInsertWord(lowerCaseGreekAlphabet, resultArray);
+                    checkAndInsertWord(LOWER_CASE_GREEK_ALPHABET, resultArray);
                     break;
                 case 3:
                     //Берем значения из греческого списка нижнего регистра
-                    checkAndInsertWord(upperCaseGreekAlphabet, resultArray);
+                    checkAndInsertWord(UPPER_CASE_GREEK_ALPHABET, resultArray);
                     break;
             }
         }
@@ -207,7 +209,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         if (t >= 'A' && t <= 'Z') {
             return true;
         }
-        for (Object[] lowerCaseGreekAlphabet2 : lowerCaseGreekAlphabet) {
+        for (Object[] lowerCaseGreekAlphabet2 : LOWER_CASE_GREEK_ALPHABET) {
             for (Object lowerCaseGreekAlphabet1 : lowerCaseGreekAlphabet2) {
                 if (lowerCaseGreekAlphabet1 != null) {
                     if (lowerCaseGreekAlphabet1.toString().equalsIgnoreCase(String.valueOf(t))) {
@@ -216,10 +218,10 @@ public class PassageTestForm extends javax.swing.JDialog {
                 }
             }
         }
-        for (int i = 0; i < upperCaseGreekAlphabet.length; i++) {
-            for (int j = 0; j < upperCaseGreekAlphabet[i].length; j++) {
-                if (lowerCaseGreekAlphabet[i][j] != null) {
-                    if (upperCaseGreekAlphabet[i][j].toString().equalsIgnoreCase(String.valueOf(t))) {
+        for (int i = 0; i < UPPER_CASE_GREEK_ALPHABET.length; i++) {
+            for (int j = 0; j < UPPER_CASE_GREEK_ALPHABET[i].length; j++) {
+                if (LOWER_CASE_GREEK_ALPHABET[i][j] != null) {
+                    if (UPPER_CASE_GREEK_ALPHABET[i][j].toString().equalsIgnoreCase(String.valueOf(t))) {
                         return true;
                     }
                 }
@@ -263,12 +265,12 @@ public class PassageTestForm extends javax.swing.JDialog {
     }
 
     public void drawFormula() {
-        graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
-        currentFormula.displayForEditing(graphics);
+        GRAPHICS.clearRect(0, 0, this.getWidth(), this.getHeight());
+        currentFormula.displayForEditing(GRAPHICS);
     }
 
     private void addFormulaCopyToStack() {
-        stackFormula.push(new Formula(currentFormula));
+        STACK_FORMULA.push(new Formula(currentFormula));
     }
 
     /**
@@ -634,10 +636,10 @@ public class PassageTestForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-        if (stackFormula.size() > 1) {
-            currentFormula = new Formula(stackFormula.pop());
+        if (STACK_FORMULA.size() > 1) {
+            currentFormula = new Formula(STACK_FORMULA.pop());
         } else {
-            currentFormula = new Formula(stackFormula.peek());
+            currentFormula = new Formula(STACK_FORMULA.peek());
         }
         drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed

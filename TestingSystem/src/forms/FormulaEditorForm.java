@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import main.Formula;
+import static resources.Parameters.SCREEN_SIZE;
 
 /**
  *
@@ -21,6 +22,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         graphics = paneEditFormula.getGraphics();
         stackFormula = new Stack<>();
         makeDefaultFormula();

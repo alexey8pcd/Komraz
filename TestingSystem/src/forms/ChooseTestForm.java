@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -31,6 +32,8 @@ public class ChooseTestForm extends javax.swing.JDialog {
     public ChooseTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         try {
             TypedQuery<Test> query = entityManager.createQuery(
                     "SELECT t FROM Test t where "
@@ -60,6 +63,7 @@ public class ChooseTestForm extends javax.swing.JDialog {
         setTitle("Выберите тест");
         setResizable(false);
 
+        lAvailableTests.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lAvailableTests.setText("Доступные тесты:");
 
         scrollPaneForListTests.setViewportView(listTests);
@@ -85,13 +89,14 @@ public class ChooseTestForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPaneForListTests)
+                    .addComponent(scrollPaneForListTests, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lAvailableTests)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bStartTest)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 299, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(bClose)))
                 .addContainerGap())
         );
@@ -100,13 +105,13 @@ public class ChooseTestForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lAvailableTests)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneForListTests, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(scrollPaneForListTests, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bStartTest)
-                    .addComponent(bClose))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bClose)
+                    .addComponent(bStartTest))
+                .addContainerGap())
         );
 
         pack();

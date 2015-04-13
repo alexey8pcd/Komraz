@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -15,7 +16,7 @@ import static sql.DBManager.entityManager;
  */
 public class TestResultForm extends javax.swing.JDialog {
 
-    private final String[] HEADER_TITLES = {
+    private final String[] TABLE_HEADERS = {
         "ФИО студента",
         "Дата прохождения",
         "% набранных баллов",
@@ -32,7 +33,7 @@ public class TestResultForm extends javax.swing.JDialog {
 
         @Override
         public int getColumnCount() {
-            return HEADER_TITLES.length;
+            return TABLE_HEADERS.length;
         }
 
         @Override
@@ -54,7 +55,7 @@ public class TestResultForm extends javax.swing.JDialog {
 
         @Override
         public String getColumnName(int column) {
-            return HEADER_TITLES[column];
+            return TABLE_HEADERS[column];
         }
     };
 
@@ -67,6 +68,8 @@ public class TestResultForm extends javax.swing.JDialog {
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
     }
 
     public void setTest(Test test) {

@@ -14,6 +14,7 @@ import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -74,6 +75,8 @@ public class TestForm extends javax.swing.JDialog {
     public TestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
         subjects = entityManager.createNamedQuery("Disciplina.findAll",
