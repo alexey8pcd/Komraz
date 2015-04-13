@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
-import sql.DBManager;
 import static sql.DBManager.entityManager;
 
 /**
@@ -78,11 +77,17 @@ public class EditTestForm extends javax.swing.JDialog {
             TEST_QUESTIONS.add(test.getTestVoprosList().get(i).
                     getVoprosIdVopros());
         }
-        for (int i = 0; i < allQuestions.size(); i++) {
+        for (int i = 0; i < allQuestions.size();) {
             Vopros v = allQuestions.get(i);
-            if (TEST_QUESTIONS.contains(v)) {
-                allQuestions.remove(v);
-            } else {
+            boolean removed = false;
+            for (Vopros questionFromTest : TEST_QUESTIONS) {
+                if (questionFromTest.getIdVopros().intValue() == v.getIdVopros()) {
+                    allQuestions.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
                 i++;
             }
         }

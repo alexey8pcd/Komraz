@@ -91,19 +91,31 @@ public class TestForm extends javax.swing.JDialog {
             listSubjects.updateUI();
             listSubjects.setSelectedIndex(0);
         }
-        //удалить тесты, для которых нет вопросов
-        List<Test> allTests = entityManager.createNamedQuery("Test.findAll",
-                Test.class).getResultList();
-        entityManager.getTransaction().begin();
-        for (Test test : allTests) {
-            if (test.getTestVoprosList().isEmpty()) {
-                Query query = entityManager.createQuery(
-                        "DELETE FROM Test t WHERE t.idTest=:id");
-                query.setParameter("id", test.getIdTest());
-                query.executeUpdate();
+        try {
+            //удалить тесты, для которых нет вопросов
+            List<Test> allTests = entityManager.createNamedQuery("Test.findAll",
+                    Test.class).getResultList();
+            entityManager.getTransaction().begin();
+            for (Test test : allTests) {
+                TypedQuery<TestVopros> queryForTestVopros = entityManager.
+                        createQuery("SELECT tv FROM TestVopros tv "
+                                + "WHERE tv.testIdTest.idTest=:id",
+                                TestVopros.class);
+                queryForTestVopros.setParameter("id", test.getIdTest());
+                List<TestVopros> linkedTestVoproses = queryForTestVopros.
+                        getResultList();
+                if (linkedTestVoproses.isEmpty()) {
+                    Query query = entityManager.createQuery(
+                            "DELETE FROM Test t WHERE t.idTest=:id");
+                    query.setParameter("id", test.getIdTest());
+                    query.executeUpdate();
+                }
             }
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        entityManager.getTransaction().commit();
         refresh();
     }
 
