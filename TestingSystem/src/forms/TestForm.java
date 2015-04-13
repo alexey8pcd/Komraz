@@ -464,7 +464,6 @@ public class TestForm extends javax.swing.JDialog {
         int selectedIndex = tableListOfTests.getSelectedRow();
         if (selectedIndex < tableListOfTests.getRowCount()
                 && selectedIndex >= 0) {
-            //Удаляем выбранную строку в таблице
             Test test = tests.get(selectedIndex);
             EditTestForm editTestForm = new EditTestForm(null, true);
             editTestForm.setTestForEdit(test,

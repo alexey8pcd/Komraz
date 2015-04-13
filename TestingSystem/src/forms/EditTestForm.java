@@ -14,6 +14,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import static resources.Parameters.SCREEN_SIZE;
+import sql.DBManager;
 import static sql.DBManager.entityManager;
 
 /**
@@ -54,7 +55,7 @@ public class EditTestForm extends javax.swing.JDialog {
     public EditTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         TEST_QUESTIONS = new ArrayList<>();
         listTestQuestions.setModel(TEST_QUESTION_LIST_MODEL);
@@ -76,10 +77,21 @@ public class EditTestForm extends javax.swing.JDialog {
         this.test = test;
         this.textTestName.setText(test.getNazvanie());
         TEST_QUESTIONS.clear();
-        for (int i = 0; i < test.getTestVoprosList().size(); i++) {
-            TEST_QUESTIONS.add(test.getTestVoprosList().get(i).
-                    getVoprosIdVopros());
+//        for (int i = 0; i < test.getTestVoprosList().size(); i++) {
+        TypedQuery<TestVopros> queryForVopros = entityManager.createNamedQuery(
+                "TestVopros.findAll", TestVopros.class);
+        List<TestVopros> allTestVoproses = queryForVopros.getResultList();
+        for (int i = 0; i < allTestVoproses.size(); i++) {
+            if (allTestVoproses.get(i).getTestIdTest().getIdTest().intValue() == 
+                    test.getIdTest()) {
+                TEST_QUESTIONS.add(allTestVoproses.get(i).getVoprosIdVopros());
+            }
         }
+//        queryForVopros.setParameter("id", test.getIdTest());
+//        TEST_QUESTIONS.add(queryForVopros.getSingleResult());
+//            TEST_QUESTIONS.add(test.getTestVoprosList().get(i).
+//                    getVoprosIdVopros());
+//        }
         for (int i = 0; i < allQuestions.size();) {
             Vopros v = allQuestions.get(i);
             boolean removed = false;
@@ -317,10 +329,15 @@ public class EditTestForm extends javax.swing.JDialog {
                     "Предупреждение", JOptionPane.WARNING_MESSAGE);
         }
         if (correct) {
+            List<TestVopros> testVoproses;
             if (test == null) {
                 //создаем новый
                 test = new Test();
+            }else{
+                //удалить связные тест-вопросы
+                DBManager.requestWithoutAnswerSQL("delete from test_vopros where test_vopros.TEST_ID_TEST="+test.getIdTest());
             }
+            testVoproses = test.getTestVoprosList();
             test.setNazvanie(new String(textTestName.getText().getBytes(), UTF_8));
             StatusTesta statusTesta;
             TypedQuery<StatusTesta> query = entityManager.createNamedQuery(
@@ -329,8 +346,10 @@ public class EditTestForm extends javax.swing.JDialog {
             statusTesta = query.getSingleResult();
             test.setStatusTestaIdStatusTesta(statusTesta);
             try {
-                //добавить данные о соответствии тестов и вопросов
-                List<TestVopros> testVoproses = new ArrayList<>();
+                if (testVoproses == null) {
+                    testVoproses = new ArrayList<>();
+                }
+                testVoproses.clear();
                 for (Vopros v : TEST_QUESTIONS) {
                     TestVopros testVopros = new TestVopros();
                     testVopros.setTestIdTest(test);
