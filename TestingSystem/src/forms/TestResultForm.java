@@ -2,6 +2,8 @@ package forms;
 
 import entities.StudentTest;
 import entities.Test;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
@@ -16,6 +18,8 @@ import static sql.DBManager.entityManager;
  */
 public class TestResultForm extends javax.swing.JDialog {
 
+    private static final SimpleDateFormat DATE_FORMAT
+            = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
     private final String[] TABLE_HEADERS = {
         "ФИО студента",
         "Дата прохождения",
@@ -42,8 +46,9 @@ public class TestResultForm extends javax.swing.JDialog {
                 case 0:
                     return results.get(rowIndex).getStudentIdStudent().getFio();
                 case 1:
-                    return results.get(rowIndex).
-                            getDataProhozhdeniya().toString();
+
+                    return DATE_FORMAT.format(results.get(rowIndex).
+                            getDataProhozhdeniya());
                 case 2:
                     return results.get(rowIndex).getProcentBallov();
                 case 3:
@@ -68,7 +73,7 @@ public class TestResultForm extends javax.swing.JDialog {
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
     }
 
