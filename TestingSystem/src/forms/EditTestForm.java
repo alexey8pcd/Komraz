@@ -292,7 +292,13 @@ public class EditTestForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        dispose();
+        int result = JOptionPane.showConfirmDialog(null,
+                "Редактирование теста не завершено. "
+                + "Вы действительно хотите выйти из редактора?",
+                "Подтверждение выхода", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bAddQuestionToTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuestionToTestActionPerformed

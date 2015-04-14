@@ -20,7 +20,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private final Graphics graphics;
     private boolean smallLatinLetters;
     private boolean smallGreekLetters;
-    private final Stack<Formula> stackFormula;
+    private final Stack<Formula> STACK_FORMULA;
     private String formulaTranscription;
 
     public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
@@ -29,7 +29,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         graphics = paneEditFormula.getGraphics();
-        stackFormula = new Stack<>();
+        STACK_FORMULA = new Stack<>();
         makeDefaultFormula();
         addFormulaCopyToStack();
         smallLatinLetters = true;
@@ -44,7 +44,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     public void setFormula(String transcription) {
-        stackFormula.clear();
+        STACK_FORMULA.clear();
         currentFormula = new Formula(transcription);
         addFormulaCopyToStack();
     }
@@ -55,7 +55,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     private void addFormulaCopyToStack() {
-        stackFormula.push(new Formula(currentFormula));
+        STACK_FORMULA.push(new Formula(currentFormula));
     }
 
     private void insertSplitterAndEmptyElements(String splitter) {
@@ -92,6 +92,15 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         if (result == JOptionPane.YES_OPTION) {
             dispose();
         }
+    }
+
+    private void replaceAtom(String text) {
+        addFormulaCopyToStack();
+        if (!currentFormula.replaceAtomText(text,
+                currentFormula.getSelectedIndex())){
+            STACK_FORMULA.pop();
+        }
+        drawFormula();
     }
 
     @SuppressWarnings("unchecked")
@@ -370,7 +379,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
         bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterGreekAlphabet.setText("<html>Δ\n<br>↑\n<br>δ");
+        bChangeRegisterGreekAlphabet.setText("<html>Δ <br>↑ <br>δ");
         bChangeRegisterGreekAlphabet.setToolTipText("Сменить регистр греческих букв");
         bChangeRegisterGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -639,63 +648,43 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void bPutNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber1ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("1", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("1");
     }//GEN-LAST:event_bPutNumber1ActionPerformed
 
     private void bPutNumber2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber2ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("2", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("2");
     }//GEN-LAST:event_bPutNumber2ActionPerformed
 
     private void bPutNumber3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber3ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("3", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("3");
     }//GEN-LAST:event_bPutNumber3ActionPerformed
 
     private void bPutNumber4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber4ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("4", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("4");
     }//GEN-LAST:event_bPutNumber4ActionPerformed
 
     private void bPutNumber5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber5ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("5", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("5");
     }//GEN-LAST:event_bPutNumber5ActionPerformed
 
     private void bPutNumber6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber6ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("6", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("6");
     }//GEN-LAST:event_bPutNumber6ActionPerformed
 
     private void bPutNumber7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber7ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("7", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("7");
     }//GEN-LAST:event_bPutNumber7ActionPerformed
 
     private void bPutNumber8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber8ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("8", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("8");
     }//GEN-LAST:event_bPutNumber8ActionPerformed
 
     private void bPutNumber9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber9ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("9", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("9");
     }//GEN-LAST:event_bPutNumber9ActionPerformed
 
     private void bPutNumber0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber0ActionPerformed
-        addFormulaCopyToStack();
-        currentFormula.replaceAtomText("0", currentFormula.getSelectedIndex());
-        drawFormula();
+        replaceAtom("0");
     }//GEN-LAST:event_bPutNumber0ActionPerformed
 
     private void bChangeRegisterLatinAlphabetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeRegisterLatinAlphabetActionPerformed
@@ -737,11 +726,11 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (!smallGreekLetters) {
-            bChangeRegisterLatinAlphabet.setText(
+            bChangeRegisterGreekAlphabet.setText(
                     BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE
             );
         } else {
-            bChangeRegisterLatinAlphabet.setText(
+            bChangeRegisterGreekAlphabet.setText(
                     BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE);
         }
         smallGreekLetters = !smallGreekLetters;
@@ -778,10 +767,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-        if (stackFormula.size() > 1) {
-            currentFormula = new Formula(stackFormula.pop());
+        if (STACK_FORMULA.size() > 1) {
+            currentFormula = new Formula(STACK_FORMULA.pop());
         } else {
-            currentFormula = new Formula(stackFormula.peek());
+            currentFormula = new Formula(STACK_FORMULA.peek());
         }
         drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
@@ -801,26 +790,21 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bRestartConstructionActionPerformed
 
     private void tableLatinAlphabetMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLatinAlphabetMousePressed
-        addFormulaCopyToStack();
         Object value = tableLatinAlphabet.getValueAt(
                 tableLatinAlphabet.getSelectedRow(),
                 tableLatinAlphabet.getSelectedColumn());
         if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), currentFormula.getSelectedIndex());
+            replaceAtom(value.toString());
         }
-        drawFormula();
     }//GEN-LAST:event_tableLatinAlphabetMousePressed
 
     private void tableGreekAlphabetMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableGreekAlphabetMousePressed
-        addFormulaCopyToStack();
         Object value = tableGreekAlphabet.getValueAt(
                 tableGreekAlphabet.getSelectedRow(),
                 tableGreekAlphabet.getSelectedColumn());
         if (value != null) {
-            currentFormula.replaceAtomText(value.toString(), 
-                    currentFormula.getSelectedIndex());
+            replaceAtom(value.toString());
         }
-        drawFormula();
     }//GEN-LAST:event_tableGreekAlphabetMousePressed
 
     private void paneEditFormulaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneEditFormulaMousePressed

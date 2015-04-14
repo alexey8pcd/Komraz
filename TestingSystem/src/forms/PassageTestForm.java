@@ -780,27 +780,31 @@ public class PassageTestForm extends javax.swing.JDialog {
                 addFormulaCopyToStack();
             }
             mouseInTableClicked = true;
-            currentFormula.replaceAtomText(value.toString(),
-                    currentFormula.getSelectedIndex());
+            if (!currentFormula.replaceAtomText(value.toString(),
+                    currentFormula.getSelectedIndex())) {
+                STACK_FORMULA.pop();
+            }
+            drawFormula();
         }
-        drawFormula();
-
     }//GEN-LAST:event_tableSymbolsMouseClicked
 
     private void tableSymbolsMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseDragged
-
         Object value = tableSymbols.getValueAt(
                 tableSymbols.getSelectedRow(),
                 tableSymbols.getSelectedColumn());
         if (value != null) {
             if (!mouseInTableClicked) {
                 addFormulaCopyToStack();
+            }            
+            if (!currentFormula.replaceAtomText(value.toString(),
+                currentFormula.getSelectedIndex())) {
+                if(!mouseInTableClicked){
+                    STACK_FORMULA.pop();
+                }
             }
             mouseInTableClicked = true;
-            currentFormula.replaceAtomText(value.toString(),
-                    currentFormula.getSelectedIndex());
+            drawFormula();
         }
-        drawFormula();
     }//GEN-LAST:event_tableSymbolsMouseDragged
 
     private void tableSymbolsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSymbolsMouseReleased

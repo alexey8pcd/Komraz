@@ -2,7 +2,6 @@ package forms;
 
 import entities.StudentTest;
 import entities.Test;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -19,7 +18,7 @@ import static sql.DBManager.entityManager;
 public class TestResultForm extends javax.swing.JDialog {
 
     private static final SimpleDateFormat DATE_FORMAT
-            = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+            = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private final String[] TABLE_HEADERS = {
         "ФИО студента",
         "Дата прохождения",

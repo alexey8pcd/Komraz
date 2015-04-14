@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Alexey 
- * 
+ * @author Alexey
+ *
  * Класс для хранения, отображения и работы с формулами
  */
 public class Formula {
@@ -228,19 +228,28 @@ public class Formula {
 
     /**
      * Заменяет текст элемента формулы на заданный по индексу. Замена не
-     * происходит, если индекс указан вне границ списка элементов или элемент
-     * не допускает замену
+     * происходит, если индекс указан вне границ списка элементов или элемент не
+     * допускает замену
      *
      * @param text текст, который будет записан в элемент формулы
      * @param index номер элемента в списке элементов >= 0
+     * @return
      */
-    public void replaceAtomText(String text, int index) {
+    public boolean replaceAtomText(String text, int index) {
         if (index >= 0 && index < elements.size()) {
             Atom toReplace = elements.get(index);
             if (toReplace.mutable) {
-                toReplace.text = text;
+                if (text != null) {
+                    if (!text.equals(toReplace.text)) {
+                        toReplace.text = text;
+                        return true;
+                    }
+                } else {
+                    toReplace.text = null;
+                }
             }
         }
+        return false;
     }
 
     public void setStartX(int startX) {

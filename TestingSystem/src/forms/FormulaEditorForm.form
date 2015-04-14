@@ -556,12 +556,11 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x394;&#xa;&lt;br&gt;&#x2191;&#xa;&lt;br&gt;&#x3b4;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x394; &lt;br&gt;&#x2191; &lt;br&gt;&#x3b4;"/>
         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440; &#x433;&#x440;&#x435;&#x447;&#x435;&#x441;&#x43a;&#x438;&#x445; &#x431;&#x443;&#x43a;&#x432;"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bChangeRegisterGreekAlphabetMouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bChangeRegisterGreekAlphabetActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bChangeRegisterLatinAlphabet">
@@ -696,12 +695,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="628" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="620" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="321" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="318" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
