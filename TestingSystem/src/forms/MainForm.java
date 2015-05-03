@@ -27,6 +27,7 @@ public class MainForm extends javax.swing.JFrame {
         bClose = new javax.swing.JButton();
         bPassageTest = new javax.swing.JButton();
         panePicture = new javax.swing.JPanel();
+        bCutImages = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Тестирующая система");
@@ -71,15 +72,28 @@ public class MainForm extends javax.swing.JFrame {
         panePicture.setToolTipText("");
         panePicture.setName("qqq"); // NOI18N
 
+        bCutImages.setText("Разрезание картинок");
+        bCutImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCutImagesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panePictureLayout = new javax.swing.GroupLayout(panePicture);
         panePicture.setLayout(panePictureLayout);
         panePictureLayout.setHorizontalGroup(
             panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePictureLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bCutImages)
+                .addGap(344, 344, 344))
         );
         panePictureLayout.setVerticalGroup(
             panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePictureLayout.createSequentialGroup()
+                .addContainerGap(203, Short.MAX_VALUE)
+                .addComponent(bCutImages)
+                .addGap(145, 145, 145))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -128,7 +142,6 @@ public class MainForm extends javax.swing.JFrame {
 
         bGroups.getAccessibleContext().setAccessibleName("jButtonGroup");
         panePicture.getAccessibleContext().setAccessibleName("");
-        panePicture.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -152,8 +165,13 @@ public class MainForm extends javax.swing.JFrame {
         chooseTestForm.setVisible(true);
     }//GEN-LAST:event_bPassageTestActionPerformed
 
+    private void bCutImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCutImagesActionPerformed
+        new CutImageForm(this, true).setVisible(true);
+    }//GEN-LAST:event_bCutImagesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
+    private javax.swing.JButton bCutImages;
     private javax.swing.JButton bGroups;
     private javax.swing.JButton bPassageTest;
     private javax.swing.JButton bQuestions;
