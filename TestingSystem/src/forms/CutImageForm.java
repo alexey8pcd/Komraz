@@ -11,12 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -29,6 +26,7 @@ public class CutImageForm extends javax.swing.JDialog {
     private final Graphics GRAPHICS;
     private final List<VerticalLine> LINES;
     private Color lineColor = Color.BLACK;
+    private boolean pressed;
 
     private class VerticalLine {
 
@@ -114,6 +112,11 @@ public class CutImageForm extends javax.swing.JDialog {
         paneForDisplayImage.setToolTipText("");
         paneForDisplayImage.setFocusCycleRoot(true);
         paneForDisplayImage.setPreferredSize(new java.awt.Dimension(880, 510));
+        paneForDisplayImage.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                paneForDisplayImageMouseDragged(evt);
+            }
+        });
         paneForDisplayImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 paneForDisplayImageMouseClicked(evt);
@@ -244,6 +247,7 @@ public class CutImageForm extends javax.swing.JDialog {
         for (VerticalLine verticalLine : LINES) {
             verticalLine.setSelected(evt.getX());
         }
+        pressed = true;
         draw();
     }//GEN-LAST:event_paneForDisplayImageMousePressed
 
@@ -254,6 +258,7 @@ public class CutImageForm extends javax.swing.JDialog {
                 verticalLine.x = evt.getX();
             }
         }
+        pressed = false;
         draw();
     }//GEN-LAST:event_paneForDisplayImageMouseReleased
 
@@ -312,6 +317,17 @@ public class CutImageForm extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void paneForDisplayImageMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForDisplayImageMouseDragged
+        if (pressed) {
+            for (VerticalLine verticalLine : LINES) {
+                if (verticalLine.selected) {
+                    verticalLine.x = evt.getX();
+                }
+            }
+            draw();
+        }
+    }//GEN-LAST:event_paneForDisplayImageMouseDragged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

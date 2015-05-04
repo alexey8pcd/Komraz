@@ -28,6 +28,7 @@ public class MainForm extends javax.swing.JFrame {
         bPassageTest = new javax.swing.JButton();
         panePicture = new javax.swing.JPanel();
         bCutImages = new javax.swing.JButton();
+        bPlacingAreas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Тестирующая система");
@@ -79,19 +80,30 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        bPlacingAreas.setText("Размещение областей");
+        bPlacingAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPlacingAreasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panePictureLayout = new javax.swing.GroupLayout(panePicture);
         panePicture.setLayout(panePictureLayout);
         panePictureLayout.setHorizontalGroup(
             panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePictureLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bCutImages)
+                .addGroup(panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bPlacingAreas)
+                    .addComponent(bCutImages))
                 .addGap(344, 344, 344))
         );
         panePictureLayout.setVerticalGroup(
             panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePictureLayout.createSequentialGroup()
-                .addContainerGap(203, Short.MAX_VALUE)
+                .addContainerGap(136, Short.MAX_VALUE)
+                .addComponent(bPlacingAreas)
+                .addGap(44, 44, 44)
                 .addComponent(bCutImages)
                 .addGap(145, 145, 145))
         );
@@ -169,11 +181,16 @@ public class MainForm extends javax.swing.JFrame {
         new CutImageForm(this, true).setVisible(true);
     }//GEN-LAST:event_bCutImagesActionPerformed
 
+    private void bPlacingAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlacingAreasActionPerformed
+        new PlacingAreasForm(this, true).setVisible(true);
+    }//GEN-LAST:event_bPlacingAreasActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bCutImages;
     private javax.swing.JButton bGroups;
     private javax.swing.JButton bPassageTest;
+    private javax.swing.JButton bPlacingAreas;
     private javax.swing.JButton bQuestions;
     private javax.swing.JButton bTests;
     private javax.swing.JPanel panePicture;

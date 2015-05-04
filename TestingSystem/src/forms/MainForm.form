@@ -149,7 +149,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="bCutImages" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="bPlacingAreas" min="-2" max="-2" attributes="0"/>
+                      <Component id="bCutImages" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="344" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -157,7 +160,9 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="203" max="32767" attributes="0"/>
+                  <EmptySpace pref="136" max="32767" attributes="0"/>
+                  <Component id="bPlacingAreas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="bCutImages" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
               </Group>
@@ -171,6 +176,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCutImagesActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bPlacingAreas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x420;&#x430;&#x437;&#x43c;&#x435;&#x449;&#x435;&#x43d;&#x438;&#x435; &#x43e;&#x431;&#x43b;&#x430;&#x441;&#x442;&#x435;&#x439;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPlacingAreasActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
