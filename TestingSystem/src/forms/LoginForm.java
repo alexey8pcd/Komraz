@@ -9,6 +9,10 @@ import static sql.DBManager.entityManager;
 /**
  *
  * @author Артем
+ * 
+ * Пасхалка для девелоперов:
+ * Тестовые логин: "admin" и пароль: "1"
+ * 
  */
 public class LoginForm extends javax.swing.JFrame {
 
@@ -35,6 +39,7 @@ public class LoginForm extends javax.swing.JFrame {
         passwordText = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Вход");
 
         lUsername.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lUsername.setText("Имя пользователя:");
@@ -55,6 +60,10 @@ public class LoginForm extends javax.swing.JFrame {
                 bExitActionPerformed(evt);
             }
         });
+
+        textUsername.setText("solovenko");
+
+        passwordText.setText("12345");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,28 +108,35 @@ public class LoginForm extends javax.swing.JFrame {
         String username = textUsername.getText();
         String password = String.valueOf(passwordText.getPassword());
 
-        try {
-            TypedQuery<Student> queryForStudent = entityManager.
-                    createQuery("SELECT s FROM Student s "
-                            + "WHERE s.login = :login",
-                            Student.class);
-            queryForStudent.setParameter("login", username);
-            student = queryForStudent.getSingleResult();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
-
-        if (student != null) {
-            if (password.equals(student.getPassword())) {
-                MainForm mainForm = new MainForm();
-                mainForm.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
+        if (username.equals("admin") && password.equals("1")) {
+            MainForm mainForm = new MainForm();
+            mainForm.setVisible(true);
+            this.dispose();
+        } else {
+            try {
+                TypedQuery<Student> queryForStudent = entityManager.
+                        createQuery("SELECT s FROM Student s "
+                                + "WHERE s.login = :login",
+                                Student.class);
+                queryForStudent.setParameter("login", username);
+                student = queryForStudent.getSingleResult();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
+
+            if (student != null) {
+                if (password.equals(student.getPassword())) {
+                    MainForm mainForm = new MainForm();
+                    mainForm.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
+        
     }//GEN-LAST:event_bEnterActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
