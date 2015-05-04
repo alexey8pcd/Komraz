@@ -287,11 +287,15 @@ public class CutImageForm extends javax.swing.JDialog {
         int ip2 = (int) (finishX * imgWidth);
         BufferedImage piece = image.getSubimage(
                 ip1, 0, ip2 - ip1, image.getHeight());
-        File out = new File(String.valueOf("image"
-                + System.currentTimeMillis() + ".png"));
         try {
+            File dir = new File("./images");
+            if(!dir.exists()){
+                dir.mkdir();
+            }
+            File out = new File(String.valueOf("./images/image"
+                    + System.currentTimeMillis() + ".png"));
             ImageIO.write(piece, "png", out);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.toString(),
                     "Ошибка", JOptionPane.OK_OPTION);
         }

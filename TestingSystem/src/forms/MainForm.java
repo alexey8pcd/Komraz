@@ -92,7 +92,7 @@ public class MainForm extends javax.swing.JFrame {
         panePictureLayout.setHorizontalGroup(
             panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePictureLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(391, Short.MAX_VALUE)
                 .addGroup(panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bPlacingAreas)
                     .addComponent(bCutImages))

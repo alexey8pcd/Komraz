@@ -2,6 +2,7 @@ package forms;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import main.Area;
 
 /**
  *
@@ -9,36 +10,8 @@ import java.awt.Graphics;
  */
 public class PlacingAreasForm extends javax.swing.JDialog {
 
-    private class Area {
-
-        public int x;
-        public int y;
-        public int size;
-        public boolean selected;
-
-        public Area(int x, int y, int size) {
-            this.x = x;
-            this.y = y;
-            this.size = size;
-        }
-
-        public void setSelected(int x, int y) {
-            selected = x >= this.x && x < this.x + size
-                    && y >= this.y && y < this.y + size;
-        }
-
-        public void draw(Graphics g) {
-            if (selected) {
-                g.setColor(Color.BLUE);
-                g.fillRect(x - 2, y - 2, size + 4, size + 4);
-            }
-            g.setColor(areaColor);
-            g.fillRect(x, y, size, size);
-        }
-    }
-
     private final Graphics GRAPHICS;
-    private int prefAreaSize = 200;
+    private int prefAreaSize = 100;
     private Area[][] AREAS;
     private Color areaColor = Color.GRAY;
     private int startX = 20;
@@ -66,7 +39,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             for (int i = 0; i < AREAS.length; i++) {
                 for (int j = 0; j < AREAS[i].length; j++) {
                     if (AREAS[i][j] != null) {
-                        AREAS[i][j].draw(GRAPHICS);
+                        AREAS[i][j].draw(GRAPHICS, areaColor);
                     }
                 }
             }
@@ -116,8 +89,18 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         );
 
         bClose.setText("Закрыть");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseActionPerformed(evt);
+            }
+        });
 
         bSave.setText("Сохранить");
+        bSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSaveActionPerformed(evt);
+            }
+        });
 
         bAddArea.setText("Добавить область");
         bAddArea.setToolTipText("");
@@ -255,7 +238,8 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             }
             layout = Layout.MATRIX;
             AREAS = matrix;
-            prefAreaSize *= 3;
+            prefAreaSize /= 3;
+            prefAreaSize *= 4;
             for (int i = 0; i < AREAS.length; i++) {
                 for (int j = 0; j < AREAS[i].length; j++) {
                     if (AREAS[i][j] != null) {
@@ -279,7 +263,8 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             }
             layout = Layout.LINE;
             AREAS = line;
-            prefAreaSize /= 3;
+            prefAreaSize /= 4;
+            prefAreaSize *= 3;
             for (int i = 0; i < AREAS[0].length; i++) {
                 if (AREAS[0][i] != null) {
                     AREAS[0][i].x = startX + i * (prefAreaSize + rowSpan);
@@ -290,6 +275,17 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             draw();
         }
     }//GEN-LAST:event_tbLineModeActionPerformed
+
+    private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
+        PlacingPicturesForm picturesForm = new PlacingPicturesForm(null, false);
+        picturesForm.setAreas(AREAS);
+        picturesForm.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_bSaveActionPerformed
+
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_bCloseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
