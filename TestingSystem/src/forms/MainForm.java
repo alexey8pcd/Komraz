@@ -1,7 +1,5 @@
 package forms;
 
-import entities.Prepodavatel;
-import entities.Student;
 import static resources.Parameters.SCREEN_SIZE;
 
 /**

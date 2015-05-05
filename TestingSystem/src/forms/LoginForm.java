@@ -11,8 +11,6 @@ import static sql.DBManager.entityManager;
  *
  * @author Артем
  *
- * Пасхалка для девелоперов: Тестовые логин: "admin" и пароль: "1"
- *
  */
 public class LoginForm extends javax.swing.JFrame {
 
@@ -143,6 +141,7 @@ public class LoginForm extends javax.swing.JFrame {
                     if (password.equals(student.getPassword())) {
                         //Отображаем форму прохождения тестов для студента
                         ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
+                        chooseTestForm.setStudent(student);
                         chooseTestForm.setVisible(true);
                         this.dispose();
                     } else {

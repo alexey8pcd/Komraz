@@ -3,8 +3,6 @@ package forms;
 import entities.Gruppa;
 import entities.Student;
 import entities.StudentTest;
-import entities.Test;
-import entities.TestVopros;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;

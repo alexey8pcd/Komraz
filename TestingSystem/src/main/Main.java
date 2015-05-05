@@ -1,7 +1,6 @@
 package main;
 
 import forms.LoginForm;
-import forms.MainForm;
 import javax.swing.UIManager;
 
 public class Main {
