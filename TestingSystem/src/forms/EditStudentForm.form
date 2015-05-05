@@ -24,32 +24,33 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="63" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lPasswordConfirm" max="32767" attributes="0"/>
+                          <Component id="lPassword" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lUsername" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lFio" min="-2" pref="175" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="textPassword" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="textUsername" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="textFio" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="textPasswordConfirm" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="60" max="-2" attributes="0"/>
                       <Component id="bSave" min="-2" pref="110" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="bClose" min="-2" pref="110" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lPasswordConfirm" pref="175" max="32767" attributes="0"/>
-                          <Component id="lPassword" alignment="0" max="32767" attributes="0"/>
-                          <Component id="lUsername" alignment="0" max="32767" attributes="0"/>
-                          <Component id="lFio" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="textPassword" max="32767" attributes="0"/>
-                          <Component id="textPasswordConfirm" max="32767" attributes="0"/>
-                          <Component id="textUsername" max="32767" attributes="0"/>
-                          <Component id="textFio" alignment="0" pref="120" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="108" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,22 +62,22 @@
                   <Component id="lFio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textFio" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textUsername" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textPassword" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lPasswordConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textPasswordConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bClose" alignment="3" min="-2" max="-2" attributes="0"/>

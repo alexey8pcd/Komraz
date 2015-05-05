@@ -1,11 +1,7 @@
 package forms;
 
-import com.sun.corba.se.impl.util.PackagePrefixChecker;
 import entities.Gruppa;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
@@ -112,13 +108,13 @@ public class EditGroupForm extends javax.swing.JDialog {
 
         boolean correct = true;
         if (groupName.isEmpty()
-            || groupName.length() < MIN_GROUP_NAME_LENGTH) {
+                || groupName.length() < MIN_GROUP_NAME_LENGTH) {
             correct = false;
         }
         if (correct) {
             boolean existed = false;
             List<Gruppa> groups = entityManager.createNamedQuery(
-                "Gruppa.findAll", Gruppa.class).getResultList();
+                    "Gruppa.findAll", Gruppa.class).getResultList();
             for (Gruppa group1 : groups) {
                 if (group1.getNazvanie().equals(groupName)) {
                     existed = true;
@@ -134,35 +130,31 @@ public class EditGroupForm extends javax.swing.JDialog {
                         DBManager.writeObject(group);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this,
-                            ex.toString(),
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                ex.toString(),
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     group.setNazvanie(groupName);
-                    int idGroup = group.getIdGruppa();
-                    DBManager.requestWithoutAnswerSQL(
-                        "UPDATE GRUPPA g SET NAZVANIE = " + groupName
-                        + "WHERE ID_GRUPPA = " + idGroup);
-
-                    //                    entityManager.getTransaction().begin();
-                    //                    Query query = entityManager.createQuery(
-                        //                            "UPDATE FROM Gruppa v WHERE v.idGruppa=:id");
-                    //                    query.setParameter("id", delGroup.getIdGruppa());
-                    //                    query.executeUpdate();
-                    //                    entityManager.getTransaction().commit();
+                    try {
+                        DBManager.writeObject(group);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this,
+                                ex.toString(),
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "Такая группа уже существует!",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                        "Такая группа уже существует!",
+                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                "Название не может быть пустым "
-                + "и длина имени не короче "
-                + MIN_GROUP_NAME_LENGTH + " символов",
-                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    "Название не может быть пустым "
+                    + "и длина имени не короче "
+                    + MIN_GROUP_NAME_LENGTH + " символов",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_bSaveActionPerformed

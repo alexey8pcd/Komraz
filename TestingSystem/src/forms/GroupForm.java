@@ -1,8 +1,8 @@
 package forms;
 
-import entities.Disciplina;
 import entities.Gruppa;
 import entities.Student;
+import entities.StudentTest;
 import entities.Test;
 import entities.TestVopros;
 import java.util.List;
@@ -116,12 +116,12 @@ public class GroupForm extends javax.swing.JDialog {
             Gruppa group = groups.get(selectedIndex);
             queryForStudents.setParameter("idGruppa", group.getIdGruppa());
             students = queryForStudents.getResultList();
-            if (students != null) {
+            entityManager.getTransaction().commit();
+            if (!students.isEmpty()) {
                 tableListOfStudents.updateUI();
                 //Сделать первого студента "выбранным"
                 tableListOfStudents.setRowSelectionInterval(0, 0);
             }
-            entityManager.getTransaction().commit();
         }
     }
 
@@ -139,10 +139,11 @@ public class GroupForm extends javax.swing.JDialog {
         Gruppa group = groups.get(selectedIndex);
         queryForStudents.setParameter("idGruppa", group.getIdGruppa());
         students = queryForStudents.getResultList();
-        if (students != null) {
-            tableListOfStudents.updateUI();
-        }
         entityManager.getTransaction().commit();
+        tableListOfStudents.updateUI();
+        if (!students.isEmpty()) {
+            tableListOfStudents.setRowSelectionInterval(0, 0);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -251,6 +252,11 @@ public class GroupForm extends javax.swing.JDialog {
         });
 
         bDeleteStudent.setText("Удалить");
+        bDeleteStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteStudentActionPerformed(evt);
+            }
+        });
 
         bClose.setText("Закрыть");
         bClose.addActionListener(new java.awt.event.ActionListener() {
@@ -419,15 +425,57 @@ public class GroupForm extends javax.swing.JDialog {
 
         int selectedIndex = listGroups.getSelectedIndex();
         Gruppa group = groups.get(selectedIndex);
-        int selectedStudent = tableListOfStudents.getSelectedRow();
 
         EditStudentForm editStudentForm = new EditStudentForm(null, true);
         editStudentForm.setGroup(group);
-        editStudentForm.setStudent(students.get(selectedStudent));
         editStudentForm.setVisible(true);
         refresh();
 
     }//GEN-LAST:event_bCreateStudentActionPerformed
+
+    private void bDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteStudentActionPerformed
+        int selectedIndex = tableListOfStudents.getSelectedRow();
+        if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
+                && selectedIndex >= 0) {
+            //Удаляем выбранного студента из списка
+            Student delStudent = students.get(selectedIndex);
+            StudentTest studentTest = null;
+
+            if (delStudent != null) {
+                if (!delStudent.getStudentTestList().isEmpty()) {
+                    studentTest = delStudent.getStudentTestList().get(0);
+                }
+                if (delStudent.getStudentTestList().isEmpty()) {
+                    try {
+                        if (studentTest != null) {
+                            entityManager.getTransaction().begin();
+                            entityManager.remove(studentTest);
+                            entityManager.getTransaction().commit();
+                        }
+                        entityManager.getTransaction().begin();
+                        Query query = entityManager.createQuery(
+                                "DELETE FROM Student s WHERE s.idStudent=:id");
+                        query.setParameter("id", delStudent.getIdStudent());
+                        query.executeUpdate();
+                        entityManager.getTransaction().commit();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.toString(),
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "В данной группе "
+                            + "содержатся студенты!",
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+//            listGroups.setSelectedIndex(0);
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Студент не выбран",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_bDeleteStudentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
