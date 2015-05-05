@@ -1,5 +1,6 @@
 package forms;
 
+import entities.Prepodavatel;
 import entities.Student;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
@@ -9,14 +10,14 @@ import static sql.DBManager.entityManager;
 /**
  *
  * @author Артем
- * 
- * Пасхалка для девелоперов:
- * Тестовые логин: "admin" и пароль: "1"
- * 
+ *
+ * Пасхалка для девелоперов: Тестовые логин: "admin" и пароль: "1"
+ *
  */
 public class LoginForm extends javax.swing.JFrame {
 
     private Student student;
+    private Prepodavatel prepodavatel;
 
     /**
      * Creates new form LoginForm
@@ -61,7 +62,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        textUsername.setText("solovenko");
+        textUsername.setText("krogozi");
 
         passwordText.setText("12345");
 
@@ -108,25 +109,18 @@ public class LoginForm extends javax.swing.JFrame {
         String username = textUsername.getText();
         String password = String.valueOf(passwordText.getPassword());
 
-        if (username.equals("admin") && password.equals("1")) {
-            MainForm mainForm = new MainForm();
-            mainForm.setVisible(true);
-            this.dispose();
-        } else {
-            try {
-                TypedQuery<Student> queryForStudent = entityManager.
-                        createQuery("SELECT s FROM Student s "
-                                + "WHERE s.login = :login",
-                                Student.class);
-                queryForStudent.setParameter("login", username);
-                student = queryForStudent.getSingleResult();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
+        try {
+            //Ищем в преподавателях
+            TypedQuery<Prepodavatel> queryForPrepodavatel = entityManager.
+                    createQuery("SELECT p FROM Prepodavatel p "
+                            + "WHERE p.login = :login",
+                            Prepodavatel.class);
+            queryForPrepodavatel.setParameter("login", username);
+            prepodavatel = queryForPrepodavatel.getSingleResult();
 
-            if (student != null) {
-                if (password.equals(student.getPassword())) {
+            if (prepodavatel != null) {
+                if (password.equals(prepodavatel.getPassword())) {
+                    //Преподавателя выводим на главную форму
                     MainForm mainForm = new MainForm();
                     mainForm.setVisible(true);
                     this.dispose();
@@ -135,8 +129,33 @@ public class LoginForm extends javax.swing.JFrame {
                             "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } catch (Exception ex) {
+            try {
+                //Ищем в студентах
+                TypedQuery<Student> queryForStudent = entityManager.
+                        createQuery("SELECT s FROM Student s "
+                                + "WHERE s.login = :login",
+                                Student.class);
+                queryForStudent.setParameter("login", username);
+                student = queryForStudent.getSingleResult();
+
+                if (student != null) {
+                    if (password.equals(student.getPassword())) {
+                        //Отображаем форму прохождения тестов для студента
+                        ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
+                        chooseTestForm.setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        
+
     }//GEN-LAST:event_bEnterActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed

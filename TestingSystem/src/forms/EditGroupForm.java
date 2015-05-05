@@ -79,7 +79,7 @@ public class EditGroupForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
+                        .addGap(39, 39, 39)
                         .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
@@ -92,8 +92,8 @@ public class EditGroupForm extends javax.swing.JDialog {
                     .addComponent(textGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bClose)
-                    .addComponent(bSave))
+                    .addComponent(bSave)
+                    .addComponent(bClose))
                 .addGap(75, 75, 75))
         );
 
@@ -112,13 +112,13 @@ public class EditGroupForm extends javax.swing.JDialog {
 
         boolean correct = true;
         if (groupName.isEmpty()
-                || groupName.length() < MIN_GROUP_NAME_LENGTH) {
+            || groupName.length() < MIN_GROUP_NAME_LENGTH) {
             correct = false;
         }
         if (correct) {
             boolean existed = false;
             List<Gruppa> groups = entityManager.createNamedQuery(
-                    "Gruppa.findAll", Gruppa.class).getResultList();
+                "Gruppa.findAll", Gruppa.class).getResultList();
             for (Gruppa group1 : groups) {
                 if (group1.getNazvanie().equals(groupName)) {
                     existed = true;
@@ -134,37 +134,36 @@ public class EditGroupForm extends javax.swing.JDialog {
                         DBManager.writeObject(group);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this,
-                                ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            ex.toString(),
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     group.setNazvanie(groupName);
                     int idGroup = group.getIdGruppa();
                     DBManager.requestWithoutAnswerSQL(
-                            "UPDATE GRUPPA g SET NAZVANIE = " + groupName
-                            + "WHERE ID_GRUPPA = " + idGroup);
+                        "UPDATE GRUPPA g SET NAZVANIE = " + groupName
+                        + "WHERE ID_GRUPPA = " + idGroup);
 
-//                    entityManager.getTransaction().begin();
-//                    Query query = entityManager.createQuery(
-//                            "UPDATE FROM Gruppa v WHERE v.idGruppa=:id");
-//                    query.setParameter("id", delGroup.getIdGruppa());
-//                    query.executeUpdate();
-//                    entityManager.getTransaction().commit();
+                    //                    entityManager.getTransaction().begin();
+                    //                    Query query = entityManager.createQuery(
+                        //                            "UPDATE FROM Gruppa v WHERE v.idGruppa=:id");
+                    //                    query.setParameter("id", delGroup.getIdGruppa());
+                    //                    query.executeUpdate();
+                    //                    entityManager.getTransaction().commit();
                 }
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Такая группа уже существует!",
-                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    "Такая группа уже существует!",
+                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Название не может быть пустым "
-                    + "и длина имени не короче "
-                    + MIN_GROUP_NAME_LENGTH + " символов",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                "Название не может быть пустым "
+                + "и длина имени не короче "
+                + MIN_GROUP_NAME_LENGTH + " символов",
+                "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-
 
     }//GEN-LAST:event_bSaveActionPerformed
 

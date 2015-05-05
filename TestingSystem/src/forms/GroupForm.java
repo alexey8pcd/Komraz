@@ -118,6 +118,8 @@ public class GroupForm extends javax.swing.JDialog {
             students = queryForStudents.getResultList();
             if (students != null) {
                 tableListOfStudents.updateUI();
+                //Сделать первого студента "выбранным"
+                tableListOfStudents.setRowSelectionInterval(0, 0);
             }
             entityManager.getTransaction().commit();
         }
@@ -126,6 +128,7 @@ public class GroupForm extends javax.swing.JDialog {
     private void refresh() {
         groups = entityManager.createNamedQuery("Gruppa.findAll",
                 Gruppa.class).getResultList();
+
         listGroups.updateUI();
         entityManager.getTransaction().begin();
         TypedQuery<Student> queryForStudents = entityManager.
@@ -204,7 +207,6 @@ public class GroupForm extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tableListOfStudents.setColumnSelectionAllowed(true);
         jScrollPane2.setViewportView(tableListOfStudents);
         tableListOfStudents.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (tableListOfStudents.getColumnModel().getColumnCount() > 0) {
@@ -235,6 +237,11 @@ public class GroupForm extends javax.swing.JDialog {
         });
 
         bCreateStudent.setText("Создать");
+        bCreateStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCreateStudentActionPerformed(evt);
+            }
+        });
 
         bEditStudent.setText("Редактировать");
         bEditStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -322,16 +329,38 @@ public class GroupForm extends javax.swing.JDialog {
     }//GEN-LAST:event_listGroupsMouseClicked
 
     private void bEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditStudentActionPerformed
-        // TODO add your handling code here:
+
+        if (!students.isEmpty()) {
+            int selectedIndex = listGroups.getSelectedIndex();
+            Gruppa group = groups.get(selectedIndex);
+            int selectedStudent = tableListOfStudents.getSelectedRow();
+
+            EditStudentForm editGroupForm = new EditStudentForm(null, true);
+            editGroupForm.setGroup(group);
+            editGroupForm.setStudent(students.get(selectedStudent));
+            editGroupForm.setVisible(true);
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Студенты отсутствуют!",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_bEditStudentActionPerformed
 
     private void bEditGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditGroupActionPerformed
 
-        int selected = listGroups.getSelectedIndex();
-        EditGroupForm editGroupForm = new EditGroupForm(null, true);
-        editGroupForm.setGroup(groups.get(selected));
-        editGroupForm.setVisible(true);
-        refresh();
+        if (!groups.isEmpty()) {
+            int selected = listGroups.getSelectedIndex();
+            EditGroupForm editGroupForm = new EditGroupForm(null, true);
+            editGroupForm.setGroup(groups.get(selected));
+            editGroupForm.setVisible(true);
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Группы отсутствуют. \n"
+                    + "Необходимо создать группу",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_bEditGroupActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
@@ -362,7 +391,6 @@ public class GroupForm extends javax.swing.JDialog {
 //                        entityManager.getTransaction().begin();
 //                        entityManager.remove(delGroup);
 //                        entityManager.getTransaction().commit();
-
                         entityManager.getTransaction().begin();
                         Query query = entityManager.createQuery(
                                 "DELETE FROM Gruppa v WHERE v.idGruppa=:id");
@@ -386,6 +414,20 @@ public class GroupForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bDeleteGroupActionPerformed
+
+    private void bCreateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateStudentActionPerformed
+
+        int selectedIndex = listGroups.getSelectedIndex();
+        Gruppa group = groups.get(selectedIndex);
+        int selectedStudent = tableListOfStudents.getSelectedRow();
+
+        EditStudentForm editStudentForm = new EditStudentForm(null, true);
+        editStudentForm.setGroup(group);
+        editStudentForm.setStudent(students.get(selectedStudent));
+        editStudentForm.setVisible(true);
+        refresh();
+
+    }//GEN-LAST:event_bCreateStudentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
