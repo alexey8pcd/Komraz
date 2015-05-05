@@ -124,9 +124,9 @@ public class EditStudentForm extends javax.swing.JDialog {
                     .addComponent(lUsername)
                     .addComponent(textUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lPassword)
-                    .addComponent(textPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lPasswordConfirm)
@@ -172,6 +172,10 @@ public class EditStudentForm extends javax.swing.JDialog {
                     if (password.equals(textPasswordConfirm.getText())) {
 
                         boolean existed = false;
+                        int idStudent = -1; //Проверка на редактируемого студента
+                        if (student != null){
+                            idStudent = student.getIdStudent();
+                        }
 
                         List<Prepodavatel> prepodavatels = entityManager.createNamedQuery(
                                 "Prepodavatel.findAll", Prepodavatel.class).getResultList();
@@ -185,7 +189,9 @@ public class EditStudentForm extends javax.swing.JDialog {
                                     "Student.findAll", Student.class).getResultList();
                             for (Student student1 : students) {
                                 if (student1.getLogin().equals(username)) {
-                                    existed = true;
+                                    if (student1.getIdStudent() != idStudent){
+                                        existed = true;
+                                    }                                    
                                 }
                             }
                         }
