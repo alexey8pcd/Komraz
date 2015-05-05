@@ -6,8 +6,10 @@ import entities.Student;
 import entities.Test;
 import entities.TestVopros;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
@@ -104,7 +106,7 @@ public class GroupForm extends javax.swing.JDialog {
         if (groups != null) {
             listGroups.updateUI();
             listGroups.setSelectedIndex(0);
-            
+
             entityManager.getTransaction().begin();
             TypedQuery<Student> queryForStudents = entityManager.
                     createQuery("SELECT s FROM Student s "
@@ -114,11 +116,30 @@ public class GroupForm extends javax.swing.JDialog {
             Gruppa group = groups.get(selectedIndex);
             queryForStudents.setParameter("idGruppa", group.getIdGruppa());
             students = queryForStudents.getResultList();
-            if (students != null){
+            if (students != null) {
                 tableListOfStudents.updateUI();
             }
             entityManager.getTransaction().commit();
         }
+    }
+
+    private void refresh() {
+        groups = entityManager.createNamedQuery("Gruppa.findAll",
+                Gruppa.class).getResultList();
+        listGroups.updateUI();
+        entityManager.getTransaction().begin();
+        TypedQuery<Student> queryForStudents = entityManager.
+                createQuery("SELECT s FROM Student s "
+                        + "WHERE s.gruppaIdGruppa.idGruppa=:idGruppa",
+                        Student.class);
+        int selectedIndex = listGroups.getSelectedIndex();
+        Gruppa group = groups.get(selectedIndex);
+        queryForStudents.setParameter("idGruppa", group.getIdGruppa());
+        students = queryForStudents.getResultList();
+        if (students != null) {
+            tableListOfStudents.updateUI();
+        }
+        entityManager.getTransaction().commit();
     }
 
     @SuppressWarnings("unchecked")
@@ -200,6 +221,11 @@ public class GroupForm extends javax.swing.JDialog {
         });
 
         bDeleteGroup.setText("Удалить");
+        bDeleteGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteGroupActionPerformed(evt);
+            }
+        });
 
         bEditGroup.setText("Редактировать");
         bEditGroup.addActionListener(new java.awt.event.ActionListener() {
@@ -236,26 +262,30 @@ public class GroupForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sPaneForListGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lGroups))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(bCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bEditGroup)
-                        .addGap(18, 18, 18)
-                        .addComponent(bDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(bEditStudent)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bEditGroup)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(sPaneForListGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lGroups)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(51, 51, 51)
+                                .addComponent(bEditStudent)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
@@ -286,7 +316,9 @@ public class GroupForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listGroupsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listGroupsMouseClicked
-        // TODO add your handling code here:
+
+        refresh();
+
     }//GEN-LAST:event_listGroupsMouseClicked
 
     private void bEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditStudentActionPerformed
@@ -294,11 +326,12 @@ public class GroupForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bEditStudentActionPerformed
 
     private void bEditGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditGroupActionPerformed
-        
+
         int selected = listGroups.getSelectedIndex();
         EditGroupForm editGroupForm = new EditGroupForm(null, true);
         editGroupForm.setGroup(groups.get(selected));
         editGroupForm.setVisible(true);
+        refresh();
     }//GEN-LAST:event_bEditGroupActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
@@ -308,11 +341,51 @@ public class GroupForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateGroupActionPerformed
-        
+
         EditGroupForm editGroupForm = new EditGroupForm(null, true);
         editGroupForm.setVisible(true);
-        
+        refresh();
+
     }//GEN-LAST:event_bCreateGroupActionPerformed
+
+    private void bDeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteGroupActionPerformed
+        int selectedIndex = listGroups.getSelectedIndex();
+        if (selectedIndex < GROUPS_LIST_MODEL.getSize()
+                && selectedIndex >= 0) {
+            //Удаляем выбранную группу из списка
+            Gruppa delGroup = groups.get(selectedIndex);
+
+            if (delGroup != null) {
+                if (delGroup.getStudentList().isEmpty()) {
+                    try {
+
+//                        entityManager.getTransaction().begin();
+//                        entityManager.remove(delGroup);
+//                        entityManager.getTransaction().commit();
+
+                        entityManager.getTransaction().begin();
+                        Query query = entityManager.createQuery(
+                                "DELETE FROM Gruppa v WHERE v.idGruppa=:id");
+                        query.setParameter("id", delGroup.getIdGruppa());
+                        query.executeUpdate();
+                        entityManager.getTransaction().commit();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.toString(),
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "В данной группе "
+                            + "содержатся студенты!",
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            listGroups.setSelectedIndex(0);
+            refresh();
+        } else {
+            JOptionPane.showMessageDialog(null, "Группа не выбрана",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bDeleteGroupActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,7 @@ import entities.Gruppa;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
@@ -128,6 +129,7 @@ public class EditGroupForm extends javax.swing.JDialog {
                 if (group == null) {
                     group = new Gruppa();
                     group.setNazvanie(groupName);
+
                     try {
                         DBManager.writeObject(group);
                     } catch (Exception ex) {
@@ -139,8 +141,15 @@ public class EditGroupForm extends javax.swing.JDialog {
                     group.setNazvanie(groupName);
                     int idGroup = group.getIdGruppa();
                     DBManager.requestWithoutAnswerSQL(
-                            "UPDATE GRUPAA SET NAZVANIE = " + groupName 
-                                    + "WHERE ID_GRUPPA = " + idGroup);
+                            "UPDATE GRUPPA g SET NAZVANIE = " + groupName
+                            + "WHERE ID_GRUPPA = " + idGroup);
+
+//                    entityManager.getTransaction().begin();
+//                    Query query = entityManager.createQuery(
+//                            "UPDATE FROM Gruppa v WHERE v.idGruppa=:id");
+//                    query.setParameter("id", delGroup.getIdGruppa());
+//                    query.executeUpdate();
+//                    entityManager.getTransaction().commit();
                 }
                 this.dispose();
             } else {
