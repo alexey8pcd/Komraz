@@ -1,5 +1,7 @@
 package forms;
 
+import entities.Disciplina;
+import entities.Kartinka;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -11,10 +13,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.persistence.TypedQuery;
+import javax.swing.AbstractListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -27,6 +33,19 @@ public class CutImageForm extends javax.swing.JDialog {
     private final List<VerticalLine> LINES;
     private Color lineColor = Color.BLACK;
     private boolean pressed;
+    private List<Disciplina> subjects;
+    private final ListModel SUBJECTS_LIST_MODEL = new AbstractListModel() {
+
+        @Override
+        public int getSize() {
+            return subjects.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return subjects.get(index).getNazvanie();
+        }
+    };
 
     private class VerticalLine {
 
@@ -38,11 +57,7 @@ public class CutImageForm extends javax.swing.JDialog {
         }
 
         public void setSelected(int x) {
-            if (x >= this.x - 5 && x <= this.x + 5) {
-                selected = true;
-            } else {
-                selected = false;
-            }
+            selected = x >= this.x - 5 && x <= this.x + 5;
         }
 
         public void draw(Graphics g) {
@@ -55,18 +70,23 @@ public class CutImageForm extends javax.swing.JDialog {
         }
     }
 
-    private void clearSelection() {
-        for (VerticalLine verticalLine : LINES) {
-            verticalLine.selected = false;
-        }
-    }
-
     public CutImageForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         GRAPHICS = paneForDisplayImage.getGraphics();
         LINES = new ArrayList<>();
         lLinesCount.setText("Линий: 0 из 5");
+        try {
+            TypedQuery<Disciplina> typedQuery
+                    = entityManager.createNamedQuery("Disciplina.findAll",
+                            Disciplina.class);
+            subjects = typedQuery.getResultList();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+        listSubjects.setModel(SUBJECTS_LIST_MODEL);
+        listSubjects.setSelectedIndex(0);
     }
 
     @Override
@@ -104,6 +124,9 @@ public class CutImageForm extends javax.swing.JDialog {
         bCreateImage = new javax.swing.JButton();
         bDeleteSelectedLine = new javax.swing.JButton();
         bChooseColor = new javax.swing.JButton();
+        lSubject = new javax.swing.JLabel();
+        sPaneForListSubjects = new javax.swing.JScrollPane();
+        listSubjects = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Разрезание картинок");
@@ -137,7 +160,7 @@ public class CutImageForm extends javax.swing.JDialog {
         );
         paneForDisplayImageLayout.setVerticalGroup(
             paneForDisplayImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 427, Short.MAX_VALUE)
         );
 
         bSave.setText("Сохранить");
@@ -171,41 +194,67 @@ public class CutImageForm extends javax.swing.JDialog {
             }
         });
 
+        lSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lSubject.setText("Дисциплина:");
+
+        listSubjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        sPaneForListSubjects.setViewportView(listSubjects);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(lSubject)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bLoadImage)
-                        .addGap(18, 18, 18)
-                        .addComponent(bCreateImage)
-                        .addGap(18, 18, 18)
-                        .addComponent(bDeleteSelectedLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bChooseColor)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(lLinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                        .addGap(142, 142, 142)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bCreateImage)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bChooseColor))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bLoadImage)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                                .addComponent(bDeleteSelectedLine))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lLinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(paneForDisplayImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bSave)
-                    .addComponent(lLinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bLoadImage)
-                    .addComponent(bCreateImage)
-                    .addComponent(bDeleteSelectedLine)
-                    .addComponent(bChooseColor))
+                .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lSubject)
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bLoadImage)
+                            .addComponent(bDeleteSelectedLine))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bChooseColor)
+                            .addComponent(bCreateImage))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(bSave))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lLinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4))))
+                    .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -217,8 +266,8 @@ public class CutImageForm extends javax.swing.JDialog {
             JFileChooser fileChooser = new JFileChooser("C:");
             fileChooser.setFileFilter(
                     new FileNameExtensionFilter(
-                            "Изображения (*.jpg, *.png,*.bmp,*gif)",
-                            "jpg", "png", "bmp", "gif"));
+                            "Изображения (*.jpg, *.jpeg, *.png,*.bmp,*gif)",
+                            "jpg", "jpeg", "png", "bmp", "gif"));
             fileChooser.showOpenDialog(this);
             File file = fileChooser.getSelectedFile();
             if (file != null) {
@@ -289,12 +338,17 @@ public class CutImageForm extends javax.swing.JDialog {
                 ip1, 0, ip2 - ip1, image.getHeight());
         try {
             File dir = new File("./images");
-            if(!dir.exists()){
+            if (!dir.exists()) {
                 dir.mkdir();
             }
-            File out = new File(String.valueOf("./images/image"
-                    + System.currentTimeMillis() + ".png"));
+            String pictureName = "./images/image"
+                    + System.currentTimeMillis() + ".png";
+            File out = new File(pictureName);
             ImageIO.write(piece, "png", out);
+            Kartinka kartinka = new Kartinka();
+            kartinka.setImgLink(pictureName);
+            kartinka.setDisciplinaIdDisciplina(
+                    subjects.get(listSubjects.getSelectedIndex()));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.toString(),
                     "Ошибка", JOptionPane.OK_OPTION);
@@ -308,9 +362,9 @@ public class CutImageForm extends javax.swing.JDialog {
             int startXPosition = 0;
             int finishXPosition = paneForDisplayImage.getWidth();
             double current = startXPosition;
-            for (int i = 0; i < LINES.size(); i++) {
+            for (VerticalLine line : LINES) {
                 double p1 = current;
-                double p2 = LINES.get(i).x;
+                double p2 = line.x;
                 savePieceOfImage(p1, p2);
                 current = p2;
             }
@@ -341,7 +395,10 @@ public class CutImageForm extends javax.swing.JDialog {
     private javax.swing.JButton bLoadImage;
     private javax.swing.JButton bSave;
     private javax.swing.JLabel lLinesCount;
+    private javax.swing.JLabel lSubject;
+    private javax.swing.JList listSubjects;
     private javax.swing.JPanel paneForDisplayImage;
+    private javax.swing.JScrollPane sPaneForListSubjects;
     // End of variables declaration//GEN-END:variables
 
 }

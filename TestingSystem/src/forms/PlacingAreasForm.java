@@ -2,6 +2,7 @@ package forms;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JOptionPane;
 import main.Area;
 
 /**
@@ -12,13 +13,17 @@ public class PlacingAreasForm extends javax.swing.JDialog {
 
     private final Graphics GRAPHICS;
     private int prefAreaSize = 100;
-    private Area[][] AREAS;
+    private Area[][] areas;
     private Color areaColor = Color.GRAY;
     private int startX = 20;
     private int startY = 20;
     private int rowSpan = 20;
     private int columnSpan = 20;
     private Layout layout;
+
+    public Area[][] getAreas() {
+        return areas;
+    }
 
     private enum Layout {
 
@@ -35,11 +40,11 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     public void draw() {
         GRAPHICS.clearRect(0, 0, paneForDisplayAreas.getWidth(),
                 paneForDisplayAreas.getHeight());
-        if (AREAS != null) {
-            for (int i = 0; i < AREAS.length; i++) {
-                for (int j = 0; j < AREAS[i].length; j++) {
-                    if (AREAS[i][j] != null) {
-                        AREAS[i][j].draw(GRAPHICS, areaColor);
+        if (areas != null) {
+            for (Area[] row : areas) {
+                for (Area area : row) {
+                    if (area != null) {
+                        area.draw(GRAPHICS, areaColor, Color.WHITE);
                     }
                 }
             }
@@ -50,8 +55,13 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         GRAPHICS = paneForDisplayAreas.getGraphics();
-        AREAS = new Area[2][3];
+        areas = new Area[2][3];
         layout = Layout.MATRIX;
+        areas[0][0] = new Area(startX, startY, prefAreaSize);
+        areas[0][0].number = 1;
+        areas[0][1] = new Area(startX + prefAreaSize + rowSpan,
+                startY, prefAreaSize);
+        areas[0][1].number = 2;
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +105,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             }
         });
 
-        bSave.setText("Сохранить");
+        bSave.setText("Продолжить");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
@@ -192,11 +202,12 @@ public class PlacingAreasForm extends javax.swing.JDialog {
 
     private void bAddAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddAreaActionPerformed
         boolean placed = false;
-        for (int i = 0; i < AREAS.length && !placed; i++) {
-            for (int j = 0; j < AREAS[i].length && !placed; j++) {
-                if (AREAS[i][j] == null) {
-                    AREAS[i][j] = new Area(startX + j * (prefAreaSize + rowSpan),
+        for (int i = 0; i < areas.length && !placed; i++) {
+            for (int j = 0; j < areas[i].length && !placed; j++) {
+                if (areas[i][j] == null) {
+                    areas[i][j] = new Area(startX + j * (prefAreaSize + rowSpan),
                             startY + i * (prefAreaSize + columnSpan), prefAreaSize);
+                    areas[i][j].number = i * areas[i].length + j + 1;
                     placed = true;
                 }
             }
@@ -205,7 +216,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bAddAreaActionPerformed
 
     private void paneForDisplayAreasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForDisplayAreasMousePressed
-        for (Area[] row : AREAS) {
+        for (Area[] row : areas) {
             for (Area column : row) {
                 if (column != null) {
                     column.setSelected(evt.getX(), evt.getY());
@@ -216,11 +227,11 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_paneForDisplayAreasMousePressed
 
     private void bDeleteAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteAreaActionPerformed
-        for (int i = 0; i < AREAS.length; i++) {
-            for (int j = 0; j < AREAS[i].length; j++) {
-                if (AREAS[i][j] != null) {
-                    if (AREAS[i][j].selected) {
-                        AREAS[i][j] = null;
+        for (int i = 0; i < areas.length; i++) {
+            for (int j = 0; j < areas[i].length; j++) {
+                if (areas[i][j] != null) {
+                    if (areas[i][j].selected) {
+                        areas[i][j] = null;
                     }
                 }
             }
@@ -231,21 +242,21 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     private void tbMatrixModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbMatrixModeActionPerformed
         if (layout == Layout.LINE) {
             Area[][] matrix = new Area[2][3];
-            for (int i = 0; i < AREAS.length; i++) {
-                for (int j = 0; j < AREAS[i].length; j++) {
-                    matrix[j / 3][j % 3] = AREAS[i][j];
+            for (int i = 0; i < areas.length; i++) {
+                for (int j = 0; j < areas[i].length; j++) {
+                    matrix[j / 3][j % 3] = areas[i][j];
                 }
             }
             layout = Layout.MATRIX;
-            AREAS = matrix;
+            areas = matrix;
             prefAreaSize /= 3;
             prefAreaSize *= 4;
-            for (int i = 0; i < AREAS.length; i++) {
-                for (int j = 0; j < AREAS[i].length; j++) {
-                    if (AREAS[i][j] != null) {
-                        AREAS[i][j].x = startX + j * (prefAreaSize + rowSpan);
-                        AREAS[i][j].y = startY + i * (prefAreaSize + columnSpan);
-                        AREAS[i][j].size = prefAreaSize;
+            for (int i = 0; i < areas.length; i++) {
+                for (int j = 0; j < areas[i].length; j++) {
+                    if (areas[i][j] != null) {
+                        areas[i][j].x = startX + j * (prefAreaSize + rowSpan);
+                        areas[i][j].y = startY + i * (prefAreaSize + columnSpan);
+                        areas[i][j].size = prefAreaSize;
                     }
                 }
             }
@@ -256,20 +267,20 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     private void tbLineModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbLineModeActionPerformed
         if (layout == Layout.MATRIX) {
             Area[][] line = new Area[1][6];
-            for (int i = 0; i < AREAS.length; i++) {
-                for (int j = 0; j < AREAS[i].length; j++) {
-                    line[0][i * 3 + j] = AREAS[i][j];
+            for (int i = 0; i < areas.length; i++) {
+                for (int j = 0; j < areas[i].length; j++) {
+                    line[0][i * 3 + j] = areas[i][j];
                 }
             }
             layout = Layout.LINE;
-            AREAS = line;
+            areas = line;
             prefAreaSize /= 4;
             prefAreaSize *= 3;
-            for (int i = 0; i < AREAS[0].length; i++) {
-                if (AREAS[0][i] != null) {
-                    AREAS[0][i].x = startX + i * (prefAreaSize + rowSpan);
-                    AREAS[0][i].y = startY;
-                    AREAS[0][i].size = prefAreaSize;
+            for (int i = 0; i < areas[0].length; i++) {
+                if (areas[0][i] != null) {
+                    areas[0][i].x = startX + i * (prefAreaSize + rowSpan);
+                    areas[0][i].y = startY;
+                    areas[0][i].size = prefAreaSize;
                 }
             }
             draw();
@@ -277,14 +288,18 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_tbLineModeActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-        PlacingPicturesForm picturesForm = new PlacingPicturesForm(null, false);
-        picturesForm.setAreas(AREAS);
-        picturesForm.setVisible(true);
         dispose();
     }//GEN-LAST:event_bSaveActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        dispose();
+        int result = JOptionPane.showConfirmDialog(null,
+                "Редактирование вопроса не завершено. "
+                + "Вы действительно хотите закрыть окно редактора?",
+                "Подтверждение выхода",
+                JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_bCloseActionPerformed
 
 

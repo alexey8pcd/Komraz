@@ -1,8 +1,9 @@
 package main;
 
+import entities.Kartinka;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
@@ -17,6 +18,8 @@ public class Area {
     public boolean selected;
     public BufferedImage image;
     public int number;
+    public Kartinka kartinka;
+    public static final Font FONT = new Font("Arial", Font.BOLD, 36);
 
     public Area(int x, int y, int size) {
         this.x = x;
@@ -33,7 +36,7 @@ public class Area {
                 && y >= this.y && y < this.y + size;
     }
 
-    public void draw(Graphics g, Color areaColor) {
+    public void draw(Graphics g, Color areaColor, Color numberColor) {
         if (selected) {
             g.setColor(Color.BLUE);
             g.fillRect(x - 2, y - 2, size + 4, size + 4);
@@ -43,5 +46,8 @@ public class Area {
         if (image != null) {
             g.drawImage(image, x, y, size, size, null);
         }
+        g.setColor(numberColor);
+        g.setFont(FONT);
+        g.drawString(String.valueOf(number), x + 10, y + size / 2);
     }
 }

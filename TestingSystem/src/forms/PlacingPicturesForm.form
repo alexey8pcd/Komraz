@@ -44,9 +44,10 @@
                   <Group type="102" attributes="0">
                       <Component id="paneForWrongAreas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="39" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bClose" min="-2" pref="120" max="-2" attributes="0"/>
-                          <Component id="bSave" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="bClose" pref="120" max="32767" attributes="0"/>
+                          <Component id="bSave" pref="120" max="32767" attributes="0"/>
+                          <Component id="bChooseColor" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
@@ -68,9 +69,12 @@
                   <Component id="paneForRightAreas" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="paneForWrongAreas" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Component id="bChooseColor" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="bSave" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="bClose" min="-2" pref="40" max="-2" attributes="0"/>
@@ -170,11 +174,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCloseActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bSave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c;"/>
+        <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x43e;&#x434;&#x43e;&#x43b;&#x436;&#x438;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bSaveActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bClearAll">
       <Properties>
@@ -182,6 +192,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bClearAllActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bChooseColor">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x426;&#x432;&#x435;&#x442; &#x446;&#x438;&#x444;&#x440;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bChooseColorActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
