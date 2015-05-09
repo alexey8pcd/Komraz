@@ -1,5 +1,6 @@
 package forms;
 
+import entities.Student;
 import entities.Test;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -14,6 +15,8 @@ import static sql.DBManager.entityManager;
  * @author ScanNorOne
  */
 public class ChooseTestForm extends javax.swing.JDialog {
+    
+    private Student student;
 
     private List<Test> availableTests;
     private final ListModel LISTS_TEST_MODEL = new AbstractListModel() {
@@ -47,6 +50,10 @@ public class ChooseTestForm extends javax.swing.JDialog {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
 
+    }
+    
+    public void setStudent(Student student){
+        this.student = student;
     }
 
     @SuppressWarnings("unchecked")
@@ -126,6 +133,7 @@ public class ChooseTestForm extends javax.swing.JDialog {
         if (selectedIndex != -1 && selectedIndex < availableTests.size()) {
             PassageTestForm passageTestForm = new PassageTestForm(null, true);
             passageTestForm.setTestForPassage(availableTests.get(selectedIndex));
+            passageTestForm.setStudent(student);
             passageTestForm.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Тест не выбран",

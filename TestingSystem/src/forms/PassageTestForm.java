@@ -29,6 +29,7 @@ import static sql.DBManager.entityManager;
  */
 public class PassageTestForm extends javax.swing.JDialog {
 
+    private Student student;
     private Test testForPassage;
     private Vopros currentQuestion;
     private List<Vopros> questions;
@@ -323,6 +324,10 @@ public class PassageTestForm extends javax.swing.JDialog {
                         "Предупреждение", JOptionPane.OK_OPTION);
             }
         }
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @SuppressWarnings("unchecked")
@@ -748,8 +753,11 @@ public class PassageTestForm extends javax.swing.JDialog {
 
         try {
             //выбор студента
-            Student student = entityManager.createNamedQuery(
-                    "Student.findAll", Student.class).getResultList().get(0);
+            //Если проходит преподаватель, то по умолчанию первому студенту (Некрасову)
+            if (student == null) {
+                student = entityManager.createNamedQuery(
+                        "Student.findAll", Student.class).getResultList().get(0);
+            }
             StudentTest studentTest = new StudentTest();
             studentTest.setStudentIdStudent(student);
             studentTest.setTestIdTest(testForPassage);
@@ -795,10 +803,10 @@ public class PassageTestForm extends javax.swing.JDialog {
         if (value != null) {
             if (!mouseInTableClicked) {
                 addFormulaCopyToStack();
-            }            
+            }
             if (!currentFormula.replaceAtomText(value.toString(),
-                currentFormula.getSelectedIndex())) {
-                if(!mouseInTableClicked){
+                    currentFormula.getSelectedIndex())) {
+                if (!mouseInTableClicked) {
                     STACK_FORMULA.pop();
                 }
             }

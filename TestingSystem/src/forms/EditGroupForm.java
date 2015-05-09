@@ -1,11 +1,7 @@
 package forms;
 
-import com.sun.corba.se.impl.util.PackagePrefixChecker;
 import entities.Gruppa;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
@@ -79,7 +75,7 @@ public class EditGroupForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
+                        .addGap(39, 39, 39)
                         .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
@@ -92,8 +88,8 @@ public class EditGroupForm extends javax.swing.JDialog {
                     .addComponent(textGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bClose)
-                    .addComponent(bSave))
+                    .addComponent(bSave)
+                    .addComponent(bClose))
                 .addGap(75, 75, 75))
         );
 
@@ -138,17 +134,13 @@ public class EditGroupForm extends javax.swing.JDialog {
                     }
                 } else {
                     group.setNazvanie(groupName);
-                    int idGroup = group.getIdGruppa();
-                    DBManager.requestWithoutAnswerSQL(
-                            "UPDATE GRUPPA g SET NAZVANIE = " + groupName
-                            + "WHERE ID_GRUPPA = " + idGroup);
-
-//                    entityManager.getTransaction().begin();
-//                    Query query = entityManager.createQuery(
-//                            "UPDATE FROM Gruppa v WHERE v.idGruppa=:id");
-//                    query.setParameter("id", delGroup.getIdGruppa());
-//                    query.executeUpdate();
-//                    entityManager.getTransaction().commit();
+                    try {
+                        DBManager.writeObjectMerge(group);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this,
+                                ex.toString(),
+                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 this.dispose();
             } else {
@@ -163,7 +155,6 @@ public class EditGroupForm extends javax.swing.JDialog {
                     + MIN_GROUP_NAME_LENGTH + " символов",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-
 
     }//GEN-LAST:event_bSaveActionPerformed
 
