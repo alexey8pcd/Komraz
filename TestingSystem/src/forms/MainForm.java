@@ -34,9 +34,13 @@ public class MainForm extends javax.swing.JFrame {
         setTitle("Тестирующая система");
         setResizable(false);
 
-        bGroups.setText("Группы");
-        bGroups.setEnabled(false);
+        bGroups.setText("Группы и Студенты");
         bGroups.setPreferredSize(new java.awt.Dimension(160, 160));
+        bGroups.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGroupsActionPerformed(evt);
+            }
+        });
 
         bTests.setText("Тесты");
         bTests.setPreferredSize(new java.awt.Dimension(160, 160));
@@ -176,6 +180,11 @@ public class MainForm extends javax.swing.JFrame {
         ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
         chooseTestForm.setVisible(true);
     }//GEN-LAST:event_bPassageTestActionPerformed
+
+    private void bGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGroupsActionPerformed
+        GroupForm groupForm = new GroupForm(this, true);
+        groupForm.setVisible(true);
+    }//GEN-LAST:event_bGroupsActionPerformed
 
     private void bCutImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCutImagesActionPerformed
         new CutImageForm(this, true).setVisible(true);
