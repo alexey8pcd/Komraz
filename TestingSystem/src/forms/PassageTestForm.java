@@ -247,10 +247,10 @@ public class PassageTestForm extends javax.swing.JDialog {
     }
 
     private void makeDefaultFormula() {
-        currentFormula = new Formula();
-        currentFormula.addEmpty();
-        currentFormula.add("=", false);
-        currentFormula.addEmpty();
+//        currentFormula = new Formula();
+//        currentFormula.addEmpty();
+//        currentFormula.add("=", false);
+//        currentFormula.addEmpty();
     }
 
     @Override
@@ -261,11 +261,11 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     public void drawFormula() {
         GRAPHICS.clearRect(0, 0, this.getWidth(), this.getHeight());
-        currentFormula.displayForEditing(GRAPHICS);
+//        currentFormula.displayForEditing(GRAPHICS);
     }
 
     private void addFormulaCopyToStack() {
-        STACK_FORMULA.push(new Formula(currentFormula));
+//        STACK_FORMULA.push(new Formula(currentFormula));
     }
 
     /**
@@ -311,19 +311,19 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     }
 
-    private void insertSplitterAndEmptyElements(String splitter) {
-        if (currentFormula.isEmptySelectedElement()) {
-            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
-                addFormulaCopyToStack();
-                currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-                currentFormula.insertIn(splitter,
-                        currentFormula.getSelectedIndex() + 1, false);
-                drawFormula();
-            } else {
-                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
-                        "Предупреждение", JOptionPane.OK_OPTION);
-            }
-        }
+    private void insertSplitterAndEmptyElements(char splitter) {
+//        if (currentFormula.isEmptySelectedElement()) {
+//            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
+//                addFormulaCopyToStack();
+//                currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
+//                currentFormula.insertIn(splitter,
+//                        currentFormula.getSelectedIndex() + 1, false);
+//                drawFormula();
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
+//                        "Предупреждение", JOptionPane.OK_OPTION);
+//            }
+//        }
     }
 
     public void setStudent(Student student) {
@@ -658,11 +658,11 @@ public class PassageTestForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-        if (STACK_FORMULA.size() > 1) {
-            currentFormula = new Formula(STACK_FORMULA.pop());
-        } else {
-            currentFormula = new Formula(STACK_FORMULA.peek());
-        }
+//        if (STACK_FORMULA.size() > 1) {
+//            currentFormula = new Formula(STACK_FORMULA.pop());
+//        } else {
+//            currentFormula = new Formula(STACK_FORMULA.peek());
+//        }
         drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
 
@@ -672,45 +672,45 @@ public class PassageTestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bRestartConstructionActionPerformed
 
     private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
-        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
-            currentFormula.replaceAtomText(null, i);
-        }
-        drawFormula();
+//        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
+//            currentFormula.replaceAtomText(null, i);
+//        }
+//        drawFormula();
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bClearElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearElementActionPerformed
-        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
-        drawFormula();
+//        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
+//        drawFormula();
     }//GEN-LAST:event_bClearElementActionPerformed
 
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
-        insertSplitterAndEmptyElements("+");
+        insertSplitterAndEmptyElements('+');
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void bPutSignMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMinusActionPerformed
-        insertSplitterAndEmptyElements("-");
+        insertSplitterAndEmptyElements('-');
     }//GEN-LAST:event_bPutSignMinusActionPerformed
 
     private void bPutSignMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMultiActionPerformed
-        insertSplitterAndEmptyElements("●");
+        insertSplitterAndEmptyElements('•');
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
     private void bNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNextQuestionActionPerformed
-        if (currentQuestionIndex < questionsAmount - 1) {
-            if (currentFormula.hasEmptyElements()) {
-                JOptionPane.showMessageDialog(null,
-                        "В формуле не должно быть пустых элементов",
-                        "Предупреждение", JOptionPane.CLOSED_OPTION);
-            } else {
-                answers[currentQuestionIndex] = currentFormula.getTranscription();
-                currentQuestionIndex++;
-                updateQuestion();
-                drawFormula();
-                updateAlphabet();
-            }
-        }
-        setButtonNextAndPreviousProperties();
-        updateLabel();
+//        if (currentQuestionIndex < questionsAmount - 1) {
+//            if (currentFormula.hasEmptyElements()) {
+//                JOptionPane.showMessageDialog(null,
+//                        "В формуле не должно быть пустых элементов",
+//                        "Предупреждение", JOptionPane.CLOSED_OPTION);
+//            } else {
+//                answers[currentQuestionIndex] = currentFormula.getTranscription();
+//                currentQuestionIndex++;
+//                updateQuestion();
+//                drawFormula();
+//                updateAlphabet();
+//            }
+//        }
+//        setButtonNextAndPreviousProperties();
+//        updateLabel();
     }//GEN-LAST:event_bNextQuestionActionPerformed
 
     private void bPreviousQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviousQuestionActionPerformed
@@ -736,7 +736,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
         int scored = 0;
         int maximalScore = 0;
-        answers[currentQuestionIndex] = currentFormula.getTranscription();
+        answers[currentQuestionIndex] = currentFormula.toString();
         for (int i = 0; i < questionsAmount; i++) {
             Vopros vopros = questions.get(i);
             String answer = answers[i];
@@ -788,10 +788,10 @@ public class PassageTestForm extends javax.swing.JDialog {
                 addFormulaCopyToStack();
             }
             mouseInTableClicked = true;
-            if (!currentFormula.replaceAtomText(value.toString(),
-                    currentFormula.getSelectedIndex())) {
-                STACK_FORMULA.pop();
-            }
+//            if (!currentFormula.replaceAtomText(value.toString(),
+//                    currentFormula.getSelectedIndex())) {
+//                STACK_FORMULA.pop();
+//            }
             drawFormula();
         }
     }//GEN-LAST:event_tableSymbolsMouseClicked
@@ -804,12 +804,12 @@ public class PassageTestForm extends javax.swing.JDialog {
             if (!mouseInTableClicked) {
                 addFormulaCopyToStack();
             }
-            if (!currentFormula.replaceAtomText(value.toString(),
-                    currentFormula.getSelectedIndex())) {
-                if (!mouseInTableClicked) {
-                    STACK_FORMULA.pop();
-                }
-            }
+//            if (!currentFormula.replaceAtomText(value.toString(),
+//                    currentFormula.getSelectedIndex())) {
+//                if (!mouseInTableClicked) {
+//                    STACK_FORMULA.pop();
+//                }
+//            }
             mouseInTableClicked = true;
             drawFormula();
         }

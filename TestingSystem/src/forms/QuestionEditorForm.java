@@ -112,7 +112,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         GRAPHICS.clearRect(0, 0, panePreview.getWidth(),
                 panePreview.getHeight());
         if (formula != null) {
-            formula.preview(GRAPHICS);
+//            formula.preview(GRAPHICS);
         }
     }
 
@@ -476,7 +476,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     queryForVoprosLatex.setParameter("id",
                             this.question.getIdVopros());
                     latexQuestion = queryForVoprosLatex.getSingleResult();
-                    formula = new Formula(latexQuestion.getLatexZapis());
+//                    formula = new Formula(latexQuestion.getLatexZapis());
                     break;
                 //
                 case 2:
@@ -578,8 +578,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             switch (currentTypeOfQuestion) {
                 //записать вопрос Latex
                 case LATEX:
-                    latexQuestion.setLatexZapis(new String(
-                            formula.getTranscription().getBytes(), UTF_8));
+//                    latexQuestion.setLatexZapis(new String(
+//                            formula.getTranscription().getBytes(), UTF_8));
                     latexQuestion.setVoprosIdVopros(question);
                     try {
                         DBManager.writeObjectMerge(latexQuestion);
@@ -654,7 +654,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 formulaEditor.setVisible(true);
                 String formulaTranscription = formulaEditor.getFormulaTranscription();
                 if (formulaTranscription != null) {
-                    formula = new Formula(formulaTranscription);
+//                    formula = new Formula(formulaTranscription);
                 }
                 draw();
                 break;
@@ -697,11 +697,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
         if (formula != null) {
             FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
-            formulaEditor.setFormula(formula.getTranscription());
+//            formulaEditor.setFormula(formula.getTranscription());
             formulaEditor.setVisible(true);
             String formulaTranscription = formulaEditor.getFormulaTranscription();
             if (formulaTranscription != null) {
-                formula = new Formula(formulaTranscription);
+//                formula = new Formula(formulaTranscription);
             }
             draw();
         }
