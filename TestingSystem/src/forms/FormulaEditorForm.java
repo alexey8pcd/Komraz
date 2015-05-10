@@ -37,40 +37,41 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     private void makeDefaultFormula() {
-        currentFormula = new Formula();
-        currentFormula.addEmpty();
-        currentFormula.add("=", false);
-        currentFormula.addEmpty();
+        currentFormula = new Formula(20, paneEditFormula.getHeight() / 3);
+        currentFormula.addEmptyElement();
+        currentFormula.addNextElement('=', false);
+        currentFormula.addEmptyElement();
+        currentFormula.update();
     }
 
     public void setFormula(String transcription) {
-        STACK_FORMULA.clear();
-        currentFormula = new Formula(transcription);
-        addFormulaCopyToStack();
+//        STACK_FORMULA.clear();
+//        currentFormula = new Formula(transcription);
+//        addFormulaCopyToStack();
     }
 
     public void drawFormula() {
         graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
-        currentFormula.displayForEditing(graphics);
+        currentFormula.draw(graphics);
     }
 
     private void addFormulaCopyToStack() {
-        STACK_FORMULA.push(new Formula(currentFormula));
+//        STACK_FORMULA.push(new Formula(currentFormula));
     }
 
-    private void insertSplitterAndEmptyElements(String splitter) {
-        if (currentFormula.isEmptySelectedElement()) {
-            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
+    private void insertSplitterAndEmptyElements(char splitter) {
+//        if (currentFormula.isEmptySelectedElement()) {
+//            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
                 addFormulaCopyToStack();
-                currentFormula.addEmptyIn(currentFormula.getSelectedIndex());
-                currentFormula.insertIn(splitter,
-                        currentFormula.getSelectedIndex() + 1, false);
+                currentFormula.addEmptyBeforeSelected();
+                currentFormula.addBeforeSelected(splitter, false);
+                currentFormula.update();
                 drawFormula();
-            } else {
-                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
-                        "Предупреждение", JOptionPane.OK_OPTION);
-            }
-        }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
+//                        "Предупреждение", JOptionPane.OK_OPTION);
+//            }
+//        }
     }
 
     public String getFormulaTranscription() {
@@ -94,12 +95,13 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         }
     }
 
-    private void replaceAtom(String text) {
-        addFormulaCopyToStack();
-        if (!currentFormula.replaceAtomText(text,
-                currentFormula.getSelectedIndex())){
-            STACK_FORMULA.pop();
-        }
+    private void replaceAtom(char symbol) {
+//        addFormulaCopyToStack();
+//        if (!currentFormula.replaceAtomText(text,
+//                currentFormula.getSelectedIndex())) {
+//            STACK_FORMULA.pop();
+//        }
+        currentFormula.placeInSelected(symbol, false);
         drawFormula();
     }
 
@@ -407,6 +409,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
         bPutSignPlus.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignPlus.setText("[ ] + [ ]");
+        bPutSignPlus.setToolTipText("");
         bPutSignPlus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -490,8 +493,13 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
         bPutSignFrac.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignFrac.setText("<html>[ ]\n<br>---\n<br>[ ]");
-        bPutSignFrac.setEnabled(false);
+        bPutSignFrac.setToolTipText("Дробь");
         bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignFrac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignFracActionPerformed(evt);
+            }
+        });
 
         bUndo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bUndo.setText("<html>Шаг назад");
@@ -519,19 +527,34 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
 
         bPutSignPower.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignPower.setText("<html>\n.  [ ]\n<br>\n[ ]");
-        bPutSignPower.setEnabled(false);
+        bPutSignPower.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x2.PNG"))); // NOI18N
+        bPutSignPower.setToolTipText("Верхний индекс");
         bPutSignPower.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignPower.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignPowerActionPerformed(evt);
+            }
+        });
 
         bPutSignIndex.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignIndex.setText("<html>\n[ ]\n<br>\n.[ ]");
-        bPutSignIndex.setEnabled(false);
+        bPutSignIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x0.PNG"))); // NOI18N
+        bPutSignIndex.setToolTipText("Нижний индекс");
         bPutSignIndex.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignIndexActionPerformed(evt);
+            }
+        });
 
         bPutSignVector.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignVector.setText("<html>\n-->\n<br>\n[ ]");
-        bPutSignVector.setEnabled(false);
+        bPutSignVector.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/vec.PNG"))); // NOI18N
+        bPutSignVector.setToolTipText("Вектор");
         bPutSignVector.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignVector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignVectorActionPerformed(evt);
+            }
+        });
 
         bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bRestartConstruction.setText("<html><Сбросить");
@@ -644,47 +667,47 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bPutSignPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusActionPerformed
-        insertSplitterAndEmptyElements("+");
+        insertSplitterAndEmptyElements('+');
     }//GEN-LAST:event_bPutSignPlusActionPerformed
 
     private void bPutNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber1ActionPerformed
-        replaceAtom("1");
+        replaceAtom('1');
     }//GEN-LAST:event_bPutNumber1ActionPerformed
 
     private void bPutNumber2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber2ActionPerformed
-        replaceAtom("2");
+        replaceAtom('2');
     }//GEN-LAST:event_bPutNumber2ActionPerformed
 
     private void bPutNumber3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber3ActionPerformed
-        replaceAtom("3");
+        replaceAtom('3');
     }//GEN-LAST:event_bPutNumber3ActionPerformed
 
     private void bPutNumber4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber4ActionPerformed
-        replaceAtom("4");
+        replaceAtom('4');
     }//GEN-LAST:event_bPutNumber4ActionPerformed
 
     private void bPutNumber5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber5ActionPerformed
-        replaceAtom("5");
+        replaceAtom('5');
     }//GEN-LAST:event_bPutNumber5ActionPerformed
 
     private void bPutNumber6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber6ActionPerformed
-        replaceAtom("6");
+        replaceAtom('6');
     }//GEN-LAST:event_bPutNumber6ActionPerformed
 
     private void bPutNumber7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber7ActionPerformed
-        replaceAtom("7");
+        replaceAtom('7');
     }//GEN-LAST:event_bPutNumber7ActionPerformed
 
     private void bPutNumber8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber8ActionPerformed
-        replaceAtom("8");
+        replaceAtom('8');
     }//GEN-LAST:event_bPutNumber8ActionPerformed
 
     private void bPutNumber9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber9ActionPerformed
-        replaceAtom("9");
+        replaceAtom('9');
     }//GEN-LAST:event_bPutNumber9ActionPerformed
 
     private void bPutNumber0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutNumber0ActionPerformed
-        replaceAtom("0");
+        replaceAtom('0');
     }//GEN-LAST:event_bPutNumber0ActionPerformed
 
     private void bChangeRegisterLatinAlphabetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeRegisterLatinAlphabetActionPerformed
@@ -737,18 +760,18 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
 
     private void bPutSignMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMinusActionPerformed
-        insertSplitterAndEmptyElements("-");
+        insertSplitterAndEmptyElements('-');
     }//GEN-LAST:event_bPutSignMinusActionPerformed
 
     private void bPutSignMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignMultiActionPerformed
-        insertSplitterAndEmptyElements("●");
+        insertSplitterAndEmptyElements('•');
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
     private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
-        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
-            currentFormula.replaceAtomText(null, i);
-        }
-        drawFormula();
+//        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
+//            currentFormula.replaceAtomText(null, i);
+//        }
+//        drawFormula();
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
@@ -756,28 +779,28 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseFormActionPerformed
 
     private void bSaveFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveFormulaActionPerformed
-        if (currentFormula.hasEmptyElements()) {
-            JOptionPane.showMessageDialog(null,
-                    "В формуле не должно быть пустых элементов",
-                    "Предупреждение", JOptionPane.CLOSED_OPTION);
-        } else {
-            formulaTranscription = currentFormula.getTranscription();
+//        if (currentFormula.hasEmptyElements()) {
+//            JOptionPane.showMessageDialog(null,
+//                    "В формуле не должно быть пустых элементов",
+//                    "Предупреждение", JOptionPane.CLOSED_OPTION);
+//        } else {
+            formulaTranscription = currentFormula.toString();
             dispose();
-        }
+//        }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-        if (STACK_FORMULA.size() > 1) {
-            currentFormula = new Formula(STACK_FORMULA.pop());
-        } else {
-            currentFormula = new Formula(STACK_FORMULA.peek());
-        }
-        drawFormula();
+//        if (STACK_FORMULA.size() > 1) {
+//            currentFormula = new Formula(STACK_FORMULA.pop());
+//        } else {
+//            currentFormula = new Formula(STACK_FORMULA.peek());
+//        }
+//        drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
 
     private void bClearElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearElementActionPerformed
-        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
-        drawFormula();
+//        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
+//        drawFormula();
     }//GEN-LAST:event_bClearElementActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -794,7 +817,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 tableLatinAlphabet.getSelectedRow(),
                 tableLatinAlphabet.getSelectedColumn());
         if (value != null) {
-            replaceAtom(value.toString());
+            replaceAtom(value.toString().charAt(0));
         }
     }//GEN-LAST:event_tableLatinAlphabetMousePressed
 
@@ -803,7 +826,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 tableGreekAlphabet.getSelectedRow(),
                 tableGreekAlphabet.getSelectedColumn());
         if (value != null) {
-            replaceAtom(value.toString());
+            replaceAtom(value.toString().charAt(0));
         }
     }//GEN-LAST:event_tableGreekAlphabetMousePressed
 
@@ -811,6 +834,30 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         currentFormula.setSelectedAtom(evt.getX(), evt.getY());
         drawFormula();
     }//GEN-LAST:event_paneEditFormulaMousePressed
+
+    private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
+        currentFormula.addPowerInSelected();
+        currentFormula.update();
+        drawFormula();
+    }//GEN-LAST:event_bPutSignPowerActionPerformed
+
+    private void bPutSignFracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignFracActionPerformed
+        currentFormula.addFractionInSelected();
+        currentFormula.update();
+        drawFormula();
+    }//GEN-LAST:event_bPutSignFracActionPerformed
+
+    private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
+        currentFormula.addLowerIndexInSelected();
+        currentFormula.update();
+        drawFormula();
+    }//GEN-LAST:event_bPutSignIndexActionPerformed
+
+    private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
+        currentFormula.addVectorInSelected();
+        currentFormula.update();
+        drawFormula();
+    }//GEN-LAST:event_bPutSignVectorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

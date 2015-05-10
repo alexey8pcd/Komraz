@@ -1,377 +1,294 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Alexey
- *
- * Класс для хранения, отображения и работы с формулами
  */
 public class Formula {
 
-    /**
-     * Класс для хранения и отображения элемента формулы
-     */
-    private class Atom {
+    private Atom root;
+    private Atom last;
+    private final int START_X, START_Y;
+    private final int BASE_ATOM_WIDTH = 60;
+    private final int BASE_ATOM_HEIGHT = 60;
 
-        public String text;//содержимое элемента
-        public int x;//позиция левого верхнего угла на экране по горизонтали
-        public int y;//позиция левого верхнего угла на экране по вертикали
-        public int size;//размер элемента
-        public boolean mutable;//можно ли заменить содержимое элемента
-
-        /**
-         * Создает новый экземпляр класса Atom
-         *
-         * @param text текст для отображения
-         * @param y позиция левого верхнего угла по вертикали
-         * @param size размер элемента
-         */
-        public Atom(String text, int y, int size) {
-            this.text = text;
-            this.y = y;
-            this.size = size;
-            mutable = true;
-        }
-
-        /**
-         * Создает новый экземпляр класса Atom на основе существующего
-         *
-         * @param toCopy объект, свойства которого копируются
-         */
-        public Atom(Atom toCopy) {
-            this.text = toCopy.text;
-            this.x = toCopy.x;
-            this.y = toCopy.y;
-            this.mutable = toCopy.mutable;
-            this.size = toCopy.size;
-        }
-
-        /**
-         * Отображает на экране элемент формулы
-         *
-         * @param g экземпляр класса java.awt.Graphics;
-         * @param selected атрибут выделения. Выделенный элемент отображается в
-         * синей рамке
-         * @param editing атрибут редактирования. Редактируемый элемент
-         * отображается в красной рамке.
-         */
-        public void display(Graphics g, boolean selected, boolean editing) {
-            if (editing) {
-                g.setColor(Color.red);
-                if (mutable) {
-                    g.drawRect(x + 1, y + 1, size - 2, size - 2);
-                } else {
-                    g.setColor(Color.LIGHT_GRAY);
-                    g.fillRect(x + 1, y + 1, size - 2, size - 2);
-                }
-
-                if (selected) {
-                    g.setColor(Color.blue);
-                    g.drawRect(x, y, size, size);
-                }
-            }
-            g.setColor(Color.black);
-            g.setFont(DEFAULT_FONT);
-            if (text != null) {
-                g.drawString(text, x + size / 3, y + size / 2);
-            }
-        }
-
-        /**
-         * Проверяет, содержит ли элемент точку на экране
-         *
-         * @param x позиция точки по горизонтали
-         * @param y позиция точки по вертикали
-         * @return true, если элемент содержит точку, false иначе
-         */
-        public boolean containPoint(int x, int y) {
-            return x >= this.x
-                    && x < this.x + size
-                    && y >= this.y
-                    && y < this.y + size;
-        }
+    public Formula(int startX, int startY) {
+        this.START_X = startX;
+        this.START_Y = startY;
     }
 
-    public static final int START_X_DEFAULT = 10;
-    public static final int START_Y_DEFAULT = 50;
-    public static final int SIZE_DEFAULT = 40;
-    public static final int MAX_ITEM_AMOUNT = 16;
-    public char[] immutableSymbols = {
-        '=',
-        '+',
-        '-',
-        '●'
-    };
-    private int startX;
-    private int startY;
-    private int size;
-    public static final Font DEFAULT_FONT = new Font("Times New Roman", Font.BOLD, 22);
-    private final List<Atom> elements;
-    private int selectedIndex;
-
-    /**
-     * Cоздает новый экземпляр класса Formula Устанавливает все свойства по
-     * умолчанию
-     */
-    public Formula() {
-        elements = new ArrayList<>();
-        startX = START_X_DEFAULT;
-        startY = START_Y_DEFAULT;
-        size = SIZE_DEFAULT;
-        selectedIndex = -1;
-    }
-
-    /**
-     * Создает экземпляр класса Formula на основе существующего
-     *
-     * @param toCopy экземпляр класса, с которого будут скопированы свойства
-     */
-    public Formula(Formula toCopy) {
-        elements = new ArrayList<>();
-        for (Atom atom : toCopy.elements) {
-            elements.add(new Atom(atom));
-        }
-        startX = toCopy.startX;
-        startY = toCopy.startY;
-        size = toCopy.size;
-        selectedIndex = toCopy.selectedIndex;
-    }
-
-    /**
-     * Создает экземпляр класса Formula на основе строковой записи
-     *
-     * @param transcription
-     */
-    public Formula(String transcription) {
-        elements = new ArrayList<>();
-        startX = START_X_DEFAULT;
-        startY = START_Y_DEFAULT;
-        size = SIZE_DEFAULT;
-        selectedIndex = -1;
-        if (transcription != null && !transcription.isEmpty()) {
-            for (int i = 0; i < transcription.length(); i++) {
-                char brick = transcription.charAt(i);
-                Atom atom = new Atom(String.valueOf(brick),
-                        startY, size);
-                for (char immutable : immutableSymbols) {
-                    if (brick == immutable) {
-                        atom.mutable = false;
-                    }
-                }
-                if (i < MAX_ITEM_AMOUNT) {
-                    elements.add(atom);
-                }
-            }
-            countXPositions();
-        }
-    }
-
-    public Formula(int startX, int startY, int size) {
-        elements = new ArrayList<>();
-        this.startX = startX;
-        this.startY = startY;
-        this.size = size;
-    }
-
-    /**
-     * Проверяет, присутствуют ли в формуле пустые элементы
-     *
-     * @return true, если присутствуют, false, если нет таких
-     */
-    public boolean hasEmptyElements() {
-        for (Atom atom : elements) {
-            if (atom.text == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    /**
-     * Выделяет элемент формулы, если он содержит координаты x и y
-     *
-     * @param x координаты точки по горизонтали
-     * @param y координаты точки по вертикали
-     */
-    public void setSelectedAtom(int x, int y) {
-        selectedIndex = -1;
-        for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i).containPoint(x, y)) {
-                selectedIndex = i;
-                return;
-            }
-        }
-    }
-
-    public int getElementsCount() {
-        return elements.size();
-    }
-
-    /**
-     * Возвращает индекс выделенного элемента
-     *
-     * @return индекс выделенного элемента в списке, если он выделен или -1,
-     * если нет выделенных элементов
-     */
-    public int getSelectedIndex() {
-        return selectedIndex;
-    }
-
-    /**
-     * Заменяет текст элемента формулы на заданный по индексу. Замена не
-     * происходит, если индекс указан вне границ списка элементов или элемент не
-     * допускает замену
-     *
-     * @param text текст, который будет записан в элемент формулы
-     * @param index номер элемента в списке элементов >= 0
-     * @return
-     */
-    public boolean replaceAtomText(String text, int index) {
-        if (index >= 0 && index < elements.size()) {
-            Atom toReplace = elements.get(index);
-            if (toReplace.mutable) {
-                if (text != null) {
-                    if (!text.equals(toReplace.text)) {
-                        toReplace.text = text;
-                        return true;
-                    }
-                } else {
-                    toReplace.text = null;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void setStartX(int startX) {
-        this.startX = startX;
-    }
-
-    public int getStartY() {
-        return startY;
-    }
-
-    public void setStartY(int startY) {
-        this.startY = startY;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    private void countXPositions() {
-        for (int i = 0; i < elements.size(); i++) {
-            Atom atom = elements.get(i);
-            atom.x = startX + i * atom.size;
-        }
-    }
-
-    /**
-     * Проверяет выделенный элемент формулы, является ли он пустым
-     *
-     * @return true, если элемент пустой, false, если не пустой
-     */
-    public boolean isEmptySelectedElement() {
-        if (selectedIndex == -1) {
-            return false;
+    public void addNextElement(char symbol, boolean mutable) {
+        TypeOfAtom typeOfAtom
+                = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
+        if (root == null) {
+            root = new Atom(symbol, typeOfAtom);
+            root.setLocation(START_X, START_Y);
+            root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
+            last = root;
         } else {
-            return elements.get(selectedIndex).text == null;
+            last.next = new Atom(symbol, typeOfAtom);
+            last.next.setLocation(last.getX() + last.getWidth() + 1, last.getY());
+            last.next.setSize(last.getWidth(), last.getHeight());
+            last.next.prev = last;
+            last = last.next;
         }
     }
 
-    /**
-     * Добавляет пустой элемент в конец формулы
-     */
-    public void addEmpty() {
-        add(null, true);
-    }
-
-    /**
-     * Возвращает строковое представление формулы
-     *
-     * @return строка с записью формулы
-     */
-    public String getTranscription() {
-        StringBuilder builder = new StringBuilder();
-        for (Atom atom : elements) {
-            builder.append(atom.text);
+    public void addEmptyElement() {
+        if (root == null) {
+            root = new Atom();
+            root.setLocation(START_X, START_Y);
+            root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
+            last = root;
+        } else {
+            last.next = new Atom();
+            last.next.setLocation(last.getX() + last.getWidth() + 1, last.getY());
+            last.next.setSize(last.getWidth(), last.getHeight());
+            last.next.prev = last;
+            last = last.next;
         }
-        return builder.toString();
+        
     }
 
-    /**
-     * Добавляет пустой элемент в выбранную позицию в формуле, если индекс не
-     * превышает размер списка
-     *
-     * @param index позиция элемента в списке >= 0
-     */
-    public void addEmptyIn(int index) {
-        insertIn(null, index, true);
+    public void draw(Graphics g) {
+        root.draw(g);
     }
 
-    /**
-     * Добавляет элемент в конец формулы
-     *
-     * @param text текст элемента формулы
-     * @param mutable можно ли заменить содержимое элемента(true - можно, false
-     * - нельзя)
-     */
-    public void add(String text, boolean mutable) {
-        Atom atom = new Atom(text, startY, size);
-        atom.mutable = mutable;
-        elements.add(atom);
-        countXPositions();
-    }
-
-    /**
-     * Помещает элемент в формулу по заданному индексу
-     *
-     * @param text текст, который содержит элемент формулы
-     * @param index индекс от 0 до количества элементов в формуле, Элемент не
-     * вставляется, если индекс превышает количество элементов в формуле
-     * @param mutable можно ли заменить содержимое элемента(true - можно, false
-     * - нельзя)
-     */
-    public void insertIn(String text, int index, boolean mutable) {
-        if (index >= 0 || index < elements.size()) {
-            Atom atom = new Atom(text, startY, size);
-            atom.mutable = mutable;
-            elements.add(index, atom);
-            countXPositions();
-        }
-    }
-
-    /**
-     * Отображает формулу на экране
-     *
-     * @param graphics экземпляр класса java.awt.Graphics;
-     */
-    public void displayForEditing(Graphics graphics) {
-        for (int i = 0; i < elements.size(); i++) {
-            if (selectedIndex == i) {
-                elements.get(i).display(graphics, true, true);
-            } else {
-                elements.get(i).display(graphics, false, true);
+    public void placeInSelected(char symbol, boolean mutable) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            if (selected.typeOfAtom != TypeOfAtom.IMMUTABLE) {
+                selected.symbol = symbol;
+                selected.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE
+                        : TypeOfAtom.NORMAL;
             }
         }
     }
 
-    public void preview(Graphics graphics) {
-        for (Atom atom : elements) {
-            atom.display(graphics, false, false);
+    public void makeSelectedEmpty() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            selected.typeOfAtom = TypeOfAtom.EMPTY;
+            selected.symbol = null;
         }
+    }
+
+    /**
+     * Создает новый элемент формулы и помещает его сразу после выделенного
+     * элемента.
+     *
+     * @param symbol
+     * @param mutable
+     */
+    public void addAfterSelected(char symbol, boolean mutable) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.setLocation(selected.getX() + selected.getWidth() + 1, selected.getY());
+            atom.setSize(selected.getWidth(), selected.getHeight());
+            atom.symbol = symbol;
+            atom.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
+            updateLinksAfterSelected(selected, atom);
+        }
+    }
+
+    private void updateLinksAfterSelected(Atom selected, Atom atom) {
+        if (selected.next == null) {
+            selected.next = atom;
+            atom.prev = selected;
+        } else {
+            //установить связи
+            atom.next = selected.next;
+            selected.next.prev = atom;
+            selected.next = atom;
+            atom.prev = selected;
+        }
+        recalculatePositions(selected);
+    }
+
+    public void addEmptyAfterSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.setLocation(selected.getX() + selected.getWidth() + 1, selected.getY());
+            atom.setSize(selected.getWidth(), selected.getHeight());
+            updateLinksAfterSelected(selected, atom);
+        }
+    }
+
+    public void addBeforeSelected(char symbol, boolean mutable) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.setLocation(selected.getX(), selected.getY());
+            atom.setSize(selected.getWidth(), selected.getHeight());
+            atom.symbol = symbol;
+            atom.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
+            updateLinksBeforeSelected(selected, atom);
+        }
+    }
+
+    public void addEmptyBeforeSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.setLocation(selected.getX(), selected.getY());
+            atom.setSize(selected.getWidth(), selected.getHeight());
+            updateLinksBeforeSelected(selected, atom);
+        }
+    }
+
+    private void updateLinksBeforeSelected(Atom selected, Atom atom) {
+        if (selected.prev == null) {
+            selected.prev = atom;
+            atom.next = selected;
+            atom.parent = selected.parent;
+            if (selected.parent != null) {
+            //если выбранный является верхним 
+                if (selected.parent.top == selected) {
+                    selected.parent.top = atom;
+                }
+                if (selected.parent.down == selected) {
+                    selected.parent.down = atom;
+                }
+                selected.parent = null;
+            }
+            if (selected == root) {
+                root = atom;
+            }
+        } else {
+            //установить связи
+            selected.prev.next = atom;
+            atom.prev = selected.prev;
+            atom.next = selected;
+            selected.prev = atom;
+        }
+        recalculatePositions(atom);
+    }
+
+    private void computeWidth(Atom atom) {
+        Atom current = atom;
+        do {
+            current.computeWidth();
+            current = current.next;
+        } while (current != null);
+    }
+
+    private void recalculatePositions(Atom atom) {
+        Atom current = atom;
+        recalculatePositionChildren(current);
+        while (current.next != null) {
+            Atom next = current.next;
+            next.setLocation(current.getX() + current.getWidth() + 1,
+                    current.getY());
+            current = next;
+            recalculatePositionChildren(current);
+        }
+    }
+
+    private void recalculatePositionChildren(Atom current) {
+        if (current.top != null) {
+            int xPosition = current.getX() + (current.getWidth()
+                    - Atom.computeWidth(current.top)) / 2;
+            if (current.top.index) {
+                xPosition += current.top.getWidth();
+//                xPosition += current.getWidth() / 2;
+            }
+            current.top.setLocation(xPosition, current.top.getY());
+
+            recalculatePositions(current.top);
+        }
+        if (current.down != null) {
+            int xPosition = current.getX() + (current.getWidth()
+                    - Atom.computeWidth(current.down)) / 2;
+            if (current.down.index) {
+                xPosition += current.down.getWidth();
+//                xPosition += current.getWidth() / 2;
+            }
+            current.down.setLocation(xPosition, current.down.getY());
+            recalculatePositions(current.down);
+        }
+    }
+
+    public void update() {
+        computeWidth(root);
+        recalculatePositions(root);
+    }
+
+    public void setSelectedAtom(int x, int y) {
+        root.clearSelection();
+        root.setSelected(x, y);
+
+    }
+
+    public void addPowerInSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            selected.top = new Atom();
+            selected.top.setSize(selected.getWidth() / 2,
+                    selected.getHeight() / 2);
+            selected.top.setLocation(selected.getX(),
+                    selected.getY() - selected.getHeight() / 4);
+            selected.top.index = true;
+            selected.top.parent = selected;
+        }
+        root.clearSelection();
+    }
+
+    public void addLowerIndexInSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            selected.down = new Atom();
+            selected.down.setSize(selected.getWidth() / 2,
+                    selected.getHeight() / 2);
+            selected.down.setLocation(selected.getX(),
+                    selected.getY() + selected.getHeight() - selected.getHeight() / 4);
+            selected.down.index = true;
+            selected.down.parent = selected;
+        }
+        root.clearSelection();
+    }
+
+    public void addFractionInSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            int centerPositionY = selected.getY() + selected.getHeight() / 2;
+            int childHeight = selected.getHeight() / 2;
+            int childWidth = selected.getWidth() / 2;
+            int positionX = selected.getX() + selected.getWidth() / 2
+                    - childWidth / 2;
+            selected.top = new Atom();
+            selected.top.setSize(childWidth, childHeight);
+            selected.top.setLocation(positionX,
+                    centerPositionY - childHeight * 110 / 100);
+            selected.top.parent = selected;
+            selected.down = new Atom();
+            selected.down.setLocation(positionX,
+                    centerPositionY + childHeight * 10 / 100);
+            selected.down.setSize(childWidth, childHeight);
+            selected.down.parent = selected;
+            selected.setLocation(positionX, selected.getY());
+            selected.typeOfAtom = TypeOfAtom.FRAC_LINE;
+        }
+        root.clearSelection();
+    }
+
+    public void addVectorInSelected() {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            selected.top = new Atom('→', TypeOfAtom.NORMAL);
+            selected.top.setSize(selected.getWidth() / 2,
+                    selected.getHeight() / 2);
+            selected.top.setLocation(selected.getX(),
+                    selected.getY() - selected.getHeight() / 4);
+            selected.top.parent = selected;
+        }
+        root.clearSelection();
+    }
+
+    @Override
+    public String toString() {
+        return root.toString();
     }
 }

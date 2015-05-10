@@ -12,8 +12,6 @@ import entities.VoprosPeretaskivanieKartinok;
 import java.awt.Graphics;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
@@ -112,7 +110,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         GRAPHICS.clearRect(0, 0, panePreview.getWidth(),
                 panePreview.getHeight());
         if (formula != null) {
-            formula.preview(GRAPHICS);
+//            formula.preview(GRAPHICS);
         }
     }
 
@@ -145,7 +143,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         textAreaForQuestionFormulation = new javax.swing.JTextArea();
         lQuestionType = new javax.swing.JLabel();
         rbConstructFormula = new javax.swing.JRadioButton();
-        rbAssembledPuzzleFromPieces = new javax.swing.JRadioButton();
+        rbAssembledFromulaFromPieces = new javax.swing.JRadioButton();
         lDescription = new javax.swing.JLabel();
         bCreateFormulaOrAddAreas = new javax.swing.JButton();
         bDeleteFormulaOrPlacingPictures = new javax.swing.JButton();
@@ -200,19 +198,18 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             }
         });
 
-        buttonGroupQuestionType.add(rbAssembledPuzzleFromPieces);
-        rbAssembledPuzzleFromPieces.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rbAssembledPuzzleFromPieces.setText("Сборка мозаики из кусочков");
-        rbAssembledPuzzleFromPieces.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroupQuestionType.add(rbAssembledFromulaFromPieces);
+        rbAssembledFromulaFromPieces.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rbAssembledFromulaFromPieces.setText("Сборка формулы из кусочков");
+        rbAssembledFromulaFromPieces.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbAssembledPuzzleFromPiecesActionPerformed(evt);
+                rbAssembledFromulaFromPiecesActionPerformed(evt);
             }
         });
 
         lDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lDescription.setText("Формула:");
 
-        bCreateFormulaOrAddAreas.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bCreateFormulaOrAddAreas.setText("Создать");
         bCreateFormulaOrAddAreas.setPreferredSize(new java.awt.Dimension(100, 30));
         bCreateFormulaOrAddAreas.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +218,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             }
         });
 
-        bDeleteFormulaOrPlacingPictures.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bDeleteFormulaOrPlacingPictures.setText("Удалить");
         bDeleteFormulaOrPlacingPictures.setPreferredSize(new java.awt.Dimension(100, 30));
         bDeleteFormulaOrPlacingPictures.addActionListener(new java.awt.event.ActionListener() {
@@ -230,8 +226,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             }
         });
 
-        bEditFormula.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bEditFormula.setText("Редактировать");
+        bEditFormula.setEnabled(false);
         bEditFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bEditFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +236,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         });
 
         bCloseForm.setText("Закрыть");
-        bCloseForm.setPreferredSize(new java.awt.Dimension(120, 30));
+        bCloseForm.setPreferredSize(new java.awt.Dimension(100, 30));
         bCloseForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCloseFormActionPerformed(evt);
@@ -248,7 +244,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         });
 
         bSaveQuestion.setText("Сохранить");
-        bSaveQuestion.setPreferredSize(new java.awt.Dimension(120, 30));
+        bSaveQuestion.setPreferredSize(new java.awt.Dimension(100, 30));
         bSaveQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveQuestionActionPerformed(evt);
@@ -263,7 +259,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         panePreview.setLayout(panePreviewLayout);
         panePreviewLayout.setHorizontalGroup(
             panePreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 692, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panePreviewLayout.setVerticalGroup(
             panePreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,11 +292,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         rbLinkingPictures.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rbLinkingPictures.setText("Соединение картинок линиями");
         rbLinkingPictures.setEnabled(false);
-        rbLinkingPictures.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbLinkingPicturesActionPerformed(evt);
-            }
-        });
 
         textSearch.setEnabled(false);
 
@@ -316,12 +307,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lPoints.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lPoints.setText("Балл:");
 
+        spinnerPoints.setEnabled(false);
         spinnerPoints.setValue(1);
-        spinnerPoints.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spinnerPointsStateChanged(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -341,13 +328,14 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addGap(32, 32, 32)
                         .addComponent(paneBorder, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lQuestionTitle)
                         .addGap(18, 18, 18)
@@ -357,7 +345,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbAssembledPuzzleFromPieces)
+                            .addComponent(rbAssembledFromulaFromPieces)
                             .addComponent(lQuestionType)
                             .addComponent(rbConstructFormula)
                             .addComponent(rbLinkingPictures))
@@ -388,60 +376,60 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lQuestionTitle)
                     .addComponent(tQuestionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lQuestionFormulation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sPaneForQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lQuestionFormulation)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lQuestionType)
+                            .addComponent(lSubject))
+                        .addGap(18, 18, 18)
+                        .addComponent(rbConstructFormula)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbAssembledFromulaFromPieces)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbLinkingPictures))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lDifficulty)
+                                    .addComponent(lPoints))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sPaneForListDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sPaneForQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bSearch))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lDescription)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lQuestionType)
-                                    .addComponent(lSubject))
-                                .addGap(18, 18, 18)
-                                .addComponent(rbConstructFormula)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbAssembledPuzzleFromPieces)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbLinkingPictures))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lDifficulty)
-                                            .addComponent(lPoints))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(spinnerPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(sPaneForListDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bSearch))))
+                        .addComponent(bCreateFormulaOrAddAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bDeleteFormulaOrPlacingPictures, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lDescription)
-                                .addGap(18, 18, 18)
-                                .addComponent(bCreateFormulaOrAddAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bDeleteFormulaOrPlacingPictures, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
@@ -476,11 +464,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     queryForVoprosLatex.setParameter("id",
                             this.question.getIdVopros());
                     latexQuestion = queryForVoprosLatex.getSingleResult();
-                    formula = new Formula(latexQuestion.getLatexZapis());
+//                    formula = new Formula(latexQuestion.getLatexZapis());
                     break;
                 //
                 case 2:
-                    this.rbAssembledPuzzleFromPieces.setSelected(true);
+                    this.rbAssembledFromulaFromPieces.setSelected(true);
                     break;
                 case 3:
                     this.rbLinkingPictures.setSelected(true);
@@ -578,8 +566,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             switch (currentTypeOfQuestion) {
                 //записать вопрос Latex
                 case LATEX:
-                    latexQuestion.setLatexZapis(new String(
-                            formula.getTranscription().getBytes(), UTF_8));
+//                    latexQuestion.setLatexZapis(new String(
+//                            formula.getTranscription().getBytes(), UTF_8));
                     latexQuestion.setVoprosIdVopros(question);
                     try {
                         DBManager.writeObjectMerge(latexQuestion);
@@ -654,7 +642,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 formulaEditor.setVisible(true);
                 String formulaTranscription = formulaEditor.getFormulaTranscription();
                 if (formulaTranscription != null) {
-                    formula = new Formula(formulaTranscription);
+//                    formula = new Formula(formulaTranscription);
                 }
                 draw();
                 break;
@@ -697,11 +685,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
         if (formula != null) {
             FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
-            formulaEditor.setFormula(formula.getTranscription());
+//            formulaEditor.setFormula(formula.getTranscription());
             formulaEditor.setVisible(true);
             String formulaTranscription = formulaEditor.getFormulaTranscription();
             if (formulaTranscription != null) {
-                formula = new Formula(formulaTranscription);
+//                formula = new Formula(formulaTranscription);
             }
             draw();
         }
@@ -711,7 +699,31 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         exitConfirm();
     }//GEN-LAST:event_formWindowClosing
 
-    private void rbAssembledPuzzleFromPiecesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAssembledPuzzleFromPiecesActionPerformed
+
+    private void spinnerPointsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerPointsStateChanged
+        int spinnerValue = (int) spinnerPoints.getValue();
+        spinnerValue = spinnerValue < 1 ? 1 : spinnerValue;
+        spinnerValue = spinnerValue > 100 ? 100 : spinnerValue;
+        spinnerPoints.setValue(spinnerValue);
+    }//GEN-LAST:event_spinnerPointsStateChanged
+
+    private void rbLinkingPicturesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLinkingPicturesActionPerformed
+        currentTypeOfQuestion = TypeOfQuestion.LINES;
+    }//GEN-LAST:event_rbLinkingPicturesActionPerformed
+
+    private void rbConstructFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConstructFormulaActionPerformed
+        lDescription.setText("Формула");
+        bCreateFormulaOrAddAreas.setText("Создать");
+        bDeleteFormulaOrPlacingPictures.setText("Удалить");
+        bEditFormula.setVisible(true);
+        paneBorder.setVisible(true);
+        panePreview.setVisible(true);
+        lInfo1.setVisible(false);
+        lInfo2.setVisible(false);
+        currentTypeOfQuestion = TypeOfQuestion.LATEX;
+    }//GEN-LAST:event_rbConstructFormulaActionPerformed
+
+    private void rbAssembledFromulaFromPiecesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAssembledFromulaFromPiecesActionPerformed
         lDescription.setText("Размещение картинок в областях");
         bCreateFormulaOrAddAreas.setText("Выбрать области");
         bDeleteFormulaOrPlacingPictures.
@@ -728,30 +740,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             lInfo2.setVisible(true);
         }
         currentTypeOfQuestion = TypeOfQuestion.PUZZLE;
-    }//GEN-LAST:event_rbAssembledPuzzleFromPiecesActionPerformed
-
-    private void rbConstructFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConstructFormulaActionPerformed
-        lDescription.setText("Формула");
-        bCreateFormulaOrAddAreas.setText("Создать");
-        bDeleteFormulaOrPlacingPictures.setText("Удалить");
-        bEditFormula.setText("Редактировать");
-        paneBorder.setVisible(true);
-        panePreview.setVisible(true);
-        lInfo1.setVisible(false);
-        lInfo2.setVisible(false);
-        currentTypeOfQuestion = TypeOfQuestion.LATEX;
-    }//GEN-LAST:event_rbConstructFormulaActionPerformed
-
-    private void spinnerPointsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerPointsStateChanged
-        int spinnerValue = (int) spinnerPoints.getValue();
-        spinnerValue = spinnerValue < 1 ? 1 : spinnerValue;
-        spinnerValue = spinnerValue > 100 ? 100 : spinnerValue;
-        spinnerPoints.setValue(spinnerValue);
-    }//GEN-LAST:event_spinnerPointsStateChanged
-
-    private void rbLinkingPicturesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLinkingPicturesActionPerformed
-        currentTypeOfQuestion = TypeOfQuestion.LINES;
-    }//GEN-LAST:event_rbLinkingPicturesActionPerformed
+    }//GEN-LAST:event_rbAssembledFromulaFromPiecesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCloseForm;
@@ -774,7 +763,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JList listSubjects;
     private javax.swing.JPanel paneBorder;
     private javax.swing.JPanel panePreview;
-    private javax.swing.JRadioButton rbAssembledPuzzleFromPieces;
+    private javax.swing.JRadioButton rbAssembledFromulaFromPieces;
     private javax.swing.JRadioButton rbConstructFormula;
     private javax.swing.JRadioButton rbLinkingPictures;
     private javax.swing.JScrollPane sPaneForListDifficulty;
