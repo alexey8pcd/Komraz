@@ -10,22 +10,34 @@ public class Formula implements Iterable<Atom> {
 
     private Atom root;
     private Atom last;
-    private final int START_X, START_Y;
+    private int startX, startY;
     private final int BASE_ATOM_WIDTH = 60;
     private final int BASE_ATOM_HEIGHT = 60;
 
     public Formula(int startX, int startY) {
-        this.START_X = startX;
-        this.START_Y = startY;
+        this.startX = startX;
+        this.startY = startY;
     }
 
     public Formula(Formula formula) {
-        this.START_X = formula.START_X;
-        this.START_Y = formula.START_Y;
+        this.startX = formula.startX;
+        this.startY = formula.startY;
         root = new Atom(formula.root);
         last = root;
         while (last != null) {
             last = last.next;
+        }
+    }
+
+    public void moveOnVertical(int offset) {
+        for (Atom atom : this) {
+            atom.setLocation(atom.getX(), atom.getY() + offset);
+        }
+    }
+
+    public void moveOnHorizontal(int offset) {
+        for (Atom atom : this) {
+            atom.setLocation(atom.getX() + offset, atom.getY());
         }
     }
 
@@ -34,7 +46,7 @@ public class Formula implements Iterable<Atom> {
                 = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
         if (root == null) {
             root = new Atom(symbol, typeOfAtom);
-            root.setLocation(START_X, START_Y);
+            root.setLocation(startX, startY);
             root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
             last = root;
         } else {
@@ -49,7 +61,7 @@ public class Formula implements Iterable<Atom> {
     public void addEmptyElement() {
         if (root == null) {
             root = new Atom();
-            root.setLocation(START_X, START_Y);
+            root.setLocation(startX, startY);
             root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
             last = root;
         } else {
@@ -249,6 +261,7 @@ public class Formula implements Iterable<Atom> {
     }
 
     public void update() {
+        root.setLocation(startX, startY);
         computeWidth(root);
         recalculatePositions(root);
     }
