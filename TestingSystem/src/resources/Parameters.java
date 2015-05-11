@@ -8,14 +8,6 @@ import java.awt.Toolkit;
  */
 public class Parameters {
 
-    public static final String BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE
-            = "<html>A <br>↑ <br>a";
-    public static final String BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE
-            = "<html>A <br>↓ <br>a";
-    public static final String BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE
-            = "<html>Δ <br>↑ <br>δ";
-    public static final String BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE
-            = "<html>Δ <br>↓ <br>δ";
     public static final Dimension SCREEN_SIZE = Toolkit.
             getDefaultToolkit().getScreenSize();
     /**

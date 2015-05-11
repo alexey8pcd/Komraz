@@ -110,7 +110,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         GRAPHICS.clearRect(0, 0, panePreview.getWidth(),
                 panePreview.getHeight());
         if (formula != null) {
-//            formula.preview(GRAPHICS);
+            formula.draw(GRAPHICS);
         }
     }
 
@@ -640,10 +640,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             case LATEX:
                 FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
                 formulaEditor.setVisible(true);
-                String formulaTranscription = formulaEditor.getFormulaTranscription();
-                if (formulaTranscription != null) {
-//                    formula = new Formula(formulaTranscription);
-                }
+                formula = formulaEditor.getFormula();
                 draw();
                 break;
             case PUZZLE:
@@ -683,16 +680,16 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bDeleteFormulaOrPlacingPicturesActionPerformed
 
     private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
-        if (formula != null) {
-            FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
-//            formulaEditor.setFormula(formula.getTranscription());
-            formulaEditor.setVisible(true);
-            String formulaTranscription = formulaEditor.getFormulaTranscription();
-            if (formulaTranscription != null) {
-//                formula = new Formula(formulaTranscription);
-            }
-            draw();
-        }
+//        if (formula != null) {
+//            FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
+////            formulaEditor.setFormula(formula.getTranscription());
+//            formulaEditor.setVisible(true);
+//            String formulaTranscription = formulaEditor.getFormulaTranscription();
+//            if (formulaTranscription != null) {
+////                formula = new Formula(formulaTranscription);
+//            }
+//            draw();
+//        }
     }//GEN-LAST:event_bEditFormulaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

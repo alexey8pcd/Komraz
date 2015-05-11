@@ -19,7 +19,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private boolean smallLatinLetters;
     private boolean smallGreekLetters;
     private final Stack<Formula> STACK_FORMULA;
-    private String formulaTranscription;
     private final ImageIcon GREEK_UPPER_TO_LOWER_CASE;
     private final ImageIcon GREEK_LOWER_TO_UPPER_CASE;
     private final ImageIcon LATIN_UPPER_TO_LOWER_CASE;
@@ -86,8 +85,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         }
     }
 
-    public String getFormulaTranscription() {
-        return formulaTranscription;
+    public Formula getFormula() {
+        return currentFormula;
     }
 
     @Override
@@ -793,7 +792,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                     "В формуле не должно быть пустых элементов",
                     "Предупреждение", JOptionPane.CLOSED_OPTION);
         } else {
-            formulaTranscription = currentFormula.toString();
             dispose();
         }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
