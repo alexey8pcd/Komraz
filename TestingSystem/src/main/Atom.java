@@ -58,6 +58,11 @@ public class Atom {
         }
     }
 
+    public void setAsEmpty() {
+        this.symbol = null;
+        this.typeOfAtom = TypeOfAtom.EMPTY;
+    }
+
     public void draw(Graphics g) {
         if (selected) {
             g.setColor(Color.BLUE);
@@ -99,6 +104,23 @@ public class Atom {
             int topHeight = computeWidth(down);
             this.width = Math.max(topWidth, topHeight);
         }
+    }
+
+    public int getRightBound() {
+        int topRightBound = top == null ? 0 : computeWidth(top) - top.startX;
+        int downRightBound = down == null ? 0 : computeWidth(down) - down.startX;
+        int bound = topRightBound;
+        if (downRightBound > bound) {
+            bound = downRightBound;
+        }
+        if (startX + width > bound) {
+            bound = startX + width;
+        }
+        return bound;
+    }
+
+    public boolean isEmpty() {
+        return typeOfAtom == TypeOfAtom.EMPTY;
     }
 
     public static int computeWidth(Atom atom) {

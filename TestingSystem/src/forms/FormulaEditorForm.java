@@ -2,6 +2,7 @@ package forms;
 
 import java.awt.Graphics;
 import java.util.Stack;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import main.Atom;
 import main.Formula;
@@ -57,18 +58,18 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     private void insertSplitterAndEmptyElements(char splitter) {
-//        if (currentFormula.isEmptySelectedElement()) {
+        if (currentFormula.isSelectedEmpty()) {
 //            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
-        addFormulaCopyToStack();
-        currentFormula.addEmptyBeforeSelected();
-        currentFormula.addBeforeSelected(splitter, true);
-        currentFormula.update();
-        drawFormula();
+            addFormulaCopyToStack();
+            currentFormula.addEmptyAfterSelected();
+            currentFormula.addAfterSelected(splitter, true);
+            currentFormula.update();
+            drawFormula();
 //            } else {
 //                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
 //                        "Предупреждение", JOptionPane.OK_OPTION);
 //            }
-//        }
+        }
     }
 
     public String getFormulaTranscription() {
@@ -376,7 +377,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
         bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterGreekAlphabet.setText("<html>Δ <br>↑ <br>δ");
+        bChangeRegisterGreekAlphabet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forms/alpha__ALPHA.PNG"))); // NOI18N
         bChangeRegisterGreekAlphabet.setToolTipText("Сменить регистр греческих букв");
         bChangeRegisterGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -385,7 +386,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bChangeRegisterLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterLatinAlphabet.setText("<html>A\n<br>↑\n<br>a");
+        bChangeRegisterLatinAlphabet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forms/a_A.PNG"))); // NOI18N
         bChangeRegisterLatinAlphabet.setToolTipText("Сменить регистр латинских букв");
         bChangeRegisterLatinAlphabet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -720,11 +721,13 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (!smallLatinLetters) {
-            bChangeRegisterLatinAlphabet.setText(
-                    BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE);
+            bChangeRegisterLatinAlphabet.setIcon(
+                    new ImageIcon(getClass().getResource("/forms/a_A.PNG"))
+            );
         } else {
-            bChangeRegisterLatinAlphabet.setText(
-                    BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE);
+            bChangeRegisterLatinAlphabet.setIcon(
+                    new ImageIcon(getClass().getResource("/forms/A__a.PNG"))
+            );
         }
         smallLatinLetters = !smallLatinLetters;
     }//GEN-LAST:event_bChangeRegisterLatinAlphabetActionPerformed
@@ -744,12 +747,13 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (!smallGreekLetters) {
-            bChangeRegisterGreekAlphabet.setText(
-                    BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE
+            bChangeRegisterGreekAlphabet.setIcon(
+                    new ImageIcon(getClass().getResource("/forms/alpha__ALPHA.PNG"))
             );
         } else {
-            bChangeRegisterGreekAlphabet.setText(
-                    BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE);
+            bChangeRegisterGreekAlphabet.setIcon(
+                    new ImageIcon(getClass().getResource("/forms/ALPHA_alpha.PNG"))
+            );
         }
         smallGreekLetters = !smallGreekLetters;
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
@@ -774,28 +778,34 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseFormActionPerformed
 
     private void bSaveFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveFormulaActionPerformed
-//        if (currentFormula.hasEmptyElements()) {
-//            JOptionPane.showMessageDialog(null,
-//                    "В формуле не должно быть пустых элементов",
-//                    "Предупреждение", JOptionPane.CLOSED_OPTION);
-//        } else {
-        formulaTranscription = currentFormula.toString();
-        dispose();
-//        }
+        boolean hasEmpty = false;
+        for (Atom atom : currentFormula) {
+            if (atom.isEmpty()) {
+                hasEmpty = true;
+            }
+        }
+        if (hasEmpty) {
+            JOptionPane.showMessageDialog(null,
+                    "В формуле не должно быть пустых элементов",
+                    "Предупреждение", JOptionPane.CLOSED_OPTION);
+        } else {
+            formulaTranscription = currentFormula.toString();
+            dispose();
+        }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 
     private void bUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoActionPerformed
-//        if (STACK_FORMULA.size() > 1) {
-//            currentFormula = new Formula(STACK_FORMULA.pop());
-//        } else {
-//            currentFormula = new Formula(STACK_FORMULA.peek());
-//        }
-//        drawFormula();
+        if (STACK_FORMULA.size() > 1) {
+            currentFormula = new Formula(STACK_FORMULA.pop());
+        } else {
+            currentFormula = new Formula(STACK_FORMULA.peek());
+        }
+        drawFormula();
     }//GEN-LAST:event_bUndoActionPerformed
 
     private void bClearElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearElementActionPerformed
-//        currentFormula.replaceAtomText(null, currentFormula.getSelectedIndex());
-//        drawFormula();
+        currentFormula.makeSelectedEmpty();
+        drawFormula();
     }//GEN-LAST:event_bClearElementActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -831,27 +841,39 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_paneEditFormulaMousePressed
 
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
-        currentFormula.addPowerInSelected();
-        currentFormula.update();
-        drawFormula();
+        if (currentFormula.isSelectedEmpty()) {
+            addFormulaCopyToStack();
+            currentFormula.addPowerInSelected();
+            currentFormula.update();
+            drawFormula();
+        }
     }//GEN-LAST:event_bPutSignPowerActionPerformed
 
     private void bPutSignFracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignFracActionPerformed
-        currentFormula.addFractionInSelected();
-        currentFormula.update();
-        drawFormula();
+        if (currentFormula.isSelectedEmpty()) {
+            addFormulaCopyToStack();
+            currentFormula.addFractionInSelected();
+            currentFormula.update();
+            drawFormula();
+        }
     }//GEN-LAST:event_bPutSignFracActionPerformed
 
     private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
-        currentFormula.addLowerIndexInSelected();
-        currentFormula.update();
-        drawFormula();
+        if (currentFormula.isSelectedEmpty()) {
+            addFormulaCopyToStack();
+            currentFormula.addLowerIndexInSelected();
+            currentFormula.update();
+            drawFormula();
+        }
     }//GEN-LAST:event_bPutSignIndexActionPerformed
 
     private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
-        currentFormula.addVectorInSelected();
-        currentFormula.update();
-        drawFormula();
+        if (currentFormula.isSelectedEmpty()) {
+            addFormulaCopyToStack();
+            currentFormula.addVectorInSelected();
+            currentFormula.update();
+            drawFormula();
+        }
     }//GEN-LAST:event_bPutSignVectorActionPerformed
 
 

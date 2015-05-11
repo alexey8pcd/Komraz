@@ -556,7 +556,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x394; &lt;br&gt;&#x2191; &lt;br&gt;&#x3b4;"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/forms/alpha__ALPHA.PNG"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440; &#x433;&#x440;&#x435;&#x447;&#x435;&#x441;&#x43a;&#x438;&#x445; &#x431;&#x443;&#x43a;&#x432;"/>
       </Properties>
       <Events>
@@ -568,7 +570,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;A&#xa;&lt;br&gt;&#x2191;&#xa;&lt;br&gt;a"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/forms/a_A.PNG"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440; &#x43b;&#x430;&#x442;&#x438;&#x43d;&#x441;&#x43a;&#x438;&#x445; &#x431;&#x443;&#x43a;&#x432;"/>
       </Properties>
       <Events>
