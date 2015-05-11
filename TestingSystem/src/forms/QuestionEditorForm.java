@@ -287,6 +287,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         rbLinkingPictures.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rbLinkingPictures.setText("Соединение картинок линиями");
         rbLinkingPictures.setEnabled(false);
+        rbLinkingPictures.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbLinkingPicturesActionPerformed(evt);
+            }
+        });
 
         textSearch.setEnabled(false);
 
@@ -302,8 +307,12 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lPoints.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lPoints.setText("Балл:");
 
-        spinnerPoints.setEnabled(false);
         spinnerPoints.setValue(1);
+        spinnerPoints.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerPointsStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -563,8 +572,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             switch (currentTypeOfQuestion) {
                 //записать вопрос Latex
                 case LATEX:
-//                    latexQuestion.setLatexZapis(new String(
-//                            formula.getTranscription().getBytes(), UTF_8));
+                    latexQuestion.setLatexZapis(
+                            new String(formula.toString().getBytes(), UTF_8));
                     latexQuestion.setVoprosIdVopros(question);
                     try {
                         DBManager.writeObjectMerge(latexQuestion);
@@ -572,6 +581,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         DialogManager.errorMessage(ex);
                     }
                     dispose();
+                    break;
                 //записать вопрос на перетаскивание картинок
                 case PUZZLE:
                     try {
@@ -623,6 +633,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         DialogManager.errorMessage(ex);
                     }
                     dispose();
+                    break;
                 case LINES:
                     break;
             }
@@ -636,6 +647,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
                 formulaEditor.setVisible(true);
                 formula = formulaEditor.getFormula();
+                formula.moveOnVertical(-70);
                 draw();
                 break;
             case PUZZLE:

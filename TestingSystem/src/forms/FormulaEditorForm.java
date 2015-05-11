@@ -792,6 +792,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                     "В формуле не должно быть пустых элементов",
                     "Предупреждение", JOptionPane.CLOSED_OPTION);
         } else {
+            for (Atom atom : currentFormula) {
+                atom.selected = false;
+            }
             dispose();
         }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
