@@ -13,6 +13,7 @@ import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -400,7 +401,7 @@ public class GroupForm extends javax.swing.JDialog {
                         query.setParameter("id", delGroup.getIdGruppa());
                         query.executeUpdate();
                         entityManager.getTransaction().commit();
-                        
+
                         --groupsSize;
                         if (groupsSize > 0) {
                             if (selectedIndex >= groupsSize) {
@@ -438,46 +439,51 @@ public class GroupForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCreateStudentActionPerformed
 
     private void bDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteStudentActionPerformed
-        int selectedIndex = tableListOfStudents.getSelectedRow();
-        if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
-                && selectedIndex >= 0) {
-            //Удаляем выбранного студента из списка
-            Student delStudent = students.get(selectedIndex);
-            StudentTest studentTest = null;
 
-            if (delStudent != null) {
-                if (!delStudent.getStudentTestList().isEmpty()) {
-                    studentTest = delStudent.getStudentTestList().get(0);
-                }
-                if (delStudent.getStudentTestList().isEmpty()) {
-                    try {
-                        if (studentTest != null) {
+        if (DialogManager.confirmDeleting("Вы действительно хотите удалить выбранного студента?")) {
+            
+            int selectedIndex = tableListOfStudents.getSelectedRow();
+            if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
+                    && selectedIndex >= 0) {
+                //Удаляем выбранного студента из списка
+                Student delStudent = students.get(selectedIndex);
+                StudentTest studentTest = null;
+
+                if (delStudent != null) {
+                    if (!delStudent.getStudentTestList().isEmpty()) {
+                        studentTest = delStudent.getStudentTestList().get(0);
+                    }
+                    if (delStudent.getStudentTestList().isEmpty()) {
+                        try {
+                            if (studentTest != null) {
+                                entityManager.getTransaction().begin();
+                                entityManager.remove(studentTest);
+                                entityManager.getTransaction().commit();
+                            }
                             entityManager.getTransaction().begin();
-                            entityManager.remove(studentTest);
+                            Query query = entityManager.createQuery(
+                                    "DELETE FROM Student s WHERE s.idStudent=:id");
+                            query.setParameter("id", delStudent.getIdStudent());
+                            query.executeUpdate();
                             entityManager.getTransaction().commit();
+                            listGroups.setSelectedIndex(0);
+                            refresh();
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, ex.toString(),
+                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
-                        entityManager.getTransaction().begin();
-                        Query query = entityManager.createQuery(
-                                "DELETE FROM Student s WHERE s.idStudent=:id");
-                        query.setParameter("id", delStudent.getIdStudent());
-                        query.executeUpdate();
-                        entityManager.getTransaction().commit();
-                        listGroups.setSelectedIndex(0);
-                        refresh();
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.toString(),
+                    } else {
+                        JOptionPane.showMessageDialog(null, "В данной группе "
+                                + "содержатся студенты!",
                                 "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "В данной группе "
-                            + "содержатся студенты!",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Студент не выбран",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Студент не выбран",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
+
 
     }//GEN-LAST:event_bDeleteStudentActionPerformed
 

@@ -13,6 +13,12 @@ import javax.swing.JOptionPane;
  */
 public class DialogManager {
 
+    public enum TypeOfMessage {
+
+        WARNING,
+        ERROR
+    }
+
     /**
      * Метод на подтверждение закрытия формы
      *
@@ -20,11 +26,18 @@ public class DialogManager {
      * @return <br>true - если закрытие формы возможно
      * <br>false - если в закрытии формы отказано
      */
-    public static boolean confirmClosing(String subject) {
+    public static boolean confirmClosingForm(String subject) {
         int result = JOptionPane.showConfirmDialog(null,
                 "Редактирование " + subject + " не завершено. "
                 + "Вы действительно хотите выйти из редактора?",
                 "Подтверждение выхода", JOptionPane.YES_NO_OPTION);
+
+        return result == JOptionPane.YES_OPTION;
+    }
+
+    public static boolean confirmDeleting(String text) {
+        int result = JOptionPane.showConfirmDialog(null, text,
+                "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         return result == JOptionPane.YES_OPTION;
     }
@@ -34,9 +47,15 @@ public class DialogManager {
      *
      * @param headerOfMessage заголовок диалогового окна
      * @param textOfMessage текст диалогового окна
+     * @param type тип предупреждения (WARNING or ERROR)
      */
-    public static void warningMessage(String headerOfMessage, String textOfMessage) {
-        JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, JOptionPane.ERROR_MESSAGE);
+    public static void warningMessage(String headerOfMessage, String textOfMessage, TypeOfMessage type) {
+        switch (type) {
+            case WARNING:
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, JOptionPane.WARNING_MESSAGE);
+            case ERROR:
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
