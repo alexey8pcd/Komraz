@@ -269,7 +269,6 @@ public class Formula implements Iterable<Atom> {
     public void setSelectedAtom(int x, int y) {
         root.clearSelection();
         root.setSelected(x, y);
-
     }
 
     public void addPowerInSelected() {

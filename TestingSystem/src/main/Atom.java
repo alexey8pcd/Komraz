@@ -134,23 +134,30 @@ public class Atom {
         return w;
     }
 
-    public void setSelected(int x, int y) {
+    public boolean setSelected(int x, int y) {
+        boolean meSelected = false;
         if (x >= startX && x < startX + width
                 && y >= startY && y < startY + height) {
             if (typeOfAtom != TypeOfAtom.FRAC_LINE) {
-                selected = true;
-                return;
+                meSelected = true;
             }
         }
+        boolean topSelected = false;
         if (top != null) {
-            top.setSelected(x, y);
+            topSelected = top.setSelected(x, y);
         }
+        boolean nextSelected = false;
         if (next != null) {
-            next.setSelected(x, y);
+            nextSelected = next.setSelected(x, y);
         }
+        boolean downSelected = false;
         if (down != null) {
-            down.setSelected(x, y);
+            downSelected = down.setSelected(x, y);
         }
+        if (!topSelected && !nextSelected && !downSelected) {
+            selected = meSelected;
+        }
+        return selected;
     }
 
     public void setLocation(int x, int y) {
