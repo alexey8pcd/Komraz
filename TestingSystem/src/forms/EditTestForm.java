@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -145,9 +146,14 @@ public class EditTestForm extends javax.swing.JDialog {
         bClose = new javax.swing.JButton();
         lQuestionsInSubject = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый тест");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lTestName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lTestName.setText("Название теста:");
@@ -292,13 +298,11 @@ public class EditTestForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        int result = JOptionPane.showConfirmDialog(null,
-                "Редактирование теста не завершено. "
-                + "Вы действительно хотите выйти из редактора?",
-                "Подтверждение выхода", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
+
+        if (DialogManager.confirmClosing("теста")) {
             dispose();
         }
+
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bAddQuestionToTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuestionToTestActionPerformed
@@ -370,8 +374,7 @@ public class EditTestForm extends javax.swing.JDialog {
                 entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.toString(),
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                DialogManager.errorMessage(ex);
             }
             dispose();
         }
@@ -381,6 +384,14 @@ public class EditTestForm extends javax.swing.JDialog {
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bSearchActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        if (DialogManager.confirmClosing("теста")) {
+            dispose();
+        }
+        
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;

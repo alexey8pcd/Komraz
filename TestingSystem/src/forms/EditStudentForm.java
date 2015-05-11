@@ -5,6 +5,7 @@ import entities.Prepodavatel;
 import entities.Student;
 import java.util.List;
 import javax.swing.JOptionPane;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -35,7 +36,7 @@ public class EditStudentForm extends javax.swing.JDialog {
         textUsername.setText(student.getLogin());
         textPassword.setText(student.getPassword());
         textPasswordConfirm.setText(student.getPassword());
-        
+
         this.setTitle("Редактирование студента");
     }
 
@@ -58,8 +59,13 @@ public class EditStudentForm extends javax.swing.JDialog {
         lFio = new javax.swing.JLabel();
         textFio = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый студент");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lUsername.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lUsername.setText("Имя пользователя:");
@@ -145,7 +151,9 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
 
-        this.dispose();
+        if (DialogManager.confirmClosing("студента")) {
+            dispose();
+        }
 
     }//GEN-LAST:event_bCloseActionPerformed
 
@@ -175,7 +183,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
                         boolean existed = false;
                         int idStudent = -1; //Проверка на редактируемого студента
-                        if (student != null){
+                        if (student != null) {
                             idStudent = student.getIdStudent();
                         }
 
@@ -191,9 +199,9 @@ public class EditStudentForm extends javax.swing.JDialog {
                                     "Student.findAll", Student.class).getResultList();
                             for (Student student1 : students) {
                                 if (student1.getLogin().equals(username)) {
-                                    if (student1.getIdStudent() != idStudent){
+                                    if (student1.getIdStudent() != idStudent) {
                                         existed = true;
-                                    }                                    
+                                    }
                                 }
                             }
                         }
@@ -262,6 +270,14 @@ public class EditStudentForm extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        if (DialogManager.confirmClosing("студента")) {
+            dispose();
+        }
+        
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

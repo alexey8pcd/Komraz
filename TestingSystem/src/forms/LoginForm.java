@@ -10,7 +10,7 @@ import static sql.DBManager.entityManager;
 
 /**
  *
- * @author Артем
+ * @author Solovenko
  *
  */
 public class LoginForm extends javax.swing.JFrame {
@@ -29,6 +29,8 @@ public class LoginForm extends javax.swing.JFrame {
 
     /**
      * Проверка на подключение к БД
+     * @return true - если подключение корректно
+     * false - если подключиться к БД не удалось
      */
     private boolean checkDB() {
         boolean result = true;

@@ -22,9 +22,6 @@ public class EditGroupForm extends javax.swing.JDialog {
         initComponents();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
-//        if (group != null) {
-//            textGroupName.setText(group.getNazvanie());
-//        }
     }
 
     public void setGroup(Gruppa group) {
