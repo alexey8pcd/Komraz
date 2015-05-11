@@ -17,6 +17,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import main.Area;
+import main.DialogManager;
 import main.Formula;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
@@ -89,8 +90,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     TipVoprosa.class).getResultList();
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
         if (subjects != null) {
             listSubjects.updateUI();
@@ -115,12 +115,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     }
 
     private void exitConfirm() {
-        int result = JOptionPane.showConfirmDialog(null,
-                "Редактирование вопроса не завершено. "
-                + "Вы действительно хотите закрыть окно редактора?",
-                "Подтверждение выхода",
-                JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
+        if (DialogManager.confirmClosingForm("вопроса")) {
             dispose();
         }
     }
@@ -497,34 +492,36 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void bSaveQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveQuestionActionPerformed
         boolean correct = true;
         if (tQuestionTitle.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Название вопроса не может быть "
-                    + "пустым", "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.warningMessage("Предупреждение",
+                    "Название вопроса не может быть пустым",
+                    DialogManager.TypeOfMessage.WARNING);
             correct = false;
         } else if (textAreaForQuestionFormulation.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Формулировка вопроса не может "
-                    + "быть пустой", "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.warningMessage("Предупреждение",
+                    "Формулировка вопроса не может быть пустой",
+                    DialogManager.TypeOfMessage.WARNING);
             correct = false;
         }
         switch (currentTypeOfQuestion) {
             case LATEX:
                 if (formula == null) {
-                    JOptionPane.showMessageDialog(this, "Формула отсутствует",
-                            "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.warningMessage("Предупреждение",
+                            "Формула отсутствует", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 } else if (listSubjects.getSelectedIndex() == -1) {
-                    JOptionPane.showMessageDialog(this, "Дисциплина не выбрана",
-                            "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.warningMessage("Предупреждение",
+                            "Дисциплина не выбрана", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 } else if (listDifficulty.getSelectedIndex() == -1) {
-                    JOptionPane.showMessageDialog(this, "Сложность не выбрана",
-                            "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.warningMessage("Предупреждение",
+                            "Сложность не выбрана", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 }
                 break;
             case PUZZLE:
                 if (placingPicturesInAreas == null) {
-                    JOptionPane.showMessageDialog(this, "Картинки не размещены",
-                            "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.warningMessage("Предупреждение",
+                            "Картинки не размещены", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 }
                 break;
@@ -557,10 +554,10 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 question.setTipVoprosaIdTipVoprosa(
                         typesOfQuestion.get(currentTypeOfQuestion.ordinal()));
             } else {
-                JOptionPane.showMessageDialog(null, "База данных содержит "
-                        + "некорректную информацию о типах вопросов. "
-                        + "Обратитесь к администратору",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                DialogManager.warningMessage("Ошибка",
+                        "База данных содержит некорректную информацию о типах вопросов. "
+                        + "\nОбратитесь к администратору",
+                        DialogManager.TypeOfMessage.ERROR);
                 return;
             }
             switch (currentTypeOfQuestion) {
@@ -572,8 +569,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     try {
                         DBManager.writeObjectMerge(latexQuestion);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.errorMessage(ex);
                     }
                     dispose();
                 //записать вопрос на перетаскивание картинок
@@ -624,8 +620,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                             DBManager.writeObjectPersist(polKart);
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.errorMessage(ex);
                     }
                     dispose();
                 case LINES:

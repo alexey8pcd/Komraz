@@ -218,9 +218,7 @@ public class EditStudentForm extends javax.swing.JDialog {
                                 try {
                                     DBManager.writeObjectPersist(student);
                                 } catch (Exception ex) {
-                                    JOptionPane.showMessageDialog(this,
-                                            ex.toString(),
-                                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                    DialogManager.errorMessage(ex);
                                 }
                             } else {
                                 //Редактируем существующего
@@ -230,9 +228,7 @@ public class EditStudentForm extends javax.swing.JDialog {
                                 try {
                                     DBManager.writeObjectMerge(student);
                                 } catch (Exception ex) {
-                                    JOptionPane.showMessageDialog(this,
-                                            ex.toString(),
-                                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                    DialogManager.errorMessage(ex);
                                 }
                             }
                             this.dispose();
@@ -272,11 +268,11 @@ public class EditStudentForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bSaveActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         if (DialogManager.confirmClosingForm("студента")) {
             dispose();
         }
-        
+
     }//GEN-LAST:event_formWindowClosing
 
 

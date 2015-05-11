@@ -52,9 +52,11 @@ public class DialogManager {
     public static void warningMessage(String headerOfMessage, String textOfMessage, TypeOfMessage type) {
         switch (type) {
             case WARNING:
-                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, 
+                        JOptionPane.WARNING_MESSAGE);
             case ERROR:
-                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, 
+                        JOptionPane.ERROR_MESSAGE);
         }
     }
 

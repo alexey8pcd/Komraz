@@ -341,8 +341,7 @@ public class GroupForm extends javax.swing.JDialog {
             editGroupForm.setVisible(true);
             refresh();
         } else {
-            JOptionPane.showMessageDialog(null, "Студенты отсутствуют!",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.warningMessage("Ошибка", "Студенты отсутствуют!", DialogManager.TypeOfMessage.ERROR);
         }
 
     }//GEN-LAST:event_bEditStudentActionPerformed
@@ -386,7 +385,9 @@ public class GroupForm extends javax.swing.JDialog {
             Gruppa delGroup = groups.get(selectedIndex);
 
             if (delGroup != null) {
-                TypedQuery<Student> queryForRelativeStudents = entityManager.createQuery("SELECT s FROM Student s WHERE s.gruppaIdGruppa.idGruppa = :id", Student.class);
+                TypedQuery<Student> queryForRelativeStudents
+                        = entityManager.createQuery("SELECT s FROM Student s "
+                                + "WHERE s.gruppaIdGruppa.idGruppa = :id", Student.class);
                 queryForRelativeStudents.setParameter("id", delGroup.getIdGruppa());
                 List<Student> relativeStudents = queryForRelativeStudents.getResultList();
                 if (relativeStudents.isEmpty()) {
@@ -411,18 +412,16 @@ public class GroupForm extends javax.swing.JDialog {
                             refresh();
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.errorMessage(ex);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "В данной группе "
-                            + "содержатся студенты!",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.warningMessage("Ошибка",
+                            "В данной группу содержатся студенты!",
+                            DialogManager.TypeOfMessage.ERROR);
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Группа не выбрана",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.warningMessage("Ошибка", "Группа не выбрана!", DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bDeleteGroupActionPerformed
 
@@ -441,7 +440,7 @@ public class GroupForm extends javax.swing.JDialog {
     private void bDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteStudentActionPerformed
 
         if (DialogManager.confirmDeleting("Вы действительно хотите удалить выбранного студента?")) {
-            
+
             int selectedIndex = tableListOfStudents.getSelectedRow();
             if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
                     && selectedIndex >= 0) {
