@@ -1,11 +1,12 @@
 package main;
 
 import java.awt.Graphics;
+import java.util.Iterator;
 
 /**
  * @author Alexey
  */
-public class Formula {
+public class Formula implements Iterable<Atom> {
 
     private Atom root;
     private Atom last;
@@ -16,6 +17,16 @@ public class Formula {
     public Formula(int startX, int startY) {
         this.START_X = startX;
         this.START_Y = startY;
+    }
+
+    public Formula(Formula formula) {
+        this.START_X = formula.START_X;
+        this.START_Y = formula.START_Y;
+        root = new Atom(formula.root);
+        last = root;
+        while (last != null) {
+            last = last.next;
+        }
     }
 
     public void addNextElement(char symbol, boolean mutable) {
@@ -48,11 +59,25 @@ public class Formula {
             last.next.prev = last;
             last = last.next;
         }
-        
+
     }
 
     public void draw(Graphics g) {
         root.draw(g);
+    }
+
+    public boolean replaceSelected(char symbol) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            if (selected.typeOfAtom != TypeOfAtom.IMMUTABLE) {
+                if (selected.symbol == null || selected.symbol != symbol) {
+                    selected.symbol = symbol;
+                    selected.typeOfAtom = TypeOfAtom.NORMAL;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void placeInSelected(char symbol, boolean mutable) {
@@ -124,7 +149,8 @@ public class Formula {
             atom.setLocation(selected.getX(), selected.getY());
             atom.setSize(selected.getWidth(), selected.getHeight());
             atom.symbol = symbol;
-            atom.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
+            atom.typeOfAtom = mutable == true
+                    ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
             updateLinksBeforeSelected(selected, atom);
         }
     }
@@ -145,7 +171,7 @@ public class Formula {
             atom.next = selected;
             atom.parent = selected.parent;
             if (selected.parent != null) {
-            //если выбранный является верхним 
+                //если выбранный является верхним 
                 if (selected.parent.top == selected) {
                     selected.parent.top = atom;
                 }
@@ -277,7 +303,7 @@ public class Formula {
     public void addVectorInSelected() {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
-            selected.top = new Atom('→', TypeOfAtom.NORMAL);
+            selected.top = new Atom('→', TypeOfAtom.IMMUTABLE);
             selected.top.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
             selected.top.setLocation(selected.getX(),
@@ -291,4 +317,27 @@ public class Formula {
     public String toString() {
         return root.toString();
     }
+
+    @Override
+    public Iterator<Atom> iterator() {
+        return new FormulaIterator(this, root);
+    }
+
+//    private int getCount(Atom atom) {
+//        int count = 1;
+//        if (atom.next != null) {
+//            count += getCount(atom.next);
+//        }
+//        if (atom.top != null) {
+//            count += getCount(atom.top);
+//        }
+//        if (atom.down != null) {
+//            count += getCount(atom.down);
+//        }
+//        return count;
+//    }
+//
+//    public int getElementsAmount() {
+//        return getCount(root);
+//    }
 }

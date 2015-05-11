@@ -3,12 +3,9 @@ package forms;
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.JOptionPane;
+import main.Atom;
 import main.Formula;
-import static resources.Parameters.BUTTON_LABEL_GREEK_LOWER_TO_UPPER_CASE;
-import static resources.Parameters.BUTTON_LABEL_GREEK_UPPER_TO_LOWER_CASE;
-import static resources.Parameters.BUTTON_LABEL_LATIN_LOWER_TO_UPPER_CASE;
-import static resources.Parameters.BUTTON_LABEL_LATIN_UPPER_TO_LOWER_CASE;
-import static resources.Parameters.SCREEN_SIZE;
+import static resources.Parameters.*;
 
 /**
  *
@@ -39,7 +36,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private void makeDefaultFormula() {
         currentFormula = new Formula(20, paneEditFormula.getHeight() / 3);
         currentFormula.addEmptyElement();
-        currentFormula.addNextElement('=', false);
+        currentFormula.addNextElement('=', true);
         currentFormula.addEmptyElement();
         currentFormula.update();
     }
@@ -56,17 +53,17 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     private void addFormulaCopyToStack() {
-//        STACK_FORMULA.push(new Formula(currentFormula));
+        STACK_FORMULA.push(new Formula(currentFormula));
     }
 
     private void insertSplitterAndEmptyElements(char splitter) {
 //        if (currentFormula.isEmptySelectedElement()) {
 //            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
-                addFormulaCopyToStack();
-                currentFormula.addEmptyBeforeSelected();
-                currentFormula.addBeforeSelected(splitter, false);
-                currentFormula.update();
-                drawFormula();
+        addFormulaCopyToStack();
+        currentFormula.addEmptyBeforeSelected();
+        currentFormula.addBeforeSelected(splitter, true);
+        currentFormula.update();
+        drawFormula();
 //            } else {
 //                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
 //                        "Предупреждение", JOptionPane.OK_OPTION);
@@ -96,12 +93,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }
 
     private void replaceAtom(char symbol) {
-//        addFormulaCopyToStack();
-//        if (!currentFormula.replaceAtomText(text,
-//                currentFormula.getSelectedIndex())) {
-//            STACK_FORMULA.pop();
-//        }
-        currentFormula.placeInSelected(symbol, false);
+        addFormulaCopyToStack();
+        if (!currentFormula.replaceSelected(symbol)) {
+            STACK_FORMULA.pop();
+        }
         drawFormula();
     }
 
@@ -768,10 +763,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignMultiActionPerformed
 
     private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
-//        for (int i = 0; i < currentFormula.getElementsCount(); i++) {
-//            currentFormula.replaceAtomText(null, i);
-//        }
-//        drawFormula();
+        for (Atom atom : currentFormula) {
+            atom.clear();
+        }
+        drawFormula();
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
@@ -784,8 +779,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 //                    "В формуле не должно быть пустых элементов",
 //                    "Предупреждение", JOptionPane.CLOSED_OPTION);
 //        } else {
-            formulaTranscription = currentFormula.toString();
-            dispose();
+        formulaTranscription = currentFormula.toString();
+        dispose();
 //        }
     }//GEN-LAST:event_bSaveFormulaActionPerformed
 

@@ -23,6 +23,13 @@ public class Atom {
     public boolean selected;
     public boolean index;
 
+    public void clear() {
+        if (typeOfAtom == TypeOfAtom.NORMAL) {
+            symbol = null;
+            typeOfAtom = TypeOfAtom.EMPTY;
+        }
+    }
+
     public Atom(char symbol, TypeOfAtom typeOfAtom) {
         this.symbol = symbol;
         this.typeOfAtom = typeOfAtom;
@@ -30,6 +37,25 @@ public class Atom {
 
     public Atom() {
         this.typeOfAtom = TypeOfAtom.EMPTY;
+    }
+
+    public Atom(Atom atom) {
+        this.startX = atom.startX;
+        this.startY = atom.startY;
+        this.width = atom.width;
+        this.height = atom.height;
+        this.symbol = atom.symbol;
+        this.typeOfAtom = atom.typeOfAtom;
+        this.index = atom.index;
+        if (atom.top != null) {
+            top = new Atom(atom.top);
+        }
+        if (atom.down != null) {
+            down = new Atom(atom.down);
+        }
+        if (atom.next != null) {
+            next = new Atom(atom.next);
+        }
     }
 
     public void draw(Graphics g) {
@@ -41,8 +67,6 @@ public class Atom {
             case EMPTY:
                 break;
             case IMMUTABLE:
-                g.setColor(Color.GRAY);
-                g.fillRect(startX + 1, startY + 1, width - 2, height - 2);
             case NORMAL:
                 g.setColor(Color.BLACK);
                 g.setFont(new Font("Times New Roman", Font.BOLD, height));
