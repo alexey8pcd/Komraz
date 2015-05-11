@@ -30,6 +30,7 @@ public class EditGroupForm extends javax.swing.JDialog {
     public void setGroup(Gruppa group) {
         this.group = group;
         textGroupName.setText(group.getNazvanie());
+        this.setTitle("Редактирование группы");
     }
 
     @SuppressWarnings("unchecked")

@@ -35,6 +35,8 @@ public class EditStudentForm extends javax.swing.JDialog {
         textUsername.setText(student.getLogin());
         textPassword.setText(student.getPassword());
         textPasswordConfirm.setText(student.getPassword());
+        
+        this.setTitle("Редактирование студента");
     }
 
     public void setGroup(Gruppa group) {
@@ -206,7 +208,7 @@ public class EditStudentForm extends javax.swing.JDialog {
                                 student.setGruppaIdGruppa(group);
 
                                 try {
-                                    DBManager.writeObjectMerge(student);
+                                    DBManager.writeObjectPersist(student);
                                 } catch (Exception ex) {
                                     JOptionPane.showMessageDialog(this,
                                             ex.toString(),

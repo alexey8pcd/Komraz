@@ -1,5 +1,6 @@
 package forms;
 
+import java.sql.*;
 import entities.Prepodavatel;
 import entities.Student;
 import javax.persistence.TypedQuery;
@@ -24,6 +25,28 @@ public class LoginForm extends javax.swing.JFrame {
         initComponents();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+    }
+
+    /**
+     * Проверка на подключение к БД
+     */
+    private boolean checkDB() {
+        boolean result = true;
+        try {
+            Class.forName("java.sql.Driver");
+            //Создаём соединение
+            Connection con = DriverManager.
+                    getConnection("jdbc:mysql://localhost:3306/mydb", "root", "ytrewq");
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Не удалось подключиться к базе данных! "
+                            + "\nПроверьте, запущен ли сервер базы данных MySQL "
+                            + "\nили обратитесь к администратору программы",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            result = false;
+        }
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -107,51 +130,53 @@ public class LoginForm extends javax.swing.JFrame {
         String username = textUsername.getText();
         String password = String.valueOf(passwordText.getPassword());
 
-        try {
-            //Ищем в преподавателях
-            TypedQuery<Prepodavatel> queryForPrepodavatel = entityManager.
-                    createQuery("SELECT p FROM Prepodavatel p "
-                            + "WHERE p.login = :login",
-                            Prepodavatel.class);
-            queryForPrepodavatel.setParameter("login", username);
-            prepodavatel = queryForPrepodavatel.getSingleResult();
-
-            if (prepodavatel != null) {
-                if (password.equals(prepodavatel.getPassword())) {
-                    //Преподавателя выводим на главную форму
-                    MainForm mainForm = new MainForm();
-                    mainForm.setVisible(true);
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (Exception ex) {
+        if (checkDB()) {
             try {
-                //Ищем в студентах
-                TypedQuery<Student> queryForStudent = entityManager.
-                        createQuery("SELECT s FROM Student s "
-                                + "WHERE s.login = :login",
-                                Student.class);
-                queryForStudent.setParameter("login", username);
-                student = queryForStudent.getSingleResult();
+                //Ищем в преподавателях
+                TypedQuery<Prepodavatel> queryForPrepodavatel = entityManager.
+                        createQuery("SELECT p FROM Prepodavatel p "
+                                + "WHERE p.login = :login",
+                                Prepodavatel.class);
+                queryForPrepodavatel.setParameter("login", username);
+                prepodavatel = queryForPrepodavatel.getSingleResult();
 
-                if (student != null) {
-                    if (password.equals(student.getPassword())) {
-                        //Отображаем форму прохождения тестов для студента
-                        ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
-                        chooseTestForm.setStudent(student);
-                        chooseTestForm.setVisible(true);
+                if (prepodavatel != null) {
+                    if (password.equals(prepodavatel.getPassword())) {
+                        //Преподавателя выводим на главную форму
+                        MainForm mainForm = new MainForm();
+                        mainForm.setVisible(true);
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
                                 "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                try {
+                    //Ищем в студентах
+                    TypedQuery<Student> queryForStudent = entityManager.
+                            createQuery("SELECT s FROM Student s "
+                                    + "WHERE s.login = :login",
+                                    Student.class);
+                    queryForStudent.setParameter("login", username);
+                    student = queryForStudent.getSingleResult();
+
+                    if (student != null) {
+                        if (password.equals(student.getPassword())) {
+                            //Отображаем форму прохождения тестов для студента
+                            ChooseTestForm chooseTestForm = new ChooseTestForm(this, true);
+                            chooseTestForm.setStudent(student);
+                            chooseTestForm.setVisible(true);
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
+                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
