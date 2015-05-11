@@ -151,7 +151,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
 
-        if (DialogManager.confirmClosing("студента")) {
+        if (DialogManager.confirmClosingForm("студента")) {
             dispose();
         }
 
@@ -273,7 +273,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
-        if (DialogManager.confirmClosing("студента")) {
+        if (DialogManager.confirmClosingForm("студента")) {
             dispose();
         }
         
