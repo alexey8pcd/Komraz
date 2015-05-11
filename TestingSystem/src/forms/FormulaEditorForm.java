@@ -20,6 +20,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private boolean smallGreekLetters;
     private final Stack<Formula> STACK_FORMULA;
     private String formulaTranscription;
+    private final ImageIcon GREEK_UPPER_TO_LOWER_CASE;
+    private final ImageIcon GREEK_LOWER_TO_UPPER_CASE;
+    private final ImageIcon LATIN_UPPER_TO_LOWER_CASE;
+    private final ImageIcon LATIN_LOWER_TO_UPPER_CASE;
 
     public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -32,6 +36,16 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         addFormulaCopyToStack();
         smallLatinLetters = true;
         smallGreekLetters = true;
+        GREEK_UPPER_TO_LOWER_CASE = new ImageIcon(getClass().getResource(
+                "/resources/greek_up_to_low.PNG"));
+        GREEK_LOWER_TO_UPPER_CASE = new ImageIcon(getClass().getResource(
+                "/resources/greek_low_to_up.PNG"));
+        LATIN_UPPER_TO_LOWER_CASE = new ImageIcon(getClass().getResource(
+                "/resources/latin_up_to_low.PNG"));
+        LATIN_LOWER_TO_UPPER_CASE = new ImageIcon(getClass().getResource(
+                "/resources/latin_low_to_up.PNG"));
+        bChangeRegisterGreekAlphabet.setIcon(GREEK_LOWER_TO_UPPER_CASE);
+        bChangeRegisterLatinAlphabet.setIcon(LATIN_LOWER_TO_UPPER_CASE);
     }
 
     private void makeDefaultFormula() {
@@ -377,7 +391,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         scrollPaneForGreekAlphabet.setViewportView(tableGreekAlphabet);
 
         bChangeRegisterGreekAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterGreekAlphabet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forms/alpha__ALPHA.PNG"))); // NOI18N
         bChangeRegisterGreekAlphabet.setToolTipText("Сменить регистр греческих букв");
         bChangeRegisterGreekAlphabet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -386,7 +399,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         });
 
         bChangeRegisterLatinAlphabet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bChangeRegisterLatinAlphabet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forms/a_A.PNG"))); // NOI18N
         bChangeRegisterLatinAlphabet.setToolTipText("Сменить регистр латинских букв");
         bChangeRegisterLatinAlphabet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -721,13 +733,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (!smallLatinLetters) {
-            bChangeRegisterLatinAlphabet.setIcon(
-                    new ImageIcon(getClass().getResource("/forms/a_A.PNG"))
-            );
+            bChangeRegisterLatinAlphabet.setIcon(LATIN_LOWER_TO_UPPER_CASE);
         } else {
-            bChangeRegisterLatinAlphabet.setIcon(
-                    new ImageIcon(getClass().getResource("/forms/A__a.PNG"))
-            );
+            bChangeRegisterLatinAlphabet.setIcon(LATIN_UPPER_TO_LOWER_CASE);
         }
         smallLatinLetters = !smallLatinLetters;
     }//GEN-LAST:event_bChangeRegisterLatinAlphabetActionPerformed
@@ -747,13 +755,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (!smallGreekLetters) {
-            bChangeRegisterGreekAlphabet.setIcon(
-                    new ImageIcon(getClass().getResource("/forms/alpha__ALPHA.PNG"))
-            );
+            bChangeRegisterGreekAlphabet.setIcon(GREEK_LOWER_TO_UPPER_CASE);
         } else {
-            bChangeRegisterGreekAlphabet.setIcon(
-                    new ImageIcon(getClass().getResource("/forms/ALPHA_alpha.PNG"))
-            );
+            bChangeRegisterGreekAlphabet.setIcon(GREEK_UPPER_TO_LOWER_CASE);
         }
         smallGreekLetters = !smallGreekLetters;
     }//GEN-LAST:event_bChangeRegisterGreekAlphabetMouseClicked
