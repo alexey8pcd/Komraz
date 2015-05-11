@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -209,8 +210,7 @@ public class QuestionsForm extends javax.swing.JDialog {
             questions = entityManager.createNamedQuery("Vopros.findAll",
                     Vopros.class).getResultList();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
         if (questions != null) {
             tableQuestions.updateUI();
