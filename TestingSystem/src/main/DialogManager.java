@@ -16,13 +16,16 @@ public class DialogManager {
     public enum TypeOfMessage {
 
         WARNING,
-        ERROR
+        ERROR,
+        OK,
+        CLOSED,
+        INFORMATION
     }
 
     /**
      * Метод на подтверждение закрытия формы
      *
-     * @param subject 
+     * @param subject
      * @return <br>true - если закрытие формы возможно
      * <br>false - если в закрытии формы отказано
      */
@@ -34,7 +37,7 @@ public class DialogManager {
 
         return result == JOptionPane.YES_OPTION;
     }
-    
+
     public static boolean confirmDeleting(String text) {
         int result = JOptionPane.showConfirmDialog(null, text,
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
@@ -47,16 +50,29 @@ public class DialogManager {
      *
      * @param headerOfMessage заголовок диалогового окна
      * @param textOfMessage текст диалогового окна
-     * @param type тип предупреждения (WARNING or ERROR)
+     * @param type тип предупреждения (ERROR, WARNING, OK or CLOSED)
      */
-    public static void warningMessage(String headerOfMessage, String textOfMessage, TypeOfMessage type) {
+    public static void notify(String headerOfMessage, String textOfMessage, TypeOfMessage type) {
         switch (type) {
             case WARNING:
-                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, 
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage,
                         JOptionPane.WARNING_MESSAGE);
+                break;
             case ERROR:
-                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage, 
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage,
                         JOptionPane.ERROR_MESSAGE);
+                break;
+            case OK:
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage,
+                        JOptionPane.OK_OPTION);
+                break;
+            case CLOSED:
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage,
+                        JOptionPane.CLOSED_OPTION);
+                break;
+            case INFORMATION: 
+                JOptionPane.showMessageDialog(null, textOfMessage, headerOfMessage,
+                        JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

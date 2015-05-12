@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
@@ -283,20 +282,10 @@ public class GroupForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(lGroups)
-                                .addGap(308, 308, 308)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                                        .addComponent(bEditStudent)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(bMoveStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(bDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(317, 317, 317)
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(sPaneForListGroups, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -306,7 +295,16 @@ public class GroupForm extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(bDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(bEditStudent)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(bMoveStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                                        .addComponent(bDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane2))))))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
@@ -325,8 +323,9 @@ public class GroupForm extends javax.swing.JDialog {
                     .addComponent(bCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bEditGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bEditStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bEditStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bCreateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bMoveStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(66, 66, 66)
@@ -350,7 +349,7 @@ public class GroupForm extends javax.swing.JDialog {
             editGroupForm.setVisible(true);
             refresh();
         } else {
-            DialogManager.warningMessage("Ошибка", "Студенты отсутствуют!", DialogManager.TypeOfMessage.ERROR);
+            DialogManager.notify("Ошибка", "Студенты отсутствуют!", DialogManager.TypeOfMessage.ERROR);
         }
 
     }//GEN-LAST:event_bEditStudentActionPerformed
@@ -364,9 +363,10 @@ public class GroupForm extends javax.swing.JDialog {
             editGroupForm.setVisible(true);
             refresh();
         } else {
-            JOptionPane.showMessageDialog(null, "Группы отсутствуют. \n"
+            DialogManager.notify("Ошибка",
+                    "Группы отсутствуют. \n"
                     + "Необходимо создать группу",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.TypeOfMessage.ERROR);
         }
 
     }//GEN-LAST:event_bEditGroupActionPerformed
@@ -424,13 +424,13 @@ public class GroupForm extends javax.swing.JDialog {
                         DialogManager.errorMessage(ex);
                     }
                 } else {
-                    DialogManager.warningMessage("Ошибка",
+                    DialogManager.notify("Ошибка",
                             "В данной группу содержатся студенты!",
                             DialogManager.TypeOfMessage.ERROR);
                 }
             }
         } else {
-            DialogManager.warningMessage("Ошибка", "Группа не выбрана!", DialogManager.TypeOfMessage.ERROR);
+            DialogManager.notify("Ошибка", "Группа не выбрана!", DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bDeleteGroupActionPerformed
 
@@ -477,18 +477,17 @@ public class GroupForm extends javax.swing.JDialog {
                             listGroups.setSelectedIndex(0);
                             refresh();
                         } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, ex.toString(),
-                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            DialogManager.errorMessage(ex);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "В данной группе "
-                                + "содержатся студенты!",
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.notify("Ошибка",
+                                "В данной группе содержатся студенты!",
+                                DialogManager.TypeOfMessage.ERROR);
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Студент не выбран",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                DialogManager.notify("Ошибка", "Студент не выбран!",
+                        DialogManager.TypeOfMessage.ERROR);
             }
         }
 

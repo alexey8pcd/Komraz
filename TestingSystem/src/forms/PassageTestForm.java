@@ -14,12 +14,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Stack;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import main.Atom;
+import main.DialogManager;
 import main.Formula;
 import static resources.Parameters.*;
 import static sql.DBManager.entityManager;
@@ -286,8 +286,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             queryForTestVopros.setParameter("id", this.testForPassage.getIdTest());
             testVoproses = queryForTestVopros.getResultList();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
             dispose();
         }
         questions = new ArrayList<>();
@@ -323,8 +322,8 @@ public class PassageTestForm extends javax.swing.JDialog {
             currentFormula.update();
             drawFormula();
 //            } else {
-//                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
-//                        "Предупреждение", JOptionPane.OK_OPTION);
+//                DialogManager.notify("Предупреждение", "Максимальная длина формулы", 
+//                        DialogManager.TypeOfMessage.OK);
 //            }
         }
     }
@@ -722,9 +721,9 @@ public class PassageTestForm extends javax.swing.JDialog {
                 }
             }
             if (hasEmpty) {
-                JOptionPane.showMessageDialog(null,
+                DialogManager.notify("Предупреждение",
                         "В формуле не должно быть пустых элементов",
-                        "Предупреждение", JOptionPane.CLOSED_OPTION);
+                        DialogManager.TypeOfMessage.CLOSED);
             } else {
                 answers[currentQuestionIndex] = currentFormula.toString();
                 currentQuestionIndex++;
@@ -750,13 +749,18 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
         if (currentQuestionIndex < questionsAmount - 1) {
-            int result = JOptionPane.showConfirmDialog(null,
-                    "Вы ответили не на все вопросы. Вы действительно "
-                    + "хотите завершить тест?", "Подтверждение",
-                    JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.NO_OPTION) {
+            if (!DialogManager.confirmDeleting("Вы ответили не на все вопросы! "
+                    + "Вы действительно хотите завершить тест?")) {
                 return;
             }
+//#######---------DEPRICATED-----------###############
+//            int result = JOptionPane.showConfirmDialog(null,
+//                    "Вы ответили не на все вопросы. Вы действительно "
+//                    + "хотите завершить тест?", "Подтверждение",
+//                    JOptionPane.YES_NO_OPTION);
+//            if (result == JOptionPane.NO_OPTION) {
+//                return;
+//            }
         }
         int scored = 0;
         int maximalScore = 0;
@@ -771,9 +775,8 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
             maximalScore += vopros.getBall();
         }
-        JOptionPane.showMessageDialog(null, "Вы набрали баллов "
-                + scored + " из " + maximalScore,
-                "Результат", JOptionPane.INFORMATION_MESSAGE);
+        DialogManager.notify("Результат", "Вы набрали " + scored + " баллов  из "
+                + maximalScore, DialogManager.TypeOfMessage.INFORMATION);
 
         try {
             //выбор студента
@@ -792,8 +795,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             entityManager.persist(studentTest);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
         dispose();
     }//GEN-LAST:event_bCompleteTestActionPerformed
@@ -852,7 +854,7 @@ public class PassageTestForm extends javax.swing.JDialog {
 
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {            
+                || currentFormula.isSelectedNormal()) {
             addFormulaCopyToStack();
             currentFormula.addPowerInSelected();
             currentFormula.update();

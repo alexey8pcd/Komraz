@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
@@ -120,8 +119,7 @@ public class EditTestForm extends javax.swing.JDialog {
             query.setParameter("id", subject.getIdDisciplina());
             allQuestions = query.getResultList();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
     }
 
@@ -329,14 +327,14 @@ public class EditTestForm extends javax.swing.JDialog {
         boolean correct = true;
         if (textTestName.getText().isEmpty()) {
             correct = false;
-            JOptionPane.showMessageDialog(this,
+            DialogManager.notify("Предупреждение",
                     "Название теста не может быть пустым",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.TypeOfMessage.WARNING);
         } else if (TEST_QUESTIONS.isEmpty()) {
             correct = false;
-            JOptionPane.showMessageDialog(this,
+            DialogManager.notify("Предупреждение",
                     "Не выбрано ни одного вопроса",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    DialogManager.TypeOfMessage.WARNING);
         }
         if (correct) {
             List<TestVopros> testVoproses;
@@ -386,11 +384,11 @@ public class EditTestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         if (DialogManager.confirmClosingForm("теста")) {
             dispose();
         }
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

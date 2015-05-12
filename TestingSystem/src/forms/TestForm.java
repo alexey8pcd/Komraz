@@ -8,12 +8,12 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -75,7 +75,7 @@ public class TestForm extends javax.swing.JDialog {
     public TestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         listSubjects.setModel(SUBJECT_LIST_MODEL);
         tableListOfTests.setModel(TEST_TABLE_MODEL);
@@ -116,8 +116,7 @@ public class TestForm extends javax.swing.JDialog {
             }
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Ошибка",
-                    JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
         refresh();
     }
@@ -144,8 +143,7 @@ public class TestForm extends javax.swing.JDialog {
             }
             tableListOfTests.updateUI();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
     }
 
@@ -178,6 +176,7 @@ public class TestForm extends javax.swing.JDialog {
         });
         sPaneForListSubjects.setViewportView(listSubjects);
 
+        lSubjects.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lSubjects.setText("Дисциплины:");
 
         tableListOfTests.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,9 +219,10 @@ public class TestForm extends javax.swing.JDialog {
             tableListOfTests.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
+        lTests.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lTests.setText("Тесты:");
 
-        bOpenAccess.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bOpenAccess.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         bOpenAccess.setText("<html> <center> Открыть доступ к тесту");
         bOpenAccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,7 +230,7 @@ public class TestForm extends javax.swing.JDialog {
             }
         });
 
-        bCloseAccess.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bCloseAccess.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         bCloseAccess.setText("<html> <center>Закрыть доступ к тесту");
         bCloseAccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +238,7 @@ public class TestForm extends javax.swing.JDialog {
             }
         });
 
-        bViewResult.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bViewResult.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         bViewResult.setText("<html><center>Просмотреть результаты");
         bViewResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,16 +354,16 @@ public class TestForm extends javax.swing.JDialog {
             editTestForm.setVisible(true);
             refresh();
         } else {
-            JOptionPane.showMessageDialog(null, "Дисциплина не выбрана",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.notify("Ошибка", "Дисциплина не выбрана",
+                    DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bCreateTestActionPerformed
 
     private void bOpenAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenAccessActionPerformed
         boolean correct = true;
         if (tableListOfTests.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Тест не выбран",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.notify("Предупреждение", "Тест не выбран",
+                    DialogManager.TypeOfMessage.WARNING);
             correct = false;
         }
         if (correct) {
@@ -376,8 +376,7 @@ public class TestForm extends javax.swing.JDialog {
                 entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.toString(),
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                DialogManager.errorMessage(ex);
             }
 //            Для 2ой и 3ей итерации
 //            OpenTestForm openTest = new OpenTestForm(null, true);
@@ -390,8 +389,8 @@ public class TestForm extends javax.swing.JDialog {
     private void bViewResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bViewResultActionPerformed
         int selectedRow = tableListOfTests.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Тест не выбран",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.notify("Предупреждение", "Тест не выбран",
+                    DialogManager.TypeOfMessage.WARNING);
         } else {
             Test test = tests.get(selectedRow);
             TestResultForm testResult = new TestResultForm(null, true);
@@ -407,8 +406,8 @@ public class TestForm extends javax.swing.JDialog {
     private void bCloseAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseAccessActionPerformed
         int selectedRow = tableListOfTests.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Тест не выбран",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.notify("Предупреждение", "Тест не выбран",
+                    DialogManager.TypeOfMessage.WARNING);
         } else {
             Test test = tests.get(selectedRow);
             StatusTesta st = new StatusTesta();
@@ -419,8 +418,7 @@ public class TestForm extends javax.swing.JDialog {
                 entityManager.merge(test);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.toString(),
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                DialogManager.errorMessage(ex);
             }
             refresh();
         }
@@ -449,14 +447,13 @@ public class TestForm extends javax.swing.JDialog {
                     query.executeUpdate();
                     entityManager.getTransaction().commit();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, ex.toString(),
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.errorMessage(ex);
                 }
             }
             refresh();
         } else {
-            JOptionPane.showMessageDialog(null, "Тест не выбран",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.notify("Ошибка", "Тест не выбран",
+                    DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bDeleteTestActionPerformed
 
@@ -471,8 +468,8 @@ public class TestForm extends javax.swing.JDialog {
             editTestForm.setVisible(true);
             refresh();
         } else {
-            JOptionPane.showMessageDialog(null, "Тест не выбран",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.notify("Ошибка", "Тест не выбран",
+                    DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bEditTestActionPerformed
 

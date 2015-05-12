@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import main.DialogManager;
+import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
 
@@ -75,6 +76,8 @@ public class CutImageForm extends javax.swing.JDialog {
     public CutImageForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         GRAPHICS = paneForDisplayImage.getGraphics();
         LINES = new ArrayList<>();
         lLinesCount.setText("Линий: 0 из 5");

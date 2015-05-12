@@ -2,9 +2,9 @@ package forms;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JOptionPane;
 import main.Area;
 import main.DialogManager;
+import static resources.Parameters.SCREEN_SIZE;
 
 /**
  *
@@ -22,14 +22,29 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     private int columnSpan = 20;
     private Layout layout;
 
-    public Area[][] getAreas() {
-        return areas;
-    }
-
     private enum Layout {
 
         MATRIX,
         LINE
+    }
+
+    public PlacingAreasForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        GRAPHICS = paneForDisplayAreas.getGraphics();
+        areas = new Area[1][6];
+        layout = Layout.LINE;
+        areas[0][0] = new Area(startX, startY, prefAreaSize);
+        areas[0][0].number = 1;
+        areas[0][1] = new Area(startX + prefAreaSize + rowSpan,
+                startY, prefAreaSize);
+        areas[0][1].number = 2;
+    }
+
+    public Area[][] getAreas() {
+        return areas;
     }
 
     @Override
@@ -50,19 +65,6 @@ public class PlacingAreasForm extends javax.swing.JDialog {
                 }
             }
         }
-    }
-
-    public PlacingAreasForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        GRAPHICS = paneForDisplayAreas.getGraphics();
-        areas = new Area[1][6];
-        layout = Layout.LINE;
-        areas[0][0] = new Area(startX, startY, prefAreaSize);
-        areas[0][0].number = 1;
-        areas[0][1] = new Area(startX + prefAreaSize + rowSpan,
-                startY, prefAreaSize);
-        areas[0][1].number = 2;
     }
 
     @SuppressWarnings("unchecked")

@@ -39,24 +39,11 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lGroups" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="308" pref="308" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="bCreateStudent" min="-2" pref="111" max="-2" attributes="0"/>
-                                      <EmptySpace pref="15" max="32767" attributes="0"/>
-                                      <Component id="bEditStudent" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                      <Component id="bMoveStudent" min="-2" pref="111" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="bDeleteStudent" min="-2" pref="111" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="317" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="sPaneForListGroups" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -68,7 +55,18 @@
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="bCreateStudent" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="bEditStudent" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Component id="bMoveStudent" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                                      <Component id="bDeleteStudent" min="-2" pref="111" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -95,8 +93,10 @@
                   <Component id="bCreateGroup" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="bEditGroup" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="bDeleteGroup" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="bCreateStudent" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="bEditStudent" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="bEditStudent" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="bCreateStudent" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="bMoveStudent" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="bDeleteStudent" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
