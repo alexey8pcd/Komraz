@@ -300,12 +300,14 @@ public class PlacingAreasForm extends javax.swing.JDialog {
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         if (DialogManager.confirmClosingForm("вопроса")) {
+            areas = null;
             dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         if (DialogManager.confirmClosingForm("вопроса")) {
+            areas = null;
             dispose();
         }
     }//GEN-LAST:event_formWindowClosing
