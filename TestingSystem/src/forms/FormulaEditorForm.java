@@ -5,6 +5,7 @@ import java.util.Stack;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import main.Atom;
+import main.DialogManager;
 import main.Formula;
 import static resources.Parameters.*;
 
@@ -93,17 +94,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     public void paint(Graphics g) {
         super.paint(g);
         drawFormula();
-    }
-
-    /**
-     * Подтверждение выхода из редактора
-     */
-    private void confirmExit() {
-        int result = JOptionPane.showConfirmDialog(null, "Закрыть окно редактора?",
-                "Подтверждение выхода", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            dispose();
-        }
     }
 
     private void replaceAtom(char symbol) {
@@ -777,7 +767,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bCloseFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseFormActionPerformed
-        confirmExit();
+        if (DialogManager.confirmClosingForm("формулы")) {
+            currentFormula = null;
+            dispose();
+        }
     }//GEN-LAST:event_bCloseFormActionPerformed
 
     private void bSaveFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveFormulaActionPerformed
@@ -814,7 +807,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bClearElementActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        confirmExit();
+        if (DialogManager.confirmClosingForm("формулы")) {
+            currentFormula = null;
+            dispose();
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void bRestartConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRestartConstructionActionPerformed
