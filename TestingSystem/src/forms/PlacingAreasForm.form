@@ -125,7 +125,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="bSave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x43e;&#x434;&#x43e;&#x43b;&#x436;&#x438;&#x442;&#x44c;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41f;&#x440;&#x43e;&#x434;&#x43e;&#x43b;&#x436;&#x438;&#x442;&#x44c;"/>
         <Property name="actionCommand" type="java.lang.String" value=""/>
       </Properties>
       <Events>
