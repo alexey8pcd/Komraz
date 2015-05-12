@@ -18,6 +18,7 @@ import javax.swing.ListModel;
 import main.Area;
 import main.DialogManager;
 import main.Formula;
+import main.FormulaParser;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
