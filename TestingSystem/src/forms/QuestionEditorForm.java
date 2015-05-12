@@ -477,8 +477,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     break;
                 case 2:
                     rbAssembledFromulaFromPieces.setSelected(true);
-                    TypedQuery<VoprosPeretaskivanieKartinok> 
-                            queryForVoprosP
+                    TypedQuery<VoprosPeretaskivanieKartinok> queryForVoprosP
                             = entityManager.createQuery("select vl from "
                                     + "VoprosPeretaskivanieKartinok vl WHERE "
                                     + "vl.voprosIdVopros.idVopros=:id",
@@ -677,8 +676,10 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
                 formulaEditor.setVisible(true);
                 formula = formulaEditor.getFormula();
-                formula.moveOnVertical(-70);
-                draw();
+                if (formula != null) {
+                    formula.moveOnVertical(-70);
+                    draw();
+                }
                 break;
             case PUZZLE:
                 PlacingAreasForm placingAreasForm = new PlacingAreasForm(null, true);
