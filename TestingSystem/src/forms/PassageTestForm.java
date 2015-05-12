@@ -851,7 +851,8 @@ public class PassageTestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignFracActionPerformed
 
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
-        if (currentFormula.isSelectedEmpty()) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {            
             addFormulaCopyToStack();
             currentFormula.addPowerInSelected();
             currentFormula.update();
@@ -860,7 +861,8 @@ public class PassageTestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignPowerActionPerformed
 
     private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
-        if (currentFormula.isSelectedEmpty()) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
             addFormulaCopyToStack();
             currentFormula.addLowerIndexInSelected();
             currentFormula.update();
@@ -869,7 +871,8 @@ public class PassageTestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignIndexActionPerformed
 
     private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
-        if (currentFormula.isSelectedEmpty()) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
             addFormulaCopyToStack();
             currentFormula.addVectorInSelected();
             currentFormula.update();

@@ -260,6 +260,11 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
+    public boolean isSelectedNormal() {
+        return root.getSelectedAtom().typeOfAtom 
+                == TypeOfAtom.NORMAL;
+    }
+
     public void update() {
         root.setLocation(startX, startY);
         computeWidth(root);
