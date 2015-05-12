@@ -2,7 +2,7 @@ package forms;
 
 import entities.Gruppa;
 import java.util.List;
-import javax.swing.JOptionPane;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -126,32 +126,29 @@ public class EditGroupForm extends javax.swing.JDialog {
                     try {
                         DBManager.writeObjectMerge(group);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this,
-                                ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.errorMessage(ex);
                     }
                 } else {
                     group.setNazvanie(groupName);
                     try {
                         DBManager.writeObjectMerge(group);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this,
-                                ex.toString(),
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.errorMessage(ex);
                     }
                 }
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this,
+                DialogManager.notify("Предупреждение",
                         "Такая группа уже существует!",
-                        "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                        DialogManager.TypeOfMessage.WARNING);
+
             }
         } else {
-            JOptionPane.showMessageDialog(this,
+            DialogManager.notify("Ошибка",
                     "Название не может быть пустым "
                     + "и длина имени не короче "
                     + MIN_GROUP_NAME_LENGTH + " символов",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.TypeOfMessage.ERROR);
         }
 
     }//GEN-LAST:event_bSaveActionPerformed

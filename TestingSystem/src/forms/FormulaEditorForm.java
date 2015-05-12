@@ -3,7 +3,6 @@ package forms;
 import java.awt.Graphics;
 import java.util.Stack;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import main.Atom;
 import main.DialogManager;
 import main.Formula;
@@ -781,9 +780,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             }
         }
         if (hasEmpty) {
-            JOptionPane.showMessageDialog(null,
+            DialogManager.notify("Предупреждение",
                     "В формуле не должно быть пустых элементов",
-                    "Предупреждение", JOptionPane.CLOSED_OPTION);
+                    DialogManager.TypeOfMessage.WARNING);
         } else {
             for (Atom atom : currentFormula) {
                 atom.selected = false;

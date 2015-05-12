@@ -5,7 +5,6 @@ import entities.Test;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
@@ -136,7 +135,7 @@ public class ChooseTestForm extends javax.swing.JDialog {
             passageTestForm.setStudent(student);
             passageTestForm.setVisible(true);
         } else {
-            DialogManager.warningMessage("Предупреждение", "Тест не выбран", DialogManager.TypeOfMessage.WARNING);
+            DialogManager.notify("Предупреждение", "Тест не выбран", DialogManager.TypeOfMessage.WARNING);
         }
     }//GEN-LAST:event_bStartTestActionPerformed
 

@@ -11,9 +11,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.persistence.TypedQuery;
 import javax.swing.JColorChooser;
-import javax.swing.JOptionPane;
 import main.Area;
 import main.DialogManager;
+import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
 /**
@@ -56,6 +56,8 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     public PlacingPicturesForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
+                SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         areaRightColor = Color.GRAY;
         areaWrongColor = Color.ORANGE;
         numberColor = Color.RED;
@@ -146,7 +148,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                     }
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.toString());
+                DialogManager.errorMessage(e);
             }
         }
 

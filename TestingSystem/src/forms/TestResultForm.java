@@ -5,9 +5,9 @@ import entities.Test;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -85,8 +85,7 @@ public class TestResultForm extends javax.swing.JDialog {
         try {
             results = query.getResultList();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
         tableForTestResult.setModel(RESULT_TABLE_MODEL);
     }

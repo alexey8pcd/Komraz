@@ -4,7 +4,6 @@ import entities.Gruppa;
 import entities.Prepodavatel;
 import entities.Student;
 import java.util.List;
-import javax.swing.JOptionPane;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
@@ -233,36 +232,33 @@ public class EditStudentForm extends javax.swing.JDialog {
                             }
                             this.dispose();
                         } else {
-                            JOptionPane.showMessageDialog(this,
+                            DialogManager.notify("Предупреждение",
                                     "Такой пользователь уже существует!",
-                                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                                    DialogManager.TypeOfMessage.WARNING);
                         }
                     } else {
                         //Неправильное подтверждение пароля
-                        JOptionPane.showMessageDialog(this,
-                                "Введённые пароли не соответствуют друг другу! Повторите",
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.notify("Ошибка",
+                                "Введённые пароли не соответствуют друг другу! Повторите ввод",
+                                DialogManager.TypeOfMessage.ERROR);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Пароль не может быть пустым "
-                            + "и длина пароля не короче "
+                    DialogManager.notify("Ошибка",
+                            "Пароль не может быть пустым и длина пароля не короче "
                             + MIN_USER_PASSWORD_LENGTH + " символов",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            DialogManager.TypeOfMessage.ERROR);
                 }
             } else {
-                JOptionPane.showMessageDialog(this,
+                DialogManager.notify("Ошибка",
                         "Имя пользователя не может быть пустым "
-                        + "и длина имени не короче "
-                        + MIN_USER_NAME_LENGTH + " символов",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        + "и длина имени не короче " + MIN_USER_NAME_LENGTH + " символов",
+                        DialogManager.TypeOfMessage.ERROR);
             }
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "ФИО пользователя не может быть пустым "
-                    + "и длина ФИО не короче "
+            DialogManager.notify("Ошибка",
+                    "ФИО пользователя не может быть пустым и длина ФИО не короче "
                     + MIN_USER_FIO_LENGTH + " символов",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.TypeOfMessage.ERROR);
         }
 
     }//GEN-LAST:event_bSaveActionPerformed

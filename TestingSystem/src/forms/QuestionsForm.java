@@ -5,7 +5,6 @@ import entities.Vopros;
 import entities.VoprosLatex;
 import java.util.List;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -242,13 +241,9 @@ public class QuestionsForm extends javax.swing.JDialog {
                 List<TestVopros> relativeTestVoproses = queryForTestVopros.getResultList();
                 boolean allowDelete = true;
                 if (!relativeTestVoproses.isEmpty()) {
-                    int result = JOptionPane.showConfirmDialog(null,
-                            "Данный вопрос содержится в тестах. Вы действительно "
-                            + "хотите удалить его? Он также будет удален из всех "
-                            + "тестов, где содержится.",
-                            "Предупреждение", JOptionPane.YES_NO_OPTION,
-                            JOptionPane.WARNING_MESSAGE);
-                    allowDelete = result == JOptionPane.YES_OPTION;
+                    allowDelete = DialogManager.confirmDeleting("Данный вопрос содержится в тестах. "
+                            + "Вы действительно хотите удалить его? "
+                            + "Он также будет удален из всех тестов, где содержится.");;
                 }
                 if (allowDelete) {
                     boolean deleted = false;
@@ -271,8 +266,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                                     entityManager.getTransaction().commit();
                                     deleted = true;
                                 } catch (Exception ex) {
-                                    JOptionPane.showMessageDialog(null, ex.toString(),
-                                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                    DialogManager.errorMessage(ex);
                                 }
                             }//endif
                     }//end switch

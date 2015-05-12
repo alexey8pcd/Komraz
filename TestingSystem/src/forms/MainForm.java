@@ -8,12 +8,9 @@ import static resources.Parameters.SCREEN_SIZE;
  */
 public class MainForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainForm
-     */
     public MainForm() {
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
     }
 
@@ -175,7 +172,8 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bGroupsActionPerformed
 
     private void bCutImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCutImagesActionPerformed
-        new CutImageForm(this, true).setVisible(true);
+        CutImageForm cutImageForm = new CutImageForm(this, true);
+        cutImageForm.setVisible(true);
     }//GEN-LAST:event_bCutImagesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

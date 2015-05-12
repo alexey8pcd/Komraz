@@ -14,12 +14,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import main.Area;
 import main.DialogManager;
 import main.Formula;
-import main.FormulaParser;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -530,12 +528,12 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void bSaveQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveQuestionActionPerformed
         boolean correct = true;
         if (tQuestionTitle.getText().isEmpty()) {
-            DialogManager.warningMessage("Предупреждение",
+            DialogManager.notify("Предупреждение",
                     "Название вопроса не может быть пустым",
                     DialogManager.TypeOfMessage.WARNING);
             correct = false;
         } else if (textAreaForQuestionFormulation.getText().isEmpty()) {
-            DialogManager.warningMessage("Предупреждение",
+            DialogManager.notify("Предупреждение",
                     "Формулировка вопроса не может быть пустой",
                     DialogManager.TypeOfMessage.WARNING);
             correct = false;
@@ -543,22 +541,22 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         switch (currentTypeOfQuestion) {
             case LATEX:
                 if (formula == null) {
-                    DialogManager.warningMessage("Предупреждение",
+                    DialogManager.notify("Предупреждение",
                             "Формула отсутствует", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 } else if (listSubjects.getSelectedIndex() == -1) {
-                    DialogManager.warningMessage("Предупреждение",
+                    DialogManager.notify("Предупреждение",
                             "Дисциплина не выбрана", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 } else if (listDifficulty.getSelectedIndex() == -1) {
-                    DialogManager.warningMessage("Предупреждение",
+                    DialogManager.notify("Предупреждение",
                             "Сложность не выбрана", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 }
                 break;
             case PUZZLE:
                 if (placingPicturesInAreas == null) {
-                    DialogManager.warningMessage("Предупреждение",
+                    DialogManager.notify("Предупреждение",
                             "Картинки не размещены", DialogManager.TypeOfMessage.WARNING);
                     correct = false;
                 }
@@ -592,7 +590,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 question.setTipVoprosaIdTipVoprosa(
                         typesOfQuestion.get(currentTypeOfQuestion.ordinal()));
             } else {
-                DialogManager.warningMessage("Ошибка",
+                DialogManager.notify("Ошибка",
                         "База данных содержит некорректную информацию о типах вопросов. "
                         + "\nОбратитесь к администратору",
                         DialogManager.TypeOfMessage.ERROR);

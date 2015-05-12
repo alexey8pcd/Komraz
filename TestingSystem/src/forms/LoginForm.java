@@ -5,7 +5,6 @@ import entities.Prepodavatel;
 import entities.Student;
 import java.awt.event.KeyEvent;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
@@ -43,11 +42,10 @@ public class LoginForm extends javax.swing.JFrame {
             Connection con = DriverManager.
                     getConnection("jdbc:mysql://localhost:3306/mydb", "root", "ytrewq");
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null,
-                    "Не удалось подключиться к базе данных! "
+            DialogManager.notify("Ошибка", "Не удалось подключиться к базе данных! "
                     + "\nПроверьте, запущен ли сервер базы данных MySQL "
                     + "\nили обратитесь к администратору программы",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.TypeOfMessage.ERROR);
             result = false;
         }
 
@@ -163,7 +161,7 @@ public class LoginForm extends javax.swing.JFrame {
                         mainForm.setVisible(true);
                         this.dispose();
                     } else {
-                        DialogManager.warningMessage("Ошибка",
+                        DialogManager.notify("Ошибка",
                                 "Неверно введён пароль!",
                                 DialogManager.TypeOfMessage.ERROR);
                     }
@@ -186,13 +184,13 @@ public class LoginForm extends javax.swing.JFrame {
                             chooseTestForm.setVisible(true);
                             this.dispose();
                         } else {
-                            DialogManager.warningMessage("Ошибка",
+                            DialogManager.notify("Ошибка",
                                     "Неверно введён пароль!",
                                     DialogManager.TypeOfMessage.ERROR);
                         }
                     }
                 } catch (Exception e) {
-                    DialogManager.warningMessage("Ошибка",
+                    DialogManager.notify("Ошибка",
                             "Такого пользователя не существует!",
                             DialogManager.TypeOfMessage.ERROR);
                 }
