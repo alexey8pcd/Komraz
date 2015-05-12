@@ -29,6 +29,16 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
+    public Formula(Atom root, int startX, int startY) {
+        this.startX = startX;
+        this.startY = startY;
+        this.root = root;
+        last = root;
+        while (last != null) {
+            last = last.next;
+        }
+    }
+
     public void moveOnVertical(int offset) {
         for (Atom atom : this) {
             atom.setLocation(atom.getX(), atom.getY() + offset);
@@ -229,8 +239,6 @@ public class Formula implements Iterable<Atom> {
             Atom next = current.next;
             next.setLocation(current.getX() + current.getWidth() + 1,
                     current.getY());
-//            next.setLocation(current.getRightBound() + 1, 
-//                    current.getY());
             current = next;
             recalculatePositionChildren(current);
         }
@@ -238,30 +246,37 @@ public class Formula implements Iterable<Atom> {
 
     private void recalculatePositionChildren(Atom current) {
         int xPosition;
+        int yPosition;
         if (current.top != null) {
             if (current.top.index) {
-                xPosition = current.getX() + current.getWidth() / 2;
+                xPosition = current.getX() + current.getWidth() / 4 * 3;
             } else {
                 xPosition = current.getX() + (current.getWidth()
                         - Atom.computeWidth(current.top)) / 2;
             }
-            current.top.setLocation(xPosition, current.top.getY());
+            if (current.top.symbol == '→') {
+                yPosition = current.getY() - current.getHeight() / 5;
+            } else {
+                yPosition = current.getY() - 2;
+            }
+            current.top.setLocation(xPosition, yPosition);
             recalculatePositions(current.top);
         }
         if (current.down != null) {
             if (current.down.index) {
-                xPosition = current.getX() + current.getWidth() / 2;
+                xPosition = current.getX() + current.getWidth() / 4 * 3;
             } else {
                 xPosition = current.getX() + (current.getWidth()
                         - Atom.computeWidth(current.down)) / 2;
             }
-            current.down.setLocation(xPosition, current.down.getY());
+            yPosition = current.getY() + current.getHeight() - current.down.getHeight() + 2;
+            current.down.setLocation(xPosition, yPosition);
             recalculatePositions(current.down);
         }
     }
 
     public boolean isSelectedNormal() {
-        return root.getSelectedAtom().typeOfAtom 
+        return root.getSelectedAtom().typeOfAtom
                 == TypeOfAtom.NORMAL;
     }
 
@@ -282,8 +297,6 @@ public class Formula implements Iterable<Atom> {
             selected.top = new Atom();
             selected.top.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
-            selected.top.setLocation(selected.getX(),
-                    selected.getY() - selected.getHeight() / 5);
             selected.top.index = true;
             selected.top.parent = selected;
         }
@@ -296,9 +309,6 @@ public class Formula implements Iterable<Atom> {
             selected.down = new Atom();
             selected.down.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
-            selected.down.setLocation(selected.getX(),
-                    selected.getY() + selected.getHeight()
-                    - selected.getHeight() / 3);
             selected.down.index = true;
             selected.down.parent = selected;
         }
@@ -308,22 +318,14 @@ public class Formula implements Iterable<Atom> {
     public void addFractionInSelected() {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
-            int centerPositionY = selected.getY() + selected.getHeight() / 2;
             int childHeight = selected.getHeight() / 2;
             int childWidth = selected.getWidth() / 2;
-            int positionX = selected.getX() + selected.getWidth() / 2
-                    - childWidth / 2;
             selected.top = new Atom();
             selected.top.setSize(childWidth, childHeight);
-            selected.top.setLocation(positionX,
-                    centerPositionY - childHeight * 110 / 100);
             selected.top.parent = selected;
             selected.down = new Atom();
-            selected.down.setLocation(positionX,
-                    centerPositionY + childHeight * 10 / 100);
             selected.down.setSize(childWidth, childHeight);
             selected.down.parent = selected;
-            selected.setLocation(positionX, selected.getY());
             selected.typeOfAtom = TypeOfAtom.FRAC_LINE;
         }
         root.clearSelection();
@@ -335,8 +337,6 @@ public class Formula implements Iterable<Atom> {
             selected.top = new Atom('→', TypeOfAtom.IMMUTABLE);
             selected.top.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
-            selected.top.setLocation(selected.getX(),
-                    selected.getY() - selected.getHeight() / 4);
             selected.top.parent = selected;
         }
         root.clearSelection();
@@ -351,22 +351,4 @@ public class Formula implements Iterable<Atom> {
     public Iterator<Atom> iterator() {
         return new FormulaIterator(this, root);
     }
-
-//    private int getCount(Atom atom) {
-//        int count = 1;
-//        if (atom.next != null) {
-//            count += getCount(atom.next);
-//        }
-//        if (atom.top != null) {
-//            count += getCount(atom.top);
-//        }
-//        if (atom.down != null) {
-//            count += getCount(atom.down);
-//        }
-//        return count;
-//    }
-//
-//    public int getElementsAmount() {
-//        return getCount(root);
-//    }
 }

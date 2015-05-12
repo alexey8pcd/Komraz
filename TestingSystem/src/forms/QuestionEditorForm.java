@@ -470,7 +470,9 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     queryForVoprosLatex.setParameter("id",
                             this.question.getIdVopros());
                     latexQuestion = queryForVoprosLatex.getSingleResult();
-//                    new FormulaParser().parseFormula(latexQuestion.getLatexZapis());
+                    formula = new FormulaParser().
+                            parseFormula(latexQuestion.getLatexZapis());
+                    formula.update();
                     rbAssembledFromulaFromPieces.setEnabled(false);
                     rbLinkingPictures.setEnabled(false);
                     currentTypeOfQuestion = TypeOfQuestion.LATEX;

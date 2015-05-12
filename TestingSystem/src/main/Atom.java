@@ -76,7 +76,7 @@ public class Atom {
                 g.setColor(Color.BLACK);
                 g.setFont(new Font("Times New Roman", Font.BOLD, height));
                 g.drawString(symbol.toString(),
-                        startX + width / 5, startY + 3 * height / 4);
+                        startX + 2, startY + 3 * height / 4);
                 break;
             case FRAC_LINE:
                 g.setColor(Color.BLACK);
@@ -138,7 +138,8 @@ public class Atom {
         boolean meSelected = false;
         if (x >= startX && x < startX + width
                 && y >= startY && y < startY + height) {
-            if (typeOfAtom != TypeOfAtom.FRAC_LINE) {
+            if (typeOfAtom != TypeOfAtom.FRAC_LINE
+                    && typeOfAtom != TypeOfAtom.IMMUTABLE) {
                 meSelected = true;
             }
         }

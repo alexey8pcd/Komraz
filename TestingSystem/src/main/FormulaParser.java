@@ -9,29 +9,30 @@ public class FormulaParser {
 
     private String transcription;
     private int currentPP;
-    private Atom root;
-    private Atom currentAtom;
+    private final int DEFAULT_WIDTH = 60;
+    private final int DEFAULT_HEIGHT = 60;
+
     /**
      *
      * @param transcription
+     * @return
      * @throws ParseException
      */
-    public void parseFormula(String transcription) throws ParseException {
+    public Formula parseFormula(String transcription) throws ParseException {
         this.transcription = transcription;
-        formula();        
+        return new Formula(formula(null, false), 0, 0);
     }
 
-    private void formula() throws ParseException {
+    private Atom formula(Atom parent, boolean index) throws ParseException {
+        Atom atom = null;
         if (preScan() != null) {
-            if (currentAtom == null) {
-                currentAtom = elementOfFormula(null, null, false);
-                root = currentAtom;
-            } else {
-                currentAtom.next = elementOfFormula(null, currentAtom, false);
-                currentAtom = currentAtom.next;
+            atom = elementOfFormula(parent, index);
+            Character c = preScan();
+            if (c != null && c != ']' && c != '}') {
+                atom.next = formula(parent, index);
             }
-            formula();
         }
+        return atom;
     }
 
     private boolean isArifmeticSymbol(char c) {
@@ -52,9 +53,11 @@ public class FormulaParser {
         return false;
     }
 
-    private Atom elementOfFormula(Atom parent, Atom prev, boolean index) throws ParseException {
+    private Atom elementOfFormula(Atom parent, boolean index) throws ParseException {
         char c = scan();
         Atom atom;
+        int width = parent == null ? DEFAULT_WIDTH : parent.getWidth() / 2;
+        int height = parent == null ? DEFAULT_HEIGHT : parent.getHeight() / 2;
         if (Character.isLetterOrDigit(c) || isArifmeticSymbol(c)) {
             //создать элемент дерева
             TypeOfAtom typeOfAtom = TypeOfAtom.NORMAL;
@@ -64,11 +67,11 @@ public class FormulaParser {
             atom = new Atom(c, typeOfAtom);
             atom.index = index;
             atom.parent = parent;
-            atom.prev = prev;
         } else {
             throw new ParseException(String.valueOf(c)
                     + " не является буквой или цифрой", currentPP);
         }
+        atom.setSize(width, height);
         c = scan();
         if (c != ':') {
             throw new ParseException("ожидалось : найдено " + c, currentPP);
@@ -99,13 +102,13 @@ public class FormulaParser {
         Atom atom = null;
         char c = scan();
         if (c == '[') {
-            atom = elementOfFormula(parent, null, true);
+            atom = formula(parent, true);
             c = scan();
             if (c != ']') {
                 throw new ParseException("ожидалось ] найдено " + c, currentPP);
             }
         } else if (c == '{') {
-            atom = elementOfFormula(parent, null, false);
+            atom = formula(parent, false);
             c = scan();
             if (c != '}') {
                 throw new ParseException("ожидалось } найдено " + c, currentPP);
@@ -119,13 +122,13 @@ public class FormulaParser {
         Atom atom = null;
         char c = scan();
         if (c == '[') {
-            atom = elementOfFormula(parent, null, true);
+            atom = formula(parent, true);
             c = scan();
             if (c != ']') {
                 throw new ParseException("ожидалось ] найдено " + c, currentPP);
             }
         } else if (c == '{') {
-            atom = elementOfFormula(parent, null, false);
+            atom = formula(parent, false);
             c = scan();
             if (c != '}') {
                 throw new ParseException("ожидалось } найдено " + c, currentPP);
