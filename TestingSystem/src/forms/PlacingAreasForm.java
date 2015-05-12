@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JOptionPane;
 import main.Area;
+import main.DialogManager;
 
 /**
  *
@@ -77,8 +78,13 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         tbMatrixMode = new javax.swing.JToggleButton();
         tbLineMode = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Размещение областей");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         paneForDisplayAreas.setBackground(new java.awt.Color(204, 204, 204));
         paneForDisplayAreas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -156,7 +162,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(paneForDisplayAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -170,11 +176,11 @@ public class PlacingAreasForm extends javax.swing.JDialog {
                                     .addComponent(tbLineMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tbMatrixMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bSave)
+                        .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bClose)))
+                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -293,16 +299,16 @@ public class PlacingAreasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bSaveActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        int result = JOptionPane.showConfirmDialog(null,
-                "Редактирование вопроса не завершено. "
-                + "Вы действительно хотите закрыть окно редактора?",
-                "Подтверждение выхода",
-                JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            areas = null;
+        if (DialogManager.confirmClosingForm("вопроса")) {
             dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (DialogManager.confirmClosingForm("вопроса")) {
+            dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,7 @@ import entities.Prepodavatel;
 import entities.Student;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -29,10 +30,11 @@ public class LoginForm extends javax.swing.JFrame {
 
     /**
      * Проверка на подключение к БД
-     * @return true - если подключение корректно
-     * false - если подключиться к БД не удалось
+     *
+     * @return true - если подключение корректно false - если подключиться к БД
+     * не удалось
      */
-    private boolean checkDB() {
+    private boolean checkAccessToDB() {
         boolean result = true;
         try {
             Class.forName("java.sql.Driver");
@@ -42,8 +44,8 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     "Не удалось подключиться к базе данных! "
-                            + "\nПроверьте, запущен ли сервер базы данных MySQL "
-                            + "\nили обратитесь к администратору программы",
+                    + "\nПроверьте, запущен ли сервер базы данных MySQL "
+                    + "\nили обратитесь к администратору программы",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
             result = false;
         }
@@ -132,7 +134,7 @@ public class LoginForm extends javax.swing.JFrame {
         String username = textUsername.getText();
         String password = String.valueOf(passwordText.getPassword());
 
-        if (checkDB()) {
+        if (checkAccessToDB()) {
             try {
                 //Ищем в преподавателях
                 TypedQuery<Prepodavatel> queryForPrepodavatel = entityManager.
@@ -149,8 +151,9 @@ public class LoginForm extends javax.swing.JFrame {
                         mainForm.setVisible(true);
                         this.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
-                                "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        DialogManager.warningMessage("Ошибка",
+                                "Неверно введён пароль!",
+                                DialogManager.TypeOfMessage.ERROR);
                     }
                 }
             } catch (Exception ex) {
@@ -171,13 +174,15 @@ public class LoginForm extends javax.swing.JFrame {
                             chooseTestForm.setVisible(true);
                             this.dispose();
                         } else {
-                            JOptionPane.showMessageDialog(null, "Неверно введён пароль!",
-                                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            DialogManager.warningMessage("Ошибка",
+                                    "Неверно введён пароль!",
+                                    DialogManager.TypeOfMessage.ERROR);
                         }
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Такого пользователя не существует!",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    DialogManager.warningMessage("Ошибка",
+                            "Такого пользователя не существует!",
+                            DialogManager.TypeOfMessage.ERROR);
                 }
             }
         }

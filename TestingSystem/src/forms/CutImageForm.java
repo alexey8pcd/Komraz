@@ -20,6 +20,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import main.DialogManager;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
 
@@ -129,8 +130,12 @@ public class CutImageForm extends javax.swing.JDialog {
         sPaneForListSubjects = new javax.swing.JScrollPane();
         listSubjects = new javax.swing.JList();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Разрезание картинок");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         paneForDisplayImage.setBackground(new java.awt.Color(204, 204, 204));
         paneForDisplayImage.setToolTipText("");
@@ -389,6 +394,13 @@ public class CutImageForm extends javax.swing.JDialog {
             draw();
         }
     }//GEN-LAST:event_paneForDisplayImageMouseDragged
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (DialogManager.confirmDeleting("Разрезание картинки не сохранено. "
+                + "\nВы действительно хотите выйти из редактора?")){
+            dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

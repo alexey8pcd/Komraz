@@ -22,7 +22,7 @@ public class DialogManager {
     /**
      * Метод на подтверждение закрытия формы
      *
-     * @param subject
+     * @param subject 
      * @return <br>true - если закрытие формы возможно
      * <br>false - если в закрытии формы отказано
      */
@@ -34,7 +34,7 @@ public class DialogManager {
 
         return result == JOptionPane.YES_OPTION;
     }
-
+    
     public static boolean confirmDeleting(String text) {
         int result = JOptionPane.showConfirmDialog(null, text,
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
@@ -63,7 +63,7 @@ public class DialogManager {
     /**
      * Вывод сообщения об ошибке при отлове исключительных событий
      *
-     * @param ex
+     * @param ex исключение, которое необходимо отобразить
      */
     public static void errorMessage(Exception ex) {
         JOptionPane.showMessageDialog(null, ex.toString(),

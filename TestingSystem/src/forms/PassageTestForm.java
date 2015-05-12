@@ -777,7 +777,7 @@ public class PassageTestForm extends javax.swing.JDialog {
 
         try {
             //выбор студента
-            //Если проходит преподаватель, то по умолчанию первому студенту (Некрасову)
+            //Если проходит преподаватель, то по умолчанию первому студенту (Тест Боту)
             if (student == null) {
                 student = entityManager.createNamedQuery(
                         "Student.findAll", Student.class).getResultList().get(0);

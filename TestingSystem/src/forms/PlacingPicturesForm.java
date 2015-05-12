@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import main.Area;
+import main.DialogManager;
 import static sql.DBManager.entityManager;
 
 /**
@@ -218,7 +219,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
         bClearAll = new javax.swing.JButton();
         bChooseColor = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         paneForRightAreas.setBackground(new java.awt.Color(204, 204, 204));
         paneForRightAreas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -353,7 +359,6 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                         .addGap(17, 17, 17)
                         .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(paneForRightAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(paneForWrongAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -368,7 +373,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                     .addComponent(bScrollRight, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(spaneForPictures)
                     .addComponent(bScrollLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -528,12 +533,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bClearAllActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        int result = JOptionPane.showConfirmDialog(null,
-                "Редактирование вопроса. "
-                + "Вы действительно хотите закрыть окно редактора?",
-                "Подтверждение выхода",
-                JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
+        if (DialogManager.confirmClosingForm("вопроса")) {
             dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
@@ -546,6 +546,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
         numberColor = JColorChooser.showDialog(this,
                 "Выбрать цвет цифр", numberColor);
     }//GEN-LAST:event_bChooseColorActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (DialogManager.confirmClosingForm("вопроса")) {
+            dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
