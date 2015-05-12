@@ -3,6 +3,7 @@ package forms;
 import java.sql.*;
 import entities.Prepodavatel;
 import entities.Student;
+import java.awt.event.KeyEvent;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import main.DialogManager;
@@ -65,7 +66,8 @@ public class LoginForm extends javax.swing.JFrame {
         passwordText = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Вход");
+        setTitle("Вход в систему");
+        setResizable(false);
 
         lUsername.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lUsername.setText("Имя пользователя:");
@@ -88,8 +90,18 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         textUsername.setText("krogozi");
+        textUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textUsernameKeyPressed(evt);
+            }
+        });
 
         passwordText.setText("12345");
+        passwordText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordTextKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,6 +206,18 @@ public class LoginForm extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_bExitActionPerformed
+
+    private void textUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textUsernameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            bEnterActionPerformed(null);
+        }
+    }//GEN-LAST:event_textUsernameKeyPressed
+
+    private void passwordTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordTextKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            bEnterActionPerformed(null);
+        }
+    }//GEN-LAST:event_passwordTextKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
