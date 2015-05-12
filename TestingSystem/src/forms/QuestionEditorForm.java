@@ -19,6 +19,7 @@ import javax.swing.ListModel;
 import main.Area;
 import main.DialogManager;
 import main.Formula;
+import main.FormulaParser;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -44,6 +45,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private List<Disciplina> subjects;
     private List<KategoriyaSlozhnosti> difficulty;
     private List<TipVoprosa> typesOfQuestion;
+    private boolean editable;
     private final ListModel SUBJECTS_LIST_MODEL = new AbstractListModel() {
 
         @Override
@@ -459,7 +461,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             }
             switch (this.question.getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
                 case 1:
-                    this.rbConstructFormula.setSelected(true);
+                    rbConstructFormula.setSelected(true);
                     TypedQuery<VoprosLatex> queryForVoprosLatex
                             = entityManager.createQuery("select vl from "
                                     + "VoprosLatex vl WHERE "
@@ -468,14 +470,43 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     queryForVoprosLatex.setParameter("id",
                             this.question.getIdVopros());
                     latexQuestion = queryForVoprosLatex.getSingleResult();
-//                    formula = new Formula(latexQuestion.getLatexZapis());
+//                    new FormulaParser().parseFormula(latexQuestion.getLatexZapis());
+                    rbAssembledFromulaFromPieces.setEnabled(false);
+                    rbLinkingPictures.setEnabled(false);
+                    currentTypeOfQuestion = TypeOfQuestion.LATEX;
                     break;
-                //
                 case 2:
-                    this.rbAssembledFromulaFromPieces.setSelected(true);
+                    rbAssembledFromulaFromPieces.setSelected(true);
+                    TypedQuery<VoprosPeretaskivanieKartinok> 
+                            queryForVoprosP
+                            = entityManager.createQuery("select vl from "
+                                    + "VoprosPeretaskivanieKartinok vl WHERE "
+                                    + "vl.voprosIdVopros.idVopros=:id",
+                                    VoprosPeretaskivanieKartinok.class);
+                    queryForVoprosP.setParameter("id",
+                            this.question.getIdVopros());
+                    peretaskivanieQuestion = queryForVoprosP.getSingleResult();
+                    lDescription.setText("Размещение картинок в областях");
+                    bCreateFormulaOrAddAreas.setText("Выбрать области");
+                    bDeleteFormulaOrPlacingPictures.
+                            setText("<html><center>Разместить картинки");
+                    bEditFormula.setVisible(false);
+                    paneBorder.setVisible(false);
+                    panePreview.setVisible(false);
+                    lInfo1.setText("Области выбраны");
+                    lInfo1.setVisible(true);
+                    lInfo2.setText("Картинки размещены");
+                    lInfo2.setVisible(true);
+                    rbAssembledFromulaFromPieces.setSelected(true);
+                    rbConstructFormula.setEnabled(false);
+                    rbLinkingPictures.setEnabled(false);
+                    currentTypeOfQuestion = TypeOfQuestion.PUZZLE;
                     break;
                 case 3:
                     this.rbLinkingPictures.setSelected(true);
+                    rbAssembledFromulaFromPieces.setEnabled(false);
+                    rbConstructFormula.setEnabled(false);
+                    currentTypeOfQuestion = TypeOfQuestion.LINES;
             }
             for (int i = 0; i < difficulty.size(); i++) {
                 if (difficulty.get(i).getIdKategoriyaSlozhnosti().intValue()
@@ -486,10 +517,9 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     break;
                 }
             }
-
+            editable = true;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
             dispose();
         }
     }

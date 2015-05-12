@@ -12,7 +12,7 @@ import main.Area;
 public class PlacingAreasForm extends javax.swing.JDialog {
 
     private final Graphics GRAPHICS;
-    private int prefAreaSize = 100;
+    private int prefAreaSize = 75;
     private Area[][] areas;
     private Color areaColor = Color.GRAY;
     private int startX = 20;
@@ -55,8 +55,8 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         GRAPHICS = paneForDisplayAreas.getGraphics();
-        areas = new Area[2][3];
-        layout = Layout.MATRIX;
+        areas = new Area[1][6];
+        layout = Layout.LINE;
         areas[0][0] = new Area(startX, startY, prefAreaSize);
         areas[0][0].number = 1;
         areas[0][1] = new Area(startX + prefAreaSize + rowSpan,
@@ -105,7 +105,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             }
         });
 
-        bSave.setText("Продолжить");
+        bSave.setText("Сохранить");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
@@ -128,9 +128,9 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         });
 
         groupLayout.add(tbMatrixMode);
-        tbMatrixMode.setSelected(true);
         tbMatrixMode.setText("<html><center>[-] [-] [-]<br> [-] [-] [-]");
         tbMatrixMode.setToolTipText("Матричное размещение");
+        tbMatrixMode.setEnabled(false);
         tbMatrixMode.setPreferredSize(new java.awt.Dimension(80, 60));
         tbMatrixMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +139,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
         });
 
         groupLayout.add(tbLineMode);
+        tbLineMode.setSelected(true);
         tbLineMode.setText("<html><center>[-] ... [-]");
         tbLineMode.setToolTipText("Горизонтальное размещение");
         tbLineMode.setPreferredSize(new java.awt.Dimension(80, 60));
@@ -298,6 +299,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
                 "Подтверждение выхода",
                 JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
+            areas = null;
             dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
