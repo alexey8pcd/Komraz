@@ -44,7 +44,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private List<Disciplina> subjects;
     private List<KategoriyaSlozhnosti> difficulty;
     private List<TipVoprosa> typesOfQuestion;
-    private boolean editable;
     private final ListModel SUBJECTS_LIST_MODEL = new AbstractListModel() {
 
         @Override
@@ -493,9 +492,9 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     bEditFormula.setVisible(false);
                     paneBorder.setVisible(false);
                     panePreview.setVisible(false);
-                    lInfo1.setText("Области выбраны");
+                    bCreateFormulaOrAddAreas.setEnabled(false);
+                    bDeleteFormulaOrPlacingPictures.setEnabled(false);
                     lInfo1.setVisible(true);
-                    lInfo2.setText("Картинки размещены");
                     lInfo2.setVisible(true);
                     rbAssembledFromulaFromPieces.setSelected(true);
                     rbConstructFormula.setEnabled(false);
@@ -517,7 +516,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     break;
                 }
             }
-            editable = true;
         } catch (Exception ex) {
             DialogManager.errorMessage(ex);
             dispose();
