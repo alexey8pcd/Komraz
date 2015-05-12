@@ -113,7 +113,7 @@ public class PlacingAreasForm extends javax.swing.JDialog {
             }
         });
 
-        bSave.setText("Сохранить");
+        bSave.setText("Продолжить");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);

@@ -446,6 +446,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     "Vopros.findByIdVopros", Vopros.class);
             queryForVopros.setParameter("idVopros", question.getIdVopros());
             this.question = queryForVopros.getSingleResult();
+            spinnerPoints.setValue(question.getBall());
             tQuestionTitle.setText(this.question.getNazvanie());
             textAreaForQuestionFormulation.setText(
                     this.question.getFormulirovka());
@@ -471,6 +472,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     formula = new FormulaParser().
                             parseFormula(latexQuestion.getLatexZapis());
                     formula.update();
+                    formula.moveOnVertical(30);
                     rbAssembledFromulaFromPieces.setEnabled(false);
                     rbLinkingPictures.setEnabled(false);
                     currentTypeOfQuestion = TypeOfQuestion.LATEX;
