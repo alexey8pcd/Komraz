@@ -45,43 +45,43 @@
                   <Component id="paneBorder" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="bPutSignMinus" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bPutSignPower" min="-2" pref="95" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="bPutSignMulti" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bPutSignIndex" min="-2" pref="95" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="bPutSignPlus" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bPutSignSqrt" min="-2" pref="95" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="bCloseForm" min="-2" pref="95" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="bPutSignMinus" min="-2" pref="95" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bSaveFormula" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bPutSignPower" min="-2" pref="95" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="bPutSignMulti" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bPutSignIndex" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="bPutSignPlus" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bPutSignSqrt" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="bPutSignFrac" min="-2" pref="95" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="bPutSignVector" min="-2" pref="95" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="bUndo" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bRestartConstruction" min="-2" pref="95" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="bUndo" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bRestartConstruction" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="bClearElement" min="-2" pref="95" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bClearAll" min="-2" pref="95" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="bClearElement" min="-2" pref="95" max="-2" attributes="0"/>
+                      <Component id="bSaveFormula" min="-2" pref="95" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bClearAll" min="-2" pref="95" max="-2" attributes="0"/>
+                      <Component id="bCloseForm" min="-2" pref="95" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="14" max="32767" attributes="0"/>
@@ -93,7 +93,27 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="paneBorder" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="bChangeRegisterGreekAlphabet" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                                  <Component id="paneNumberButtons" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="scrollPaneForLatinAlphabet" alignment="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="scrollPaneForGreekAlphabet" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="bUndo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="bRestartConstruction" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -123,27 +143,9 @@
                           <Component id="bPutSignFrac" min="-2" pref="60" max="-2" attributes="0"/>
                           <Component id="bPutSignVector" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="206" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="paneBorder" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="bChangeRegisterGreekAlphabet" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
-                              <Component id="paneNumberButtons" alignment="0" max="32767" attributes="0"/>
-                              <Component id="scrollPaneForLatinAlphabet" alignment="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="scrollPaneForGreekAlphabet" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
