@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
 
@@ -15,7 +16,7 @@ import static sql.DBManager.entityManager;
  * @author ScanNorOne
  */
 public class ChooseTestForm extends javax.swing.JDialog {
-    
+
     private Student student;
 
     private List<Test> availableTests;
@@ -35,24 +36,23 @@ public class ChooseTestForm extends javax.swing.JDialog {
     public ChooseTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2, 
+        this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         try {
             TypedQuery<Test> query = entityManager.createQuery(
                     "SELECT t FROM Test t where "
                     + "t.statusTestaIdStatusTesta.idStatusTesta=1",
                     Test.class);
-            availableTests = query.getResultList();            
+            availableTests = query.getResultList();
             listTests.setModel(LISTS_TEST_MODEL);
             listTests.updateUI();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            DialogManager.errorMessage(ex);
         }
 
     }
-    
-    public void setStudent(Student student){
+
+    public void setStudent(Student student) {
         this.student = student;
     }
 
@@ -136,8 +136,7 @@ public class ChooseTestForm extends javax.swing.JDialog {
             passageTestForm.setStudent(student);
             passageTestForm.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Тест не выбран",
-                    "Предупреждение", JOptionPane.WARNING_MESSAGE);
+            DialogManager.warningMessage("Предупреждение", "Тест не выбран", DialogManager.TypeOfMessage.WARNING);
         }
     }//GEN-LAST:event_bStartTestActionPerformed
 
