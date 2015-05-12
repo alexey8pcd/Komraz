@@ -536,6 +536,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         if (DialogManager.confirmClosingForm("вопроса")) {
+            rightAreas = null;
             dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
