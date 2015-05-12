@@ -548,6 +548,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     private void bChooseColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChooseColorActionPerformed
         numberColor = JColorChooser.showDialog(this,
                 "Выбрать цвет цифр", numberColor);
+        draw();
     }//GEN-LAST:event_bChooseColorActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
