@@ -254,7 +254,8 @@ public class Formula implements Iterable<Atom> {
                 xPosition = current.getX() + (current.getWidth()
                         - Atom.computeWidth(current.top)) / 2;
             }
-            if (current.top.symbol == '→') {
+
+            if (current.top.symbol != null && current.top.symbol == '→') {
                 yPosition = current.getY() - current.getHeight() / 5;
             } else {
                 yPosition = current.getY() - 2;
