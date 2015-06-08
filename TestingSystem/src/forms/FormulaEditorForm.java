@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import main.Atom;
 import main.DialogManager;
 import main.Formula;
+import main.TypeOfFunction;
 import static resources.Parameters.*;
 
 /**
@@ -103,6 +104,28 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         drawFormula();
     }
 
+    private void insertSymbolBeforeSelected(char symbol) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
+            addFormulaCopyToStack();
+            currentFormula.addBeforeSelected(symbol, false);
+            currentFormula.update();
+            drawFormula();
+        }
+    }
+
+    private void insertFunctionBeforeSelected(TypeOfFunction typeOfFunction) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
+            addFormulaCopyToStack();
+            currentFormula.addEmptyAfterSelected();
+            currentFormula.placeInSelected((char) (typeOfFunction.ordinal()), 
+                    true);
+            currentFormula.update();
+            drawFormula();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -144,6 +167,8 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutDelta = new javax.swing.JButton();
         bPutSignPlusMinus = new javax.swing.JButton();
         cbTrigonometry = new javax.swing.JComboBox();
+        bPutModule = new javax.swing.JButton();
+        bPutBrackets = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Редактор формулы");
@@ -400,6 +425,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
         bPutSignMinus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         bPutSignMinus.setText("[ ] - [ ]");
+        bPutSignMinus.setToolTipText("");
         bPutSignMinus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -482,7 +508,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        bClearAll.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bClearAll.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         bClearAll.setText("<html><center>Очистить\n<br> все ячейки");
         bClearAll.setToolTipText("<html>Очищает содержимое все ячеек,<br> которые не содержат знаков операций");
         bClearAll.addActionListener(new java.awt.event.ActionListener() {
@@ -594,6 +620,29 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
         cbTrigonometry.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbTrigonometry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "sin [ ]", "cos [ ]", "tg [  ]", "ctg [ ]", "arcsin [ ]", "arccos [ ]", "arctg [ ]", "arcctg [ ]", "ln [ ]" }));
+        cbTrigonometry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTrigonometryActionPerformed(evt);
+            }
+        });
+
+        bPutModule.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutModule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/mod.PNG"))); // NOI18N
+        bPutModule.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutModuleActionPerformed(evt);
+            }
+        });
+
+        bPutBrackets.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutBrackets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/brackets.PNG"))); // NOI18N
+        bPutBrackets.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutBrackets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutBracketsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -606,9 +655,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                         .addComponent(paneNumberButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(14, 14, 14)
                         .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -640,15 +689,18 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                             .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bPutSignUnaryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbTrigonometry, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bPutDelta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bPutSignPlusMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bPutDelta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bPutSignPlusMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bPutModule, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bPutBrackets, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bPutSignUnaryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cbTrigonometry, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -691,24 +743,30 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                             .addComponent(bPutDelta, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bPutBrackets, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutModule, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbTrigonometry, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bPutSignUnaryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(paneNumberButtons, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bSaveFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(paneNumberButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(scrollPaneForLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(scrollPaneForGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bChangeRegisterLatinAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))))
         );
 
         pack();
@@ -932,16 +990,43 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignVectorActionPerformed
 
     private void bPutSignUnaryMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignUnaryMinusActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('-');
     }//GEN-LAST:event_bPutSignUnaryMinusActionPerformed
 
     private void bPutDeltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutDeltaActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('Δ');
     }//GEN-LAST:event_bPutDeltaActionPerformed
 
     private void bPutSignPlusMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusMinusActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('±');
     }//GEN-LAST:event_bPutSignPlusMinusActionPerformed
+
+    private void cbTrigonometryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrigonometryActionPerformed
+        insertFunctionBeforeSelected(
+                TypeOfFunction.getType(cbTrigonometry.getSelectedIndex()));
+    }//GEN-LAST:event_cbTrigonometryActionPerformed
+
+    private void bPutModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutModuleActionPerformed
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
+            addFormulaCopyToStack();
+            currentFormula.addBeforeSelected('|', true);
+            currentFormula.addAfterSelected('|', true);
+            currentFormula.update();
+            drawFormula();
+        }
+    }//GEN-LAST:event_bPutModuleActionPerformed
+
+    private void bPutBracketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutBracketsActionPerformed
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
+            addFormulaCopyToStack();
+            currentFormula.addBeforeSelected('(', true);
+            currentFormula.addAfterSelected(')', true);
+            currentFormula.update();
+            drawFormula();
+        }
+    }//GEN-LAST:event_bPutBracketsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -950,7 +1035,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private javax.swing.JButton bClearAll;
     private javax.swing.JButton bClearElement;
     private javax.swing.JButton bCloseForm;
+    private javax.swing.JButton bPutBrackets;
     private javax.swing.JButton bPutDelta;
+    private javax.swing.JButton bPutModule;
     private javax.swing.JButton bPutNumber0;
     private javax.swing.JButton bPutNumber1;
     private javax.swing.JButton bPutNumber2;

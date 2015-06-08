@@ -74,9 +74,67 @@ public class Atom {
             case IMMUTABLE:
             case NORMAL:
                 g.setColor(Color.BLACK);
-                g.setFont(new Font("Times New Roman", Font.BOLD, height));
-                g.drawString(symbol.toString(),
-                        startX + 2, startY + 3 * height / 4);
+                g.setFont(new Font("Times New Roman",
+                        Font.BOLD, height));
+                String output;
+                switch (symbol) {
+                    case '|':
+                        output = " |";
+                        break;
+                    case '=':
+                        output = " =";
+                        break;
+                    case '(':
+                        output = " (";
+                        break;
+                    case ')':
+                        output = " )";
+                        break;
+                    case '-':
+                        output = "  ̶";
+                        break;
+                    case 0:
+                        output = "sin";
+                        break;
+                    case 1:
+                        output = "cos";
+                        break;
+                    case 2:
+                        output = "tg";
+                        break;
+                    case 3:
+                        output = "ctg";
+                        break;
+                    case 4:
+                        output = "arcsin";
+
+                        break;
+                    case 5:
+                        output = "arccos";
+                        break;
+                    case 6:
+                        output = "arctg";
+                        break;
+                    case 7:
+                        output = "arcctg";
+                        break;
+                    case 8:
+                        output = "ln";
+                        break;
+                    default:
+                        output = symbol.toString();
+                }
+                if (symbol < 4 || symbol == 8) {
+                    g.setFont(new Font("Times New Roman",
+                            Font.BOLD, height / 3 * 2));
+                    g.drawString(output, startX + 2, startY + 2 * height / 3);
+                } else if (symbol >= 4 && symbol < 8) {
+                    g.setFont(new Font("Times New Roman",
+                            Font.BOLD, height / 3));
+                    g.drawString(output, startX + 2, startY + 3 * height / 5);
+                } else {
+                    g.drawString(output, startX + 2, startY + 3 * height / 4);
+                }
                 break;
             case FRAC_LINE:
                 g.setColor(Color.BLACK);
@@ -143,22 +201,29 @@ public class Atom {
                 meSelected = true;
             }
         }
+        if (meSelected) {
+            selected = true;
+            return true;
+        }
         boolean topSelected = false;
         if (top != null) {
             topSelected = top.setSelected(x, y);
         }
-        boolean nextSelected = false;
-        if (next != null) {
-            nextSelected = next.setSelected(x, y);
+        if (topSelected) {
+            return true;
         }
         boolean downSelected = false;
         if (down != null) {
             downSelected = down.setSelected(x, y);
         }
-        if (!topSelected && !nextSelected && !downSelected) {
-            selected = meSelected;
+        if (downSelected) {
+            return true;
         }
-        return selected;
+        boolean nextSelected = false;
+        if (next != null) {
+            nextSelected = next.setSelected(x, y);
+        }
+        return nextSelected;
     }
 
     public void setLocation(int x, int y) {

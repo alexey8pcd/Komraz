@@ -277,8 +277,11 @@ public class Formula implements Iterable<Atom> {
     }
 
     public boolean isSelectedNormal() {
-        return root.getSelectedAtom().typeOfAtom
-                == TypeOfAtom.NORMAL;
+        if (root.getSelectedAtom() != null) {
+            return root.getSelectedAtom().typeOfAtom
+                    == TypeOfAtom.NORMAL;
+        }
+        return true;
     }
 
     public void update() {
