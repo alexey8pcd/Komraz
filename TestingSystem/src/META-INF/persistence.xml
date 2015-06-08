@@ -26,8 +26,8 @@
         <class>entities.PrepodavatelDisciplina</class>
         <class>entities.Prepodavatel</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mydb?characterEncoding=UTF-8"/>
-            <!--zeroDateTimeBehavior=convertToNull-->
+            <property name="javax.persistence.jdbc.url" 
+                      value="jdbc:mysql://localhost:3306/mydb?characterEncoding=UTF-8"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.password" value="ytrewq"/>

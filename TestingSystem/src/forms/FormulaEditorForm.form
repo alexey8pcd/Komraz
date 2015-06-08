@@ -48,34 +48,46 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bPutSignMinus" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bPutSignPower" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bPutSignMinus" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bPutSignPower" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bPutSignMulti" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bPutSignIndex" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bPutSignMulti" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bPutSignIndex" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bPutSignPlus" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bPutSignSqrt" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bPutSignPlus" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bPutSignSqrt" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bPutSignFrac" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bPutSignVector" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bPutSignFrac" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bPutSignVector" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="bUndo" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bRestartConstruction" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bUndo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bRestartConstruction" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="bClearElement" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bClearAll" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="bClearElement" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="bClearAll" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="bPutSignUnaryMinus" min="-2" pref="80" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="cbTrigonometry" min="-2" pref="80" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="bPutDelta" min="-2" pref="80" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="bPutSignPlusMinus" min="-2" pref="80" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -92,60 +104,72 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="paneBorder" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="28" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="bChangeRegisterGreekAlphabet" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
-                                  <Component id="paneNumberButtons" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="scrollPaneForLatinAlphabet" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="scrollPaneForGreekAlphabet" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="paneBorder" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="bUndo" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bRestartConstruction" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bUndo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="bRestartConstruction" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="bClearElement" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bClearAll" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bClearAll" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="bClearElement" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bPutSignPlus" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="bPutSignSqrt" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignPlus" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutSignSqrt" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bPutSignMinus" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="bPutSignPower" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignMinus" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutSignPower" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bPutSignMulti" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="bPutSignIndex" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignMulti" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutSignIndex" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="bPutSignFrac" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="bPutSignVector" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="bPutSignFrac" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutSignVector" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bPutSignPlusMinus" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutDelta" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="cbTrigonometry" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="bPutSignUnaryMinus" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="bChangeRegisterLatinAlphabet" min="-2" pref="108" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                              <Component id="bCloseForm" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="bSaveFormula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="bChangeRegisterGreekAlphabet" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="paneNumberButtons" alignment="0" max="32767" attributes="0"/>
+                              <Component id="scrollPaneForLatinAlphabet" alignment="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="scrollPaneForGreekAlphabet" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -578,7 +602,7 @@
     <Component class="javax.swing.JButton" name="bPutSignMinus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="10" style="0"/>
+          <Font name="Tahoma" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="[ ] - [ ]"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -592,7 +616,7 @@
     <Component class="javax.swing.JButton" name="bPutSignPlus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="10" style="0"/>
+          <Font name="Tahoma" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="[ ] + [ ]"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -607,7 +631,7 @@
     <Component class="javax.swing.JButton" name="bPutSignMulti">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="10" style="0"/>
+          <Font name="Tahoma" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="[ ] &#x25cf; [ ]"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -713,7 +737,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="10" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x432;&#x441;&#x435; &#x44f;&#x447;&#x435;&#x439;&#x43a;&#x438;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c;&#xa;&lt;br&gt; &#x432;&#x441;&#x435; &#x44f;&#x447;&#x435;&#x439;&#x43a;&#x438;"/>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x41e;&#x447;&#x438;&#x449;&#x430;&#x435;&#x442; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x438;&#x43c;&#x43e;&#x435; &#x432;&#x441;&#x435; &#x44f;&#x447;&#x435;&#x435;&#x43a;,&lt;br&gt; &#x43a;&#x43e;&#x442;&#x43e;&#x440;&#x44b;&#x435; &#x43d;&#x435; &#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x430;&#x442; &#x437;&#x43d;&#x430;&#x43a;&#x43e;&#x432; &#x43e;&#x43f;&#x435;&#x440;&#x430;&#x446;&#x438;&#x439;"/>
       </Properties>
       <Events>
@@ -725,7 +749,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="10" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;[ ]&#xa;&lt;br&gt;---&#xa;&lt;br&gt;[ ]"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/frac.PNG"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="&#x414;&#x440;&#x43e;&#x431;&#x44c;"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
@@ -740,7 +766,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="10" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#x428;&#x430;&#x433; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x428;&#x430;&#x433; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#x412;&#x43e;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442; &#x43f;&#x440;&#x435;&#x434;&#x44b;&#x434;&#x443;&#x449;&#x443;&#x44e; &#x43a;&#x43e;&#x43d;&#x441;&#x442;&#x440;&#x443;&#x43a;&#x446;&#x438;&#x44e; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x44b;"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
@@ -770,8 +796,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="10" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="\u005c/[ ]" containsInvalidXMLChars="true"/>
-        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/sqrt.PNG"/>
+        </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 80]"/>
         </Property>
@@ -842,6 +869,68 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bRestartConstructionActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignUnaryMinus">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;strong&gt;- [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignUnaryMinusActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutDelta">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;strong&gt;&#x394; [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutDeltaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPutSignPlusMinus">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;strong&gt;&#xb1; [ ]"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[80, 80]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bPutSignPlusMinusActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbTrigonometry">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="9">
+            <StringItem index="0" value="sin [ ]"/>
+            <StringItem index="1" value="cos [ ]"/>
+            <StringItem index="2" value="tg [  ]"/>
+            <StringItem index="3" value="ctg [ ]"/>
+            <StringItem index="4" value="arcsin [ ]"/>
+            <StringItem index="5" value="arccos [ ]"/>
+            <StringItem index="6" value="arctg [ ]"/>
+            <StringItem index="7" value="arcctg [ ]"/>
+            <StringItem index="8" value="ln [ ]"/>
+          </StringArray>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

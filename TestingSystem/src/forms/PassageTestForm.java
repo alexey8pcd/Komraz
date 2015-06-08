@@ -350,12 +350,16 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignMulti = new javax.swing.JButton();
         bPutSignIndex = new javax.swing.JButton();
         bPutSignVector = new javax.swing.JButton();
-        bPutSignFrac = new javax.swing.JButton();
         bPreviousQuestion = new javax.swing.JButton();
         bNextQuestion = new javax.swing.JButton();
         paneForFormulaConstruct = new javax.swing.JPanel();
         lQuestionFormulation = new javax.swing.JLabel();
         labelQuestionNumber = new javax.swing.JLabel();
+        bPutSignFrac = new javax.swing.JButton();
+        cbTrigonometry = new javax.swing.JComboBox();
+        bPutSignPlusMinus = new javax.swing.JButton();
+        bPutDelta = new javax.swing.JButton();
+        bPutSignUnaryMinus = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Прохождение теста");
@@ -434,7 +438,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        bRestartConstruction.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        bRestartConstruction.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
         bRestartConstruction.setText("<html>Сбросить");
         bRestartConstruction.setToolTipText("<html>Устанавливает формулу в  состояние [ ] = [ ]");
         bRestartConstruction.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -453,7 +457,7 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        bClearElement.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        bClearElement.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
         bClearElement.setText("<html><center>Очистить ячейку");
         bClearElement.setToolTipText("<html>Очищает содержимое выбранной ячейки,<br> если она не содержит знаков операций");
         bClearElement.setPreferredSize(new java.awt.Dimension(80, 80));
@@ -463,8 +467,9 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        bPutSignPlus.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignPlus.setText("[ ] + [ ]");
+        bPutSignPlus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutSignPlus.setText("<html><strong>[ ] + [ ]");
+        bPutSignPlus.setToolTipText("");
         bPutSignPlus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -473,8 +478,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         });
 
         bPutSignSqrt.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignSqrt.setText("\\/[ ]");
-        bPutSignSqrt.setEnabled(false);
+        bPutSignSqrt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sqrt.PNG"))); // NOI18N
         bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
 
         bPutSignPower.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
@@ -486,8 +490,8 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        bPutSignMinus.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignMinus.setText("[ ] - [ ]");
+        bPutSignMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutSignMinus.setText("<html><strong>[ ] - [ ]");
         bPutSignMinus.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -495,8 +499,8 @@ public class PassageTestForm extends javax.swing.JDialog {
             }
         });
 
-        bPutSignMulti.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignMulti.setText("[ ] ● [ ]");
+        bPutSignMulti.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutSignMulti.setText("<html><strong>[ ] ● [ ]");
         bPutSignMulti.setPreferredSize(new java.awt.Dimension(80, 80));
         bPutSignMulti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,15 +523,6 @@ public class PassageTestForm extends javax.swing.JDialog {
         bPutSignVector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPutSignVectorActionPerformed(evt);
-            }
-        });
-
-        bPutSignFrac.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        bPutSignFrac.setText("<html>[ ]\n<br>---\n<br>[ ]");
-        bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
-        bPutSignFrac.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPutSignFracActionPerformed(evt);
             }
         });
 
@@ -556,7 +551,7 @@ public class PassageTestForm extends javax.swing.JDialog {
         paneForFormulaConstruct.setLayout(paneForFormulaConstructLayout);
         paneForFormulaConstructLayout.setHorizontalGroup(
             paneForFormulaConstructLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 658, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         paneForFormulaConstructLayout.setVerticalGroup(
             paneForFormulaConstructLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -566,6 +561,45 @@ public class PassageTestForm extends javax.swing.JDialog {
         lQuestionFormulation.setText("Формулировка вопроса");
 
         labelQuestionNumber.setText("Вопрос N/M");
+
+        bPutSignFrac.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        bPutSignFrac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/frac.PNG"))); // NOI18N
+        bPutSignFrac.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignFrac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignFracActionPerformed(evt);
+            }
+        });
+
+        cbTrigonometry.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cbTrigonometry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "sin [ ]", "cos [ ]", "tg [  ]", "ctg [ ]", "arcsin [ ]", "arccos [ ]", "arctg [ ]", "arcctg [ ]", "ln [ ]" }));
+
+        bPutSignPlusMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutSignPlusMinus.setText("<html><strong>± [ ]");
+        bPutSignPlusMinus.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignPlusMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignPlusMinusActionPerformed(evt);
+            }
+        });
+
+        bPutDelta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutDelta.setText("<html><strong>Δ [ ]");
+        bPutDelta.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutDelta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutDeltaActionPerformed(evt);
+            }
+        });
+
+        bPutSignUnaryMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        bPutSignUnaryMinus.setText("<html><strong>- [ ]");
+        bPutSignUnaryMinus.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignUnaryMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignUnaryMinusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -586,37 +620,39 @@ public class PassageTestForm extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(bCompleteTest))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bCompleteTest))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(244, 244, 244)
+                                                .addComponent(bPutSignUnaryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(cbTrigonometry, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(32, 32, 32)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(bPutSignFrac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bPutSignMulti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bPutSignMinus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bPutSignPlus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bClearElement, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(bUndo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(bPutDelta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bRestartConstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(bRestartConstruction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(bPutSignVector, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(bPutSignPlusMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(12, 12, 12)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -637,37 +673,47 @@ public class PassageTestForm extends javax.swing.JDialog {
                         .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bRestartConstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCompleteTest, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bUndo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignFrac, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bRestartConstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignPower, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bPutSignVector, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bPutSignPlusMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutDelta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(paneForFormulaConstruct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbTrigonometry, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignUnaryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bCompleteTest))
+                    .addComponent(sPaneForSymbolsTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -843,15 +889,6 @@ public class PassageTestForm extends javax.swing.JDialog {
         mouseInTableClicked = false;
     }//GEN-LAST:event_tableSymbolsMouseReleased
 
-    private void bPutSignFracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignFracActionPerformed
-        if (currentFormula.isSelectedEmpty()) {
-            addFormulaCopyToStack();
-            currentFormula.addFractionInSelected();
-            currentFormula.update();
-            drawFormula();
-        }
-    }//GEN-LAST:event_bPutSignFracActionPerformed
-
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
         if (currentFormula.isSelectedEmpty()
                 || currentFormula.isSelectedNormal()) {
@@ -882,6 +919,27 @@ public class PassageTestForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_bPutSignVectorActionPerformed
 
+    private void bPutSignFracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignFracActionPerformed
+        if (currentFormula.isSelectedEmpty()) {
+            addFormulaCopyToStack();
+            currentFormula.addFractionInSelected();
+            currentFormula.update();
+            drawFormula();
+        }
+    }//GEN-LAST:event_bPutSignFracActionPerformed
+
+    private void bPutSignPlusMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusMinusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignPlusMinusActionPerformed
+
+    private void bPutDeltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutDeltaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutDeltaActionPerformed
+
+    private void bPutSignUnaryMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignUnaryMinusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bPutSignUnaryMinusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClearAll;
@@ -889,16 +947,20 @@ public class PassageTestForm extends javax.swing.JDialog {
     private javax.swing.JButton bCompleteTest;
     private javax.swing.JButton bNextQuestion;
     private javax.swing.JButton bPreviousQuestion;
+    private javax.swing.JButton bPutDelta;
     private javax.swing.JButton bPutSignFrac;
     private javax.swing.JButton bPutSignIndex;
     private javax.swing.JButton bPutSignMinus;
     private javax.swing.JButton bPutSignMulti;
     private javax.swing.JButton bPutSignPlus;
+    private javax.swing.JButton bPutSignPlusMinus;
     private javax.swing.JButton bPutSignPower;
     private javax.swing.JButton bPutSignSqrt;
+    private javax.swing.JButton bPutSignUnaryMinus;
     private javax.swing.JButton bPutSignVector;
     private javax.swing.JButton bRestartConstruction;
     private javax.swing.JButton bUndo;
+    private javax.swing.JComboBox cbTrigonometry;
     private javax.swing.JLabel lQuestionFormulation;
     private javax.swing.JLabel labelQuestionNumber;
     private javax.swing.JPanel paneForFormulaConstruct;
