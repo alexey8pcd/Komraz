@@ -65,7 +65,7 @@ public class FormulaParser {
                 typeOfAtom = TypeOfAtom.FRAC_LINE;
             }
             atom = new Atom(c, typeOfAtom);
-            atom.index = index;
+            atom.asIndex = index;
             atom.parent = parent;
         } else {
             throw new ParseException(String.valueOf(c)

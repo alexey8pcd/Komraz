@@ -24,10 +24,12 @@ public class FormulaEditorForm extends javax.swing.JDialog {
     private final ImageIcon GREEK_LOWER_TO_UPPER_CASE;
     private final ImageIcon LATIN_UPPER_TO_LOWER_CASE;
     private final ImageIcon LATIN_LOWER_TO_UPPER_CASE;
+    private int sqrtNumber;
 
     public FormulaEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        sqrtNumber = 1;
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         graphics = paneEditFormula.getGraphics();
@@ -119,7 +121,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                 || currentFormula.isSelectedNormal()) {
             addFormulaCopyToStack();
             currentFormula.addEmptyAfterSelected();
-            currentFormula.placeInSelected((char) (typeOfFunction.ordinal()), 
+            currentFormula.placeInSelected((char) (typeOfFunction.ordinal()),
                     true);
             currentFormula.update();
             drawFormula();
@@ -550,6 +552,11 @@ public class FormulaEditorForm extends javax.swing.JDialog {
         bPutSignSqrt.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignSqrt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sqrt.PNG"))); // NOI18N
         bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignSqrt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignSqrtActionPerformed(evt);
+            }
+        });
 
         bPutSignPower.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignPower.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x2.PNG"))); // NOI18N
@@ -722,9 +729,9 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                             .addComponent(bClearElement, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bPutSignSqrt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bPutSignPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bPutSignMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -754,7 +761,6 @@ public class FormulaEditorForm extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(bChangeRegisterGreekAlphabet, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1027,6 +1033,17 @@ public class FormulaEditorForm extends javax.swing.JDialog {
             drawFormula();
         }
     }//GEN-LAST:event_bPutBracketsActionPerformed
+
+    private void bPutSignSqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignSqrtActionPerformed
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.isSelectedNormal()) {
+            addFormulaCopyToStack();
+            currentFormula.addSqrtStartBeforeSelected(sqrtNumber);
+            currentFormula.addSqrtEndAfterSelected(sqrtNumber++);
+            currentFormula.update();
+            drawFormula();
+        }
+    }//GEN-LAST:event_bPutSignSqrtActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

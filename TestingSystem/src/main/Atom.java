@@ -18,10 +18,11 @@ public class Atom {
     private int startY;
     private int width;
     private int height;
+    public int sqrtNumber;
     public Character symbol;
     public TypeOfAtom typeOfAtom;
     public boolean selected;
-    public boolean index;
+    public boolean asIndex;
 
     public void clear() {
         if (typeOfAtom == TypeOfAtom.NORMAL) {
@@ -46,7 +47,7 @@ public class Atom {
         this.height = atom.height;
         this.symbol = atom.symbol;
         this.typeOfAtom = atom.typeOfAtom;
-        this.index = atom.index;
+        this.asIndex = atom.asIndex;
         if (atom.top != null) {
             top = new Atom(atom.top);
         }
@@ -140,6 +141,22 @@ public class Atom {
                 g.setColor(Color.BLACK);
                 g.fillRect(startX, startY + height / 2 - 1,
                         width, 2);
+                break;
+            case SQRT_START:
+                g.setColor(Color.BLACK);
+                //найти конечную точку
+                int elementsCount = 0;
+                Atom atom = next;
+                while (atom.sqrtNumber != sqrtNumber) {
+                    atom = atom.next;
+                    elementsCount++;
+                }
+                int topY = startY - height / 8 - (elementsCount - 1) * 2;
+                int downY = startY + height;
+                g.drawLine(startX, topY, atom.startX, topY);
+                g.drawLine(startX, topY, startX - height / 6, downY);
+                g.drawLine(startX - height / 6, downY,
+                        startX - height / 3, downY - height / 5);
         }
         if (typeOfAtom == TypeOfAtom.EMPTY) {
             g.setColor(Color.BLACK);
@@ -304,7 +321,7 @@ public class Atom {
         }
         builder.append(':');
         if (top != null) {
-            if (top.index) {
+            if (top.asIndex) {
                 builder.append('[');
                 builder.append(top.toString());
                 builder.append(']');
@@ -316,7 +333,7 @@ public class Atom {
         }
         builder.append(',');
         if (down != null) {
-            if (down.index) {
+            if (down.asIndex) {
                 builder.append('[');
                 builder.append(down.toString());
                 builder.append(']');

@@ -4,5 +4,7 @@ public enum TypeOfAtom {
     NORMAL,
     EMPTY,
     FRAC_LINE,
-    IMMUTABLE
+    IMMUTABLE,
+    SQRT_START,
+    SQRT_END
 }

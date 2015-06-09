@@ -196,6 +196,40 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
+    /**
+     * Добавляет элемент начала корня перед выбранным
+     *
+     * @param sqrtNumber
+     */
+    public void addSqrtStartBeforeSelected(int sqrtNumber) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.typeOfAtom = TypeOfAtom.SQRT_START;
+            atom.sqrtNumber = sqrtNumber;
+            atom.setLocation(selected.getX(), selected.getY());
+            atom.setSize(0, selected.getHeight());
+            updateLinksBeforeSelected(selected, atom);
+        }
+    }
+
+    /**
+     * Добавляет невидимый элемент окончания корня после выбранного
+     *
+     * @param sqrtNumber
+     */
+    public void addSqrtEndAfterSelected(int sqrtNumber) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            Atom atom = new Atom();
+            atom.typeOfAtom = TypeOfAtom.SQRT_END;
+            atom.sqrtNumber = sqrtNumber;
+            atom.setLocation(selected.getX(), selected.getY());
+            atom.setSize(0, selected.getHeight());
+            updateLinksAfterSelected(selected, atom);
+        }
+    }
+
     private void updateLinksBeforeSelected(Atom selected, Atom atom) {
         if (selected.prev == null) {
             selected.prev = atom;
@@ -248,7 +282,7 @@ public class Formula implements Iterable<Atom> {
         int xPosition;
         int yPosition;
         if (current.top != null) {
-            if (current.top.index) {
+            if (current.top.asIndex) {
                 xPosition = current.getX() + current.getWidth() / 4 * 3;
             } else {
                 xPosition = current.getX() + (current.getWidth()
@@ -256,7 +290,7 @@ public class Formula implements Iterable<Atom> {
             }
 
             if (current.top.symbol != null && current.top.symbol == '→') {
-                yPosition = current.getY() - current.getHeight() / 5;
+                yPosition = current.getY() - current.getHeight() / 4;
             } else {
                 yPosition = current.getY() - 2;
             }
@@ -264,7 +298,7 @@ public class Formula implements Iterable<Atom> {
             recalculatePositions(current.top);
         }
         if (current.down != null) {
-            if (current.down.index) {
+            if (current.down.asIndex) {
                 xPosition = current.getX() + current.getWidth() / 4 * 3;
             } else {
                 xPosition = current.getX() + (current.getWidth()
@@ -301,7 +335,7 @@ public class Formula implements Iterable<Atom> {
             selected.top = new Atom();
             selected.top.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
-            selected.top.index = true;
+            selected.top.asIndex = true;
             selected.top.parent = selected;
         }
         root.clearSelection();
@@ -313,7 +347,7 @@ public class Formula implements Iterable<Atom> {
             selected.down = new Atom();
             selected.down.setSize(selected.getWidth() / 2,
                     selected.getHeight() / 2);
-            selected.down.index = true;
+            selected.down.asIndex = true;
             selected.down.parent = selected;
         }
         root.clearSelection();
@@ -355,4 +389,5 @@ public class Formula implements Iterable<Atom> {
     public Iterator<Atom> iterator() {
         return new FormulaIterator(this, root);
     }
+
 }
