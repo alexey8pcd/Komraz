@@ -2,6 +2,8 @@ package forms;
 
 import entities.Student;
 import entities.Test;
+import entities.TestVopros;
+import entities.Vopros;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
@@ -130,12 +132,29 @@ public class ChooseTestForm extends javax.swing.JDialog {
     private void bStartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStartTestActionPerformed
         int selectedIndex = listTests.getSelectedIndex();
         if (selectedIndex != -1 && selectedIndex < availableTests.size()) {
-            PassageTestForm passageTestForm = new PassageTestForm(null, true);
-            passageTestForm.setTestForPassage(availableTests.get(selectedIndex));
-            passageTestForm.setStudent(student);
-            passageTestForm.setVisible(true);
+            Test test = availableTests.get(selectedIndex);
+            List<TestVopros> questions = test.getTestVoprosList();
+            if (!questions.isEmpty()) {
+                switch (questions.get(0).getVoprosIdVopros().
+                        getTipVoprosaIdTipVoprosa().getIdTipVoprosa()) {
+                    case 1:
+                        PassageTestConstructFormulaForm constructTestForm
+                                = new PassageTestConstructFormulaForm(null, true);
+                        constructTestForm.setTestForPassage(test);
+                        constructTestForm.setStudent(student);
+                        constructTestForm.setVisible(true);
+                        break;
+                    case 2:
+                        PassageTestAssemblyPictureForm assemblyPictureForm
+                                = new PassageTestAssemblyPictureForm(null, true);
+                        assemblyPictureForm.setTestForPassage(test);
+                        assemblyPictureForm.setStudent(student);
+                        assemblyPictureForm.setVisible(true);
+                }
+            }
         } else {
-            DialogManager.notify("Предупреждение", "Тест не выбран", DialogManager.TypeOfMessage.WARNING);
+            DialogManager.notify("Предупреждение", "Тест не выбран",
+                    DialogManager.TypeOfMessage.WARNING);
         }
     }//GEN-LAST:event_bStartTestActionPerformed
 

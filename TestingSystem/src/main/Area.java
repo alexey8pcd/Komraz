@@ -15,16 +15,19 @@ public class Area {
     public int x;
     public int y;
     public int size;
+    public boolean showNumber;
     public boolean selected;
     public BufferedImage image;
     public int number;
     public Kartinka kartinka;
+    public static final int DEFAULT_SIZE = 90;
     public static final Font FONT = new Font("Arial", Font.BOLD, 36);
 
     public Area(int x, int y, int size) {
         this.x = x;
         this.y = y;
         this.size = size;
+        showNumber = true;
     }
 
     public void setSelected(int x, int y) {
@@ -46,8 +49,11 @@ public class Area {
         if (image != null) {
             g.drawImage(image, x, y, size, size, null);
         }
-        g.setColor(numberColor);
-        g.setFont(FONT);
-        g.drawString(String.valueOf(number), x + 10, y + size / 2);
+        if (showNumber) {
+            g.setColor(numberColor);
+            g.setFont(FONT);
+            g.drawString(String.valueOf(number), x + 10, y + size / 2);
+        }
+
     }
 }

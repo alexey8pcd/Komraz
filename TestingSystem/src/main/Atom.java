@@ -108,7 +108,6 @@ public class Atom {
                         break;
                     case 4:
                         output = "arcsin";
-
                         break;
                     case 5:
                         output = "arccos";

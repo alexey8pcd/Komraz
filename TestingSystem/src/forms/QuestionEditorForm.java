@@ -100,7 +100,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         }
         currentTypeOfQuestion = TypeOfQuestion.LATEX;
         lInfo1.setVisible(false);
-        lInfo2.setVisible(false);
         listSubjects.setSelectedIndex(0);
         listDifficulty.setSelectedIndex(0);
     }
@@ -159,7 +158,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lPoints = new javax.swing.JLabel();
         spinnerPoints = new javax.swing.JSpinner();
         lInfo1 = new javax.swing.JLabel();
-        lInfo2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый вопрос");
@@ -333,8 +331,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addComponent(paneBorder, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -424,15 +420,13 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bCloseForm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -496,7 +490,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     bCreateFormulaOrAddAreas.setEnabled(false);
                     bDeleteFormulaOrPlacingPictures.setEnabled(false);
                     lInfo1.setVisible(true);
-                    lInfo2.setVisible(true);
                     rbAssembledFromulaFromPieces.setSelected(true);
                     rbConstructFormula.setEnabled(false);
                     rbLinkingPictures.setEnabled(false);
@@ -682,11 +675,15 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 }
                 break;
             case PUZZLE:
-                PlacingAreasForm placingAreasForm = new PlacingAreasForm(null, true);
-                placingAreasForm.setVisible(true);
-                areas = placingAreasForm.getAreas();
-                if (areas != null) {
-                    lInfo1.setText("Области выбраны");
+                PlacingPicturesForm placingPicturesForm
+                        = new PlacingPicturesForm(null, true);
+//                placingPicturesForm.setAreas(areas);
+                placingPicturesForm.setSubject(
+                        subjects.get(listSubjects.getSelectedIndex()));
+                placingPicturesForm.setVisible(true);
+                placingPicturesInAreas = placingPicturesForm.getAreas();
+                if (placingPicturesInAreas != null) {
+                    lInfo1.setText("Картинки размещены");
                 }
                 break;
             case LINES:
@@ -700,19 +697,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 formula = null;
                 draw();
                 break;
-            case PUZZLE:
-                PlacingPicturesForm placingPicturesForm
-                        = new PlacingPicturesForm(null, true);
-                placingPicturesForm.setAreas(areas);
-                placingPicturesForm.setSubject(
-                        subjects.get(listSubjects.getSelectedIndex()));
-                placingPicturesForm.setVisible(true);
-                placingPicturesInAreas = placingPicturesForm.getAreas();
-                if (placingPicturesInAreas != null) {
-                    lInfo2.setText("Картинки размещены");
-                }
-                break;
-            case LINES:
         }
 
     }//GEN-LAST:event_bDeleteFormulaOrPlacingPicturesActionPerformed
@@ -754,25 +738,18 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         paneBorder.setVisible(true);
         panePreview.setVisible(true);
         lInfo1.setVisible(false);
-        lInfo2.setVisible(false);
         currentTypeOfQuestion = TypeOfQuestion.LATEX;
     }//GEN-LAST:event_rbConstructFormulaActionPerformed
 
     private void rbAssembledFromulaFromPiecesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAssembledFromulaFromPiecesActionPerformed
         lDescription.setText("Размещение картинок в областях");
-        bCreateFormulaOrAddAreas.setText("Выбрать области");
-        bDeleteFormulaOrPlacingPictures.
-                setText("<html><center>Разместить картинки");
+        bDeleteFormulaOrPlacingPictures.setVisible(false);
         bEditFormula.setVisible(false);
         paneBorder.setVisible(false);
         panePreview.setVisible(false);
         if (!lInfo1.isVisible()) {
             lInfo1.setText("");
             lInfo1.setVisible(true);
-        }
-        if (!lInfo2.isVisible()) {
-            lInfo2.setText("");
-            lInfo2.setVisible(true);
         }
         currentTypeOfQuestion = TypeOfQuestion.PUZZLE;
     }//GEN-LAST:event_rbAssembledFromulaFromPiecesActionPerformed
@@ -788,7 +765,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JLabel lDescription;
     private javax.swing.JLabel lDifficulty;
     private javax.swing.JLabel lInfo1;
-    private javax.swing.JLabel lInfo2;
     private javax.swing.JLabel lPoints;
     private javax.swing.JLabel lQuestionFormulation;
     private javax.swing.JLabel lQuestionTitle;
