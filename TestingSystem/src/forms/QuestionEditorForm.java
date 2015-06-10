@@ -193,7 +193,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
 
         buttonGroupQuestionType.add(rbAssembledFromulaFromPieces);
         rbAssembledFromulaFromPieces.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rbAssembledFromulaFromPieces.setText("Сборка формулы из кусочков");
+        rbAssembledFromulaFromPieces.setText("Сборка из фрагментов");
         rbAssembledFromulaFromPieces.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbAssembledFromulaFromPiecesActionPerformed(evt);

@@ -3,6 +3,7 @@ package forms;
 import entities.Gruppa;
 import entities.Student;
 import entities.StudentTest;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -448,49 +449,68 @@ public class GroupForm extends javax.swing.JDialog {
 
     private void bDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteStudentActionPerformed
 
-        if (DialogManager.confirmDeleting("Вы действительно хотите удалить выбранного студента?")) {
+        int selectedIndex = tableListOfStudents.getSelectedRow();
+        if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
+                && selectedIndex >= 0) {
+            //Выбираем студента из списка
+            Student studentForDel = entityManager.find(Student.class,
+                    students.get(selectedIndex).getIdStudent());
 
-            int selectedIndex = tableListOfStudents.getSelectedRow();
-            if (selectedIndex < STUDENTS_TABLE_MODEL.getRowCount()
-                    && selectedIndex >= 0) {
-                //Удаляем выбранного студента из списка
-                Student delStudent = students.get(selectedIndex);
-                StudentTest studentTest = null;
-
-                if (delStudent != null) {
-                    if (!delStudent.getStudentTestList().isEmpty()) {
-                        studentTest = delStudent.getStudentTestList().get(0);
-                    }
-                    if (delStudent.getStudentTestList().isEmpty()) {
-                        try {
-                            if (studentTest != null) {
-                                entityManager.getTransaction().begin();
-                                entityManager.remove(studentTest);
-                                entityManager.getTransaction().commit();
-                            }
-                            entityManager.getTransaction().begin();
-                            Query query = entityManager.createQuery(
-                                    "DELETE FROM Student s WHERE s.idStudent=:id");
-                            query.setParameter("id", delStudent.getIdStudent());
-                            query.executeUpdate();
-                            entityManager.getTransaction().commit();
-                            listGroups.setSelectedIndex(0);
-                            refresh();
-                        } catch (Exception ex) {
-                            DialogManager.errorMessage(ex);
-                        }
-                    } else {
-                        DialogManager.notify("Ошибка",
-                                "В данной группе содержатся студенты!",
-                                DialogManager.TypeOfMessage.ERROR);
-                    }
-                }
-            } else {
-                DialogManager.notify("Ошибка", "Студент не выбран!",
-                        DialogManager.TypeOfMessage.ERROR);
+            //Проверяем, проходил ли уже тесты этот студент
+            List<StudentTest> relativeStudentTests = null;
+            try {
+                TypedQuery<StudentTest> queryForStudentTest = entityManager.createQuery(
+                        "SELECT st FROM StudentTest st WHERE st.studentIdStudent.idStudent=:id",
+                        StudentTest.class);
+                queryForStudentTest.setParameter("id", studentForDel.getIdStudent());
+                relativeStudentTests = queryForStudentTest.getResultList();
+            } catch (Exception ex) {
+                DialogManager.errorMessage(ex);
             }
-        }
 
+            boolean allowDelete;
+            if (relativeStudentTests != null && !relativeStudentTests.isEmpty()) {
+                allowDelete = DialogManager.confirmDeleting("Выбранный студент проходил тест(ы). "
+                        + "Информация о прохождении теста будет также удалена. "
+                        + "Вы действительно хотите удалить выбранного студента?");
+            } else {
+                allowDelete = DialogManager.confirmDeleting("Вы действительно "
+                        + "хотите удалить выбранного студента?");
+            }
+
+            if (allowDelete) {
+
+                if (!relativeStudentTests.isEmpty()) {
+                    //удаление студент-вопросов
+                    try {
+                        entityManager.getTransaction().begin();
+                        int linkedStudentTestsAmount = relativeStudentTests.size();
+                        for (int i = 0; i < linkedStudentTestsAmount; i++) {
+                            entityManager.remove(relativeStudentTests.get(i));
+                        }
+                        entityManager.getTransaction().commit();
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
+                    }
+                }//endif
+                try {
+                    //ручное удаление студента
+                    entityManager.getTransaction().begin();
+                    Query query = entityManager.createQuery(
+                            "DELETE FROM Student s WHERE s.idStudent=:id");
+                    query.setParameter("id", studentForDel.getIdStudent());
+                    query.executeUpdate();
+                    entityManager.getTransaction().commit();
+                    listGroups.setSelectedIndex(0);
+                    refresh();
+                } catch (Exception ex) {
+                    DialogManager.errorMessage(ex);
+                }
+            }
+        } else {
+            DialogManager.notify("Ошибка", "Студент не выбран!",
+                    DialogManager.TypeOfMessage.ERROR);
+        }//endif select student
 
     }//GEN-LAST:event_bDeleteStudentActionPerformed
 

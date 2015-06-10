@@ -2,6 +2,7 @@ package forms;
 
 import entities.Disciplina;
 import entities.StatusTesta;
+import entities.StudentTest;
 import entities.Test;
 import entities.TestVopros;
 import java.util.List;
@@ -425,30 +426,101 @@ public class TestForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bCloseAccessActionPerformed
     private void bDeleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteTestActionPerformed
         int selectedIndex = tableListOfTests.getSelectedRow();
+
         if (selectedIndex < tableListOfTests.getRowCount()
                 && selectedIndex >= 0) {
             //Удаляем выбранную строку в таблице
-            Test test = tests.get(selectedIndex);
-            TestVopros testVopros = null;
+//            Test test = tests.get(selectedIndex);
+            Test test = entityManager.find(Test.class,
+                    tests.get(selectedIndex).getIdTest());
+//            TestVopros testVopros = null;
+
             if (test != null) {
-                if (!test.getTestVoprosList().isEmpty()) {
-                    testVopros = test.getTestVoprosList().get(0);
+                //Изменения
+                //################
+                TypedQuery<TestVopros> queryForTestVopros = entityManager.createQuery(
+                        "SELECT tv FROM TestVopros tv "
+                        + "WHERE tv.testIdTest.idTest=:id",
+                        TestVopros.class);
+                queryForTestVopros.setParameter("id", test.getIdTest());
+                List<TestVopros> relativeTestVoproses = queryForTestVopros.getResultList();
+
+                //Проверяем, проходили ли уже студенты этот тест 
+                TypedQuery<StudentTest> queryForStudentTest = entityManager.createQuery(
+                        "SELECT st FROM StudentTest st WHERE st.testIdTest.idTest=:id",
+                        StudentTest.class);
+                queryForStudentTest.setParameter("id", test.getIdTest());
+                List<StudentTest> relativeStudentTests = queryForStudentTest.getResultList();
+
+                boolean allowDelete;
+                if (!relativeStudentTests.isEmpty()) {
+                    allowDelete = DialogManager.confirmDeleting("Данный тест был пройден студентом(ами). "
+                            + "Информация о прохождении теста будет также удалена. "
+                            + "Вы действительно хотите удалить данный тест?");
+                } else {
+                    allowDelete = DialogManager.confirmDeleting("Вы действительно "
+                            + "хотите удалить данный тест?");
                 }
-                try {
-                    if (testVopros != null) {
+                if (allowDelete) {
+                    boolean deleted = false;
+
+                    if (!relativeStudentTests.isEmpty()) {
+                        try {
+                            entityManager.getTransaction().begin();
+                            int linkedStudentTestsAmount = relativeStudentTests.size();
+                            for (int i = 0; i < linkedStudentTestsAmount; i++) {
+                                entityManager.remove(relativeStudentTests.get(i));
+                            }
+                            entityManager.getTransaction().commit();
+                            deleted = true;
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                    }//endif
+
+                    //удалить тест-вопросы
+                    try {
                         entityManager.getTransaction().begin();
-                        entityManager.remove(testVopros);
+                        int linkedTestVoprosAmount = relativeTestVoproses.size();
+                        for (int i = 0; i < linkedTestVoprosAmount; i++) {
+                            entityManager.remove(relativeTestVoproses.get(i));
+                        }
                         entityManager.getTransaction().commit();
+
+                        entityManager.getTransaction().begin();
+                        Query query = entityManager.createQuery(
+                                "DELETE FROM Test t WHERE t.idTest=:id");
+                        query.setParameter("id", test.getIdTest());
+                        query.executeUpdate();
+                        entityManager.getTransaction().commit();
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
                     }
-                    entityManager.getTransaction().begin();
-                    Query query = entityManager.createQuery(
-                            "DELETE FROM Test v WHERE v.idTest=:id");
-                    query.setParameter("id", test.getIdTest());
-                    query.executeUpdate();
-                    entityManager.getTransaction().commit();
-                } catch (Exception ex) {
-                    DialogManager.errorMessage(ex);
-                }
+
+                    if (deleted) {
+                        refresh();
+                    }
+                }//endif (allowDelete)
+                //#######################
+                //Конец изменений
+//                if (!test.getTestVoprosList().isEmpty()) {
+//                    testVopros = test.getTestVoprosList().get(0);
+//                }
+//                try {
+//                    if (testVopros != null) {
+//                        entityManager.getTransaction().begin();
+//                        entityManager.remove(testVopros);
+//                        entityManager.getTransaction().commit();
+//                    }
+//                    entityManager.getTransaction().begin();
+//                    Query query = entityManager.createQuery(
+//                            "DELETE FROM Test v WHERE v.idTest=:id");
+//                    query.setParameter("id", test.getIdTest());
+//                    query.executeUpdate();
+//                    entityManager.getTransaction().commit();
+//                } catch (Exception ex) {
+//                    DialogManager.errorMessage(ex);
+//                }
             }
             refresh();
         } else {

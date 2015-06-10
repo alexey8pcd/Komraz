@@ -241,6 +241,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
         int selectedIndex = tableQuestions.getSelectedRow();
+        
         if (selectedIndex != -1 && selectedIndex < questions.size()) {
             Vopros vopros = entityManager.find(Vopros.class,
                     questions.get(selectedIndex).getIdVopros());
@@ -251,11 +252,14 @@ public class QuestionsForm extends javax.swing.JDialog {
                         TestVopros.class);
                 queryForTestVopros.setParameter("id", vopros.getIdVopros());
                 List<TestVopros> relativeTestVoproses = queryForTestVopros.getResultList();
+                
                 boolean allowDelete = true;
                 if (!relativeTestVoproses.isEmpty()) {
                     allowDelete = DialogManager.confirmDeleting("Данный вопрос содержится в тестах. "
                             + "Вы действительно хотите удалить его? "
-                            + "Он также будет удален из всех тестов, где содержится.");;
+                            + "Он также будет удален из всех тестов, где содержится.");
+                } else {
+                    allowDelete = DialogManager.confirmDeleting("Вы действительно хотите удалить данный вопрос?");
                 }
                 if (allowDelete) {
                     boolean deleted = false;
