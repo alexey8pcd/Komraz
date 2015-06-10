@@ -130,8 +130,6 @@ public class EditTestForm extends javax.swing.JDialog {
         lTestName = new javax.swing.JLabel();
         textTestName = new javax.swing.JTextField();
         lQuestions = new javax.swing.JLabel();
-        bPlaceHigh = new javax.swing.JButton();
-        bPlaceLow = new javax.swing.JButton();
         scrollPaneForAllQuestions = new javax.swing.JScrollPane();
         listAllQuestions = new javax.swing.JList();
         bAddQuestionToTest = new javax.swing.JButton();
@@ -159,12 +157,6 @@ public class EditTestForm extends javax.swing.JDialog {
         lQuestions.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lQuestions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lQuestions.setText("Вопросы теста");
-
-        bPlaceHigh.setText("Переместить выше");
-        bPlaceHigh.setEnabled(false);
-
-        bPlaceLow.setText("Переместить ниже");
-        bPlaceLow.setEnabled(false);
 
         scrollPaneForAllQuestions.setViewportView(listAllQuestions);
 
@@ -209,6 +201,7 @@ public class EditTestForm extends javax.swing.JDialog {
         });
 
         lQuestionsInSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lQuestionsInSubject.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lQuestionsInSubject.setText("Все вопросы по дисциплине");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,8 +213,8 @@ public class EditTestForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lTestName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(textTestName, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(textTestName))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bSaveTest)
@@ -230,25 +223,20 @@ public class EditTestForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scrollPaneForTestQuestions)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bPlaceHigh)
-                                .addGap(18, 18, 18)
-                                .addComponent(bPlaceLow)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(scrollPaneForTestQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                             .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bRemoveQuestionFromTest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bAddQuestionToTest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bSearch))
-                            .addComponent(scrollPaneForAllQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lQuestionsInSubject))))
+                            .addComponent(scrollPaneForAllQuestions)
+                            .addComponent(lQuestionsInSubject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -262,13 +250,9 @@ public class EditTestForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lQuestionsInSubject))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPlaceLow)
-                            .addComponent(bPlaceHigh))
-                        .addGap(18, 18, 18)
+                        .addGap(41, 41, 41)
                         .addComponent(scrollPaneForTestQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -394,8 +378,6 @@ public class EditTestForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAddQuestionToTest;
     private javax.swing.JButton bClose;
-    private javax.swing.JButton bPlaceHigh;
-    private javax.swing.JButton bPlaceLow;
     private javax.swing.JButton bRemoveQuestionFromTest;
     private javax.swing.JButton bSaveTest;
     private javax.swing.JButton bSearch;

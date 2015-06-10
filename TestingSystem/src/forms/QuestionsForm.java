@@ -71,7 +71,19 @@ public class QuestionsForm extends javax.swing.JDialog {
         for (int i = 0; i < TABLE_HEADERS.length; i++) {
             header.getColumnModel().getColumn(i).setHeaderValue(TABLE_HEADERS[i]);
         }
+        header.getColumnModel().getColumn(0).setWidth(200);
+        header.getColumnModel().getColumn(1).setWidth(50);
+        header.getColumnModel().getColumn(2).setWidth(100);
+        header.getColumnModel().getColumn(3).setWidth(20);
+        header.getColumnModel().getColumn(4).setWidth(10);
+        
+        
         tableQuestions.setTableHeader(header);
+        tableQuestions.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tableQuestions.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tableQuestions.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tableQuestions.getColumnModel().getColumn(3).setPreferredWidth(20);
+        tableQuestions.getColumnModel().getColumn(4).setPreferredWidth(10);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,7 +145,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Название", "Дисциплина", "Тип вопроса", "Сложность", "Балл за правильный ответ"
+                "Название", "Дисциплина", "Тип вопроса", "Сложность", "Балл"
             }
         ) {
             Class[] types = new Class [] {

@@ -26,9 +26,9 @@ public class DBManager {
             = managerFactory.createEntityManager();
 
     /**
-     * Метод сохранения объекта или обновления в БД посредством ORM (Eclipse JPA
-     * 2.0)
-     *
+     * Метод сохранения объекта или обновления в БД посредством ORM 
+     * (Eclipse JPA 2.0)
+     * #Аналог UPDATE в SQL
      * @param object сохраняемы объект
      * @throws Exception возможное исключение на запись в БД
      */
@@ -37,7 +37,14 @@ public class DBManager {
         entityManager.merge(object);
         entityManager.getTransaction().commit();
     }
-
+    
+    /**
+     * Метод сохранения объекта или обновления в БД посредством ORM 
+     * (Eclipse JPA 2.0)
+     * #Аналог INSERT в SQL
+     * @param object
+     * @throws Exception 
+     */
     public static void writeObjectPersist(Object object) throws Exception {
         entityManager.getTransaction().begin();
         entityManager.persist(object);
