@@ -2,10 +2,15 @@ package forms;
 
 import entities.StudentTest;
 import entities.Test;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.persistence.TypedQuery;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
@@ -175,6 +180,23 @@ public class TestResultForm extends javax.swing.JDialog {
             DialogManager.errorMessage(ex);
         }
         return null;
+    }
+
+    private Date parseDate(String inputStringDate) {
+        String day = null, month = null, year = null;
+        try {
+            String[] parts = inputStringDate.split(Pattern.quote("."));
+            day = parts[0];
+            month = parts[1];
+            year = parts[2];
+        } catch (Exception ex) {
+            DialogManager.errorMessage(ex);
+        }
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.clear();
+        calendar.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
+        Date date = calendar.getTime();
+        return date;
     }
 
     @SuppressWarnings("unchecked")
@@ -461,6 +483,34 @@ public class TestResultForm extends javax.swing.JDialog {
                 }
                 break;
             case BY_DATE:
+                if (!ftfInputNameOrStartDate.getText().isEmpty()
+                        && !ftfInputEndDate.getText().isEmpty()) {
+                    String parseableStartDate = ftfInputNameOrStartDate.getText();
+                    String parseableEndDate = ftfInputEndDate.getText();
+                    Date typedStartDate = null;
+                    Date typedEndDate = null;
+                    try {
+                        typedStartDate = parseDate(parseableStartDate);
+                        typedEndDate = parseDate(parseableEndDate);
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
+                    }
+
+                    List<StudentTest> tempResults = loadAllResultsFromStudentTest();
+
+                    results = new ArrayList<>();
+                    for (StudentTest singleResult : tempResults) {
+                        Date iteratedDate = singleResult.getDataProhozhdeniya();
+                        if (iteratedDate.after(typedStartDate)
+                                && iteratedDate.before(typedEndDate)) {
+                            results.add(singleResult);
+                        }
+                    }
+                    tableForTestResult.updateUI();
+                } else {
+                    results = loadAllResultsFromStudentTest();
+                    tableForTestResult.updateUI();
+                }
                 break;
         }
     }//GEN-LAST:event_bApplyFilterActionPerformed
@@ -468,7 +518,12 @@ public class TestResultForm extends javax.swing.JDialog {
     private void bClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearActionPerformed
         ftfInputEndDate.setText(null);
         ftfInputNameOrStartDate.setText(null);
-
+        if (filterType == FilterType.BY_DATE) {
+            ftfInputNameOrStartDate.setValue(GregorianCalendar.
+                    getInstance().getTime());
+            ftfInputEndDate.setValue(GregorianCalendar.
+                    getInstance().getTime());
+        }
         results = loadAllResultsFromStudentTest();
         tableForTestResult.updateUI();
     }//GEN-LAST:event_bClearActionPerformed
