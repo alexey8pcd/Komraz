@@ -299,7 +299,7 @@ public class QuestionsForm extends javax.swing.JDialog {
                                 try {
                                     entityManager.getTransaction().begin();
                                     PolozhenieKartinki polozhenieKartinki;
-                                    for(int i = 0; i < voprosPeretaskivanieKartinok.getPolozhenieKartinkiList().size(); i++){
+                                    for (int i = 0; i < voprosPeretaskivanieKartinok.getPolozhenieKartinkiList().size(); i++) {
                                         polozhenieKartinki = voprosPeretaskivanieKartinok.getPolozhenieKartinkiList().get(i);
                                         entityManager.remove(polozhenieKartinki);
                                     }
