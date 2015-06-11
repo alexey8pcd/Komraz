@@ -1,6 +1,16 @@
 package forms;
 
+import entities.Kartinka;
+import java.awt.Graphics;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.persistence.TypedQuery;
+import main.Area;
+import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
+import static sql.DBManager.entityManager;
 
 /**
  *
@@ -8,11 +18,79 @@ import static resources.Parameters.SCREEN_SIZE;
  */
 public class PictureManagerForm extends javax.swing.JDialog {
 
+    private final Graphics G_PICTURES;
+    private final int PICTURES_SIZE;
+    private final int PICTURES_MAX_AMOUNT;
+    private int beginIndex;
+    
+    private List<Kartinka> picturesFromDB;
+    private List<Area> imagesWithData;
+
     public PictureManagerForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        G_PICTURES = paneForPictures.getGraphics();
+        PICTURES_SIZE = paneForPictures.getHeight();
+        PICTURES_MAX_AMOUNT = paneForPictures.getWidth() / PICTURES_SIZE;
+        beginIndex = 0;
+        
+        loadPictures();
+        draw();
+    }
+
+    private void loadPictures() {
+        try {
+            TypedQuery<Kartinka> typedQuery = entityManager.createQuery(
+                    "Select k FROM Kartinka k",
+                    Kartinka.class);
+            picturesFromDB = typedQuery.getResultList();
+            File dir = new File("./images");
+            if (dir.exists() && dir.isDirectory()) {
+                if (imagesWithData == null) {
+                    imagesWithData = new ArrayList<>();
+                }
+                imagesWithData.clear();
+//                File[] filesInDirectory = dir.listFiles();
+//                for (File file : filesInDirectory) {
+                for (Kartinka picture : picturesFromDB) {
+                    Area area = new Area(0, 0, 140);
+                    area.image = ImageIO.read(new File(picture.getImgLink()));
+                    area.kartinka = picture;
+                    imagesWithData.add(area);
+                }
+            }
+        } catch (Exception e) {
+            DialogManager.errorMessage(e);
+        }
+    }
+    
+    private void draw(){
+        if (imagesWithData != null) {
+            G_PICTURES.clearRect(0, 0, paneForPictures.getWidth(),
+                    paneForPictures.getHeight());
+            for (int i = beginIndex, j = 0;
+                    i < imagesWithData.size() && j < PICTURES_SIZE; i++, j++) {
+                G_PICTURES.drawImage(imagesWithData.get(i).image, 10 + j * (PICTURES_SIZE + 2),
+                        10, PICTURES_SIZE, PICTURES_SIZE, null);
+            }
+        }
+//        if (RIGHT_AREAS != null) {
+//            G_RIGHT_AREAS.clearRect(0, 0, paneForRightAreas.getWidth(),
+//                    paneForRightAreas.getHeight());
+//            for (Area area : RIGHT_AREAS) {
+//                if (area != null) {
+//                    area.draw(G_RIGHT_AREAS, areaRightColor, numberColor);
+//                }
+//            }
+//        }
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        draw();
     }
 
     @SuppressWarnings("unchecked")
@@ -83,6 +161,7 @@ public class PictureManagerForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(paneForPictures, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bPreviousPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -93,8 +172,7 @@ public class PictureManagerForm extends javax.swing.JDialog {
                         .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(bCutImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 356, Short.MAX_VALUE))
-                    .addComponent(paneForPictures, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 356, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
