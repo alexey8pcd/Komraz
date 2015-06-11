@@ -165,6 +165,8 @@ public class TestForm extends javax.swing.JDialog {
         bDeleteTest = new javax.swing.JButton();
         bCreateTest = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
+        bCreateSubject = new javax.swing.JButton();
+        bDeleteSubject = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Тесты");
@@ -275,6 +277,10 @@ public class TestForm extends javax.swing.JDialog {
             }
         });
 
+        bCreateSubject.setText("Добавить");
+
+        bDeleteSubject.setText("Удалить");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -283,7 +289,11 @@ public class TestForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lSubjects)
-                    .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bCreateSubject)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bDeleteSubject)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lTests)
@@ -318,6 +328,10 @@ public class TestForm extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(bCreateSubject)
+                                    .addComponent(bDeleteSubject))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
@@ -549,7 +563,9 @@ public class TestForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bCloseAccess;
+    private javax.swing.JButton bCreateSubject;
     private javax.swing.JButton bCreateTest;
+    private javax.swing.JButton bDeleteSubject;
     private javax.swing.JButton bDeleteTest;
     private javax.swing.JButton bEditTest;
     private javax.swing.JButton bOpenAccess;

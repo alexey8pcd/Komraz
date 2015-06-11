@@ -98,6 +98,7 @@ public class TestResultForm extends javax.swing.JDialog {
     private void refreshFilterPane() {
         switch (filterType) {
             case BY_DATE:
+                ftfInputNameOrStartDate.setText(null);
                 lEndDate.setVisible(true);
                 ftfInputEndDate.setVisible(true);
                 lNameOrStartDate.setText("С");
@@ -110,12 +111,14 @@ public class TestResultForm extends javax.swing.JDialog {
                         getInstance().getTime());
                 break;
             case BY_NAME:
+                ftfInputNameOrStartDate.setText(null);
                 lNameOrStartDate.setText("ФИО студента");
                 lEndDate.setVisible(false);
                 ftfInputNameOrStartDate.setFormatterFactory(null);
                 ftfInputEndDate.setVisible(false);
                 break;
             case BY_GROUP:
+                ftfInputNameOrStartDate.setText(null);
                 lNameOrStartDate.setText("Название группы");
                 lEndDate.setVisible(false);
                 ftfInputNameOrStartDate.setFormatterFactory(null);
