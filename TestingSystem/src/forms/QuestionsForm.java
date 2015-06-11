@@ -108,10 +108,9 @@ public class QuestionsForm extends javax.swing.JDialog {
         lQuestionsList.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lQuestionsList.setText("Список вопросов:");
 
-        textSearchQuestion.setEnabled(false);
+        textSearchQuestion.setFocusCycleRoot(true);
 
         bSearchQuestion.setText("Поиск");
-        bSearchQuestion.setEnabled(false);
 
         bCreateQuestion.setText("Создать");
         bCreateQuestion.addActionListener(new java.awt.event.ActionListener() {

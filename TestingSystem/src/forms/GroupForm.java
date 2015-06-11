@@ -267,7 +267,6 @@ public class GroupForm extends javax.swing.JDialog {
         });
 
         bMoveStudent.setText("<html><center>Изменить группу");
-        bMoveStudent.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
