@@ -3,6 +3,7 @@ package forms;
 import entities.StudentTest;
 import entities.Test;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -39,6 +40,8 @@ public class TestResultForm extends javax.swing.JDialog {
 
     private FilterType filterType;
     private List<StudentTest> results;
+    private Test test;
+
     private final TableModel RESULT_TABLE_MODEL = new AbstractTableModel() {
 
         @Override
@@ -123,17 +126,20 @@ public class TestResultForm extends javax.swing.JDialog {
                 lEndDate.setVisible(false);
                 ftfInputNameOrStartDate.setFormatterFactory(null);
                 ftfInputEndDate.setVisible(false);
+                break;
         }
     }
 
     public void setTest(Test test) {
         lTestName.setText(test.getNazvanie());
+        this.test = test;
         TypedQuery<StudentTest> query = entityManager.createQuery(
                 "SELECT s FROM StudentTest s WHERE s.testIdTest.idTest=:idTest",
                 StudentTest.class);
         query.setParameter("idTest", test.getIdTest());
         try {
-            results = query.getResultList();
+            results = loadAllResultsFromStudentTest();
+            tableForTestResult.updateUI();
         } catch (Exception ex) {
             DialogManager.errorMessage(ex);
         }
@@ -151,6 +157,24 @@ public class TestResultForm extends javax.swing.JDialog {
             return 4;
         }
         return 5;
+    }
+
+    /**
+     * Метод загрузки всех сущностей StudentTest из БД
+     *
+     * @return все записи StudentTest из базы данных
+     */
+    private List<StudentTest> loadAllResultsFromStudentTest() {
+        TypedQuery<StudentTest> query = entityManager.createQuery(
+                "SELECT s FROM StudentTest s WHERE s.testIdTest.idTest=:idTest",
+                StudentTest.class);
+        query.setParameter("idTest", test.getIdTest());
+        try {
+            return query.getResultList();
+        } catch (Exception ex) {
+            DialogManager.errorMessage(ex);
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -246,8 +270,18 @@ public class TestResultForm extends javax.swing.JDialog {
         });
 
         bApplyFilter.setText("Отфильтровать");
+        bApplyFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bApplyFilterActionPerformed(evt);
+            }
+        });
 
         bClear.setText("Сбросить");
+        bClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bClearActionPerformed(evt);
+            }
+        });
 
         lNameOrStartDate.setText("Название");
 
@@ -382,6 +416,62 @@ public class TestResultForm extends javax.swing.JDialog {
         criteriaForm.setCriteria(50, 70, 90);
         criteriaForm.setVisible(true);
     }//GEN-LAST:event_bChangeCriteriaActionPerformed
+
+    private void bApplyFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApplyFilterActionPerformed
+        switch (filterType) {
+            case BY_NAME:
+                if (!ftfInputNameOrStartDate.getText().isEmpty()) {
+                    String typedFio = ftfInputNameOrStartDate.getText();
+                    List<StudentTest> tempResults = loadAllResultsFromStudentTest();
+
+                    results = new ArrayList<>();
+                    for (StudentTest singleResult : tempResults) {
+                        String iteratedFio = singleResult.
+                                getStudentIdStudent().
+                                getFio().substring(0, typedFio.length());
+                        if (iteratedFio.equalsIgnoreCase(typedFio)) {
+                            results.add(singleResult);
+                        }
+                    }
+                    tableForTestResult.updateUI();
+                } else {
+                    results = loadAllResultsFromStudentTest();
+                    tableForTestResult.updateUI();
+                }
+                break;
+            case BY_GROUP:
+                if (!ftfInputNameOrStartDate.getText().isEmpty()) {
+                    String typedGroupName = ftfInputNameOrStartDate.getText();
+                    List<StudentTest> tempResults = loadAllResultsFromStudentTest();
+
+                    results = new ArrayList<>();
+                    for (StudentTest singleResult : tempResults) {
+                        String iteratedGroupName = singleResult.
+                                getStudentIdStudent().
+                                getGruppaIdGruppa().
+                                getNazvanie().substring(0, typedGroupName.length());
+                        if (iteratedGroupName.equalsIgnoreCase(typedGroupName)) {
+                            results.add(singleResult);
+                        }
+                    }
+                    tableForTestResult.updateUI();
+                } else {
+                    results = loadAllResultsFromStudentTest();
+                    tableForTestResult.updateUI();
+                }
+                break;
+            case BY_DATE:
+                break;
+        }
+    }//GEN-LAST:event_bApplyFilterActionPerformed
+
+    private void bClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearActionPerformed
+        ftfInputEndDate.setText(null);
+        ftfInputNameOrStartDate.setText(null);
+
+        results = loadAllResultsFromStudentTest();
+        tableForTestResult.updateUI();
+    }//GEN-LAST:event_bClearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
