@@ -18,25 +18,17 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bGroups = new javax.swing.JButton();
         bTests = new javax.swing.JButton();
         bQuestions = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
-        bPassageTest = new javax.swing.JButton();
         panePicture = new javax.swing.JPanel();
-        bCutImages = new javax.swing.JButton();
+        bPictureManager = new javax.swing.JButton();
+        bPassageTest = new javax.swing.JButton();
+        bGroups = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Тестирующая система");
         setResizable(false);
-
-        bGroups.setText("Группы и Студенты");
-        bGroups.setPreferredSize(new java.awt.Dimension(160, 160));
-        bGroups.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bGroupsActionPerformed(evt);
-            }
-        });
 
         bTests.setText("Тесты");
         bTests.setPreferredSize(new java.awt.Dimension(160, 160));
@@ -61,6 +53,29 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        panePicture.setBackground(new java.awt.Color(204, 204, 204));
+        panePicture.setToolTipText("");
+        panePicture.setName("qqq"); // NOI18N
+
+        javax.swing.GroupLayout panePictureLayout = new javax.swing.GroupLayout(panePicture);
+        panePicture.setLayout(panePictureLayout);
+        panePictureLayout.setHorizontalGroup(
+            panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panePictureLayout.setVerticalGroup(
+            panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+
+        bPictureManager.setText("<html><center>Менеджер <br>фрагментов");
+        bPictureManager.setPreferredSize(new java.awt.Dimension(160, 160));
+        bPictureManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPictureManagerActionPerformed(evt);
+            }
+        });
+
         bPassageTest.setText("Пройти тест");
         bPassageTest.setPreferredSize(new java.awt.Dimension(160, 160));
         bPassageTest.addActionListener(new java.awt.event.ActionListener() {
@@ -69,33 +84,13 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        panePicture.setBackground(new java.awt.Color(204, 204, 204));
-        panePicture.setToolTipText("");
-        panePicture.setName("qqq"); // NOI18N
-
-        bCutImages.setText("Разрезание картинок");
-        bCutImages.addActionListener(new java.awt.event.ActionListener() {
+        bGroups.setText("Группы и Студенты");
+        bGroups.setPreferredSize(new java.awt.Dimension(160, 160));
+        bGroups.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCutImagesActionPerformed(evt);
+                bGroupsActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout panePictureLayout = new javax.swing.GroupLayout(panePicture);
-        panePicture.setLayout(panePictureLayout);
-        panePictureLayout.setHorizontalGroup(
-            panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panePictureLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(bCutImages)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panePictureLayout.setVerticalGroup(
-            panePictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panePictureLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bCutImages)
-                .addContainerGap(337, Short.MAX_VALUE))
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,16 +99,14 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(panePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 94, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bClose, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(bClose)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(bPictureManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(bGroups, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(bTests, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,28 +114,29 @@ public class MainForm extends javax.swing.JFrame {
                                 .addComponent(bQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(bPassageTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(102, 102, 102))))))
+                                .addGap(8, 8, 8)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(bTests, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bTests, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(bPassageTest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bPassageTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bPictureManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(panePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bClose)
                 .addContainerGap())
         );
 
-        bGroups.getAccessibleContext().setAccessibleName("jButtonGroup");
         panePicture.getAccessibleContext().setAccessibleName("");
+        bGroups.getAccessibleContext().setAccessibleName("jButtonGroup");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -171,16 +165,16 @@ public class MainForm extends javax.swing.JFrame {
         groupForm.setVisible(true);
     }//GEN-LAST:event_bGroupsActionPerformed
 
-    private void bCutImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCutImagesActionPerformed
-        CutImageForm cutImageForm = new CutImageForm(this, true);
-        cutImageForm.setVisible(true);
-    }//GEN-LAST:event_bCutImagesActionPerformed
+    private void bPictureManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPictureManagerActionPerformed
+        PictureManagerForm pictureManagerForm = new PictureManagerForm(this, true);
+        pictureManagerForm.setVisible(true);
+    }//GEN-LAST:event_bPictureManagerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
-    private javax.swing.JButton bCutImages;
     private javax.swing.JButton bGroups;
     private javax.swing.JButton bPassageTest;
+    private javax.swing.JButton bPictureManager;
     private javax.swing.JButton bQuestions;
     private javax.swing.JButton bTests;
     private javax.swing.JPanel panePicture;
