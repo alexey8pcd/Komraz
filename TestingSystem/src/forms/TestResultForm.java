@@ -306,6 +306,11 @@ public class TestResultForm extends javax.swing.JDialog {
         );
 
         bChangeCriteria.setText("Изменить критерий оценки");
+        bChangeCriteria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bChangeCriteriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -368,6 +373,12 @@ public class TestResultForm extends javax.swing.JDialog {
         filterType = FilterType.BY_NAME;
         refreshFilterPane();
     }//GEN-LAST:event_rbStudentNameActionPerformed
+
+    private void bChangeCriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeCriteriaActionPerformed
+        CriteriaForm criteriaForm = new CriteriaForm(null, true);
+        criteriaForm.setCriteria(50, 70, 90);
+        criteriaForm.setVisible(true);
+    }//GEN-LAST:event_bChangeCriteriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
