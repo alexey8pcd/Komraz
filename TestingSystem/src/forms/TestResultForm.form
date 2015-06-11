@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&#x44b; &#x442;&#x435;&#x441;&#x442;&#x430;"/>
@@ -27,16 +31,20 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="bPrint" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="bExportToFile" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="bClose" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="sPaneForTestResult" pref="880" max="32767" attributes="0"/>
+                  <Component id="sPaneForTestResult" max="32767" attributes="0"/>
                   <Component id="lTestName" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="paneFilter" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="bExportToFile" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="bClose" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="bChangeCriteria" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -48,14 +56,21 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lTestName" min="-2" pref="39" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="sPaneForTestResult" min="-2" pref="480" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bClose" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bExportToFile" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bPrint" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="sPaneForTestResult" min="-2" pref="380" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Component id="bChangeCriteria" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="bClose" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bExportToFile" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="paneFilter" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,8 +94,9 @@
         <Component class="javax.swing.JTable" name="tableForTestResult">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="5" rowCount="4">
                 <Column editable="false" title="&#x424;&#x418;&#x41e; &#x441;&#x442;&#x443;&#x434;&#x435;&#x43d;&#x442;&#x430;" type="java.lang.String"/>
+                <Column editable="false" title="&#x413;&#x440;&#x443;&#x43f;&#x43f;&#x430;" type="java.lang.String"/>
                 <Column editable="false" title="&#x414;&#x430;&#x442;&#x430; &#x43f;&#x440;&#x43e;&#x445;&#x43e;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x44f;" type="java.lang.Object"/>
                 <Column editable="false" title="% &#x43d;&#x430;&#x431;&#x440;&#x430;&#x43d;&#x43d;&#x44b;&#x445; &#x431;&#x430;&#x43b;&#x43b;&#x43e;&#x432;" type="java.lang.Integer"/>
                 <Column editable="false" title="&#x41e;&#x446;&#x435;&#x43d;&#x43a;&#x430;" type="java.lang.Integer"/>
@@ -128,13 +144,159 @@
     <Component class="javax.swing.JButton" name="bExportToFile">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442; &#x432; &#x444;&#x430;&#x439;&#x43b;"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="bPrint">
+    <Container class="javax.swing.JPanel" name="paneFilter">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x41f;&#x435;&#x447;&#x430;&#x442;&#x44c;"/>
-        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="&#x41e;&#x442;&#x444;&#x438;&#x43b;&#x44c;&#x442;&#x440;&#x43e;&#x432;&#x430;&#x442;&#x44c; &#x440;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&#x44b;">
+              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="rbDate" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbGroupName" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbStudentName" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lNameOrStartDate" min="-2" max="-2" attributes="0"/>
+                      <Component id="ftfInputNameOrStartDate" min="-2" pref="160" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="41" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="bApplyFilter" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="bClear" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="lEndDate" min="-2" max="-2" attributes="0"/>
+                      <Component id="ftfInputEndDate" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="bApplyFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="bClear" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="rbStudentName" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="rbGroupName" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lNameOrStartDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lEndDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="ftfInputNameOrStartDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ftfInputEndDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="rbDate" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JRadioButton" name="rbStudentName">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="&#x41f;&#x43e; &#x424;&#x418;&#x41e; &#x441;&#x442;&#x443;&#x434;&#x435;&#x43d;&#x442;&#x430;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbStudentNameActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbGroupName">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&#x41f;&#x43e; &#x433;&#x440;&#x443;&#x43f;&#x43f;&#x435;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbGroupNameActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbDate">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&#x41f;&#x43e; &#x434;&#x430;&#x442;&#x435;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbDateActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bApplyFilter">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x444;&#x438;&#x43b;&#x44c;&#x442;&#x440;&#x43e;&#x432;&#x430;&#x442;&#x44c;"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bClear">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x421;&#x431;&#x440;&#x43e;&#x441;&#x438;&#x442;&#x44c;"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lNameOrStartDate">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x41d;&#x430;&#x437;&#x432;&#x430;&#x43d;&#x438;&#x435;"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lEndDate">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x41d;&#x430;&#x437;&#x432;&#x430;&#x43d;&#x438;&#x435; 2"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="ftfInputNameOrStartDate">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="0" type="1"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="ftfInputEndDate">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="bChangeCriteria">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x418;&#x437;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x43a;&#x440;&#x438;&#x442;&#x435;&#x440;&#x438;&#x439; &#x43e;&#x446;&#x435;&#x43d;&#x43a;&#x438;"/>
       </Properties>
     </Component>
   </SubComponents>

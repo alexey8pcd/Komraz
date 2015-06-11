@@ -3,10 +3,13 @@ package forms;
 import entities.StudentTest;
 import entities.Test;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
 import static sql.DBManager.entityManager;
@@ -21,11 +24,20 @@ public class TestResultForm extends javax.swing.JDialog {
             = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private final String[] TABLE_HEADERS = {
         "ФИО студента",
+        "Группа",
         "Дата прохождения",
         "% набранных баллов",
         "Оценка"
     };
 
+    private enum FilterType {
+
+        BY_NAME,
+        BY_GROUP,
+        BY_DATE
+    }
+
+    private FilterType filterType;
     private List<StudentTest> results;
     private final TableModel RESULT_TABLE_MODEL = new AbstractTableModel() {
 
@@ -45,12 +57,14 @@ public class TestResultForm extends javax.swing.JDialog {
                 case 0:
                     return results.get(rowIndex).getStudentIdStudent().getFio();
                 case 1:
-
+                    return results.get(rowIndex).getStudentIdStudent().
+                            getGruppaIdGruppa().getNazvanie();
+                case 2:
                     return DATE_FORMAT.format(results.get(rowIndex).
                             getDataProhozhdeniya());
-                case 2:
-                    return results.get(rowIndex).getProcentBallov();
                 case 3:
+                    return results.get(rowIndex).getProcentBallov();
+                case 4:
                     return percentToMark(results.get(rowIndex).
                             getProcentBallov());
             }
@@ -74,6 +88,39 @@ public class TestResultForm extends javax.swing.JDialog {
         initComponents();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        filterType = FilterType.BY_NAME;
+        refreshFilterPane();
+    }
+
+    private final DefaultFormatterFactory DATE_FORMATTER
+            = new DefaultFormatterFactory(new DateFormatter());
+
+    private void refreshFilterPane() {
+        switch (filterType) {
+            case BY_DATE:
+                lEndDate.setVisible(true);
+                ftfInputEndDate.setVisible(true);
+                lNameOrStartDate.setText("С");
+                lEndDate.setText("По");
+                ftfInputNameOrStartDate.setFormatterFactory(DATE_FORMATTER);
+                ftfInputNameOrStartDate.setValue(GregorianCalendar.
+                        getInstance().getTime());
+                ftfInputEndDate.setFormatterFactory(DATE_FORMATTER);
+                ftfInputEndDate.setValue(GregorianCalendar.
+                        getInstance().getTime());
+                break;
+            case BY_NAME:
+                lNameOrStartDate.setText("ФИО студента");
+                lEndDate.setVisible(false);
+                ftfInputNameOrStartDate.setFormatterFactory(null);
+                ftfInputEndDate.setVisible(false);
+                break;
+            case BY_GROUP:
+                lNameOrStartDate.setText("Название группы");
+                lEndDate.setVisible(false);
+                ftfInputNameOrStartDate.setFormatterFactory(null);
+                ftfInputEndDate.setVisible(false);
+        }
     }
 
     public void setTest(Test test) {
@@ -107,12 +154,23 @@ public class TestResultForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         lTestName = new javax.swing.JLabel();
         sPaneForTestResult = new javax.swing.JScrollPane();
         tableForTestResult = new javax.swing.JTable();
         bClose = new javax.swing.JButton();
         bExportToFile = new javax.swing.JButton();
-        bPrint = new javax.swing.JButton();
+        paneFilter = new javax.swing.JPanel();
+        rbStudentName = new javax.swing.JRadioButton();
+        rbGroupName = new javax.swing.JRadioButton();
+        rbDate = new javax.swing.JRadioButton();
+        bApplyFilter = new javax.swing.JButton();
+        bClear = new javax.swing.JButton();
+        lNameOrStartDate = new javax.swing.JLabel();
+        lEndDate = new javax.swing.JLabel();
+        ftfInputNameOrStartDate = new javax.swing.JFormattedTextField();
+        ftfInputEndDate = new javax.swing.JFormattedTextField();
+        bChangeCriteria = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Результаты теста");
@@ -122,20 +180,20 @@ public class TestResultForm extends javax.swing.JDialog {
 
         tableForTestResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ФИО студента", "Дата прохождения", "% набранных баллов", "Оценка"
+                "ФИО студента", "Группа", "Дата прохождения", "% набранных баллов", "Оценка"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -156,10 +214,98 @@ public class TestResultForm extends javax.swing.JDialog {
         });
 
         bExportToFile.setText("Экспорт в файл");
-        bExportToFile.setEnabled(false);
 
-        bPrint.setText("Печать");
-        bPrint.setEnabled(false);
+        paneFilter.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Отфильтровать результаты"));
+
+        buttonGroup1.add(rbStudentName);
+        rbStudentName.setSelected(true);
+        rbStudentName.setText("По ФИО студента");
+        rbStudentName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbStudentNameActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rbGroupName);
+        rbGroupName.setText("По группе");
+        rbGroupName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbGroupNameActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rbDate);
+        rbDate.setText("По дате");
+        rbDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbDateActionPerformed(evt);
+            }
+        });
+
+        bApplyFilter.setText("Отфильтровать");
+
+        bClear.setText("Сбросить");
+
+        lNameOrStartDate.setText("Название");
+
+        lEndDate.setText("Название 2");
+
+        ftfInputNameOrStartDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
+        javax.swing.GroupLayout paneFilterLayout = new javax.swing.GroupLayout(paneFilter);
+        paneFilter.setLayout(paneFilterLayout);
+        paneFilterLayout.setHorizontalGroup(
+            paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneFilterLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbDate)
+                    .addComponent(rbGroupName)
+                    .addComponent(rbStudentName))
+                .addGap(102, 102, 102)
+                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lNameOrStartDate)
+                    .addComponent(ftfInputNameOrStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneFilterLayout.createSequentialGroup()
+                        .addComponent(bApplyFilter)
+                        .addGap(18, 18, 18)
+                        .addComponent(bClear))
+                    .addComponent(lEndDate)
+                    .addComponent(ftfInputEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
+        );
+        paneFilterLayout.setVerticalGroup(
+            paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneFilterLayout.createSequentialGroup()
+                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneFilterLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bApplyFilter)
+                            .addComponent(bClear)))
+                    .addGroup(paneFilterLayout.createSequentialGroup()
+                        .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(paneFilterLayout.createSequentialGroup()
+                                .addComponent(rbStudentName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbGroupName))
+                            .addGroup(paneFilterLayout.createSequentialGroup()
+                                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lNameOrStartDate)
+                                    .addComponent(lEndDate))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(paneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(ftfInputNameOrStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ftfInputEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbDate)
+                        .addGap(0, 22, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        bChangeCriteria.setText("Изменить критерий оценки");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,15 +314,17 @@ public class TestResultForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sPaneForTestResult)
+                    .addComponent(lTestName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bPrint)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bExportToFile)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bClose))
-                    .addComponent(sPaneForTestResult, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
-                    .addComponent(lTestName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(paneFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bExportToFile)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bClose))
+                            .addComponent(bChangeCriteria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -185,13 +333,18 @@ public class TestResultForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(lTestName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bClose)
-                    .addComponent(bExportToFile)
-                    .addComponent(bPrint))
-                .addContainerGap())
+                .addComponent(sPaneForTestResult, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(bChangeCriteria)
+                        .addGap(77, 77, 77)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bClose)
+                            .addComponent(bExportToFile)))
+                    .addComponent(paneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -201,12 +354,38 @@ public class TestResultForm extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_bCloseActionPerformed
 
+    private void rbDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDateActionPerformed
+        filterType = FilterType.BY_DATE;
+        refreshFilterPane();
+    }//GEN-LAST:event_rbDateActionPerformed
+
+    private void rbGroupNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbGroupNameActionPerformed
+        filterType = FilterType.BY_GROUP;
+        refreshFilterPane();
+    }//GEN-LAST:event_rbGroupNameActionPerformed
+
+    private void rbStudentNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbStudentNameActionPerformed
+        filterType = FilterType.BY_NAME;
+        refreshFilterPane();
+    }//GEN-LAST:event_rbStudentNameActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bApplyFilter;
+    private javax.swing.JButton bChangeCriteria;
+    private javax.swing.JButton bClear;
     private javax.swing.JButton bClose;
     private javax.swing.JButton bExportToFile;
-    private javax.swing.JButton bPrint;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JFormattedTextField ftfInputEndDate;
+    private javax.swing.JFormattedTextField ftfInputNameOrStartDate;
+    private javax.swing.JLabel lEndDate;
+    private javax.swing.JLabel lNameOrStartDate;
     private javax.swing.JLabel lTestName;
+    private javax.swing.JPanel paneFilter;
+    private javax.swing.JRadioButton rbDate;
+    private javax.swing.JRadioButton rbGroupName;
+    private javax.swing.JRadioButton rbStudentName;
     private javax.swing.JScrollPane sPaneForTestResult;
     private javax.swing.JTable tableForTestResult;
     // End of variables declaration//GEN-END:variables
