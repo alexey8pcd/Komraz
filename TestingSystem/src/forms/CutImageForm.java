@@ -223,6 +223,7 @@ public class CutImageForm extends javax.swing.JDialog {
         bReduceSizeOfArea = new javax.swing.JButton();
         bEnlargeOfArea = new javax.swing.JButton();
         bHelp = new javax.swing.JButton();
+        bSave1 = new javax.swing.JButton();
 
         setTitle("Разрезание картинок");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -342,6 +343,13 @@ public class CutImageForm extends javax.swing.JDialog {
             }
         });
 
+        bSave1.setText("Закрыть");
+        bSave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSave1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -349,14 +357,14 @@ public class CutImageForm extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                    .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lSubject)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(bLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lCutType)
@@ -368,18 +376,20 @@ public class CutImageForm extends javax.swing.JDialog {
                                 .addComponent(bReduceSizeOfArea)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bEnlargeOfArea)
-                                .addGap(31, 31, 31)
-                                .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(118, 118, 118)
-                                .addComponent(bHelp, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bChooseColor, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bDeleteLineOrAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(bChooseColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                                    .addComponent(bSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bDeleteLineOrAreas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(bSave1)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -418,7 +428,9 @@ public class CutImageForm extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bHelp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bSave)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bSave)
+                            .addComponent(bSave1))))
                 .addContainerGap())
         );
 
@@ -695,7 +707,7 @@ public class CutImageForm extends javax.swing.JDialog {
         if (selectedArea != null) {
             selectedArea.reduceSize();
             draw();
-        }        
+        }
     }//GEN-LAST:event_bReduceSizeOfAreaActionPerformed
 
     private void bHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHelpActionPerformed
@@ -710,6 +722,13 @@ public class CutImageForm extends javax.swing.JDialog {
                 DialogManager.TypeOfMessage.INFORMATION);
     }//GEN-LAST:event_bHelpActionPerformed
 
+    private void bSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSave1ActionPerformed
+        if (DialogManager.confirmDeleting("Разрезание картинки не сохранено. "
+                + "\nВы действительно хотите выйти из редактора?")) {
+            dispose();
+        }
+    }//GEN-LAST:event_bSave1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bChooseColor;
@@ -719,6 +738,7 @@ public class CutImageForm extends javax.swing.JDialog {
     private javax.swing.JButton bLoadImage;
     private javax.swing.JButton bReduceSizeOfArea;
     private javax.swing.JButton bSave;
+    private javax.swing.JButton bSave1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel lCutType;
     private javax.swing.JLabel lObjectsCount;
