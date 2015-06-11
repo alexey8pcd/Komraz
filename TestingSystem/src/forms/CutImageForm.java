@@ -40,7 +40,7 @@ public class CutImageForm extends javax.swing.JDialog {
     private boolean pressed;
     private List<Disciplina> subjects;
     private final int OBJECTS_MAX_AMOUNT = 10;
-    private List<PickArea> AREAS;
+    private final List<PickArea> AREAS;
     private final ListModel SUBJECTS_LIST_MODEL
             = new AbstractListModel() {
 
@@ -349,41 +349,37 @@ public class CutImageForm extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paneForDisplayImage, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lSubject)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lCutType)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rbPickOutAreas)
+                                    .addComponent(rbSplitLines)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bReduceSizeOfArea)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bEnlargeOfArea)
+                                .addGap(31, 31, 31)
+                                .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lCutType)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(rbPickOutAreas)
-                                            .addComponent(rbSplitLines)))
-                                    .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(73, 73, 73)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(bChooseColor)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(bReduceSizeOfArea)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(bEnlargeOfArea)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bDeleteLineOrAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(118, 118, 118)
+                                .addComponent(bHelp, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(bChooseColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                                    .addComponent(bSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bDeleteLineOrAreas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -396,34 +392,33 @@ public class CutImageForm extends javax.swing.JDialog {
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(bLoadImage)
-                            .addComponent(bDeleteLineOrAreas))
+                        .addComponent(bLoadImage)
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbSplitLines)
+                            .addComponent(lCutType))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(rbSplitLines)
-                                    .addComponent(lCutType))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbPickOutAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rbPickOutAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                                        .addComponent(lObjectsCount, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(bSave))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bChooseColor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(bReduceSizeOfArea)
-                                    .addComponent(bEnlargeOfArea)
-                                    .addComponent(bHelp))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(bReduceSizeOfArea, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(bEnlargeOfArea, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bDeleteLineOrAreas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bChooseColor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bHelp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bSave)))
                 .addContainerGap())
         );
 
@@ -552,9 +547,14 @@ public class CutImageForm extends javax.swing.JDialog {
                 }
             }
         } else {
-            AREAS.clear();
-            lObjectsCount.setText("Областей: " + AREAS.size()
-                    + " из " + OBJECTS_MAX_AMOUNT);
+            for (PickArea area : AREAS) {
+                if (area.selected) {
+                    AREAS.remove(area);
+                    lObjectsCount.setText("Областей: " + AREAS.size()
+                            + " из " + OBJECTS_MAX_AMOUNT);
+                    break;
+                }
+            }
         }
         draw();
     }//GEN-LAST:event_bDeleteLineOrAreasActionPerformed
@@ -566,10 +566,6 @@ public class CutImageForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bChooseColorActionPerformed
 
     private void savePieceOfImage(double startX, double finishX) {
-//        int imgWidth = image.getWidth();
-//        int paneWidth = paneForDisplayImage.getWidth();
-//        startX /= paneWidth;
-//        finishX /= paneWidth;
         int ip1 = (int) (startX / scale);
         int ip2 = (int) (finishX / scale);
         saveImage(image.getSubimage(ip1, 0, ip2 - ip1, image.getHeight()));
@@ -657,7 +653,7 @@ public class CutImageForm extends javax.swing.JDialog {
 
     private void rbPickOutAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPickOutAreasActionPerformed
         mode = WorkMode.AREAS;
-        bDeleteLineOrAreas.setText("Удалить все области");
+        bDeleteLineOrAreas.setText("Удалить выбранную область");
         lObjectsCount.setText("Областей: " + AREAS.size()
                 + " из " + OBJECTS_MAX_AMOUNT);
         bReduceSizeOfArea.setVisible(true);
@@ -689,13 +685,17 @@ public class CutImageForm extends javax.swing.JDialog {
     }//GEN-LAST:event_paneForDisplayImageMouseWheelMoved
 
     private void bEnlargeOfAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEnlargeOfAreaActionPerformed
-        selectedArea.enlarge();
-        draw();
+        if (selectedArea != null) {
+            selectedArea.enlarge();
+            draw();
+        }
     }//GEN-LAST:event_bEnlargeOfAreaActionPerformed
 
     private void bReduceSizeOfAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReduceSizeOfAreaActionPerformed
-        selectedArea.reduceSize();
-        draw();
+        if (selectedArea != null) {
+            selectedArea.reduceSize();
+            draw();
+        }        
     }//GEN-LAST:event_bReduceSizeOfAreaActionPerformed
 
     private void bHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHelpActionPerformed
