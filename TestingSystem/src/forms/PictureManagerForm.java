@@ -1,6 +1,7 @@
 package forms;
 
 import entities.Kartinka;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ import static sql.DBManager.entityManager;
 public class PictureManagerForm extends javax.swing.JDialog {
 
     private final Graphics G_PICTURES;
-    private final int PICTURES_SIZE;
-    private final int PICTURES_MAX_AMOUNT;
+    private final int PICTURE_SIZE = 140;
+    private final int PICTURES_MAX_AMOUNT = 16;
     private int beginIndex;
-    
+
     private List<Kartinka> picturesFromDB;
     private List<Area> imagesWithData;
 
@@ -32,10 +33,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         G_PICTURES = paneForPictures.getGraphics();
-        PICTURES_SIZE = paneForPictures.getHeight();
-        PICTURES_MAX_AMOUNT = paneForPictures.getWidth() / PICTURES_SIZE;
         beginIndex = 0;
-        
+        G_PICTURES.setColor(Color.BLACK);
         loadPictures();
         draw();
     }
@@ -52,10 +51,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
                     imagesWithData = new ArrayList<>();
                 }
                 imagesWithData.clear();
-//                File[] filesInDirectory = dir.listFiles();
-//                for (File file : filesInDirectory) {
                 for (Kartinka picture : picturesFromDB) {
-                    Area area = new Area(0, 0, 140);
+                    Area area = new Area(0, 0, PICTURE_SIZE);
                     area.image = ImageIO.read(new File(picture.getImgLink()));
                     area.kartinka = picture;
                     imagesWithData.add(area);
@@ -65,28 +62,23 @@ public class PictureManagerForm extends javax.swing.JDialog {
             DialogManager.errorMessage(e);
         }
     }
-    
-    private void draw(){
+
+    private void draw() {
         if (imagesWithData != null) {
             G_PICTURES.clearRect(0, 0, paneForPictures.getWidth(),
                     paneForPictures.getHeight());
-            for (int i = beginIndex, j = 0;
-                    i < imagesWithData.size() && j < PICTURES_SIZE; i++, j++) {
-                G_PICTURES.drawImage(imagesWithData.get(i).image, 10 + j * (PICTURES_SIZE + 2),
-                        10, PICTURES_SIZE, PICTURES_SIZE, null);
+            for (int i = 0; i < imagesWithData.size(); ++i) {
+                int x = (i % 4) * PICTURE_SIZE;
+                int y = (i / 4) * PICTURE_SIZE;
+                G_PICTURES.drawImage(imagesWithData.get(i).image, x, y,
+                        PICTURE_SIZE, PICTURE_SIZE, null);
+
+                G_PICTURES.drawRect(x, y, PICTURE_SIZE, PICTURE_SIZE);
             }
+
         }
-//        if (RIGHT_AREAS != null) {
-//            G_RIGHT_AREAS.clearRect(0, 0, paneForRightAreas.getWidth(),
-//                    paneForRightAreas.getHeight());
-//            for (Area area : RIGHT_AREAS) {
-//                if (area != null) {
-//                    area.draw(G_RIGHT_AREAS, areaRightColor, numberColor);
-//                }
-//            }
-//        }
     }
-    
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -105,6 +97,7 @@ public class PictureManagerForm extends javax.swing.JDialog {
         bCutImages = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Менеджер фрагментов");
 
         paneForPictures.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
@@ -182,6 +175,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
     private void bCutImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCutImagesActionPerformed
         CutImageForm cutImageForm = new CutImageForm(null, true);
         cutImageForm.setVisible(true);
+        loadPictures();
+        draw();
     }//GEN-LAST:event_bCutImagesActionPerformed
 
 
