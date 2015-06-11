@@ -857,7 +857,8 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
         try {
             //выбор студента
-            //Если проходит преподаватель, то по умолчанию первому студенту (Тест Боту)
+            //Если проходит преподаватель, 
+            //то по умолчанию первому студенту (Тест Боту)
             if (student == null) {
                 student = entityManager.createNamedQuery(
                         "Student.findAll", Student.class).getResultList().get(0);
