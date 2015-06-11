@@ -3,7 +3,6 @@ package forms;
 import entities.Gruppa;
 import entities.Prepodavatel;
 import entities.Student;
-import entities.Vopros;
 import java.util.List;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
