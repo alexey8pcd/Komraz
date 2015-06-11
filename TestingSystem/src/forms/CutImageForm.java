@@ -580,6 +580,9 @@ public class CutImageForm extends javax.swing.JDialog {
     private void savePieceOfImage(double startX, double finishX) {
         int ip1 = (int) (startX / scale);
         int ip2 = (int) (finishX / scale);
+        if (ip2 > image.getWidth()) {
+            ip2 = image.getWidth() - 1;
+        }
         saveImage(image.getSubimage(ip1, 0, ip2 - ip1, image.getHeight()));
     }
 

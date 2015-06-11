@@ -21,11 +21,12 @@ public class PictureManagerForm extends javax.swing.JDialog {
 
     private final Graphics G_PICTURES;
     private final int PICTURE_SIZE = 140;
-    private final int PICTURES_MAX_AMOUNT = 16;
-    private int beginIndex;
-
+    private final int START_X = 10;
+    private final int START_Y = 10;
     private List<Kartinka> picturesFromDB;
     private List<Area> imagesWithData;
+    private Area selectedArea;
+    
 
     public PictureManagerForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -33,7 +34,6 @@ public class PictureManagerForm extends javax.swing.JDialog {
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         G_PICTURES = paneForPictures.getGraphics();
-        beginIndex = 0;
         G_PICTURES.setColor(Color.BLACK);
         loadPictures();
         draw();
@@ -51,10 +51,14 @@ public class PictureManagerForm extends javax.swing.JDialog {
                     imagesWithData = new ArrayList<>();
                 }
                 imagesWithData.clear();
-                for (Kartinka picture : picturesFromDB) {
-                    Area area = new Area(0, 0, PICTURE_SIZE);
+                for (int i = 0; i < picturesFromDB.size(); i++) {
+                    Kartinka picture = picturesFromDB.get(i);
+                    int x = (i % 5) * (PICTURE_SIZE + 2) + START_X;
+                    int y = (i / 5) * (PICTURE_SIZE + 2) + START_Y;
+                    Area area = new Area(x, y, PICTURE_SIZE);
                     area.image = ImageIO.read(new File(picture.getImgLink()));
                     area.kartinka = picture;
+                    area.number = picture.getIdKartinka();
                     imagesWithData.add(area);
                 }
             }
@@ -68,12 +72,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
             G_PICTURES.clearRect(0, 0, paneForPictures.getWidth(),
                     paneForPictures.getHeight());
             for (int i = 0; i < imagesWithData.size(); ++i) {
-                int x = (i % 4) * PICTURE_SIZE;
-                int y = (i / 4) * PICTURE_SIZE;
-                G_PICTURES.drawImage(imagesWithData.get(i).image, x, y,
-                        PICTURE_SIZE, PICTURE_SIZE, null);
-
-                G_PICTURES.drawRect(x, y, PICTURE_SIZE, PICTURE_SIZE);
+                Area area = imagesWithData.get(i);
+                area.draw(G_PICTURES, Color.white, Color.BLUE);
             }
 
         }
@@ -89,40 +89,31 @@ public class PictureManagerForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        paneForPictures = new javax.swing.JPanel();
         bClose = new javax.swing.JButton();
-        bPreviousPicture = new javax.swing.JButton();
-        bNextPicture = new javax.swing.JButton();
         bDeletePicture = new javax.swing.JButton();
         bCutImages = new javax.swing.JButton();
+        paneForPictures = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Менеджер фрагментов");
-
-        paneForPictures.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-
-        javax.swing.GroupLayout paneForPicturesLayout = new javax.swing.GroupLayout(paneForPictures);
-        paneForPictures.setLayout(paneForPicturesLayout);
-        paneForPicturesLayout.setHorizontalGroup(
-            paneForPicturesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 745, Short.MAX_VALUE)
-        );
-        paneForPicturesLayout.setVerticalGroup(
-            paneForPicturesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        setPreferredSize(new java.awt.Dimension(900, 600));
+        setResizable(false);
 
         bClose.setText("Закрыть");
         bClose.setPreferredSize(new java.awt.Dimension(100, 30));
-
-        bPreviousPicture.setText("<html><center>Предыдущая");
-        bPreviousPicture.setPreferredSize(new java.awt.Dimension(100, 30));
-
-        bNextPicture.setText("<html><center>Следующая");
-        bNextPicture.setPreferredSize(new java.awt.Dimension(100, 30));
+        bClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseActionPerformed(evt);
+            }
+        });
 
         bDeletePicture.setText("<html><center>Удалить");
         bDeletePicture.setPreferredSize(new java.awt.Dimension(100, 30));
+        bDeletePicture.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeletePictureActionPerformed(evt);
+            }
+        });
 
         bCutImages.setText("<html><center>Разрезание картинок");
         bCutImages.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -132,6 +123,24 @@ public class PictureManagerForm extends javax.swing.JDialog {
             }
         });
 
+        paneForPictures.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        paneForPictures.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                paneForPicturesMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout paneForPicturesLayout = new javax.swing.GroupLayout(paneForPictures);
+        paneForPictures.setLayout(paneForPicturesLayout);
+        paneForPicturesLayout.setHorizontalGroup(
+            paneForPicturesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 758, Short.MAX_VALUE)
+        );
+        paneForPicturesLayout.setVerticalGroup(
+            paneForPicturesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 574, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,34 +148,26 @@ public class PictureManagerForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(paneForPictures, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bPreviousPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bNextPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bDeletePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bCutImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(bClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                    .addComponent(bCutImages, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bDeletePicture, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(paneForPictures, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paneForPictures, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bPreviousPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bNextPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(bDeletePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(bCutImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 356, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,13 +180,45 @@ public class PictureManagerForm extends javax.swing.JDialog {
         draw();
     }//GEN-LAST:event_bCutImagesActionPerformed
 
+    private void paneForPicturesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneForPicturesMousePressed
+        selectedArea = null;
+        for (Area area : imagesWithData) {
+            if (area.containPoint(evt.getX(), evt.getY())) {
+                selectedArea = area;
+            }
+            area.setSelected(evt.getX(), evt.getY());
+        }
+        draw();
+    }//GEN-LAST:event_paneForPicturesMousePressed
+
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_bCloseActionPerformed
+
+    private void bDeletePictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeletePictureActionPerformed
+        if (selectedArea != null) {
+            try {
+                File file = new File(selectedArea.kartinka.getImgLink());
+                if (file.exists()) {
+                    file.delete();
+                }
+                entityManager.getTransaction().begin();
+                entityManager.remove(selectedArea.kartinka);
+                entityManager.getTransaction().commit();
+                imagesWithData.remove(selectedArea);
+            } catch (Exception e) {
+                DialogManager.errorMessage(e);
+            }
+            loadPictures();
+            draw();
+        }
+    }//GEN-LAST:event_bDeletePictureActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bCutImages;
     private javax.swing.JButton bDeletePicture;
-    private javax.swing.JButton bNextPicture;
-    private javax.swing.JButton bPreviousPicture;
     private javax.swing.JPanel paneForPictures;
     // End of variables declaration//GEN-END:variables
 
