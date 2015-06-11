@@ -241,7 +241,6 @@
     <Component class="javax.swing.JButton" name="bMoveStudent">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x418;&#x437;&#x43c;&#x435;&#x43d;&#x438;&#x442;&#x44c; &#x433;&#x440;&#x443;&#x43f;&#x43f;&#x443;"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>

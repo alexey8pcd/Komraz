@@ -1,8 +1,10 @@
 package forms;
 
+import entities.PolozhenieKartinki;
 import entities.TestVopros;
 import entities.Vopros;
 import entities.VoprosLatex;
+import entities.VoprosPeretaskivanieKartinok;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.table.AbstractTableModel;
@@ -76,8 +78,7 @@ public class QuestionsForm extends javax.swing.JDialog {
         header.getColumnModel().getColumn(2).setWidth(100);
         header.getColumnModel().getColumn(3).setWidth(20);
         header.getColumnModel().getColumn(4).setWidth(10);
-        
-        
+
         tableQuestions.setTableHeader(header);
         tableQuestions.getColumnModel().getColumn(0).setPreferredWidth(200);
         tableQuestions.getColumnModel().getColumn(1).setPreferredWidth(50);
@@ -107,10 +108,9 @@ public class QuestionsForm extends javax.swing.JDialog {
         lQuestionsList.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lQuestionsList.setText("Список вопросов:");
 
-        textSearchQuestion.setEnabled(false);
+        textSearchQuestion.setFocusCycleRoot(true);
 
         bSearchQuestion.setText("Поиск");
-        bSearchQuestion.setEnabled(false);
 
         bCreateQuestion.setText("Создать");
         bCreateQuestion.addActionListener(new java.awt.event.ActionListener() {
@@ -241,7 +241,7 @@ public class QuestionsForm extends javax.swing.JDialog {
 
     private void bDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteQuestionActionPerformed
         int selectedIndex = tableQuestions.getSelectedRow();
-        
+
         if (selectedIndex != -1 && selectedIndex < questions.size()) {
             Vopros vopros = entityManager.find(Vopros.class,
                     questions.get(selectedIndex).getIdVopros());
@@ -252,8 +252,8 @@ public class QuestionsForm extends javax.swing.JDialog {
                         TestVopros.class);
                 queryForTestVopros.setParameter("id", vopros.getIdVopros());
                 List<TestVopros> relativeTestVoproses = queryForTestVopros.getResultList();
-                
-                boolean allowDelete = true;
+
+                boolean allowDelete;
                 if (!relativeTestVoproses.isEmpty()) {
                     allowDelete = DialogManager.confirmDeleting("Данный вопрос содержится в тестах. "
                             + "Вы действительно хотите удалить его? "
@@ -285,6 +285,33 @@ public class QuestionsForm extends javax.swing.JDialog {
                                     DialogManager.errorMessage(ex);
                                 }
                             }//endif
+                            break;
+                        case 2:
+                            //вопрос с перетаскиванием картинок
+                            TypedQuery<VoprosPeretaskivanieKartinok> queryForVoprosPeretaskivanieKartinok = entityManager.
+                                    createQuery("Select v FROM VoprosPeretaskivanieKartinok v "
+                                            + "WHERE v.voprosIdVopros.idVopros=:id",
+                                            VoprosPeretaskivanieKartinok.class);
+                            queryForVoprosPeretaskivanieKartinok.setParameter("id", vopros.getIdVopros());
+                            VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinok = queryForVoprosPeretaskivanieKartinok.
+                                    getSingleResult();
+                            if (voprosPeretaskivanieKartinok != null) {
+                                try {
+                                    entityManager.getTransaction().begin();
+                                    PolozhenieKartinki polozhenieKartinki;
+                                    for(int i = 0; i < voprosPeretaskivanieKartinok.getPolozhenieKartinkiList().size(); i++){
+                                        polozhenieKartinki = voprosPeretaskivanieKartinok.getPolozhenieKartinkiList().get(i);
+                                        entityManager.remove(polozhenieKartinki);
+                                    }
+                                    entityManager.remove(voprosPeretaskivanieKartinok);
+                                    entityManager.remove(vopros);
+                                    entityManager.getTransaction().commit();
+                                    deleted = true;
+                                } catch (Exception ex) {
+                                    DialogManager.errorMessage(ex);
+                                }
+                            }//endif
+                            break;
                     }//end switch
                     entityManager.getTransaction().begin();
                     //удалить тест-вопросы

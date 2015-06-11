@@ -149,7 +149,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         sPaneForListDifficulty = new javax.swing.JScrollPane();
         listDifficulty = new javax.swing.JList();
         lSubject = new javax.swing.JLabel();
-        rbLinkingPictures = new javax.swing.JRadioButton();
         textSearch = new javax.swing.JTextField();
         bSearch = new javax.swing.JButton();
         lDifficulty = new javax.swing.JLabel();
@@ -220,7 +219,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         });
 
         bEditFormula.setText("Редактировать");
-        bEditFormula.setEnabled(false);
         bEditFormula.setPreferredSize(new java.awt.Dimension(100, 30));
         bEditFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,20 +279,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lSubject.setText("Дисциплина:");
 
-        buttonGroupQuestionType.add(rbLinkingPictures);
-        rbLinkingPictures.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rbLinkingPictures.setText("Соединение картинок линиями");
-        rbLinkingPictures.setEnabled(false);
-        rbLinkingPictures.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbLinkingPicturesActionPerformed(evt);
-            }
-        });
-
-        textSearch.setEnabled(false);
-
         bSearch.setText("Поиск");
-        bSearch.setEnabled(false);
 
         lDifficulty.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lDifficulty.setText("Сложность:");
@@ -346,9 +331,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rbAssembledFromulaFromPieces)
                             .addComponent(lQuestionType)
-                            .addComponent(rbConstructFormula)
-                            .addComponent(rbLinkingPictures))
-                        .addGap(18, 18, 18)
+                            .addComponent(rbConstructFormula))
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(textSearch)
@@ -388,9 +372,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(rbConstructFormula)
                         .addGap(18, 18, 18)
-                        .addComponent(rbAssembledFromulaFromPieces)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbLinkingPictures))
+                        .addComponent(rbAssembledFromulaFromPieces))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -467,7 +449,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     formula.update();
                     formula.moveOnVertical(30);
                     rbAssembledFromulaFromPieces.setEnabled(false);
-                    rbLinkingPictures.setEnabled(false);
                     currentTypeOfQuestion = TypeOfQuestion.LATEX;
                     break;
                 case 2:
@@ -492,11 +473,9 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     lInfo1.setVisible(true);
                     rbAssembledFromulaFromPieces.setSelected(true);
                     rbConstructFormula.setEnabled(false);
-                    rbLinkingPictures.setEnabled(false);
                     currentTypeOfQuestion = TypeOfQuestion.PUZZLE;
                     break;
                 case 3:
-                    this.rbLinkingPictures.setSelected(true);
                     rbAssembledFromulaFromPieces.setEnabled(false);
                     rbConstructFormula.setEnabled(false);
                     currentTypeOfQuestion = TypeOfQuestion.LINES;
@@ -726,10 +705,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         spinnerPoints.setValue(spinnerValue);
     }//GEN-LAST:event_spinnerPointsStateChanged
 
-    private void rbLinkingPicturesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLinkingPicturesActionPerformed
-        currentTypeOfQuestion = TypeOfQuestion.LINES;
-    }//GEN-LAST:event_rbLinkingPicturesActionPerformed
-
     private void rbConstructFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConstructFormulaActionPerformed
         lDescription.setText("Формула");
         bCreateFormulaOrAddAreas.setText("Создать");
@@ -776,7 +751,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JPanel panePreview;
     private javax.swing.JRadioButton rbAssembledFromulaFromPieces;
     private javax.swing.JRadioButton rbConstructFormula;
-    private javax.swing.JRadioButton rbLinkingPictures;
     private javax.swing.JScrollPane sPaneForListDifficulty;
     private javax.swing.JScrollPane sPaneForListSubjects;
     private javax.swing.JScrollPane sPaneForQuestionFormulation;
