@@ -177,14 +177,11 @@ public class EditTestForm extends javax.swing.JDialog {
         scrollPaneForTestQuestions.setViewportView(listTestQuestions);
 
         bSearch.setText("Поиск");
-        bSearch.setEnabled(false);
         bSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSearchActionPerformed(evt);
             }
         });
-
-        textSearch.setEnabled(false);
 
         bSaveTest.setText("Сохранить");
         bSaveTest.addActionListener(new java.awt.event.ActionListener() {
