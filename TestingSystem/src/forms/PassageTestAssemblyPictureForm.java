@@ -3,6 +3,7 @@ package forms;
 import entities.Kartinka;
 import entities.PolozhenieKartinki;
 import entities.Student;
+import entities.StudentTest;
 import entities.Test;
 import entities.TestVopros;
 import entities.VoprosPeretaskivanieKartinok;
@@ -13,7 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.persistence.TypedQuery;
 import main.Area;
@@ -41,6 +44,8 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
     private final int TOP_PICTURE_Y = 200;
     private Kartinka picture;
     private BufferedImage image;
+    private int[][] results;
+    private int amountOfAreasInCurrentQuestion;
 
     public PassageTestAssemblyPictureForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -58,12 +63,12 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
         GRAPHICS.clearRect(0, 0, paneWork.getWidth(), paneWork.getHeight());
         if (areasForPlacingPictures != null) {
             for (Area area : areasForPlacingPictures) {
-                area.draw(GRAPHICS, Color.RED, Color.BLACK);
+                area.draw(GRAPHICS, Color.GRAY, Color.BLACK);
             }
         }
         if (areasContainingPictures != null) {
             for (Area area : areasContainingPictures) {
-                area.draw(GRAPHICS, Color.RED, Color.BLACK);
+                area.draw(GRAPHICS, Color.WHITE, Color.BLACK);
             }
         }
     }
@@ -85,6 +90,7 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
         paneWork = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Прохождение теста");
 
         labelQuestionNumber.setText("Вопрос N/M");
 
@@ -172,7 +178,7 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(paneWork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 457, Short.MAX_VALUE)
+                        .addGap(0, 445, Short.MAX_VALUE)
                         .addComponent(bCompleteTest)))
                 .addContainerGap())
         );
@@ -196,34 +202,58 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
         }
         questions = new ArrayList<>();
         for (TestVopros testVopros : testVoproses) {
-            questions.add(testVopros.getVoprosIdVopros().
-                    getVoprosPeretaskivanieKartinokList().get(0));
+            TypedQuery<VoprosPeretaskivanieKartinok> typedQuery
+                    = entityManager.createQuery("select v FROM "
+                            + "VoprosPeretaskivanieKartinok v WHERE "
+                            + "v.voprosIdVopros.idVopros=:id",
+                            VoprosPeretaskivanieKartinok.class);
+            typedQuery.setParameter("id", testVopros.getVoprosIdVopros().
+                    getIdVopros());
+            VoprosPeretaskivanieKartinok voprosPeretaskivanieKartinok
+                    = typedQuery.getSingleResult();
+            questions.add(voprosPeretaskivanieKartinok);
         }
         Collections.shuffle(questions);
         currentQuestionIndex = 0;
         currentQuestion = questions.get(currentQuestionIndex);
         questionsAmount = questions.size();
+        results = new int[questionsAmount][6];
         makeNextQuestion();
         draw();
     }
 
     private void makeNextQuestion() {
-        int amountOfAreas = currentQuestion.getKolvoOblasteyIdKolvoOblastey().
+        amountOfAreasInCurrentQuestion = currentQuestion.getKolvoOblasteyIdKolvoOblastey().
                 getKolvo();
-        areasForPlacingPictures = new Area[amountOfAreas];
+        areasForPlacingPictures = new Area[amountOfAreasInCurrentQuestion];
         for (int i = 0; i < areasForPlacingPictures.length; ++i) {
             Area area = new Area(LEFT_X + i * (Area.DEFAULT_SIZE + SPAN),
                     TOP_AREA_Y, Area.DEFAULT_SIZE);
             area.number = i + 1;
             areasForPlacingPictures[i] = area;
-
         }
         areasContainingPictures = new ArrayList<>();
-        List<PolozhenieKartinki> linkList
-                = currentQuestion.getPolozhenieKartinkiList();
         try {
+            TypedQuery<Kartinka> typedQuery = entityManager.createQuery(
+                    "SELECT k FROM Kartinka k", Kartinka.class);
+            List<Kartinka> list = typedQuery.getResultList();
+            List<Kartinka> listToQuestion = new ArrayList<>();
+            for (Kartinka kartinka : list) {
+                List<PolozhenieKartinki> list1
+                        = kartinka.getPolozhenieKartinkiList();
+                for (int j = 0; j < list1.size(); ++j) {
+                    PolozhenieKartinki polozhenieKartinki = list1.get(j);
+                    if (Objects.equals(polozhenieKartinki.
+                            getVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok().
+                            getIdVoprosPeretaskivanieKartinok(),
+                            currentQuestion.getIdVoprosPeretaskivanieKartinok())) {
+                        listToQuestion.add(kartinka);
+                    }
+                }
+            }
             int rowSize = 5;
-            for (int i = 0; i < linkList.size(); ++i) {
+            Collections.shuffle(listToQuestion);
+            for (int i = 0; i < listToQuestion.size(); ++i) {
                 int top = i > rowSize
                         ? TOP_PICTURE_Y + Area.DEFAULT_SIZE + SPAN
                         : TOP_PICTURE_Y;
@@ -231,9 +261,9 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
                         ? LEFT_X + (i - rowSize - 1) * (Area.DEFAULT_SIZE + SPAN)
                         : LEFT_X + i * (Area.DEFAULT_SIZE + SPAN);
                 Area area = new Area(left, top, Area.DEFAULT_SIZE);
-                area.image = ImageIO.read(new File(linkList.get(i).
-                        getKartinkaIdKartinka().getImgLink()));
-                area.kartinka = linkList.get(i).getKartinkaIdKartinka();
+                Kartinka kartinka = listToQuestion.get(i);
+                area.image = ImageIO.read(new File(kartinka.getImgLink()));
+                area.kartinka = kartinka;
                 area.showNumber = false;
                 areasContainingPictures.add(area);
             }
@@ -255,11 +285,74 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPreviousQuestionActionPerformed
 
     private void bNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNextQuestionActionPerformed
-
+        if (currentQuestionIndex < questionsAmount - 1) {
+            //записать результаты
+            for (int i = 0; i < amountOfAreasInCurrentQuestion; ++i) {
+                results[currentQuestionIndex][i]
+                        = areasForPlacingPictures[i].kartinka.getIdKartinka();
+            }
+            currentQuestion = questions.get(++currentQuestionIndex);
+            makeNextQuestion();
+            if (currentQuestionIndex == questionsAmount - 1) {
+                bNextQuestion.setEnabled(false);
+            }
+            draw();
+        }
     }//GEN-LAST:event_bNextQuestionActionPerformed
 
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
-
+        //проверить тест
+        for (int i = 0; i < amountOfAreasInCurrentQuestion; ++i) {
+            results[currentQuestionIndex][i]
+                    = areasForPlacingPictures[i].kartinka.getIdKartinka();
+        }
+        int scored = 0;
+        int maximalScore = 0;
+        for (int i = 0; i < results.length; ++i) {
+            boolean correct = true;
+            VoprosPeretaskivanieKartinok vpk = questions.get(i);
+            List<PolozhenieKartinki> listOfPositions
+                    = vpk.getPolozhenieKartinkiList();
+            for (int j = 0; j < listOfPositions.size(); ++j) {
+                int idPicture = listOfPositions.get(j).
+                        getKartinkaIdKartinka().getIdKartinka();
+                int idArea = listOfPositions.get(j).
+                        getPoryadkoviyNomerIdPoryadkoviyNomer().getNomer();
+                if (idArea != -1) {
+                    if (results[i][idArea - 1] != idPicture) {
+                        correct = false;
+                        break;
+                    }
+                }
+            }
+            if (correct) {
+                scored += vpk.getVoprosIdVopros().getBall();
+            }
+            maximalScore += vpk.getVoprosIdVopros().getBall();
+        }
+        DialogManager.notify("Результат", "Вы набрали " + scored + " баллов  из "
+                + maximalScore, DialogManager.TypeOfMessage.INFORMATION);
+        try {
+            //выбор студента
+            //Если проходит преподаватель, 
+            //то по умолчанию первому студенту (Тест Боту)
+            if (student == null) {
+                student = entityManager.createNamedQuery(
+                        "Student.findAll", Student.class).getResultList().get(0);
+            }
+            StudentTest studentTest = new StudentTest();
+            studentTest.setStudentIdStudent(student);
+            studentTest.setTestIdTest(testForPassage);
+            studentTest.setProcentBallov(scored * 100 / maximalScore);
+            studentTest.setDataProhozhdeniya(GregorianCalendar.
+                    getInstance().getTime());
+            entityManager.getTransaction().begin();
+            entityManager.persist(studentTest);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            DialogManager.errorMessage(ex);
+        }        
+        dispose();
     }//GEN-LAST:event_bCompleteTestActionPerformed
 
     private void paneWorkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneWorkMousePressed

@@ -718,7 +718,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void rbConstructFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConstructFormulaActionPerformed
         lDescription.setText("Формула");
         bCreateFormulaOrAddAreas.setText("Создать");
-        bDeleteFormulaOrPlacingPictures.setText("Удалить");
+        bDeleteFormulaOrPlacingPictures.setVisible(true);
         bEditFormula.setVisible(true);
         paneBorder.setVisible(true);
         panePreview.setVisible(true);
@@ -727,7 +727,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     }//GEN-LAST:event_rbConstructFormulaActionPerformed
 
     private void rbAssembledFromulaFromPiecesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAssembledFromulaFromPiecesActionPerformed
-        lDescription.setText("Размещение картинок в областях");
+        lDescription.setText("Размещение изображений в областях");
+        bCreateFormulaOrAddAreas.setText("<html><center>Разместить изображения");
         bDeleteFormulaOrPlacingPictures.setVisible(false);
         bEditFormula.setVisible(false);
         paneBorder.setVisible(false);
