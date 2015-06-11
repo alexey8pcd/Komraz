@@ -5,6 +5,7 @@ import entities.StatusTesta;
 import entities.StudentTest;
 import entities.Test;
 import entities.TestVopros;
+import entities.Vopros;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -124,7 +125,12 @@ public class TestForm extends javax.swing.JDialog {
 
     private void refresh() {
         try {
-
+            //Отображение дисциплин
+            subjects = entityManager.createNamedQuery("Disciplina.findAll",
+                    Disciplina.class).getResultList();
+//            listSubjects.setSelectedIndex(0);
+            listSubjects.updateUI();
+            //Отображение тестов
             int selectedIndex = listSubjects.getSelectedIndex();
             if (selectedIndex == -1) {
                 //отобразить все тесты
@@ -278,8 +284,18 @@ public class TestForm extends javax.swing.JDialog {
         });
 
         bCreateSubject.setText("Добавить");
+        bCreateSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCreateSubjectActionPerformed(evt);
+            }
+        });
 
         bDeleteSubject.setText("Удалить");
+        bDeleteSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteSubjectActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -393,10 +409,6 @@ public class TestForm extends javax.swing.JDialog {
             } catch (Exception ex) {
                 DialogManager.errorMessage(ex);
             }
-//            Для 2ой и 3ей итерации
-//            OpenTestForm openTest = new OpenTestForm(null, true);
-//            openTest.setTest(test);
-//            openTest.setVisible(true);
             refresh();
         }
     }//GEN-LAST:event_bOpenAccessActionPerformed
@@ -444,14 +456,11 @@ public class TestForm extends javax.swing.JDialog {
         if (selectedIndex < tableListOfTests.getRowCount()
                 && selectedIndex >= 0) {
             //Удаляем выбранную строку в таблице
-//            Test test = tests.get(selectedIndex);
             Test test = entityManager.find(Test.class,
                     tests.get(selectedIndex).getIdTest());
-//            TestVopros testVopros = null;
 
             if (test != null) {
                 //Изменения
-                //################
                 TypedQuery<TestVopros> queryForTestVopros = entityManager.createQuery(
                         "SELECT tv FROM TestVopros tv "
                         + "WHERE tv.testIdTest.idTest=:id",
@@ -515,7 +524,7 @@ public class TestForm extends javax.swing.JDialog {
                         refresh();
                     }
                 }//endif (allowDelete)
-                //#######################
+
                 //Конец изменений
 //                if (!test.getTestVoprosList().isEmpty()) {
 //                    testVopros = test.getTestVoprosList().get(0);
@@ -558,6 +567,63 @@ public class TestForm extends javax.swing.JDialog {
                     DialogManager.TypeOfMessage.ERROR);
         }
     }//GEN-LAST:event_bEditTestActionPerformed
+
+    private void bCreateSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateSubjectActionPerformed
+
+        EditSubjectForm editSubjectForm = new EditSubjectForm(null, true);
+        editSubjectForm.setVisible(true);
+        refresh();
+
+    }//GEN-LAST:event_bCreateSubjectActionPerformed
+
+    private void bDeleteSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteSubjectActionPerformed
+        int selectedIndex = listSubjects.getSelectedIndex();
+        if (selectedIndex < SUBJECT_LIST_MODEL.getSize()
+                && selectedIndex >= 0) {
+            //Удаляем выбранную дисциплину из списка
+            int subjectsSize = subjects.size();
+            Disciplina delSubject = subjects.get(selectedIndex);
+
+            if (delSubject != null) {
+                TypedQuery<Vopros> queryForRelativeQuestions
+                        = entityManager.createQuery("SELECT v FROM Vopros v "
+                                + "WHERE v.disciplinaIdDisciplina.idDisciplina = :id", Vopros.class);
+                queryForRelativeQuestions.setParameter("id", delSubject.getIdDisciplina());
+                List<Vopros> relativeStudents = queryForRelativeQuestions.getResultList();
+                if (relativeStudents.isEmpty()) {
+                    try {
+
+//                        entityManager.getTransaction().begin();
+//                        entityManager.remove(delGroup);
+//                        entityManager.getTransaction().commit();
+                        entityManager.getTransaction().begin();
+                        Query query = entityManager.createQuery(
+                                "DELETE FROM Disciplina v WHERE v.idDisciplina=:id");
+                        query.setParameter("id", delSubject.getIdDisciplina());
+                        query.executeUpdate();
+                        entityManager.getTransaction().commit();
+
+                        --subjectsSize;
+                        if (subjectsSize > 0) {
+                            if (selectedIndex >= subjectsSize) {
+                                --selectedIndex;
+                            }
+                            listSubjects.setSelectedIndex(selectedIndex);
+                            refresh();
+                        }
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
+                    }
+                } else {
+                    DialogManager.notify("Ошибка",
+                            "По данной дисциплине содержатся вопросы!",
+                            DialogManager.TypeOfMessage.ERROR);
+                }
+            }
+        } else {
+            DialogManager.notify("Ошибка", "Дисциплина не выбрана!", DialogManager.TypeOfMessage.ERROR);
+        }
+    }//GEN-LAST:event_bDeleteSubjectActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

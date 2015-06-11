@@ -157,6 +157,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lPoints = new javax.swing.JLabel();
         spinnerPoints = new javax.swing.JSpinner();
         lInfo1 = new javax.swing.JLabel();
+        bCancelSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый вопрос");
@@ -279,7 +280,13 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         lSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lSubject.setText("Дисциплина:");
 
-        bSearch.setText("Поиск");
+        bSearch.setText("Найти");
+        bSearch.setPreferredSize(new java.awt.Dimension(90, 23));
+        bSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSearchActionPerformed(evt);
+            }
+        });
 
         lDifficulty.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lDifficulty.setText("Сложность:");
@@ -294,6 +301,14 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         spinnerPoints.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spinnerPointsStateChanged(evt);
+            }
+        });
+
+        bCancelSearch.setText("Сбросить");
+        bCancelSearch.setPreferredSize(new java.awt.Dimension(90, 23));
+        bCancelSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCancelSearchActionPerformed(evt);
             }
         });
 
@@ -334,14 +349,16 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                             .addComponent(rbConstructFormula))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(textSearch)
-                                .addGap(18, 18, 18)
-                                .addComponent(bSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(sPaneForListSubjects, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lSubject)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(textSearch)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bCancelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(sPaneForListDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,7 +404,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bSearch))))
+                            .addComponent(bSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bCancelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -511,30 +529,35 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     "Формулировка вопроса не может быть пустой",
                     DialogManager.TypeOfMessage.WARNING);
             correct = false;
+        } else if (subjects.isEmpty() || listSubjects.getSelectedIndex() < 0) {
+            //Проверка на корректность дисциплины
+            DialogManager.notify("Предупреждение",
+                    "Дисциплина не выбрана", DialogManager.TypeOfMessage.WARNING);
+            correct = false;
+        } else if (listDifficulty.getSelectedIndex() == -1) {
+            //Проверка на корректность выбора сложности
+            DialogManager.notify("Предупреждение",
+                    "Сложность не выбрана", DialogManager.TypeOfMessage.WARNING);
+            correct = false;
         }
-        switch (currentTypeOfQuestion) {
-            case LATEX:
-                if (formula == null) {
-                    DialogManager.notify("Предупреждение",
-                            "Формула отсутствует", DialogManager.TypeOfMessage.WARNING);
-                    correct = false;
-                } else if (listSubjects.getSelectedIndex() == -1) {
-                    DialogManager.notify("Предупреждение",
-                            "Дисциплина не выбрана", DialogManager.TypeOfMessage.WARNING);
-                    correct = false;
-                } else if (listDifficulty.getSelectedIndex() == -1) {
-                    DialogManager.notify("Предупреждение",
-                            "Сложность не выбрана", DialogManager.TypeOfMessage.WARNING);
-                    correct = false;
-                }
-                break;
-            case PUZZLE:
-                if (placingPicturesInAreas == null) {
-                    DialogManager.notify("Предупреждение",
-                            "Картинки не размещены", DialogManager.TypeOfMessage.WARNING);
-                    correct = false;
-                }
-                break;
+
+        if (correct) {
+            switch (currentTypeOfQuestion) {
+                case LATEX:
+                    if (formula == null) {
+                        DialogManager.notify("Предупреждение",
+                                "Формула отсутствует", DialogManager.TypeOfMessage.WARNING);
+                        correct = false;
+                    }
+                    break;
+                case PUZZLE:
+                    if (placingPicturesInAreas == null) {
+                        DialogManager.notify("Предупреждение",
+                                "Картинки не размещены", DialogManager.TypeOfMessage.WARNING);
+                        correct = false;
+                    }
+                    break;
+            }
         }
         if (correct) {
             if (question == null) {
@@ -547,7 +570,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         peretaskivanieQuestion
                                 = new VoprosPeretaskivanieKartinok();
                         break;
-                    case LINES:
                 }
             }
             question.setBall((Integer) spinnerPoints.getValue());
@@ -634,8 +656,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         DialogManager.errorMessage(ex);
                     }
                     dispose();
-                    break;
-                case LINES:
                     break;
             }
 
@@ -729,7 +749,46 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         currentTypeOfQuestion = TypeOfQuestion.PUZZLE;
     }//GEN-LAST:event_rbAssembledFromulaFromPiecesActionPerformed
 
+    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
+
+        if (!textSearch.getText().isEmpty()) {
+            String typedDisciplinaName = textSearch.getText();
+            List<Disciplina> tempResults = entityManager.createNamedQuery(
+                    "Disciplina.findAll", Disciplina.class).getResultList();
+
+            subjects.clear();
+            for (Disciplina singleResult : tempResults) {
+                if (typedDisciplinaName.length() <= singleResult.
+                        getNazvanie().length()) {
+                    String iteratedDisciplinaName = singleResult.
+                            getNazvanie().substring(0, typedDisciplinaName.length());
+                    if (iteratedDisciplinaName.equalsIgnoreCase(typedDisciplinaName)) {
+                        subjects.add(singleResult);
+                    }
+                }
+            }
+            if (!subjects.isEmpty()) {
+                listSubjects.setSelectedIndex(0);
+            } else {
+                listSubjects.setSelectedIndex(-1);
+            }
+            listSubjects.updateUI();
+        } else {
+            subjects = entityManager.createNamedQuery(
+                    "Disciplina.findAll", Disciplina.class).getResultList();
+            listSubjects.updateUI();
+        }
+    }//GEN-LAST:event_bSearchActionPerformed
+
+    private void bCancelSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelSearchActionPerformed
+        textSearch.setText(null);
+        subjects = entityManager.createNamedQuery(
+                "Disciplina.findAll", Disciplina.class).getResultList();
+        listSubjects.updateUI();
+    }//GEN-LAST:event_bCancelSearchActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCancelSearch;
     private javax.swing.JButton bCloseForm;
     private javax.swing.JButton bCreateFormulaOrAddAreas;
     private javax.swing.JButton bDeleteFormulaOrPlacingPictures;

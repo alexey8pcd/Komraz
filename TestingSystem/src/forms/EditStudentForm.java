@@ -3,6 +3,7 @@ package forms;
 import entities.Gruppa;
 import entities.Prepodavatel;
 import entities.Student;
+import entities.Vopros;
 import java.util.List;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
@@ -19,6 +20,8 @@ public class EditStudentForm extends javax.swing.JDialog {
     public static final int MIN_USER_NAME_LENGTH = 5;
     public static final int MIN_USER_PASSWORD_LENGTH = 3;
 
+    private List<Gruppa> groupList;
+
     private Student student;
     private Gruppa group;
 
@@ -27,6 +30,11 @@ public class EditStudentForm extends javax.swing.JDialog {
         initComponents();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
+        groupList = entityManager.createNamedQuery("Gruppa.findAll",
+                Gruppa.class).getResultList();
+        for (Gruppa iteratedGroup : groupList) {
+            comboGroupChoose.addItem(iteratedGroup.getNazvanie());
+        }
     }
 
     public void setStudent(Student student) {
@@ -41,6 +49,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     public void setGroup(Gruppa group) {
         this.group = group;
+        comboGroupChoose.setSelectedItem(group.getNazvanie());
     }
 
     @SuppressWarnings("unchecked")
@@ -57,6 +66,8 @@ public class EditStudentForm extends javax.swing.JDialog {
         bClose = new javax.swing.JButton();
         lFio = new javax.swing.JLabel();
         textFio = new javax.swing.JTextField();
+        lGroupChoose = new javax.swing.JLabel();
+        comboGroupChoose = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Новый студент");
@@ -92,37 +103,42 @@ public class EditStudentForm extends javax.swing.JDialog {
         lFio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lFio.setText("ФИО студента:");
 
+        lGroupChoose.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lGroupChoose.setText("Группа:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lPasswordConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lFio, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)))
-                .addGap(53, 53, 53))
+                        .addGap(128, 128, 128))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lPasswordConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lFio, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lGroupChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(textUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(textFio, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(textPasswordConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(comboGroupChoose, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(53, 53, 53))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lFio)
                     .addComponent(textFio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -138,7 +154,11 @@ public class EditStudentForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lPasswordConfirm)
                     .addComponent(textPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lGroupChoose)
+                    .addComponent(comboGroupChoose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bClose))
@@ -212,7 +232,10 @@ public class EditStudentForm extends javax.swing.JDialog {
                                 student.setLogin(username);
                                 student.setFio(fio);
                                 student.setPassword(password);
-                                student.setGruppaIdGruppa(group);
+                                //Добавление группы
+//                                student.setGruppaIdGruppa(group); 
+                                Gruppa tempGroup = groupList.get(comboGroupChoose.getSelectedIndex());
+                                student.setGruppaIdGruppa(tempGroup);
 
                                 try {
                                     DBManager.writeObjectPersist(student);
@@ -224,6 +247,9 @@ public class EditStudentForm extends javax.swing.JDialog {
                                 student.setLogin(username);
                                 student.setFio(fio);
                                 student.setPassword(password);
+                                //Добавить добавление в группу
+                                Gruppa tempGroup = groupList.get(comboGroupChoose.getSelectedIndex());
+                                student.setGruppaIdGruppa(tempGroup);
                                 try {
                                     DBManager.writeObjectMerge(student);
                                 } catch (Exception ex) {
@@ -275,7 +301,9 @@ public class EditStudentForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bSave;
+    private javax.swing.JComboBox comboGroupChoose;
     private javax.swing.JLabel lFio;
+    private javax.swing.JLabel lGroupChoose;
     private javax.swing.JLabel lPassword;
     private javax.swing.JLabel lPasswordConfirm;
     private javax.swing.JLabel lUsername;

@@ -446,13 +446,16 @@ public class TestResultForm extends javax.swing.JDialog {
                     String typedFio = ftfInputNameOrStartDate.getText();
                     List<StudentTest> tempResults = loadAllResultsFromStudentTest();
 
-                    results = new ArrayList<>();
+                    results.clear();
                     for (StudentTest singleResult : tempResults) {
-                        String iteratedFio = singleResult.
-                                getStudentIdStudent().
-                                getFio().substring(0, typedFio.length());
-                        if (iteratedFio.equalsIgnoreCase(typedFio)) {
-                            results.add(singleResult);
+                        if (typedFio.length() <= singleResult.
+                                getStudentIdStudent().getFio().length()) {
+                            String iteratedFio = singleResult.
+                                    getStudentIdStudent().
+                                    getFio().substring(0, typedFio.length());
+                            if (iteratedFio.equalsIgnoreCase(typedFio)) {
+                                results.add(singleResult);
+                            }
                         }
                     }
                     tableForTestResult.updateUI();
@@ -466,14 +469,18 @@ public class TestResultForm extends javax.swing.JDialog {
                     String typedGroupName = ftfInputNameOrStartDate.getText();
                     List<StudentTest> tempResults = loadAllResultsFromStudentTest();
 
-                    results = new ArrayList<>();
+                    results.clear();
                     for (StudentTest singleResult : tempResults) {
-                        String iteratedGroupName = singleResult.
-                                getStudentIdStudent().
-                                getGruppaIdGruppa().
-                                getNazvanie().substring(0, typedGroupName.length());
-                        if (iteratedGroupName.equalsIgnoreCase(typedGroupName)) {
-                            results.add(singleResult);
+                        if (typedGroupName.length() <= singleResult.
+                                getStudentIdStudent().getGruppaIdGruppa().
+                                getNazvanie().length()) {
+                            String iteratedGroupName = singleResult.
+                                    getStudentIdStudent().
+                                    getGruppaIdGruppa().
+                                    getNazvanie().substring(0, typedGroupName.length());
+                            if (iteratedGroupName.equalsIgnoreCase(typedGroupName)) {
+                                results.add(singleResult);
+                            }
                         }
                     }
                     tableForTestResult.updateUI();
@@ -498,7 +505,7 @@ public class TestResultForm extends javax.swing.JDialog {
 
                     List<StudentTest> tempResults = loadAllResultsFromStudentTest();
 
-                    results = new ArrayList<>();
+                    results.clear();
                     for (StudentTest singleResult : tempResults) {
                         Date iteratedDate = singleResult.getDataProhozhdeniya();
                         if (iteratedDate.after(typedStartDate)

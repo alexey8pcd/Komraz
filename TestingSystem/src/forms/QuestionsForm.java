@@ -100,6 +100,8 @@ public class QuestionsForm extends javax.swing.JDialog {
         bClose = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableQuestions = new javax.swing.JTable();
+        bCancelSearchingQuestion = new javax.swing.JButton();
+        lSearchingName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Вопросы");
@@ -110,7 +112,13 @@ public class QuestionsForm extends javax.swing.JDialog {
 
         textSearchQuestion.setFocusCycleRoot(true);
 
-        bSearchQuestion.setText("Поиск");
+        bSearchQuestion.setText("Найти");
+        bSearchQuestion.setPreferredSize(new java.awt.Dimension(100, 23));
+        bSearchQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSearchQuestionActionPerformed(evt);
+            }
+        });
 
         bCreateQuestion.setText("Создать");
         bCreateQuestion.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +173,15 @@ public class QuestionsForm extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tableQuestions);
 
+        bCancelSearchingQuestion.setText("Сбросить");
+        bCancelSearchingQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCancelSearchingQuestionActionPerformed(evt);
+            }
+        });
+
+        lSearchingName.setText("Поиск по названию вопроса:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,23 +190,27 @@ public class QuestionsForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bClose))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(textSearchQuestion)
-                        .addGap(18, 18, 18)
-                        .addComponent(bSearchQuestion))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lQuestionsList)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(bCreateQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bDeleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bEditQuestion)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(bEditQuestion))
+                            .addComponent(lQuestionsList)
+                            .addComponent(lSearchingName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bClose, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(textSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bCancelSearchingQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -200,7 +221,9 @@ public class QuestionsForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSearchQuestion))
+                    .addComponent(bSearchQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCancelSearchingQuestion)
+                    .addComponent(lSearchingName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -340,8 +363,40 @@ public class QuestionsForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_bEditQuestionActionPerformed
 
+    private void bSearchQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchQuestionActionPerformed
+        String inputQuestionName = textSearchQuestion.getText();
+
+        List<Vopros> tempQuestionList = null;
+        try {
+            tempQuestionList = entityManager.createNamedQuery("Vopros.findAll",
+                    Vopros.class).getResultList();
+        } catch (Exception ex) {
+            DialogManager.errorMessage(ex);
+        }
+        questions.clear();
+        for (Vopros singleQuestion : tempQuestionList) {
+            if (inputQuestionName.length() <= singleQuestion.getNazvanie().length()) {
+                String iteratedQuestion = singleQuestion.
+                        getNazvanie().substring(0, inputQuestionName.length());
+                if (iteratedQuestion.equalsIgnoreCase(inputQuestionName)) {
+                    questions.add(singleQuestion);
+                }
+            }
+        }
+
+        if (questions != null) {
+            tableQuestions.updateUI();
+        }
+    }//GEN-LAST:event_bSearchQuestionActionPerformed
+
+    private void bCancelSearchingQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelSearchingQuestionActionPerformed
+        textSearchQuestion.setText(null);
+        refresh();
+    }//GEN-LAST:event_bCancelSearchingQuestionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCancelSearchingQuestion;
     private javax.swing.JButton bClose;
     private javax.swing.JButton bCreateQuestion;
     private javax.swing.JButton bDeleteQuestion;
@@ -349,6 +404,7 @@ public class QuestionsForm extends javax.swing.JDialog {
     private javax.swing.JButton bSearchQuestion;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lQuestionsList;
+    private javax.swing.JLabel lSearchingName;
     private javax.swing.JTable tableQuestions;
     private javax.swing.JTextField textSearchQuestion;
     // End of variables declaration//GEN-END:variables
