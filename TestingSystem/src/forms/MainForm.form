@@ -132,7 +132,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="bPictureManager">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41c;&#x435;&#x43d;&#x435;&#x434;&#x436;&#x435;&#x440; &lt;br&gt;&#x444;&#x440;&#x430;&#x433;&#x43c;&#x435;&#x43d;&#x442;&#x43e;&#x432;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x41c;&#x435;&#x43d;&#x435;&#x434;&#x436;&#x435;&#x440; &lt;br&gt;&#x438;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x439;"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[160, 160]"/>
         </Property>

@@ -21,7 +21,7 @@ import static sql.DBManager.entityManager;
 
 /**
  *
- * @author ScanNorOne
+ * @author Alexey Ovcharov & Artem Solovenko
  */
 public class TestForm extends javax.swing.JDialog {
 
