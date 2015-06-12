@@ -22,30 +22,19 @@ import static sql.DBManager.entityManager;
  */
 public class PlacingPicturesForm extends javax.swing.JDialog {
 
-    private class ImageWithData {
-
-        public BufferedImage image;
-        public Kartinka data;
-
-        public ImageWithData(BufferedImage image, Kartinka data) {
-            this.image = image;
-            this.data = data;
-        }
-    }
-
     private Area[] RIGHT_AREAS;
     private final Area[] WRONG_AREAS;
     private final Graphics G_RIGHT_AREAS;
     private final Graphics G_WRONG_AREAS;
     private final Graphics G_PICTURES;
-    private List<ImageWithData> imagesWithData;
+    private List<Area> gallery;
     private int beginIndex;
     private int rightAreasAmount;
     private final int PICTURES_SIZE;
     private final int PICTURES_MAX_AMOUNT;
     private final Color AREA_RIGHT_COLOR;
     private final Color AREA_WRONG_COLOR;
-    private ImageWithData selectedIWD;
+    private Area selectedArea;
     private final int START_X = 40;
     private final int START_Y = 40;
     private final int SPAN = 10;
@@ -71,17 +60,17 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
             null, null, null, null, null, null
         };
         RIGHT_AREAS[0] = new Area(START_X, START_Y, Area.DEFAULT_SIZE);
-        RIGHT_AREAS[0].number = 1;
+        RIGHT_AREAS[0].setNumber(1);
         RIGHT_AREAS[1] = new Area(START_X + Area.DEFAULT_SIZE + SPAN,
                 START_Y, Area.DEFAULT_SIZE);
-        RIGHT_AREAS[1].number = 2;
+        RIGHT_AREAS[1].setNumber(2);
         rightAreasAmount = 2;
         WRONG_AREAS = new Area[PICTURES_MAX_AMOUNT];
         for (int i = 0; i < WRONG_AREAS.length; i++) {
             WRONG_AREAS[i] = new Area(START_X
                     + i * (Area.DEFAULT_SIZE + SPAN),
                     START_Y, Area.DEFAULT_SIZE);
-            WRONG_AREAS[i].number = 7 + i;
+            WRONG_AREAS[i].setNumber(7 + i);
         }
         draw();
 
@@ -101,12 +90,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     private void clearSelection() {
         for (Area area : RIGHT_AREAS) {
             if (area != null) {
-                area.selected = false;
+                area.setSelected(false);
             }
         }
-        for (Area column : WRONG_AREAS) {
-            if (column != null) {
-                column.selected = false;
+        for (Area area : WRONG_AREAS) {
+            if (area != null) {
+                area.setSelected(false);
             }
         }
     }
@@ -140,14 +129,14 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                 picturesFromDB = typedQuery.getResultList();
                 File dir = new File("./images");
                 if (dir.exists() && dir.isDirectory()) {
-                    if (imagesWithData == null) {
-                        imagesWithData = new ArrayList<>();
+                    if (gallery == null) {
+                        gallery = new ArrayList<>();
                     }
-                    imagesWithData.clear();
+                    gallery.clear();
                     for (Kartinka picture : picturesFromDB) {
                         BufferedImage loadedImage
                                 = ImageIO.read(new File(picture.getImgLink()));
-                        imagesWithData.add(new ImageWithData(loadedImage, picture));
+                        gallery.add(new Area(0, 0, 0, 0, picture, loadedImage));
                     }
                 }
             } catch (Exception e) {
@@ -158,12 +147,13 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     }
 
     private void draw() {
-        if (imagesWithData != null) {
+        if (gallery != null) {
             G_PICTURES.clearRect(0, 0, spaneForPictures.getWidth(),
                     spaneForPictures.getHeight());
             for (int i = beginIndex, j = 0;
-                    i < imagesWithData.size() && j < PICTURES_SIZE; i++, j++) {
-                G_PICTURES.drawImage(imagesWithData.get(i).image, 10 + j * (PICTURES_SIZE + 2),
+                    i < gallery.size() && j < PICTURES_SIZE; i++, j++) {
+                G_PICTURES.drawImage(gallery.get(i).getImage(),
+                        10 + j * (PICTURES_SIZE + 2),
                         10, PICTURES_SIZE, PICTURES_SIZE, null);
             }
         }
@@ -172,20 +162,20 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                     paneForRightAreas.getHeight());
             for (Area area : RIGHT_AREAS) {
                 if (area != null) {
-                    area.draw(G_RIGHT_AREAS, AREA_RIGHT_COLOR, numberColor);
+                    area.draw(G_RIGHT_AREAS, AREA_RIGHT_COLOR, true, numberColor);
                 }
             }
         }
         G_WRONG_AREAS.clearRect(0, 0, paneForWrongAreas.getWidth(),
                 paneForWrongAreas.getHeight());
         for (Area area : WRONG_AREAS) {
-            area.draw(G_WRONG_AREAS, AREA_WRONG_COLOR, numberColor);
+            area.draw(G_WRONG_AREAS, AREA_WRONG_COLOR, true, numberColor);
         }
     }
 
     private Area getSelectedAreaFromRightAreas() {
         for (Area area : RIGHT_AREAS) {
-            if (area != null && area.selected) {
+            if (area != null && area.isSelected()) {
                 return area;
             }
         }
@@ -194,7 +184,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
 
     private Area getSelectedAreaFromWrongAreas() {
         for (Area area : WRONG_AREAS) {
-            if (area != null && area.selected) {
+            if (area != null && area.isSelected()) {
                 return area;
             }
         }
@@ -421,7 +411,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bScrollRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bScrollRightActionPerformed
-        if (beginIndex < imagesWithData.size() - PICTURES_MAX_AMOUNT) {
+        if (beginIndex < gallery.size() - PICTURES_MAX_AMOUNT) {
             ++beginIndex;
             draw();
         }
@@ -439,14 +429,14 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
         int down = 10 + PICTURES_SIZE;
         int x = evt.getX();
         int y = evt.getY();
-        selectedIWD = null;
+        selectedArea = null;
         for (int j = 0; j < PICTURES_MAX_AMOUNT; j++) {
             int left = 10 + j * (PICTURES_SIZE + 2);
             int right = left + PICTURES_SIZE;
             if (x >= left && x < right && y >= top && y <= down) {
                 int index = beginIndex + j;
-                if (index >= 0 && index < imagesWithData.size()) {
-                    selectedIWD = imagesWithData.get(index);
+                if (index >= 0 && index < gallery.size()) {
+                    selectedArea = gallery.get(index);
                     break;
                 }
             }
@@ -469,13 +459,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
             if (area != null) {
                 if (area.containPoint(positionOnRightPanelX,
                         positionOnRightPanelY)) {
-                    if (area.image != null && selectedIWD != null) {
-                        imagesWithData.add(
-                                new ImageWithData(area.image, area.kartinka));
+                    if (area.getImage() != null && selectedArea != null) {
+                        gallery.add(new Area(area));
                     }
-                    if (selectedIWD != null) {
-                        area.image = selectedIWD.image;
-                        area.kartinka = selectedIWD.data;
+                    if (selectedArea != null) {
+                        area.setData(selectedArea.getKartinka(),
+                                selectedArea.getImage());
                         inserted = true;
                     }
                     break;
@@ -486,13 +475,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
             if (area != null) {
                 if (area.containPoint(positionOnWrongPanelX,
                         positionOnWrongPanelY)) {
-                    if (area.image != null && selectedIWD != null) {
-                        imagesWithData.add(
-                                new ImageWithData(area.image, area.kartinka));
+                    if (area.getImage() != null && selectedArea != null) {
+                        gallery.add(new Area(area));
                     }
-                    if (selectedIWD != null) {
-                        area.image = selectedIWD.image;
-                        area.kartinka = selectedIWD.data;
+                    if (selectedArea != null) {
+                        area.setData(selectedArea.getKartinka(),
+                                selectedArea.getImage());
                         inserted = true;
                     }
                     break;
@@ -500,12 +488,12 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
             }
         }
         if (inserted) {
-            imagesWithData.remove(selectedIWD);
+            gallery.remove(selectedArea);
             if (beginIndex > 0) {
                 --beginIndex;
             }
         }
-        selectedIWD = null;
+        selectedArea = null;
 
         draw();
     }//GEN-LAST:event_spaneForPicturesMouseReleased
@@ -528,48 +516,29 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
         draw();
     }//GEN-LAST:event_paneForWrongAreasMousePressed
 
+    private void clearImageFromArea(Area area) {
+        if (area != null) {
+            if (area.isSelected()) {
+                if (area.getImage() != null) {
+                    gallery.add(new Area(area));
+                    area.setImage(null);
+                }
+            }
+        }
+    }
+
     private void bDeletePictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeletePictureActionPerformed
-        Area area = getSelectedAreaFromRightAreas();
-        if (area != null) {
-            if (area.selected) {
-                if (area.image != null) {
-                    imagesWithData.add(
-                            new ImageWithData(area.image, area.kartinka));
-                    area.image = null;
-                }
-            }
-        }
-        area = getSelectedAreaFromWrongAreas();
-        if (area != null) {
-            if (area.selected) {
-                if (area.image != null) {
-                    imagesWithData.add(
-                            new ImageWithData(area.image, area.kartinka));
-                    area.image = null;
-                }
-            }
-        }
+        clearImageFromArea(getSelectedAreaFromRightAreas());
+        clearImageFromArea(getSelectedAreaFromWrongAreas());
         draw();
     }//GEN-LAST:event_bDeletePictureActionPerformed
 
     private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
         for (Area area : WRONG_AREAS) {
-            if (area != null) {
-                if (area.image != null) {
-                    imagesWithData.add(
-                            new ImageWithData(area.image, area.kartinka));
-                    area.image = null;
-                }
-            }
+            clearImageFromArea(area);
         }
         for (Area area : RIGHT_AREAS) {
-            if (area != null) {
-                if (area.image != null) {
-                    imagesWithData.add(
-                            new ImageWithData(area.image, area.kartinka));
-                    area.image = null;
-                }
-            }
+            clearImageFromArea(area);
         }
         draw();
     }//GEN-LAST:event_bClearAllActionPerformed
@@ -584,7 +553,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
         boolean wrongAreasFilled = false;
         for (Area area : WRONG_AREAS) {
-            if (area.image == null || area.kartinka == null) {
+            if (area.getImage() == null || area.getKartinka() == null) {
                 wrongAreasFilled = true;
             }
         }
@@ -616,7 +585,7 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
                     RIGHT_AREAS[i] = new Area(
                             START_X + i * (Area.DEFAULT_SIZE + SPAN),
                             START_Y, Area.DEFAULT_SIZE);
-                    RIGHT_AREAS[i].number = i + 1;
+                    RIGHT_AREAS[i].setNumber(i + 1);
                     rightAreasAmount++;
                     break;
                 }
@@ -630,9 +599,8 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
             for (int i = 0; i < RIGHT_AREAS.length; i++) {
                 Area area = RIGHT_AREAS[i];
                 if (area != null) {
-                    if (area.selected) {
-                        imagesWithData.add(
-                                new ImageWithData(area.image, area.kartinka));
+                    if (area.isSelected()) {
+                        gallery.add(new Area(area));
                         RIGHT_AREAS[i] = null;
                         rightAreasAmount--;
                         break;

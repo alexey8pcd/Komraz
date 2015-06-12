@@ -55,10 +55,9 @@ public class PictureManagerForm extends javax.swing.JDialog {
                     Kartinka picture = picturesFromDB.get(i);
                     int x = (i % 5) * (PICTURE_SIZE + 2) + START_X;
                     int y = (i / 5) * (PICTURE_SIZE + 2) + START_Y;
-                    Area area = new Area(x, y, PICTURE_SIZE);
-                    area.image = ImageIO.read(new File(picture.getImgLink()));
-                    area.kartinka = picture;
-                    area.number = picture.getIdKartinka();
+                    Area area = new Area(x, y, PICTURE_SIZE, 
+                            picture.getIdKartinka(),picture,
+                            ImageIO.read(new File(picture.getImgLink())));
                     imagesWithData.add(area);
                 }
             }
@@ -73,7 +72,7 @@ public class PictureManagerForm extends javax.swing.JDialog {
                     paneForPictures.getHeight());
             for (int i = 0; i < imagesWithData.size(); ++i) {
                 Area area = imagesWithData.get(i);
-                area.draw(G_PICTURES, Color.white, Color.BLUE);
+                area.draw(G_PICTURES, Color.white, true, Color.BLUE);
             }
 
         }
@@ -198,12 +197,12 @@ public class PictureManagerForm extends javax.swing.JDialog {
     private void bDeletePictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeletePictureActionPerformed
         if (selectedArea != null) {
             try {
-                File file = new File(selectedArea.kartinka.getImgLink());
+                File file = new File(selectedArea.getKartinka().getImgLink());
                 if (file.exists()) {
                     file.delete();
                 }
                 entityManager.getTransaction().begin();
-                entityManager.remove(selectedArea.kartinka);
+                entityManager.remove(selectedArea.getKartinka());
                 entityManager.getTransaction().commit();
                 imagesWithData.remove(selectedArea);
             } catch (Exception e) {
