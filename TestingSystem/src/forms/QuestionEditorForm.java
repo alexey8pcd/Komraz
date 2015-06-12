@@ -618,11 +618,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         for (int j = 0; j < bound; j++) {
                             for (PoryadkoviyNomer nomer : numbers) {
                                 Area area = placingPicturesInAreas.get(0).get(j);
-                                if (area.number
-                                        == nomer.getNomer()) {
+                                if (area.getNumber() == nomer.getNomer()) {
                                     PolozhenieKartinki polKart
                                             = new PolozhenieKartinki();
-                                    polKart.setKartinkaIdKartinka(area.kartinka);
+                                    polKart.setKartinkaIdKartinka(
+                                            area.getKartinka());
                                     polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(nomer);
                                     polKart.
                                             setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
@@ -637,7 +637,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         for (int j = 0; j < placingPicturesInAreas.get(1).size(); j++) {
                             Area area = placingPicturesInAreas.get(1).get(j);
                             PolozhenieKartinki polKart = new PolozhenieKartinki();
-                            polKart.setKartinkaIdKartinka(area.kartinka);
+                            polKart.setKartinkaIdKartinka(area.getKartinka());
                             polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(illegalNumber);
                             polKart.setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
                                     peretaskivanieQuestion);
