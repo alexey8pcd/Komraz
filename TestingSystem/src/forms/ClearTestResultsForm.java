@@ -3,7 +3,6 @@ package forms;
 import entities.StudentTest;
 import entities.Test;
 import java.awt.Color;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +35,7 @@ public class ClearTestResultsForm extends javax.swing.JDialog {
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
 
         lStatusClearing.setForeground(Color.BLACK);
-        
+
         //Устанавливаем textFields на формат Date
         ftfStartDate.setFormatterFactory(DATE_FORMATTER);
         ftfStartDate.setValue(GregorianCalendar.getInstance().getTime());

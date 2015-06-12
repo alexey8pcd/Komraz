@@ -148,6 +148,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442; &#x432; &#x444;&#x430;&#x439;&#x43b;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bExportToFileActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="paneFilter">
       <Properties>

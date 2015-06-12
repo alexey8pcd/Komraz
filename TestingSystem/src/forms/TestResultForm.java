@@ -2,6 +2,12 @@ package forms;
 
 import entities.StudentTest;
 import entities.Test;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +33,8 @@ public class TestResultForm extends javax.swing.JDialog {
 
     private static final SimpleDateFormat DATE_FORMAT
             = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final SimpleDateFormat DATE_FORMAT_TO_EXPORT_NAME
+            = new SimpleDateFormat("dd.MM.yyyy_HH.mm.ss");
     private final String[] TABLE_HEADERS = {
         "ФИО студента",
         "Группа",
@@ -279,6 +287,11 @@ public class TestResultForm extends javax.swing.JDialog {
         });
 
         bExportToFile.setText("Экспорт в файл");
+        bExportToFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportToFileActionPerformed(evt);
+            }
+        });
 
         paneFilter.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Отфильтровать результаты"));
 
@@ -580,6 +593,48 @@ public class TestResultForm extends javax.swing.JDialog {
         results = loadAllResultsFromStudentTest();
         tableForTestResult.updateUI();
     }//GEN-LAST:event_bClearTestResultsActionPerformed
+
+    private void bExportToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportToFileActionPerformed
+        String currentDate = DATE_FORMAT_TO_EXPORT_NAME.
+                format(GregorianCalendar.getInstance().getTime());
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(
+                                    new File("./report" + currentDate + ".txt"))));
+//            DataOutputStream dataOutputStream = new DataOutputStream(
+//                    new FileOutputStream(new File("./report" + currentDate + ".txt")));
+            //Запись в файл
+            StringBuilder sb = new StringBuilder();
+            
+//            dataOutputStream.writeUTF("| ФИО | Группа | Дата прохождения | % набранных баллов | Оценка |");
+            writer.write("| ФИО | Группа | Дата прохождения | % набранных баллов | Оценка |");
+            writer.newLine();
+            if (!results.isEmpty()) {
+                for (StudentTest singleResult : results) {
+                    sb.setLength(0);
+                    sb.append("| ");
+                    sb.append(singleResult.getStudentIdStudent().getFio());
+                    sb.append(" | ");
+                    sb.append(singleResult.getStudentIdStudent().getGruppaIdGruppa().getNazvanie());
+                    sb.append(" | ");
+                    sb.append(DATE_FORMAT.format(singleResult.getDataProhozhdeniya()));
+                    sb.append(" | ");
+                    sb.append(singleResult.getProcentBallov());
+                    sb.append(" | ");
+                    sb.append(percentToMark(singleResult.getProcentBallov()));
+                    sb.append(" |");
+//                    dataOutputStream.writeUTF(sb.toString());
+                    writer.write(sb.toString());
+                    writer.newLine();
+                }
+            }
+//            dataOutputStream.close();
+            writer.close();
+        } catch (IOException ex) {
+            DialogManager.errorMessage(ex);
+        }
+    }//GEN-LAST:event_bExportToFileActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
