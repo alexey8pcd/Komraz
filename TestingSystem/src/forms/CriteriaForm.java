@@ -41,13 +41,16 @@ public class CriteriaForm extends javax.swing.JDialog {
                 criteriaValues[1] = percentTo4;
                 spinnerMark4.setValue(percentTo4);
                 //Проверяем корректность оценки "5"
-                if (percentTo5 > percentTo4 && percentTo5 < 95) {
+                if (percentTo5 > percentTo4 && percentTo5 < 100) {
                     criteriaValues[2] = percentTo5;
                     spinnerMark5.setValue(percentTo5);
 
                     allowToCheckValues = true;
                 }
             }
+        }
+        if (!allowToCheckValues) {
+            defaultCriteriaValues();
         }
     }
 
@@ -57,6 +60,14 @@ public class CriteriaForm extends javax.swing.JDialog {
         } else {
             return null;
         }
+    }
+
+    private void defaultCriteriaValues() {
+        criteriaValues = new int[3];
+
+        criteriaValues[0] = 25;
+        criteriaValues[1] = 50;
+        criteriaValues[2] = 75;
     }
 
     @SuppressWarnings("unchecked")
@@ -224,7 +235,7 @@ public class CriteriaForm extends javax.swing.JDialog {
         allowToReturnValue = true;
 
         //Проверка корректности оценки "3"
-        if (percentTo3 > 5 && percentTo3 < percentTo4) {
+        if (percentTo3 > 9 && percentTo3 < percentTo4) {
             criteriaValues[0] = percentTo3;
 
             //Проверка корректности оценки "4"
@@ -232,7 +243,7 @@ public class CriteriaForm extends javax.swing.JDialog {
                 criteriaValues[1] = percentTo4;
 
                 //Проверка корректности оценки "5"
-                if (percentTo5 > percentTo4 && percentTo5 < 95) {
+                if (percentTo5 > percentTo4 && percentTo5 < 100) {
                     criteriaValues[2] = percentTo5;
 
                     //Закрываем форму
@@ -265,11 +276,11 @@ public class CriteriaForm extends javax.swing.JDialog {
 
     private void spinnerMark5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerMark5StateChanged
         if (allowToCheckValues) {
-            if ((int) spinnerMark5.getValue() < 30) {
-                spinnerMark5.setValue(30);
-            }
-            if ((int) spinnerMark5.getValue() > 100) {
-                spinnerMark5.setValue(100);
+//            if ((int) spinnerMark5.getValue() < 30) {
+//                spinnerMark5.setValue(30);
+//            }
+            if ((int) spinnerMark5.getValue() > 99) {
+                spinnerMark5.setValue(99);
             }
             //Дописать: добавить зависимости от других оценок (не менее "4")
             if ((int) spinnerMark5.getValue() < (int) spinnerMark4.getValue() + 1) {
@@ -280,12 +291,12 @@ public class CriteriaForm extends javax.swing.JDialog {
 
     private void spinnerMark4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerMark4StateChanged
         if (allowToCheckValues) {
-            if ((int) spinnerMark4.getValue() < 20) {
-                spinnerMark4.setValue(20);
-            }
-            if ((int) spinnerMark4.getValue() > 90) {
-                spinnerMark4.setValue(90);
-            }
+//            if ((int) spinnerMark4.getValue() < 20) {
+//                spinnerMark4.setValue(20);
+//            }
+//            if ((int) spinnerMark4.getValue() > 90) {
+//                spinnerMark4.setValue(90);
+//            }
             //Дописать: добавить зависимости от других оценок (не менее "3", не более "5")
             if ((int) spinnerMark4.getValue() > (int) spinnerMark5.getValue() - 1) {
                 spinnerMark4.setValue((int) spinnerMark5.getValue() - 1);
@@ -301,9 +312,9 @@ public class CriteriaForm extends javax.swing.JDialog {
             if ((int) spinnerMark3.getValue() < 10) {
                 spinnerMark3.setValue(10);
             }
-            if ((int) spinnerMark3.getValue() > 80) {
-                spinnerMark3.setValue(80);
-            }
+//            if ((int) spinnerMark3.getValue() > 80) {
+//                spinnerMark3.setValue(80);
+//            }
             //Дописать: добавить зависимости от других оценок (не менее "2", не более "4")
             if ((int) spinnerMark3.getValue() > (int) spinnerMark4.getValue() - 1) {
                 spinnerMark3.setValue((int) spinnerMark4.getValue() - 1);
