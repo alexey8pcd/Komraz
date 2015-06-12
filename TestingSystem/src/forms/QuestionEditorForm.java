@@ -25,11 +25,11 @@ import static sql.DBManager.entityManager;
 
 /**
  *
- * @author Алексей
+ * @author Alexey Ovcharov & Artem Solovenko
  */
 public class QuestionEditorForm extends javax.swing.JDialog {
 
-    private enum TypeOfQuestion {
+    public enum TypeOfQuestion {
 
         LATEX,
         PUZZLE,

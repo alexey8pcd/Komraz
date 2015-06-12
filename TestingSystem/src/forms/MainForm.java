@@ -68,7 +68,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGap(0, 373, Short.MAX_VALUE)
         );
 
-        bPictureManager.setText("<html><center>Менеджер <br>фрагментов");
+        bPictureManager.setText("<html><center>Менеджер <br>изображений");
         bPictureManager.setPreferredSize(new java.awt.Dimension(160, 160));
         bPictureManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -31,37 +31,46 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="lTestName" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="textTestName" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="bSaveTest" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="bClose" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="scrollPaneForTestQuestions" pref="386" max="32767" attributes="0"/>
-                          <Component id="lQuestions" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lTestName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="textTestName" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="lQuestions" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Component id="scrollPaneForTestQuestions" pref="392" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="bRemoveQuestionFromTest" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
                           <Component id="bAddQuestionToTest" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="textSearch" min="-2" pref="341" max="-2" attributes="0"/>
+                              <Component id="textSearch" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="bSearch" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bCancelSearch" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="scrollPaneForAllQuestions" max="32767" attributes="0"/>
+                          <Component id="scrollPaneForAllQuestions" pref="416" max="32767" attributes="0"/>
                           <Component id="lQuestionsInSubject" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="bTypeTest" min="-2" pref="165" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="comboChooseTypeOfTest" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -76,12 +85,15 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lTestName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textTestName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bTypeTest" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboChooseTypeOfTest" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lQuestions" alignment="0" max="32767" attributes="0"/>
-                  <Component id="lQuestionsInSubject" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lQuestionsInSubject" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lQuestions" alignment="3" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -92,6 +104,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="textSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bCancelSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -105,7 +118,7 @@
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="206" max="32767" attributes="0"/>
                               <Component id="bAddQuestionToTest" min="-2" pref="37" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="bRemoveQuestionFromTest" min="-2" pref="37" max="-2" attributes="0"/>
@@ -132,7 +145,7 @@
     <Component class="javax.swing.JLabel" name="lQuestions">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="14" style="1"/>
+          <Font name="Tahoma" size="12" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="&#x412;&#x43e;&#x43f;&#x440;&#x43e;&#x441;&#x44b; &#x442;&#x435;&#x441;&#x442;&#x430;"/>
@@ -189,6 +202,9 @@
     <Component class="javax.swing.JButton" name="bSearch">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x41f;&#x43e;&#x438;&#x441;&#x43a;"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[90, 23]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bSearchActionPerformed"/>
@@ -215,11 +231,43 @@
     <Component class="javax.swing.JLabel" name="lQuestionsInSubject">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="14" style="1"/>
+          <Font name="Tahoma" size="12" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="&#x412;&#x441;&#x435; &#x432;&#x43e;&#x43f;&#x440;&#x43e;&#x441;&#x44b; &#x43f;&#x43e; &#x434;&#x438;&#x441;&#x446;&#x438;&#x43f;&#x43b;&#x438;&#x43d;&#x435;"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bCancelSearch">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x421;&#x431;&#x440;&#x43e;&#x441;&#x438;&#x442;&#x44c;"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[90, 23]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCancelSearchActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="bTypeTest">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&#x412;&#x44b;&#x431;&#x435;&#x440;&#x438;&#x442;&#x435; &#x442;&#x438;&#x43f; &#x442;&#x435;&#x441;&#x442;&#x430;:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboChooseTypeOfTest">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="&#x41a;&#x43e;&#x43d;&#x441;&#x442;&#x440;&#x443;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x435; &#x444;&#x43e;&#x440;&#x43c;&#x443;&#x43b;&#x44b;"/>
+            <StringItem index="1" value="&#x421;&#x431;&#x43e;&#x440;&#x43a;&#x430; &#x438;&#x437; &#x444;&#x440;&#x430;&#x433;&#x43c;&#x435;&#x43d;&#x442;&#x43e;&#x432;"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboChooseTypeOfTestActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
