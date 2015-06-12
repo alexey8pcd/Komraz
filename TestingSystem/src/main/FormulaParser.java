@@ -20,6 +20,7 @@ public class FormulaParser {
      */
     public Formula parseFormula(String transcription) throws ParseException {
         this.transcription = transcription;
+        currentPP = 0;
         return new Formula(formula(null, false), 0, 0);
     }
 

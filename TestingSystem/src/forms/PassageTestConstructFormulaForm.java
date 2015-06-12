@@ -7,12 +7,15 @@ import entities.TestVopros;
 import entities.Vopros;
 import entities.VoprosLatex;
 import java.awt.Graphics;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.TypedQuery;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
@@ -21,6 +24,7 @@ import javax.swing.table.TableModel;
 import main.Atom;
 import main.DialogManager;
 import main.Formula;
+import main.FormulaParser;
 import main.TypeOfAtom;
 import main.TypeOfFunction;
 import static resources.Parameters.*;
@@ -46,7 +50,8 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     private Formula currentFormula;
     private final Stack<Formula> STACK_FORMULA;
     private int sqrtNumber;
-    private String[] answers;
+//    private String[] answers;
+    private Formula[] answers;
     private final Random RANDOM = new Random();
     private final TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
 
@@ -296,7 +301,8 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         }
         currentQuestion = questions.get(currentQuestionIndex);
         questionsAmount = questions.size();
-        answers = new String[questionsAmount];
+//        answers = new String[questionsAmount];
+        answers = new Formula[questionsAmount];
         tableSymbols.setModel(TABLE_SYBOLS_MODEL);
         //Установим заголовки таблицы букв пустыми
         JTableHeader header = tableSymbols.getTableHeader();
@@ -808,7 +814,9 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                         "В формуле не должно быть пустых элементов",
                         DialogManager.TypeOfMessage.CLOSED);
             } else {
-                answers[currentQuestionIndex] = currentFormula.toString();
+//                answers[currentQuestionIndex] = currentFormula.toString();
+                Formula answer = new Formula(currentFormula);
+                answers[currentQuestionIndex] = answer;
                 currentQuestionIndex++;
                 updateQuestion();
                 drawFormula();
@@ -858,25 +866,42 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                     + "Вы действительно хотите завершить тест?")) {
                 return;
             }
-//#######---------DEPRICATED-----------###############
-//            int result = JOptionPane.showConfirmDialog(null,
-//                    "Вы ответили не на все вопросы. Вы действительно "
-//                    + "хотите завершить тест?", "Подтверждение",
-//                    JOptionPane.YES_NO_OPTION);
-//            if (result == JOptionPane.NO_OPTION) {
-//                return;
-//            }
+        }
+        boolean hasEmpty = false;
+        for (Atom atom : currentFormula) {
+            if (atom.isEmpty()) {
+                hasEmpty = true;
+            }
+        }
+        if (hasEmpty) {
+            DialogManager.notify("Предупреждение",
+                    "В формуле не должно быть пустых элементов",
+                    DialogManager.TypeOfMessage.CLOSED);
+        } else {
+//                answers[currentQuestionIndex] = currentFormula.toString();
+            answers[currentQuestionIndex] = new Formula(currentFormula);
         }
         int scored = 0;
         int maximalScore = 0;
-        answers[currentQuestionIndex] = currentFormula.toString();
+//        answers[currentQuestionIndex] = currentFormula.toString();
+        FormulaParser parser = new FormulaParser();
         for (int i = 0; i < questionsAmount; i++) {
             Vopros vopros = questions.get(i);
-            String answer = answers[i];
+//            String answer = answers[i];
+            Formula answer = answers[i];
             if (answer != null) {
-                if (answer.equals(getLatexTranscription(vopros))) {
-                    scored += vopros.getBall();
+                try {
+                    Formula fromQuestion = parser.parseFormula(
+                            getLatexTranscription(vopros));
+                    if (fromQuestion.equalFormula(answer)) {
+                        scored += vopros.getBall();
+                    }
+                } catch (ParseException ex) {
+                    DialogManager.errorMessage(ex);
                 }
+//                if (answer.equals(getLatexTranscription(vopros))) {
+
+//                }
             }
             maximalScore += vopros.getBall();
         }

@@ -1,14 +1,10 @@
 package sql;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import main.DialogManager;
 
 /**
  *
@@ -51,18 +47,6 @@ public class DBManager {
         entityManager.getTransaction().commit();
     }
 
-    public static String loadUserNameAndPassword() {
-        try {
-            DataInputStream dataInputStream = new DataInputStream(
-                    new FileInputStream(new File("./config.dat")));
-            String result = dataInputStream.readUTF();
-            return result;
-        } catch (Exception ex) {
-            DialogManager.errorMessage(ex);
-        }
-        return null;
-    }
-
     /**
      * Метод с возвратом значений. Используется для SELECT-запросов
      *
@@ -83,13 +67,9 @@ public class DBManager {
         try {
             Class.forName("java.sql.Driver");
             //Создаём соединение
-            String nameAndPassword = loadUserNameAndPassword();
-            String[] parts = nameAndPassword.split(",");
-            String name = parts[0];
-            String password = parts[1];
             //root,ytrewq
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/mydb", name, password);
+                    "jdbc:mysql://localhost:3306/mydb", "root", "ytrewq");
             //Создаём ссылку на утверждение из нашего соединения
             Statement statement = con.createStatement();
             //В результирующую переменную "rs" получаем ответ 
@@ -121,13 +101,9 @@ public class DBManager {
     public static void requestWithoutAnswerSQL(String sqlRequest) {
         try {
             Class.forName("java.sql.Driver");
-            String nameAndPassword = loadUserNameAndPassword();
-            String[] parts = nameAndPassword.split(",");
-            String name = parts[0];
-            String password = parts[1];
             //Создаём соединение
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/mydb", name, password);
+                    "jdbc:mysql://localhost:3306/mydb", "root", "ytrewq");
             //Создаём ссылку на утверждение из нашего соединения
             Statement statement = con.createStatement();
             //Выполняем sql-запрос

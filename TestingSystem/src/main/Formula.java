@@ -1,7 +1,10 @@
 package main;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Alexey
@@ -24,7 +27,7 @@ public class Formula implements Iterable<Atom> {
         this.START_Y = formula.START_Y;
         root = new Atom(formula.root);
         last = root;
-        while (last != null) {
+        while (last.next != null) {
             last = last.next;
         }
     }
@@ -34,7 +37,7 @@ public class Formula implements Iterable<Atom> {
         this.START_Y = startY;
         this.root = root;
         last = root;
-        while (last != null) {
+        while (last.next != null) {
             last = last.next;
         }
     }
@@ -404,6 +407,110 @@ public class Formula implements Iterable<Atom> {
     @Override
     public Iterator<Atom> iterator() {
         return new FormulaIterator(this, root);
+    }
+
+    public boolean equalFormula(Formula formula) {
+        if (formula == null) {
+            return false;
+        }
+        List<Formula> splittedFirst = this.split('=');
+        List<Formula> splittedSecond = formula.split('=');
+        return splittedFirst.get(0).equal2(splittedSecond.get(0))
+                && splittedFirst.get(1).equal2(splittedSecond.get(1))
+                || splittedFirst.get(1).equal2(splittedSecond.get(0))
+                && splittedFirst.get(0).equal2(splittedSecond.get(1));
+    }
+
+    public void addNextAtom(Atom atom) {
+        if (last == null) {
+            root = last = atom;
+        } else {
+            last.next = atom;
+            last = last.next;
+        }
+    }
+
+    private List<Formula> split(Character regex) {
+        List<Formula> result = new ArrayList<>();
+        //слева от regex для первой формулы
+        Formula current = new Formula(START_X, START_Y);
+        Atom pointer = root;
+        while (pointer != null) {
+            if (regex.equals(pointer.symbol) ) {
+                current.addNextAtom(pointer);
+            } else {
+                current.addNextAtom(null);
+                result.add(current);
+                current = new Formula(START_X, START_Y);
+            }
+            pointer = pointer.next;
+        }
+        result.add(current);
+        return result;
+    }
+
+    private boolean equal2(Formula formula) {
+        if (formula == null) {
+            return false;
+        }
+        //составить список слагаемых
+        List<Formula> summands1 = this.split('+');
+        List<Formula> summands2 = formula.split('+');
+        for (Formula summand1 : summands1) {
+            boolean contains = false;
+            for (Formula summand2 : summands2) {
+                if (summand1.equal3(summand2)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean equal3(Formula formula) {
+        if (formula == null) {
+            return false;
+        }
+        //составить список множителей
+        List<Formula> multipliers1 = this.split('•');
+        List<Formula> multipliers2 = formula.split('•');
+        for (Formula multiplier1 : multipliers1) {
+            boolean contains = false;
+            for (Formula multiplier2 : multipliers2) {
+                if (multiplier1.equal4(multiplier2)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean equal4(Formula formula) {
+        if (formula == null) {
+            return false;
+        }
+        Atom head1 = root;
+        Atom head2 = formula.root;
+        while (head1 != null) {
+            if (!head1.equalAtom(head2)) {
+                return false;
+            }
+            if (head1.next != null && head2.next == null
+                    || head1.next == null && head2.next != null) {
+                return false;
+            }
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+        return true;
     }
 
 }

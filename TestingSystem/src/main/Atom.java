@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Objects;
 
 /**
  * @author Alexey
@@ -349,5 +350,65 @@ public class Atom {
             builder.append(next.toString());
         }
         return builder.toString();
+    }
+   
+    boolean equalAtom(Atom atomToCompare) {
+        Atom iterator;
+        if (atomToCompare == null) {
+            return false;
+        }
+        if (!Objects.equals(symbol, atomToCompare.symbol)) {
+            return false;
+        }
+        if (asIndex != atomToCompare.asIndex) {
+            return false;
+        }
+        if (top == null && atomToCompare.top != null
+                || top != null && atomToCompare.top == null) {
+            return false;
+        }
+        if (down == null && atomToCompare.down != null
+                || down != null && atomToCompare.down == null) {
+            return false;
+        }
+        if (top != null && atomToCompare.top != null) {
+            //создаем формулу из this.top
+            Formula formula1 = new Formula(top, startX, startY);
+            iterator = top;
+            while (iterator.next != null) {
+                formula1.addNextAtom(iterator.next);
+                iterator = iterator.next;
+            }
+            //создаем формулу из atomToCompare.top
+            Formula formula2 = new Formula(atomToCompare.top, startX, startY);
+            iterator = atomToCompare.top;
+            while (iterator.next != null) {
+                formula2.addNextAtom(iterator.next);
+                iterator = iterator.next;
+            }
+            if (!formula1.equalFormula(formula2)) {
+                return false;
+            }
+        }
+        if (down != null && atomToCompare.down != null) {
+            //создаем формулу из this.top
+            Formula formula1 = new Formula(down, startX, startY);
+            iterator = down;
+            while (iterator.next != null) {
+                formula1.addNextAtom(iterator.next);
+                iterator = iterator.next;
+            }
+            //создаем формулу из atomToCompare.top
+            Formula formula2 = new Formula(atomToCompare.down, startX, startY);
+            iterator = atomToCompare.down;
+            while (iterator.next != null) {
+                formula2.addNextAtom(iterator.next);
+                iterator = iterator.next;
+            }
+            if (!formula1.equalFormula(formula2)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
