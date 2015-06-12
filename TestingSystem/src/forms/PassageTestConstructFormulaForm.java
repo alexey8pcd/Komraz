@@ -21,6 +21,8 @@ import javax.swing.table.TableModel;
 import main.Atom;
 import main.DialogManager;
 import main.Formula;
+import main.TypeOfAtom;
+import main.TypeOfFunction;
 import static resources.Parameters.*;
 import static sql.DBManager.entityManager;
 
@@ -36,7 +38,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     private List<Vopros> questions;
     private int currentQuestionIndex;
     private int questionsAmount;
-
     private List<String> wordsToInsert; //Буквы, которые собираемся вставить
     private final int MAX_AMOUNT_OF_WORDS = 20;
     private List<Object[]> insertValues;
@@ -44,10 +45,9 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     private final Graphics GRAPHICS;
     private Formula currentFormula;
     private final Stack<Formula> STACK_FORMULA;
+    private int sqrtNumber;
     private String[] answers;
-
     private final Random RANDOM = new Random();
-
     private final TableModel TABLE_SYBOLS_MODEL = new AbstractTableModel() {
 
         @Override
@@ -250,10 +250,11 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     private void makeDefaultFormula() {
         currentFormula = new Formula(20,
                 paneForFormulaConstruct.getHeight() / 3);
-        currentFormula.addEmptyElement();
-        currentFormula.addNextElement('=', true);
-        currentFormula.addEmptyElement();
+        currentFormula.addEmptyElement(Formula.BASE_ATOM_WIDTH);
+        currentFormula.addNextElement('=', true, Formula.BASE_ATOM_WIDTH);
+        currentFormula.addEmptyElement(Formula.BASE_ATOM_WIDTH);
         currentFormula.update();
+        sqrtNumber = 0;
     }
 
     @Override
@@ -314,16 +315,11 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
     private void insertSplitterAndEmptyElements(char splitter) {
         if (currentFormula.isSelectedEmpty()) {
-//            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
             addFormulaCopyToStack();
-            currentFormula.addEmptyAfterSelected();
-            currentFormula.addAfterSelected(splitter, true);
+            currentFormula.addEmptyAfterSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.addAfterSelected(splitter, true, Formula.BASE_ATOM_WIDTH);
             currentFormula.update();
             drawFormula();
-//            } else {
-//                DialogManager.notify("Предупреждение", "Максимальная длина формулы", 
-//                        DialogManager.TypeOfMessage.OK);
-//            }
         }
     }
 
@@ -481,6 +477,11 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         bPutSignSqrt.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignSqrt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sqrt.PNG"))); // NOI18N
         bPutSignSqrt.setPreferredSize(new java.awt.Dimension(80, 80));
+        bPutSignSqrt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPutSignSqrtActionPerformed(evt);
+            }
+        });
 
         bPutSignPower.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         bPutSignPower.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x2.PNG"))); // NOI18N
@@ -574,6 +575,11 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
         cbTrigonometry.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbTrigonometry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "sin [ ]", "cos [ ]", "tg [  ]", "ctg [ ]", "arcsin [ ]", "arccos [ ]", "arctg [ ]", "arcctg [ ]", "ln [ ]" }));
+        cbTrigonometry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTrigonometryActionPerformed(evt);
+            }
+        });
 
         bPutSignPlusMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         bPutSignPlusMinus.setText("<html><strong>± [ ]");
@@ -824,6 +830,28 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         updateLabel();
     }//GEN-LAST:event_bPreviousQuestionActionPerformed
 
+    private void insertSymbolBeforeSelected(char symbol) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
+            addFormulaCopyToStack();
+            currentFormula.addBeforeSelected(symbol, false, Formula.BASE_ATOM_WIDTH);
+            currentFormula.update();
+            drawFormula();
+        }
+    }
+
+    private void insertFunctionBeforeSelected(TypeOfFunction typeOfFunction) {
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
+            addFormulaCopyToStack();
+            currentFormula.addEmptyAfterSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.placeInSelected((char) (typeOfFunction.ordinal()),
+                    true);
+            currentFormula.update();
+            drawFormula();
+        }
+    }
+
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
         if (currentQuestionIndex < questionsAmount - 1) {
             if (!DialogManager.confirmDeleting("Вы ответили не на все вопросы! "
@@ -923,7 +951,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addPowerInSelected();
             currentFormula.update();
@@ -933,7 +961,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
     private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addLowerIndexInSelected();
             currentFormula.update();
@@ -943,7 +971,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
     private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addVectorInSelected();
             currentFormula.update();
@@ -961,23 +989,23 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bPutSignFracActionPerformed
 
     private void bPutSignPlusMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPlusMinusActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('±');
     }//GEN-LAST:event_bPutSignPlusMinusActionPerformed
 
     private void bPutDeltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutDeltaActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('Δ');
     }//GEN-LAST:event_bPutDeltaActionPerformed
 
     private void bPutSignUnaryMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignUnaryMinusActionPerformed
-        // TODO add your handling code here:
+        insertSymbolBeforeSelected('-');
     }//GEN-LAST:event_bPutSignUnaryMinusActionPerformed
 
     private void bPutBracketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutBracketsActionPerformed
         if (currentFormula.isSelectedEmpty()
-            || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addBeforeSelected('(', true);
-                currentFormula.addAfterSelected(')', true);
+            currentFormula.addBeforeSelected('(', true, Formula.BASE_ATOM_WIDTH);
+            currentFormula.addAfterSelected(')', true, Formula.BASE_ATOM_WIDTH);
             currentFormula.update();
             drawFormula();
         }
@@ -985,14 +1013,31 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
 
     private void bPutModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutModuleActionPerformed
         if (currentFormula.isSelectedEmpty()
-            || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addBeforeSelected('|', true);
-            currentFormula.addAfterSelected('|', true);
+            currentFormula.addBeforeSelected('|', true, Formula.BASE_ATOM_WIDTH);
+            currentFormula.addAfterSelected('|', true, Formula.BASE_ATOM_WIDTH);
             currentFormula.update();
             drawFormula();
         }
     }//GEN-LAST:event_bPutModuleActionPerformed
+
+    private void cbTrigonometryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTrigonometryActionPerformed
+        insertFunctionBeforeSelected(
+                TypeOfFunction.getType(cbTrigonometry.getSelectedIndex()));
+    }//GEN-LAST:event_cbTrigonometryActionPerformed
+
+    private void bPutSignSqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignSqrtActionPerformed
+        if (currentFormula.isSelectedEmpty()
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
+            addFormulaCopyToStack();
+
+            currentFormula.addSqrtStartBeforeSelected(sqrtNumber);
+            currentFormula.addSqrtEndAfterSelected(sqrtNumber++);
+            currentFormula.update();
+            drawFormula();
+        }
+    }//GEN-LAST:event_bPutSignSqrtActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,18 +10,18 @@ public class Formula implements Iterable<Atom> {
 
     private Atom root;
     private Atom last;
-    private int startX, startY;
-    private final int BASE_ATOM_WIDTH = 60;
-    private final int BASE_ATOM_HEIGHT = 60;
+    private final int START_X, START_Y;
+    public static final int BASE_ATOM_WIDTH = 60;
+    public static final int BASE_ATOM_HEIGHT = 60;
 
     public Formula(int startX, int startY) {
-        this.startX = startX;
-        this.startY = startY;
+        this.START_X = startX;
+        this.START_Y = startY;
     }
 
     public Formula(Formula formula) {
-        this.startX = formula.startX;
-        this.startY = formula.startY;
+        this.START_X = formula.START_X;
+        this.START_Y = formula.START_Y;
         root = new Atom(formula.root);
         last = root;
         while (last != null) {
@@ -30,8 +30,8 @@ public class Formula implements Iterable<Atom> {
     }
 
     public Formula(Atom root, int startX, int startY) {
-        this.startX = startX;
-        this.startY = startY;
+        this.START_X = startX;
+        this.START_Y = startY;
         this.root = root;
         last = root;
         while (last != null) {
@@ -51,28 +51,28 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
-    public void addNextElement(char symbol, boolean mutable) {
+    public void addNextElement(char symbol, boolean mutable, int width) {
         TypeOfAtom typeOfAtom
                 = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
         if (root == null) {
             root = new Atom(symbol, typeOfAtom);
-            root.setLocation(startX, startY);
-            root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
+            root.setLocation(START_X, START_Y);
+            root.setSize(width, BASE_ATOM_HEIGHT);
             last = root;
         } else {
             last.next = new Atom(symbol, typeOfAtom);
             last.next.setLocation(last.getX() + last.getWidth() + 1, last.getY());
-            last.next.setSize(last.getWidth(), last.getHeight());
+            last.next.setSize(width, last.getHeight());
             last.next.prev = last;
             last = last.next;
         }
     }
 
-    public void addEmptyElement() {
+    public void addEmptyElement(int width) {
         if (root == null) {
             root = new Atom();
-            root.setLocation(startX, startY);
-            root.setSize(BASE_ATOM_WIDTH, BASE_ATOM_HEIGHT);
+            root.setLocation(START_X, START_Y);
+            root.setSize(width, BASE_ATOM_HEIGHT);
             last = root;
         } else {
             last.next = new Atom();
@@ -110,12 +110,24 @@ public class Formula implements Iterable<Atom> {
         return false;
     }
 
-    public void placeInSelected(char symbol, boolean mutable) {
+    public void placeInSelected(char symbol, boolean immutable) {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
             if (selected.typeOfAtom != TypeOfAtom.IMMUTABLE) {
                 selected.symbol = symbol;
-                selected.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE
+                selected.typeOfAtom = immutable == true ? TypeOfAtom.IMMUTABLE
+                        : TypeOfAtom.NORMAL;
+            }
+        }
+    }
+
+    public void placeInSelected(char symbol, boolean immutable, int width) {
+        Atom selected = root.getSelectedAtom();
+        if (selected != null) {
+            if (selected.typeOfAtom != TypeOfAtom.IMMUTABLE) {
+                selected.symbol = symbol;
+                selected.setSize(width, selected.getHeight());
+                selected.typeOfAtom = immutable == true ? TypeOfAtom.IMMUTABLE
                         : TypeOfAtom.NORMAL;
             }
         }
@@ -135,16 +147,17 @@ public class Formula implements Iterable<Atom> {
      * элемента.
      *
      * @param symbol
-     * @param mutable
+     * @param immutable
+     * @param width
      */
-    public void addAfterSelected(char symbol, boolean mutable) {
+    public void addAfterSelected(char symbol, boolean immutable, int width) {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
             Atom atom = new Atom();
             atom.setLocation(selected.getX() + selected.getWidth() + 1, selected.getY());
             atom.setSize(selected.getWidth(), selected.getHeight());
             atom.symbol = symbol;
-            atom.typeOfAtom = mutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
+            atom.typeOfAtom = immutable == true ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
             updateLinksAfterSelected(selected, atom);
         }
     }
@@ -163,7 +176,7 @@ public class Formula implements Iterable<Atom> {
         recalculatePositions(selected);
     }
 
-    public void addEmptyAfterSelected() {
+    public void addEmptyAfterSelected(int width) {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
             Atom atom = new Atom();
@@ -173,20 +186,20 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
-    public void addBeforeSelected(char symbol, boolean mutable) {
+    public void addBeforeSelected(char symbol, boolean immutable, int width) {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
             Atom atom = new Atom();
             atom.setLocation(selected.getX(), selected.getY());
             atom.setSize(selected.getWidth(), selected.getHeight());
             atom.symbol = symbol;
-            atom.typeOfAtom = mutable == true
+            atom.typeOfAtom = immutable == true
                     ? TypeOfAtom.IMMUTABLE : TypeOfAtom.NORMAL;
             updateLinksBeforeSelected(selected, atom);
         }
     }
 
-    public void addEmptyBeforeSelected() {
+    public void addEmptyBeforeSelected(int width) {
         Atom selected = root.getSelectedAtom();
         if (selected != null) {
             Atom atom = new Atom();
@@ -310,16 +323,15 @@ public class Formula implements Iterable<Atom> {
         }
     }
 
-    public boolean isSelectedNormal() {
+    public TypeOfAtom getTypeOfSelectedAtom() {
         if (root.getSelectedAtom() != null) {
-            return root.getSelectedAtom().typeOfAtom
-                    == TypeOfAtom.NORMAL;
+            return root.getSelectedAtom().typeOfAtom;
         }
-        return true;
+        return null;
     }
 
     public void update() {
-        root.setLocation(startX, startY);
+        root.setLocation(START_X, START_Y);
         computeWidth(root);
         recalculatePositions(root);
     }
@@ -350,6 +362,10 @@ public class Formula implements Iterable<Atom> {
             selected.down.asIndex = true;
             selected.down.parent = selected;
         }
+        root.clearSelection();
+    }
+
+    public void clearSelection() {
         root.clearSelection();
     }
 

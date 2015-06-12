@@ -38,16 +38,25 @@ public class FormulaParser {
     private boolean isArifmeticSymbol(char c) {
         switch (c) {
             case '+':
-                return true;
             case '-':
-                return true;
             case '/':
-                return true;
             case '•':
-                return true;
             case '→':
-                return true;
             case '=':
+            case '(':
+            case '|':
+            case '$':
+            case '#':
+            case '±':
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
                 return true;
         }
         return false;

@@ -80,19 +80,19 @@ public class Atom {
                 String output;
                 switch (symbol) {
                     case '|':
-                        output = " |";
+                        output = "|";
                         break;
                     case '=':
-                        output = " =";
+                        output = "=";
                         break;
                     case '(':
-                        output = " (";
+                        output = "(";
                         break;
                     case ')':
-                        output = " )";
+                        output = ")";
                         break;
                     case '-':
-                        output = "  ̶";
+                        output = "-";
                         break;
                     case 0:
                         output = "sin";
@@ -131,9 +131,9 @@ public class Atom {
                 } else if (symbol >= 4 && symbol < 8) {
                     g.setFont(new Font("Times New Roman",
                             Font.BOLD, height / 3));
-                    g.drawString(output, startX + 2, startY + 3 * height / 5);
+                    g.drawString(output, startX, startY + 3 * height / 5);
                 } else {
-                    g.drawString(output, startX + 2, startY + 3 * height / 4);
+                    g.drawString(output, startX, startY + 3 * height / 4);
                 }
                 break;
             case FRAC_LINE:
@@ -144,13 +144,11 @@ public class Atom {
             case SQRT_START:
                 g.setColor(Color.BLACK);
                 //найти конечную точку
-                int elementsCount = 0;
                 Atom atom = next;
                 while (atom.sqrtNumber != sqrtNumber) {
                     atom = atom.next;
-                    elementsCount++;
                 }
-                int topY = startY - height / 8 - (elementsCount - 1) * 2;
+                int topY = startY - height / 8;
                 int downY = startY + height;
                 g.drawLine(startX, topY, atom.startX, topY);
                 g.drawLine(startX, topY, startX - height / 6, downY);
@@ -315,6 +313,10 @@ public class Atom {
         StringBuilder builder = new StringBuilder();
         if (this.typeOfAtom == TypeOfAtom.FRAC_LINE) {
             builder.append('/');
+        } else if (this.typeOfAtom == TypeOfAtom.SQRT_START) {
+            builder.append('$');
+        } else if (this.typeOfAtom == TypeOfAtom.SQRT_END) {
+            builder.append('#');
         } else {
             builder.append(this.symbol);
         }
