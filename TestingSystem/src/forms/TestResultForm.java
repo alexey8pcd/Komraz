@@ -2,6 +2,12 @@ package forms;
 
 import entities.StudentTest;
 import entities.Test;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,8 +29,12 @@ import static sql.DBManager.entityManager;
  */
 public class TestResultForm extends javax.swing.JDialog {
 
+    private int[] criteriaValues; //Критерий оценки
+
     private static final SimpleDateFormat DATE_FORMAT
             = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final SimpleDateFormat DATE_FORMAT_TO_EXPORT_NAME
+            = new SimpleDateFormat("dd.MM.yyyy_HH.mm.ss");
     private final String[] TABLE_HEADERS = {
         "ФИО студента",
         "Группа",
@@ -82,12 +92,6 @@ public class TestResultForm extends javax.swing.JDialog {
         }
     };
 
-    /**
-     * Creates new form TestResult
-     *
-     * @param parent
-     * @param modal
-     */
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -95,6 +99,8 @@ public class TestResultForm extends javax.swing.JDialog {
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         filterType = FilterType.BY_NAME;
         refreshFilterPane();
+
+        defaultCriteriaValues();
     }
 
     private final DefaultFormatterFactory DATE_FORMATTER
@@ -148,17 +154,31 @@ public class TestResultForm extends javax.swing.JDialog {
         tableForTestResult.setModel(RESULT_TABLE_MODEL);
     }
 
+    /**
+     * Метод выставления оценке по набранным процентам
+     *
+     * @param percent
+     * @return
+     */
     private int percentToMark(int percent) {
-        if (percent < 50) {
+        if (percent < criteriaValues[0]) {
             return 2;
         }
-        if (percent < 70) {
+        if (percent < criteriaValues[1] && percent >= criteriaValues[0]) {
             return 3;
         }
-        if (percent < 90) {
+        if (percent < criteriaValues[2] && percent >= criteriaValues[1]) {
             return 4;
         }
         return 5;
+    }
+
+    private void defaultCriteriaValues() {
+        criteriaValues = new int[3];
+
+        criteriaValues[0] = 25;
+        criteriaValues[1] = 50;
+        criteriaValues[2] = 75;
     }
 
     /**
@@ -179,6 +199,12 @@ public class TestResultForm extends javax.swing.JDialog {
         return null;
     }
 
+    /**
+     * Метод для распознавания даты по строке
+     *
+     * @param inputStringDate дата в строковом виде
+     * @return дата в формате <code>Date
+     */
     private Date parseDate(String inputStringDate) {
         String day = null, month = null, year = null;
         try {
@@ -217,6 +243,7 @@ public class TestResultForm extends javax.swing.JDialog {
         ftfInputNameOrStartDate = new javax.swing.JFormattedTextField();
         ftfInputEndDate = new javax.swing.JFormattedTextField();
         bChangeCriteria = new javax.swing.JButton();
+        bClearTestResults = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Результаты теста");
@@ -260,6 +287,11 @@ public class TestResultForm extends javax.swing.JDialog {
         });
 
         bExportToFile.setText("Экспорт в файл");
+        bExportToFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportToFileActionPerformed(evt);
+            }
+        });
 
         paneFilter.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Отфильтровать результаты"));
 
@@ -368,6 +400,13 @@ public class TestResultForm extends javax.swing.JDialog {
             }
         });
 
+        bClearTestResults.setText("<html><center>Очистить результаты за период");
+        bClearTestResults.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bClearTestResultsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -385,7 +424,8 @@ public class TestResultForm extends javax.swing.JDialog {
                                 .addComponent(bExportToFile)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(bClose))
-                            .addComponent(bChangeCriteria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(bChangeCriteria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bClearTestResults))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -400,7 +440,9 @@ public class TestResultForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(bChangeCriteria)
-                        .addGap(77, 77, 77)
+                        .addGap(26, 26, 26)
+                        .addComponent(bClearTestResults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bClose)
                             .addComponent(bExportToFile)))
@@ -432,8 +474,19 @@ public class TestResultForm extends javax.swing.JDialog {
 
     private void bChangeCriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeCriteriaActionPerformed
         CriteriaForm criteriaForm = new CriteriaForm(null, true);
-        criteriaForm.setCriteria(50, 70, 90);
+        criteriaForm.setCriteria(
+                criteriaValues[0],
+                criteriaValues[1],
+                criteriaValues[2]
+        );
         criteriaForm.setVisible(true);
+
+        int[] tempValues = criteriaForm.getCriteria();
+        if (tempValues != null) {
+            criteriaValues = tempValues;
+            tableForTestResult.updateUI();
+        }
+
     }//GEN-LAST:event_bChangeCriteriaActionPerformed
 
     private void bApplyFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApplyFilterActionPerformed
@@ -532,11 +585,63 @@ public class TestResultForm extends javax.swing.JDialog {
         tableForTestResult.updateUI();
     }//GEN-LAST:event_bClearActionPerformed
 
+    private void bClearTestResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearTestResultsActionPerformed
+        ClearTestResultsForm clearTestResultsForm = new ClearTestResultsForm(null, true);
+        clearTestResultsForm.setTest(test);
+        clearTestResultsForm.setVisible(true);
+        //Загружаем результаты из БД
+        results = loadAllResultsFromStudentTest();
+        tableForTestResult.updateUI();
+    }//GEN-LAST:event_bClearTestResultsActionPerformed
+
+    private void bExportToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportToFileActionPerformed
+        String currentDate = DATE_FORMAT_TO_EXPORT_NAME.
+                format(GregorianCalendar.getInstance().getTime());
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(
+                                    new File("./report" + currentDate + ".txt"))));
+//            DataOutputStream dataOutputStream = new DataOutputStream(
+//                    new FileOutputStream(new File("./report" + currentDate + ".txt")));
+            //Запись в файл
+            StringBuilder sb = new StringBuilder();
+            
+//            dataOutputStream.writeUTF("| ФИО | Группа | Дата прохождения | % набранных баллов | Оценка |");
+            writer.write("| ФИО | Группа | Дата прохождения | % набранных баллов | Оценка |");
+            writer.newLine();
+            if (!results.isEmpty()) {
+                for (StudentTest singleResult : results) {
+                    sb.setLength(0);
+                    sb.append("| ");
+                    sb.append(singleResult.getStudentIdStudent().getFio());
+                    sb.append(" | ");
+                    sb.append(singleResult.getStudentIdStudent().getGruppaIdGruppa().getNazvanie());
+                    sb.append(" | ");
+                    sb.append(DATE_FORMAT.format(singleResult.getDataProhozhdeniya()));
+                    sb.append(" | ");
+                    sb.append(singleResult.getProcentBallov());
+                    sb.append(" | ");
+                    sb.append(percentToMark(singleResult.getProcentBallov()));
+                    sb.append(" |");
+//                    dataOutputStream.writeUTF(sb.toString());
+                    writer.write(sb.toString());
+                    writer.newLine();
+                }
+            }
+//            dataOutputStream.close();
+            writer.close();
+        } catch (IOException ex) {
+            DialogManager.errorMessage(ex);
+        }
+    }//GEN-LAST:event_bExportToFileActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bApplyFilter;
     private javax.swing.JButton bChangeCriteria;
     private javax.swing.JButton bClear;
+    private javax.swing.JButton bClearTestResults;
     private javax.swing.JButton bClose;
     private javax.swing.JButton bExportToFile;
     private javax.swing.ButtonGroup buttonGroup1;

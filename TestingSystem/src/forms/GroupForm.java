@@ -18,7 +18,7 @@ import static sql.DBManager.entityManager;
 
 /**
  *
- * @author Артем
+ * @author Solovenko
  */
 public class GroupForm extends javax.swing.JDialog {
 
