@@ -1,11 +1,14 @@
 package forms;
 
 import java.awt.Graphics;
+import java.text.ParseException;
 import java.util.Stack;
 import javax.swing.ImageIcon;
 import main.Atom;
 import main.DialogManager;
 import main.Formula;
+import main.FormulaParser;
+import main.TypeOfAtom;
 import main.TypeOfFunction;
 import static resources.Parameters.*;
 
@@ -52,16 +55,21 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void makeDefaultFormula() {
         currentFormula = new Formula(20, paneEditFormula.getHeight() / 3);
-        currentFormula.addEmptyElement();
-        currentFormula.addNextElement('=', true);
-        currentFormula.addEmptyElement();
+        currentFormula.addEmptyElement(Formula.BASE_ATOM_WIDTH);
+        currentFormula.addNextElement('=', true, Formula.BASE_ATOM_WIDTH);
+        currentFormula.addEmptyElement(Formula.BASE_ATOM_WIDTH);
         currentFormula.update();
     }
 
     public void setFormula(String transcription) {
-//        STACK_FORMULA.clear();
-//        currentFormula = new Formula(transcription);
-//        addFormulaCopyToStack();
+        STACK_FORMULA.clear();
+        FormulaParser parser = new FormulaParser();
+        try {
+            currentFormula = new Formula(parser.parseFormula(transcription));
+        } catch (ParseException ex) {
+            DialogManager.errorMessage(ex);
+        }
+        addFormulaCopyToStack();
     }
 
     public void drawFormula() {
@@ -75,16 +83,12 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void insertSplitterAndEmptyElements(char splitter) {
         if (currentFormula.isSelectedEmpty()) {
-//            if (currentFormula.getElementsCount() < Formula.MAX_ITEM_AMOUNT - 2) {
             addFormulaCopyToStack();
-            currentFormula.addEmptyAfterSelected();
-            currentFormula.addAfterSelected(splitter, true);
+            currentFormula.addEmptyAfterSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.addAfterSelected(splitter, true,
+                    Formula.BASE_ATOM_WIDTH);
             currentFormula.update();
             drawFormula();
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Максимальная длина формулы",
-//                        "Предупреждение", JOptionPane.OK_OPTION);
-//            }
         }
     }
 
@@ -108,9 +112,10 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void insertSymbolBeforeSelected(char symbol) {
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addBeforeSelected(symbol, false);
+            currentFormula.addBeforeSelected(symbol, false,
+                    Formula.BASE_ATOM_WIDTH);
             currentFormula.update();
             drawFormula();
         }
@@ -118,11 +123,12 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void insertFunctionBeforeSelected(TypeOfFunction typeOfFunction) {
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addEmptyAfterSelected();
-            currentFormula.placeInSelected((char) (typeOfFunction.ordinal()),
-                    true);
+            currentFormula.addEmptyAfterSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.placeInSelected(
+                    (char) (typeOfFunction.ordinal()), true);
+            currentFormula.clearSelection();
             currentFormula.update();
             drawFormula();
         }
@@ -958,7 +964,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutSignPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignPowerActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addPowerInSelected();
             currentFormula.update();
@@ -977,7 +983,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutSignIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignIndexActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addLowerIndexInSelected();
             currentFormula.update();
@@ -987,7 +993,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutSignVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignVectorActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addVectorInSelected();
             currentFormula.update();
@@ -1014,10 +1020,12 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutModuleActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addBeforeSelected('|', true);
-            currentFormula.addAfterSelected('|', true);
+            currentFormula.addBeforeSelected('|', true, Formula.BASE_ATOM_WIDTH);
+            currentFormula.addEmptyBeforeSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.placeInSelected('|', true);
+            currentFormula.clearSelection();
             currentFormula.update();
             drawFormula();
         }
@@ -1025,10 +1033,12 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutBracketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutBracketsActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
-            currentFormula.addBeforeSelected('(', true);
-            currentFormula.addAfterSelected(')', true);
+            currentFormula.addBeforeSelected('(', true, Formula.BASE_ATOM_WIDTH);
+            currentFormula.addEmptyBeforeSelected(Formula.BASE_ATOM_WIDTH);
+            currentFormula.placeInSelected(')', true);
+            currentFormula.clearSelection();
             currentFormula.update();
             drawFormula();
         }
@@ -1036,7 +1046,7 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutSignSqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignSqrtActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.isSelectedNormal()) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
             addFormulaCopyToStack();
             currentFormula.addSqrtStartBeforeSelected(sqrtNumber);
             currentFormula.addSqrtEndAfterSelected(sqrtNumber++);
