@@ -23,6 +23,8 @@ import static sql.DBManager.entityManager;
  */
 public class TestResultForm extends javax.swing.JDialog {
 
+    private int[] criteriaValues; //Критерий оценки
+
     private static final SimpleDateFormat DATE_FORMAT
             = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private final String[] TABLE_HEADERS = {
@@ -82,12 +84,6 @@ public class TestResultForm extends javax.swing.JDialog {
         }
     };
 
-    /**
-     * Creates new form TestResult
-     *
-     * @param parent
-     * @param modal
-     */
     public TestResultForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -95,6 +91,8 @@ public class TestResultForm extends javax.swing.JDialog {
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         filterType = FilterType.BY_NAME;
         refreshFilterPane();
+        
+        defaultCriteriaValues();
     }
 
     private final DefaultFormatterFactory DATE_FORMATTER
@@ -148,17 +146,31 @@ public class TestResultForm extends javax.swing.JDialog {
         tableForTestResult.setModel(RESULT_TABLE_MODEL);
     }
 
+    /**
+     * Метод выставления оценке по набранным процентам
+     *
+     * @param percent
+     * @return
+     */
     private int percentToMark(int percent) {
-        if (percent < 50) {
+        if (percent < criteriaValues[0]) {
             return 2;
         }
-        if (percent < 70) {
+        if (percent < criteriaValues[1] && percent >= criteriaValues[0]) {
             return 3;
         }
-        if (percent < 90) {
+        if (percent < criteriaValues[2] && percent >= criteriaValues[1]) {
             return 4;
         }
         return 5;
+    }
+
+    private void defaultCriteriaValues() {
+        criteriaValues = new int[3];
+        
+        criteriaValues[0] = 25;
+        criteriaValues[1] = 50;
+        criteriaValues[2] = 75;
     }
 
     /**
@@ -179,6 +191,12 @@ public class TestResultForm extends javax.swing.JDialog {
         return null;
     }
 
+    /**
+     * Метод для распознавания даты по строке
+     *
+     * @param inputStringDate дата в строковом виде
+     * @return дата в формате <code>Date
+     */
     private Date parseDate(String inputStringDate) {
         String day = null, month = null, year = null;
         try {
@@ -432,8 +450,19 @@ public class TestResultForm extends javax.swing.JDialog {
 
     private void bChangeCriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeCriteriaActionPerformed
         CriteriaForm criteriaForm = new CriteriaForm(null, true);
-        criteriaForm.setCriteria(50, 70, 90);
+        criteriaForm.setCriteria(
+                criteriaValues[0], 
+                criteriaValues[1], 
+                criteriaValues[2]
+        );
         criteriaForm.setVisible(true);
+
+        int[] tempValues = criteriaForm.getCriteria();
+        if (tempValues != null) {
+            criteriaValues = tempValues;
+            tableForTestResult.updateUI();
+        }
+
     }//GEN-LAST:event_bChangeCriteriaActionPerformed
 
     private void bApplyFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApplyFilterActionPerformed
