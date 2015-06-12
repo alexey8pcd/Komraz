@@ -91,7 +91,7 @@ public class TestResultForm extends javax.swing.JDialog {
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         filterType = FilterType.BY_NAME;
         refreshFilterPane();
-        
+
         defaultCriteriaValues();
     }
 
@@ -167,7 +167,7 @@ public class TestResultForm extends javax.swing.JDialog {
 
     private void defaultCriteriaValues() {
         criteriaValues = new int[3];
-        
+
         criteriaValues[0] = 25;
         criteriaValues[1] = 50;
         criteriaValues[2] = 75;
@@ -235,6 +235,7 @@ public class TestResultForm extends javax.swing.JDialog {
         ftfInputNameOrStartDate = new javax.swing.JFormattedTextField();
         ftfInputEndDate = new javax.swing.JFormattedTextField();
         bChangeCriteria = new javax.swing.JButton();
+        bClearTestResults = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Результаты теста");
@@ -386,6 +387,13 @@ public class TestResultForm extends javax.swing.JDialog {
             }
         });
 
+        bClearTestResults.setText("<html><center>Очистить результаты за период");
+        bClearTestResults.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bClearTestResultsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -403,7 +411,8 @@ public class TestResultForm extends javax.swing.JDialog {
                                 .addComponent(bExportToFile)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(bClose))
-                            .addComponent(bChangeCriteria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(bChangeCriteria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bClearTestResults))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -418,7 +427,9 @@ public class TestResultForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(bChangeCriteria)
-                        .addGap(77, 77, 77)
+                        .addGap(26, 26, 26)
+                        .addComponent(bClearTestResults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bClose)
                             .addComponent(bExportToFile)))
@@ -451,8 +462,8 @@ public class TestResultForm extends javax.swing.JDialog {
     private void bChangeCriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeCriteriaActionPerformed
         CriteriaForm criteriaForm = new CriteriaForm(null, true);
         criteriaForm.setCriteria(
-                criteriaValues[0], 
-                criteriaValues[1], 
+                criteriaValues[0],
+                criteriaValues[1],
                 criteriaValues[2]
         );
         criteriaForm.setVisible(true);
@@ -561,11 +572,21 @@ public class TestResultForm extends javax.swing.JDialog {
         tableForTestResult.updateUI();
     }//GEN-LAST:event_bClearActionPerformed
 
+    private void bClearTestResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearTestResultsActionPerformed
+        ClearTestResultsForm clearTestResultsForm = new ClearTestResultsForm(null, true);
+        clearTestResultsForm.setTest(test);
+        clearTestResultsForm.setVisible(true);
+        //Загружаем результаты из БД
+        results = loadAllResultsFromStudentTest();
+        tableForTestResult.updateUI();
+    }//GEN-LAST:event_bClearTestResultsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bApplyFilter;
     private javax.swing.JButton bChangeCriteria;
     private javax.swing.JButton bClear;
+    private javax.swing.JButton bClearTestResults;
     private javax.swing.JButton bClose;
     private javax.swing.JButton bExportToFile;
     private javax.swing.ButtonGroup buttonGroup1;
