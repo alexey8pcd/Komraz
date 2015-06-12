@@ -5,12 +5,16 @@ import entities.StatusTesta;
 import entities.Test;
 import entities.TestVopros;
 import entities.Vopros;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.ListModel;
 import main.DialogManager;
 import static resources.Parameters.SCREEN_SIZE;
@@ -26,6 +30,14 @@ public class EditTestForm extends javax.swing.JDialog {
     private Disciplina subject;
     private List<Vopros> allQuestions;
     private Test test;
+
+    private EditMode editMode;
+
+    private enum EditMode {
+
+        CREATE,
+        EDIT
+    }
 
     private final List<Vopros> TEST_QUESTIONS;
     private final ListModel ALL_QUESTION_LIST_MODEL = new AbstractListModel() {
@@ -61,6 +73,8 @@ public class EditTestForm extends javax.swing.JDialog {
         TEST_QUESTIONS = new ArrayList<>();
         allQuestions = new ArrayList<>();
         listTestQuestions.setModel(TEST_QUESTION_LIST_MODEL);
+        //Режим работы
+        editMode = EditMode.CREATE;
     }
 
     public void setSubject(Disciplina subject) {
@@ -75,6 +89,17 @@ public class EditTestForm extends javax.swing.JDialog {
     }
 
     public void setTestForEdit(Test test, Disciplina subject) {
+        this.editMode = EditMode.EDIT;
+        if (!test.getTestVoprosList().get(0).getVoprosIdVopros().
+                getVoprosPeretaskivanieKartinokList().isEmpty()) {
+            //Тест состоит из вопросов на перетаскивание картинок
+            Object o = comboChooseTypeOfTest.getItemAt(1);
+            comboChooseTypeOfTest.setModel(
+                    new DefaultComboBoxModel(new Object[]{o})
+            );
+        }
+        comboChooseTypeOfTest.setEnabled(false);
+
         setSubject(subject);
         this.test = test;
         this.textTestName.setText(test.getNazvanie());
@@ -89,11 +114,7 @@ public class EditTestForm extends javax.swing.JDialog {
                 TEST_QUESTIONS.add(allTestVoproses.get(i).getVoprosIdVopros());
             }
         }
-//        queryForVopros.setParameter("id", test.getIdTest());
-//        TEST_QUESTIONS.add(queryForVopros.getSingleResult());
-//            TEST_QUESTIONS.add(test.getTestVoprosList().get(i).
-//                    getVoprosIdVopros());
-//        }
+
         for (int i = 0; i < allQuestions.size();) {
             Vopros v = allQuestions.get(i);
             boolean removed = false;
@@ -115,45 +136,91 @@ public class EditTestForm extends javax.swing.JDialog {
     private void refresh() {
         TEST_QUESTIONS.clear();
         allQuestions.clear();
-        switch (comboChooseTypeOfTest.getSelectedIndex()) {
-            case 0:
-                //Выбираем только вопросы Latex при загрузке формы
-                try {
-                    Query query = entityManager.createQuery(
-                            "SELECT v FROM Vopros v WHERE "
-                            + "v.disciplinaIdDisciplina.idDisciplina=:id",
-                            Vopros.class);
-                    query.setParameter("id", subject.getIdDisciplina());
-                    List<Vopros> tempResult = query.getResultList();
-                    for (Vopros singleResult : tempResult) {
-                        if (!singleResult.getVoprosLatexList().isEmpty()) {
-                            allQuestions.add(singleResult);
-                        }
-                    }
 
-                } catch (Exception ex) {
-                    DialogManager.errorMessage(ex);
+        //Выбираем режим работы
+        switch (editMode) {
+            case CREATE:
+                switch (comboChooseTypeOfTest.getSelectedIndex()) {
+                    case 0:
+                        //Выбираем только вопросы Latex при загрузке формы
+                        try {
+                            Query query = entityManager.createQuery(
+                                    "SELECT v FROM Vopros v WHERE "
+                                    + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                    Vopros.class);
+                            query.setParameter("id", subject.getIdDisciplina());
+                            List<Vopros> tempResult = query.getResultList();
+                            for (Vopros singleResult : tempResult) {
+                                if (!singleResult.getVoprosLatexList().isEmpty()) {
+                                    allQuestions.add(singleResult);
+                                }
+                            }
+
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                        break;
+                    case 1:
+                        //Выбираем только вопросы Puzzle при загрузке формы
+                        try {
+                            Query query = entityManager.createQuery(
+                                    "SELECT v FROM Vopros v WHERE "
+                                    + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                    Vopros.class);
+                            query.setParameter("id", subject.getIdDisciplina());
+                            List<Vopros> tempResult = query.getResultList();
+                            for (Vopros singleResult : tempResult) {
+                                if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
+                                    allQuestions.add(singleResult);
+                                }
+                            }
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                        break;
                 }
                 break;
-            case 1:
-                //Выбираем только вопросы Puzzle при загрузке формы
-                try {
-                    Query query = entityManager.createQuery(
-                            "SELECT v FROM Vopros v WHERE "
-                            + "v.disciplinaIdDisciplina.idDisciplina=:id",
-                            Vopros.class);
-                    query.setParameter("id", subject.getIdDisciplina());
-                    List<Vopros> tempResult = query.getResultList();
-                    for (Vopros singleResult : tempResult) {
-                        if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
-                            allQuestions.add(singleResult);
+            case EDIT:
+                String neededType = comboChooseTypeOfTest.getItemAt(0).toString();
+                if (neededType.equalsIgnoreCase("Конструирование формулы")) {
+                    //Выбираем только вопросы Latex при загрузке формы
+                    try {
+                        Query query = entityManager.createQuery(
+                                "SELECT v FROM Vopros v WHERE "
+                                + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                Vopros.class);
+                        query.setParameter("id", subject.getIdDisciplina());
+                        List<Vopros> tempResult = query.getResultList();
+                        for (Vopros singleResult : tempResult) {
+                            if (!singleResult.getVoprosLatexList().isEmpty()) {
+                                allQuestions.add(singleResult);
+                            }
                         }
+
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
                     }
-                } catch (Exception ex) {
-                    DialogManager.errorMessage(ex);
+                } else {
+                    //Выбираем только вопросы Puzzle при загрузке формы
+                    try {
+                        Query query = entityManager.createQuery(
+                                "SELECT v FROM Vopros v WHERE "
+                                + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                Vopros.class);
+                        query.setParameter("id", subject.getIdDisciplina());
+                        List<Vopros> tempResult = query.getResultList();
+                        for (Vopros singleResult : tempResult) {
+                            if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
+                                allQuestions.add(singleResult);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
+                    }
                 }
                 break;
         }
+
         listAllQuestions.updateUI();
         listTestQuestions.updateUI();
     }
@@ -431,17 +498,17 @@ public class EditTestForm extends javax.swing.JDialog {
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
         String typedQuestionName = textSearch.getText();
 
-        for(int i = 0; i < allQuestions.size();){
+        for (int i = 0; i < allQuestions.size();) {
             if (typedQuestionName.length() <= allQuestions.get(i).
-                        getNazvanie().length()) {
-                    String iteratedQuestionName = allQuestions.get(i).
-                            getNazvanie().substring(0, typedQuestionName.length());
-                    if (!iteratedQuestionName.equalsIgnoreCase(typedQuestionName)) {
-                        allQuestions.remove(i);
-                    } else {
-                        ++i;
-                    }
+                    getNazvanie().length()) {
+                String iteratedQuestionName = allQuestions.get(i).
+                        getNazvanie().substring(0, typedQuestionName.length());
+                if (!iteratedQuestionName.equalsIgnoreCase(typedQuestionName)) {
+                    allQuestions.remove(i);
+                } else {
+                    ++i;
                 }
+            }
         }
         listAllQuestions.updateUI();
     }//GEN-LAST:event_bSearchActionPerformed
@@ -503,49 +570,97 @@ public class EditTestForm extends javax.swing.JDialog {
     private void bCancelSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelSearchActionPerformed
         textSearch.setText(null);
         allQuestions.clear();
-        switch (comboChooseTypeOfTest.getSelectedIndex()) {
-            case 0:
-                //Выбираем только вопросы Latex при загрузке формы
-                try {
-                    Query query = entityManager.createQuery(
-                            "SELECT v FROM Vopros v WHERE "
-                            + "v.disciplinaIdDisciplina.idDisciplina=:id",
-                            Vopros.class);
-                    query.setParameter("id", subject.getIdDisciplina());
-                    List<Vopros> tempResult = query.getResultList();
-                    for (Vopros singleResult : tempResult) {
-                        if (!singleResult.getVoprosLatexList().isEmpty()) {
-                            if (!TEST_QUESTIONS.contains(singleResult)){
-                                allQuestions.add(singleResult);
-                            }                            
-                        }
-                    }
+        switch (editMode) {
+            case CREATE:
+                switch (comboChooseTypeOfTest.getSelectedIndex()) {
+                    case 0:
+                        //Выбираем только вопросы Latex при загрузке формы
+                        try {
+                            Query query = entityManager.createQuery(
+                                    "SELECT v FROM Vopros v WHERE "
+                                    + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                    Vopros.class);
+                            query.setParameter("id", subject.getIdDisciplina());
+                            List<Vopros> tempResult = query.getResultList();
+                            for (Vopros singleResult : tempResult) {
+                                if (!singleResult.getVoprosLatexList().isEmpty()) {
+                                    if (!TEST_QUESTIONS.contains(singleResult)) {
+                                        allQuestions.add(singleResult);
+                                    }
+                                }
+                            }
 
-                } catch (Exception ex) {
-                    DialogManager.errorMessage(ex);
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                        break;
+                    case 1:
+                        //Выбираем только вопросы Puzzle при загрузке формы
+                        try {
+                            Query query = entityManager.createQuery(
+                                    "SELECT v FROM Vopros v WHERE "
+                                    + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                    Vopros.class);
+                            query.setParameter("id", subject.getIdDisciplina());
+                            List<Vopros> tempResult = query.getResultList();
+                            for (Vopros singleResult : tempResult) {
+                                if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
+                                    if (!TEST_QUESTIONS.contains(singleResult)) {
+                                        allQuestions.add(singleResult);
+                                    }
+                                }
+                            }
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                        break;
                 }
                 break;
-            case 1:
-                //Выбираем только вопросы Puzzle при загрузке формы
-                try {
-                    Query query = entityManager.createQuery(
-                            "SELECT v FROM Vopros v WHERE "
-                            + "v.disciplinaIdDisciplina.idDisciplina=:id",
-                            Vopros.class);
-                    query.setParameter("id", subject.getIdDisciplina());
-                    List<Vopros> tempResult = query.getResultList();
-                    for (Vopros singleResult : tempResult) {
-                        if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
-                            if (!TEST_QUESTIONS.contains(singleResult)){
-                                allQuestions.add(singleResult);
-                            }  
+            case EDIT:
+                String neededType = comboChooseTypeOfTest.getItemAt(0).toString();
+                if (neededType.equalsIgnoreCase("Конструирование формулы")) {
+                    //Выбираем только вопросы Latex при загрузке формы
+                    try {
+                        Query query = entityManager.createQuery(
+                                "SELECT v FROM Vopros v WHERE "
+                                + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                Vopros.class);
+                        query.setParameter("id", subject.getIdDisciplina());
+                        List<Vopros> tempResult = query.getResultList();
+                        for (Vopros singleResult : tempResult) {
+                            if (!singleResult.getVoprosLatexList().isEmpty()) {
+                                if (!TEST_QUESTIONS.contains(singleResult)) {
+                                    allQuestions.add(singleResult);
+                                }
+                            }
                         }
+
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
                     }
-                } catch (Exception ex) {
-                    DialogManager.errorMessage(ex);
+                } else {
+                    //Выбираем только вопросы Puzzle при загрузке формы
+                    try {
+                        Query query = entityManager.createQuery(
+                                "SELECT v FROM Vopros v WHERE "
+                                + "v.disciplinaIdDisciplina.idDisciplina=:id",
+                                Vopros.class);
+                        query.setParameter("id", subject.getIdDisciplina());
+                        List<Vopros> tempResult = query.getResultList();
+                        for (Vopros singleResult : tempResult) {
+                            if (!singleResult.getVoprosPeretaskivanieKartinokList().isEmpty()) {
+                                if (!TEST_QUESTIONS.contains(singleResult)) {
+                                    allQuestions.add(singleResult);
+                                }
+                            }
+                        }
+                    } catch (Exception ex) {
+                        DialogManager.errorMessage(ex);
+                    }
                 }
                 break;
         }
+
         listAllQuestions.updateUI();
     }//GEN-LAST:event_bCancelSearchActionPerformed
 
