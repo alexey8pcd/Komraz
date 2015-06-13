@@ -14,8 +14,6 @@ import java.util.Random;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.TypedQuery;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;

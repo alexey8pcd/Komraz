@@ -14,6 +14,8 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListModel;
 import main.DialogManager;
+import org.eclipse.persistence.config.CacheUsage;
+import org.eclipse.persistence.config.QueryHints;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -28,7 +30,7 @@ public class EditTestForm extends javax.swing.JDialog {
     private List<Vopros> allQuestions;
     private Test test;
 
-    private EditMode editMode;
+    private EditMode workMode;
 
     private enum EditMode {
 
@@ -71,7 +73,7 @@ public class EditTestForm extends javax.swing.JDialog {
         allQuestions = new ArrayList<>();
         listTestQuestions.setModel(TEST_QUESTION_LIST_MODEL);
         //Режим работы
-        editMode = EditMode.CREATE;
+        workMode = EditMode.CREATE;
     }
 
     public void setSubject(Disciplina subject) {
@@ -86,7 +88,7 @@ public class EditTestForm extends javax.swing.JDialog {
     }
 
     public void setTestForEdit(Test test, Disciplina subject) {
-        this.editMode = EditMode.EDIT;
+        this.workMode = EditMode.EDIT;
         if (!test.getTestVoprosList().get(0).getVoprosIdVopros().
                 getVoprosPeretaskivanieKartinokList().isEmpty()) {
             //Тест состоит из вопросов на перетаскивание картинок
@@ -135,7 +137,7 @@ public class EditTestForm extends javax.swing.JDialog {
         allQuestions.clear();
 
         //Выбираем режим работы
-        switch (editMode) {
+        switch (workMode) {
             case CREATE:
                 switch (comboChooseTypeOfTest.getSelectedIndex()) {
                     case 0:
@@ -145,6 +147,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                     "SELECT v FROM Vopros v WHERE "
                                     + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                     Vopros.class);
+                            //Обновляем значения сущностей из БД
+                            query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                             query.setParameter("id", subject.getIdDisciplina());
                             List<Vopros> tempResult = query.getResultList();
                             for (Vopros singleResult : tempResult) {
@@ -164,6 +168,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                     "SELECT v FROM Vopros v WHERE "
                                     + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                     Vopros.class);
+                            //Обновляем значения сущностей из БД
+                            query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                             query.setParameter("id", subject.getIdDisciplina());
                             List<Vopros> tempResult = query.getResultList();
                             for (Vopros singleResult : tempResult) {
@@ -186,6 +192,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                 "SELECT v FROM Vopros v WHERE "
                                 + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                 Vopros.class);
+                        //Обновляем значения сущностей из БД
+                        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                         query.setParameter("id", subject.getIdDisciplina());
                         List<Vopros> tempResult = query.getResultList();
                         for (Vopros singleResult : tempResult) {
@@ -204,6 +212,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                 "SELECT v FROM Vopros v WHERE "
                                 + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                 Vopros.class);
+                        //Обновляем значения сущностей из БД
+                        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                         query.setParameter("id", subject.getIdDisciplina());
                         List<Vopros> tempResult = query.getResultList();
                         for (Vopros singleResult : tempResult) {
@@ -529,6 +539,8 @@ public class EditTestForm extends javax.swing.JDialog {
                             "SELECT v FROM Vopros v WHERE "
                             + "v.disciplinaIdDisciplina.idDisciplina=:id",
                             Vopros.class);
+                    //Обновляем значения сущностей из БД
+                    query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                     query.setParameter("id", subject.getIdDisciplina());
                     List<Vopros> tempResult = query.getResultList();
                     for (Vopros singleResult : tempResult) {
@@ -548,6 +560,8 @@ public class EditTestForm extends javax.swing.JDialog {
                             "SELECT v FROM Vopros v WHERE "
                             + "v.disciplinaIdDisciplina.idDisciplina=:id",
                             Vopros.class);
+                    //Обновляем значения сущностей из БД
+                    query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                     query.setParameter("id", subject.getIdDisciplina());
                     List<Vopros> tempResult = query.getResultList();
                     for (Vopros singleResult : tempResult) {
@@ -567,7 +581,7 @@ public class EditTestForm extends javax.swing.JDialog {
     private void bCancelSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelSearchActionPerformed
         textSearch.setText(null);
         allQuestions.clear();
-        switch (editMode) {
+        switch (workMode) {
             case CREATE:
                 switch (comboChooseTypeOfTest.getSelectedIndex()) {
                     case 0:
@@ -577,6 +591,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                     "SELECT v FROM Vopros v WHERE "
                                     + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                     Vopros.class);
+                            //Обновляем значения сущностей из БД
+                            query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                             query.setParameter("id", subject.getIdDisciplina());
                             List<Vopros> tempResult = query.getResultList();
                             for (Vopros singleResult : tempResult) {
@@ -598,6 +614,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                     "SELECT v FROM Vopros v WHERE "
                                     + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                     Vopros.class);
+                            //Обновляем значения сущностей из БД
+                            query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                             query.setParameter("id", subject.getIdDisciplina());
                             List<Vopros> tempResult = query.getResultList();
                             for (Vopros singleResult : tempResult) {
@@ -622,6 +640,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                 "SELECT v FROM Vopros v WHERE "
                                 + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                 Vopros.class);
+                        //Обновляем значения сущностей из БД
+                        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                         query.setParameter("id", subject.getIdDisciplina());
                         List<Vopros> tempResult = query.getResultList();
                         for (Vopros singleResult : tempResult) {
@@ -642,6 +662,8 @@ public class EditTestForm extends javax.swing.JDialog {
                                 "SELECT v FROM Vopros v WHERE "
                                 + "v.disciplinaIdDisciplina.idDisciplina=:id",
                                 Vopros.class);
+                        //Обновляем значения сущностей из БД
+                        query.setHint("javax.persistence.cache.storeMode", "REFRESH");
                         query.setParameter("id", subject.getIdDisciplina());
                         List<Vopros> tempResult = query.getResultList();
                         for (Vopros singleResult : tempResult) {
