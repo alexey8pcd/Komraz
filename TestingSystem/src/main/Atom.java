@@ -57,6 +57,8 @@ public class Atom {
         }
         if (atom.next != null) {
             next = new Atom(atom.next);
+            Atom a = this;
+            next.prev = a;
         }
     }
 
@@ -84,16 +86,19 @@ public class Atom {
                         output = "|";
                         break;
                     case '=':
-                        output = "=";
+                        output = " =";
                         break;
                     case '(':
-                        output = "(";
+                        output = "  (";
+                        break;
+                    case '+':
+                        output = " +";
                         break;
                     case ')':
-                        output = ")";
+                        output = " )";
                         break;
                     case '-':
-                        output = "-";
+                        output = " -";
                         break;
                     case 0:
                         output = "sin";
@@ -146,10 +151,15 @@ public class Atom {
                 g.setColor(Color.BLACK);
                 //найти конечную точку
                 Atom atom = next;
-                while (atom.sqrtNumber != sqrtNumber) {
-                    atom = atom.next;
+                while (atom.next != null) {
+                    if (atom.typeOfAtom == TypeOfAtom.SQRT_END
+                            && atom.sqrtNumber == sqrtNumber) {
+                        break;
+                    } else {
+                        atom = atom.next;
+                    }
                 }
-                int topY = startY - height / 8;
+                int topY = startY - 2;
                 int downY = startY + height;
                 g.drawLine(startX, topY, atom.startX, topY);
                 g.drawLine(startX, topY, startX - height / 6, downY);

@@ -1046,11 +1046,11 @@ public class FormulaEditorForm extends javax.swing.JDialog {
 
     private void bPutSignSqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPutSignSqrtActionPerformed
         if (currentFormula.isSelectedEmpty()
-                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {
+                || currentFormula.getTypeOfSelectedAtom() == TypeOfAtom.NORMAL) {            
             addFormulaCopyToStack();
             currentFormula.addSqrtStartBeforeSelected(sqrtNumber);
             currentFormula.addSqrtEndAfterSelected(sqrtNumber++);
-            currentFormula.update();
+            currentFormula.update();            
             drawFormula();
         }
     }//GEN-LAST:event_bPutSignSqrtActionPerformed

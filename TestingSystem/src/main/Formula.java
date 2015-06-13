@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Alexey
@@ -14,8 +13,8 @@ public class Formula implements Iterable<Atom> {
     private Atom root;
     private Atom last;
     private final int START_X, START_Y;
-    public static final int BASE_ATOM_WIDTH = 60;
-    public static final int BASE_ATOM_HEIGHT = 60;
+    public static final int BASE_ATOM_WIDTH = 50;
+    public static final int BASE_ATOM_HEIGHT = 50;
 
     public Formula(int startX, int startY) {
         this.START_X = startX;
