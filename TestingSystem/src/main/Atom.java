@@ -49,16 +49,18 @@ public class Atom {
         this.symbol = atom.symbol;
         this.typeOfAtom = atom.typeOfAtom;
         this.asIndex = atom.asIndex;
+        Atom me = this;
         if (atom.top != null) {
             top = new Atom(atom.top);
+            top.parent = me;
         }
         if (atom.down != null) {
             down = new Atom(atom.down);
+            down.parent = me;
         }
         if (atom.next != null) {
             next = new Atom(atom.next);
-            Atom a = this;
-            next.prev = a;
+            next.prev = me;
         }
     }
 
