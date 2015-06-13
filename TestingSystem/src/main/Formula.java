@@ -384,6 +384,7 @@ public class Formula implements Iterable<Atom> {
             selected.down.setSize(childWidth, childHeight);
             selected.down.parent = selected;
             selected.typeOfAtom = TypeOfAtom.FRAC_LINE;
+            selected.symbol = '/';
         }
         root.clearSelection();
     }
@@ -413,12 +414,13 @@ public class Formula implements Iterable<Atom> {
         if (formula == null) {
             return false;
         }
-        List<Formula> splittedFirst = this.split('=');
-        List<Formula> splittedSecond = formula.split('=');
-        return splittedFirst.get(0).equal2(splittedSecond.get(0))
-                && splittedFirst.get(1).equal2(splittedSecond.get(1))
-                || splittedFirst.get(1).equal2(splittedSecond.get(0))
-                && splittedFirst.get(0).equal2(splittedSecond.get(1));
+        List<Formula> splittedFirst = new Formula(this).split('=');
+        List<Formula> splittedSecond = new Formula(formula).split('=');
+        boolean i1 = splittedFirst.get(0).equal2(splittedSecond.get(0));
+        boolean i2 = splittedFirst.get(1).equal2(splittedSecond.get(1));
+        boolean i3 = splittedFirst.get(1).equal2(splittedSecond.get(0));
+        boolean i4 = splittedFirst.get(0).equal2(splittedSecond.get(1));
+        return i1 && i2 || i3 && i4;
     }
 
     public void addNextAtom(Atom atom) {
@@ -426,7 +428,9 @@ public class Formula implements Iterable<Atom> {
             root = last = atom;
         } else {
             last.next = atom;
-            last = last.next;
+            if (atom != null) {
+                last = last.next;
+            }
         }
     }
 
@@ -436,7 +440,7 @@ public class Formula implements Iterable<Atom> {
         Formula current = new Formula(START_X, START_Y);
         Atom pointer = root;
         while (pointer != null) {
-            if (regex.equals(pointer.symbol) ) {
+            if (!regex.equals(pointer.symbol)) {
                 current.addNextAtom(pointer);
             } else {
                 current.addNextAtom(null);
@@ -449,13 +453,13 @@ public class Formula implements Iterable<Atom> {
         return result;
     }
 
-    private boolean equal2(Formula formula) {
+    public boolean equal2(Formula formula) {
         if (formula == null) {
             return false;
         }
         //составить список слагаемых
-        List<Formula> summands1 = this.split('+');
-        List<Formula> summands2 = formula.split('+');
+        List<Formula> summands1 = new Formula(this).split('+');
+        List<Formula> summands2 = new Formula(formula).split('+');
         for (Formula summand1 : summands1) {
             boolean contains = false;
             for (Formula summand2 : summands2) {
@@ -476,8 +480,8 @@ public class Formula implements Iterable<Atom> {
             return false;
         }
         //составить список множителей
-        List<Formula> multipliers1 = this.split('•');
-        List<Formula> multipliers2 = formula.split('•');
+        List<Formula> multipliers1 = new Formula(this).split('•');
+        List<Formula> multipliers2 = new Formula(formula).split('•');
         for (Formula multiplier1 : multipliers1) {
             boolean contains = false;
             for (Formula multiplier2 : multipliers2) {

@@ -814,7 +814,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                         "В формуле не должно быть пустых элементов",
                         DialogManager.TypeOfMessage.CLOSED);
             } else {
-//                answers[currentQuestionIndex] = currentFormula.toString();
                 Formula answer = new Formula(currentFormula);
                 answers[currentQuestionIndex] = answer;
                 currentQuestionIndex++;
@@ -878,30 +877,26 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                     "В формуле не должно быть пустых элементов",
                     DialogManager.TypeOfMessage.CLOSED);
         } else {
-//                answers[currentQuestionIndex] = currentFormula.toString();
             answers[currentQuestionIndex] = new Formula(currentFormula);
         }
         int scored = 0;
         int maximalScore = 0;
-//        answers[currentQuestionIndex] = currentFormula.toString();
         FormulaParser parser = new FormulaParser();
         for (int i = 0; i < questionsAmount; i++) {
             Vopros vopros = questions.get(i);
-//            String answer = answers[i];
             Formula answer = answers[i];
             if (answer != null) {
                 try {
                     Formula fromQuestion = parser.parseFormula(
                             getLatexTranscription(vopros));
-                    if (fromQuestion.equalFormula(answer)) {
+                    if (fromQuestion.toString().equals(answer.toString())) {
+                        scored += vopros.getBall();
+                    } else if (fromQuestion.equalFormula(answer)) {
                         scored += vopros.getBall();
                     }
                 } catch (ParseException ex) {
                     DialogManager.errorMessage(ex);
                 }
-//                if (answer.equals(getLatexTranscription(vopros))) {
-
-//                }
             }
             maximalScore += vopros.getBall();
         }
@@ -909,9 +904,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                 + maximalScore, DialogManager.TypeOfMessage.INFORMATION);
 
         try {
-            //выбор студента
-            //Если проходит преподаватель, 
-            //то по умолчанию первому студенту (Тест Боту)
             if (student == null) {
                 student = entityManager.createNamedQuery(
                         "Student.findAll", Student.class).getResultList().get(0);

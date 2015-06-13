@@ -351,10 +351,12 @@ public class Atom {
         }
         return builder.toString();
     }
-   
+
     boolean equalAtom(Atom atomToCompare) {
-        Atom iterator;
         if (atomToCompare == null) {
+            return false;
+        }
+        if (typeOfAtom != atomToCompare.typeOfAtom) {
             return false;
         }
         if (!Objects.equals(symbol, atomToCompare.symbol)) {
@@ -374,38 +376,18 @@ public class Atom {
         if (top != null && atomToCompare.top != null) {
             //создаем формулу из this.top
             Formula formula1 = new Formula(top, startX, startY);
-            iterator = top;
-            while (iterator.next != null) {
-                formula1.addNextAtom(iterator.next);
-                iterator = iterator.next;
-            }
             //создаем формулу из atomToCompare.top
             Formula formula2 = new Formula(atomToCompare.top, startX, startY);
-            iterator = atomToCompare.top;
-            while (iterator.next != null) {
-                formula2.addNextAtom(iterator.next);
-                iterator = iterator.next;
-            }
-            if (!formula1.equalFormula(formula2)) {
+            if (!formula1.equal2(formula2)) {
                 return false;
             }
         }
         if (down != null && atomToCompare.down != null) {
             //создаем формулу из this.top
             Formula formula1 = new Formula(down, startX, startY);
-            iterator = down;
-            while (iterator.next != null) {
-                formula1.addNextAtom(iterator.next);
-                iterator = iterator.next;
-            }
             //создаем формулу из atomToCompare.top
             Formula formula2 = new Formula(atomToCompare.down, startX, startY);
-            iterator = atomToCompare.down;
-            while (iterator.next != null) {
-                formula2.addNextAtom(iterator.next);
-                iterator = iterator.next;
-            }
-            if (!formula1.equalFormula(formula2)) {
+            if (!formula1.equal2(formula2)) {
                 return false;
             }
         }

@@ -45,6 +45,7 @@ public class FormulaParser {
             case '→':
             case '=':
             case '(':
+            case ')':
             case '|':
             case '$':
             case '#':
@@ -73,6 +74,10 @@ public class FormulaParser {
             TypeOfAtom typeOfAtom = TypeOfAtom.NORMAL;
             if (c == '/') {
                 typeOfAtom = TypeOfAtom.FRAC_LINE;
+            } else if (c == '$') {
+                typeOfAtom = TypeOfAtom.SQRT_START;
+            } else if (c == '#') {
+                typeOfAtom = TypeOfAtom.SQRT_END;
             }
             atom = new Atom(c, typeOfAtom);
             atom.asIndex = index;
