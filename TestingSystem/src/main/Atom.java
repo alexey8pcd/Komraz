@@ -72,7 +72,7 @@ public class Atom {
     public void draw(Graphics g) {
         if (selected) {
             g.setColor(Color.BLUE);
-            g.drawRect(startX, startY, width, height);
+            g.drawRect(startX - 1, startY - 1, width + 2, height + 2);
         }
         switch (typeOfAtom) {
             case EMPTY:
@@ -97,7 +97,7 @@ public class Atom {
                         output = " +";
                         break;
                     case ')':
-                        output = " )";
+                        output = ")";
                         break;
                     case '-':
                         output = " -";
@@ -141,7 +141,7 @@ public class Atom {
                             Font.BOLD, height / 3));
                     g.drawString(output, startX, startY + 3 * height / 5);
                 } else {
-                    g.drawString(output, startX, startY + 3 * height / 4);
+                    g.drawString(output, startX + width / 10, startY + 8 * height / 10);
                 }
                 break;
             case FRAC_LINE:
@@ -161,7 +161,7 @@ public class Atom {
                         atom = atom.next;
                     }
                 }
-                int topY = startY - 2;
+                int topY = startY - 1;
                 int downY = startY + height;
                 g.drawLine(startX, topY, atom.startX, topY);
                 g.drawLine(startX, topY, startX - height / 6, downY);
@@ -170,7 +170,7 @@ public class Atom {
         }
         if (typeOfAtom == TypeOfAtom.EMPTY) {
             g.setColor(Color.BLACK);
-            g.drawRect(startX + 1, startY + 1, width - 2, height - 2);
+            g.drawRect(startX, startY, width, height);
         }
         if (top != null) {
             top.draw(g);

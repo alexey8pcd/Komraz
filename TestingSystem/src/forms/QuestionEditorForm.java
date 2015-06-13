@@ -34,7 +34,6 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         LATEX,
         PUZZLE,
     }
-    private Area[][] areas;
     private final Graphics GRAPHICS;
     private Formula formula;
     private Vopros question;
@@ -69,6 +68,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     };
     private TypeOfQuestion currentTypeOfQuestion;
     private List<List<Area>> placingPicturesInAreas;
+    private boolean editMode;
 
     public QuestionEditorForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -139,8 +139,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         rbAssembledFromulaFromPieces = new javax.swing.JRadioButton();
         lDescription = new javax.swing.JLabel();
         bCreateFormulaOrAddAreas = new javax.swing.JButton();
-        bDeleteFormulaOrPlacingPictures = new javax.swing.JButton();
-        bEditFormula = new javax.swing.JButton();
+        bDeleteFormula = new javax.swing.JButton();
         bCloseForm = new javax.swing.JButton();
         bSaveQuestion = new javax.swing.JButton();
         paneBorder = new javax.swing.JPanel();
@@ -210,19 +209,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
             }
         });
 
-        bDeleteFormulaOrPlacingPictures.setText("Удалить");
-        bDeleteFormulaOrPlacingPictures.setPreferredSize(new java.awt.Dimension(100, 30));
-        bDeleteFormulaOrPlacingPictures.addActionListener(new java.awt.event.ActionListener() {
+        bDeleteFormula.setText("Удалить");
+        bDeleteFormula.setPreferredSize(new java.awt.Dimension(100, 30));
+        bDeleteFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDeleteFormulaOrPlacingPicturesActionPerformed(evt);
-            }
-        });
-
-        bEditFormula.setText("Редактировать");
-        bEditFormula.setPreferredSize(new java.awt.Dimension(100, 30));
-        bEditFormula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bEditFormulaActionPerformed(evt);
+                bDeleteFormulaActionPerformed(evt);
             }
         });
 
@@ -321,9 +312,8 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lDescription)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(bDeleteFormulaOrPlacingPictures, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                                .addComponent(bCreateFormulaOrAddAreas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                            .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(bDeleteFormula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                .addComponent(bCreateFormulaOrAddAreas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)))
                         .addGap(32, 32, 32)
                         .addComponent(paneBorder, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -412,9 +402,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(bCreateFormulaOrAddAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bDeleteFormulaOrPlacingPictures, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bEditFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(bDeleteFormula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(paneBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(lInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -475,15 +463,12 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     queryForVoprosP.setParameter("id",
                             this.question.getIdVopros());
                     peretaskivanieQuestion = queryForVoprosP.getSingleResult();
-                    lDescription.setText("Размещение картинок в областях");
-                    bCreateFormulaOrAddAreas.setText("Выбрать области");
-                    bDeleteFormulaOrPlacingPictures.
-                            setText("<html><center>Разместить картинки");
-                    bEditFormula.setVisible(false);
+                    lDescription.setText("Размещение изображений в областях");
+                    bCreateFormulaOrAddAreas.setText("<html><center>Разместить изображения");
+                    bDeleteFormula.setVisible(false);
                     paneBorder.setVisible(false);
                     panePreview.setVisible(false);
                     bCreateFormulaOrAddAreas.setEnabled(false);
-                    bDeleteFormulaOrPlacingPictures.setEnabled(false);
                     lInfo1.setVisible(true);
                     rbAssembledFromulaFromPieces.setSelected(true);
                     rbConstructFormula.setEnabled(false);
@@ -498,6 +483,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     break;
                 }
             }
+            editMode = true;
         } catch (Exception ex) {
             DialogManager.errorMessage(ex);
             dispose();
@@ -542,7 +528,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     }
                     break;
                 case PUZZLE:
-                    if (placingPicturesInAreas == null) {
+                    if (placingPicturesInAreas == null && !editMode) {
                         DialogManager.notify("Предупреждение",
                                 "Картинки не размещены", DialogManager.TypeOfMessage.WARNING);
                         correct = false;
@@ -598,53 +584,61 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                     break;
                 //записать вопрос на перетаскивание картинок
                 case PUZZLE:
-                    try {
-                        TypedQuery<KolvoOblastey> typedQuery
-                                = entityManager.createQuery("SELECT k FROM "
-                                        + "KolvoOblastey k WHERE k.kolvo=:id",
-                                        KolvoOblastey.class);
-                        int bound = placingPicturesInAreas.get(0).size();
-                        typedQuery.setParameter("id", bound);
-                        peretaskivanieQuestion.setKolvoOblasteyIdKolvoOblastey(
-                                typedQuery.getSingleResult());
-                        peretaskivanieQuestion.setVoprosIdVopros(question);
-                        DBManager.writeObjectPersist(question);
-                        DBManager.writeObjectPersist(peretaskivanieQuestion);
-                        TypedQuery<PoryadkoviyNomer> typedQuery1
-                                = entityManager.createNamedQuery("PoryadkoviyNomer.findAll",
-                                        PoryadkoviyNomer.class);
-                        List<PoryadkoviyNomer> numbers = typedQuery1.getResultList();
-                        PoryadkoviyNomer illegalNumber = null;
-                        for (int j = 0; j < bound; j++) {
-                            for (PoryadkoviyNomer nomer : numbers) {
-                                Area area = placingPicturesInAreas.get(0).get(j);
-                                if (area.getNumber() == nomer.getNomer()) {
-                                    PolozhenieKartinki polKart
-                                            = new PolozhenieKartinki();
-                                    polKart.setKartinkaIdKartinka(
-                                            area.getKartinka());
-                                    polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(nomer);
-                                    polKart.
-                                            setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
-                                                    peretaskivanieQuestion);
-                                    DBManager.writeObjectPersist(polKart);
-                                }
-                                if (nomer.getNomer() == -1) {
-                                    illegalNumber = nomer;
+                    if (editMode) {
+                        try {
+                            DBManager.writeObjectMerge(question);
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
+                        }
+                    } else {
+                        try {
+                            TypedQuery<KolvoOblastey> typedQuery
+                                    = entityManager.createQuery("SELECT k FROM "
+                                            + "KolvoOblastey k WHERE k.kolvo=:id",
+                                            KolvoOblastey.class);
+                            int bound = placingPicturesInAreas.get(0).size();
+                            typedQuery.setParameter("id", bound);
+                            peretaskivanieQuestion.setKolvoOblasteyIdKolvoOblastey(
+                                    typedQuery.getSingleResult());
+                            peretaskivanieQuestion.setVoprosIdVopros(question);
+                            DBManager.writeObjectPersist(question);
+                            DBManager.writeObjectPersist(peretaskivanieQuestion);
+                            TypedQuery<PoryadkoviyNomer> typedQuery1
+                                    = entityManager.createNamedQuery("PoryadkoviyNomer.findAll",
+                                            PoryadkoviyNomer.class);
+                            List<PoryadkoviyNomer> numbers = typedQuery1.getResultList();
+                            PoryadkoviyNomer illegalNumber = null;
+                            for (int j = 0; j < bound; j++) {
+                                for (PoryadkoviyNomer nomer : numbers) {
+                                    Area area = placingPicturesInAreas.get(0).get(j);
+                                    if (area.getNumber() == nomer.getNomer()) {
+                                        PolozhenieKartinki polKart
+                                                = new PolozhenieKartinki();
+                                        polKart.setKartinkaIdKartinka(
+                                                area.getKartinka());
+                                        polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(nomer);
+                                        polKart.
+                                                setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
+                                                        peretaskivanieQuestion);
+                                        DBManager.writeObjectPersist(polKart);
+                                    }
+                                    if (nomer.getNomer() == -1) {
+                                        illegalNumber = nomer;
+                                    }
                                 }
                             }
+                            for (int j = 0; j < placingPicturesInAreas.get(1).size(); j++) {
+                                Area area = placingPicturesInAreas.get(1).get(j);
+                                PolozhenieKartinki polKart = new PolozhenieKartinki();
+                                polKart.setKartinkaIdKartinka(area.getKartinka());
+                                polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(illegalNumber);
+                                polKart.setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
+                                        peretaskivanieQuestion);
+                                DBManager.writeObjectPersist(polKart);
+                            }
+                        } catch (Exception ex) {
+                            DialogManager.errorMessage(ex);
                         }
-                        for (int j = 0; j < placingPicturesInAreas.get(1).size(); j++) {
-                            Area area = placingPicturesInAreas.get(1).get(j);
-                            PolozhenieKartinki polKart = new PolozhenieKartinki();
-                            polKart.setKartinkaIdKartinka(area.getKartinka());
-                            polKart.setPoryadkoviyNomerIdPoryadkoviyNomer(illegalNumber);
-                            polKart.setVoprosPeretaskivanieKartinokIdVoprosPeretaskivanieKartinok(
-                                    peretaskivanieQuestion);
-                            DBManager.writeObjectPersist(polKart);
-                        }
-                    } catch (Exception ex) {
-                        DialogManager.errorMessage(ex);
                     }
                     dispose();
                     break;
@@ -680,7 +674,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
 
     }//GEN-LAST:event_bCreateFormulaOrAddAreasActionPerformed
 
-    private void bDeleteFormulaOrPlacingPicturesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteFormulaOrPlacingPicturesActionPerformed
+    private void bDeleteFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteFormulaActionPerformed
         switch (currentTypeOfQuestion) {
             case LATEX:
                 formula = null;
@@ -688,20 +682,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 break;
         }
 
-    }//GEN-LAST:event_bDeleteFormulaOrPlacingPicturesActionPerformed
-
-    private void bEditFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditFormulaActionPerformed
-//        if (formula != null) {
-//            FormulaEditorForm formulaEditor = new FormulaEditorForm(null, true);
-////            formulaEditor.setFormula(formula.getTranscription());
-//            formulaEditor.setVisible(true);
-//            String formulaTranscription = formulaEditor.getFormulaTranscription();
-//            if (formulaTranscription != null) {
-////                formula = new Formula(formulaTranscription);
-//            }
-//            draw();
-//        }
-    }//GEN-LAST:event_bEditFormulaActionPerformed
+    }//GEN-LAST:event_bDeleteFormulaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         exitConfirm();
@@ -718,8 +699,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void rbConstructFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConstructFormulaActionPerformed
         lDescription.setText("Формула");
         bCreateFormulaOrAddAreas.setText("Создать");
-        bDeleteFormulaOrPlacingPictures.setVisible(true);
-        bEditFormula.setVisible(true);
+        bDeleteFormula.setVisible(true);
         paneBorder.setVisible(true);
         panePreview.setVisible(true);
         lInfo1.setVisible(false);
@@ -729,8 +709,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private void rbAssembledFromulaFromPiecesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAssembledFromulaFromPiecesActionPerformed
         lDescription.setText("Размещение изображений в областях");
         bCreateFormulaOrAddAreas.setText("<html><center>Разместить изображения");
-        bDeleteFormulaOrPlacingPictures.setVisible(false);
-        bEditFormula.setVisible(false);
+        bDeleteFormula.setVisible(false);
         paneBorder.setVisible(false);
         panePreview.setVisible(false);
         if (!lInfo1.isVisible()) {
@@ -782,8 +761,7 @@ public class QuestionEditorForm extends javax.swing.JDialog {
     private javax.swing.JButton bCancelSearch;
     private javax.swing.JButton bCloseForm;
     private javax.swing.JButton bCreateFormulaOrAddAreas;
-    private javax.swing.JButton bDeleteFormulaOrPlacingPictures;
-    private javax.swing.JButton bEditFormula;
+    private javax.swing.JButton bDeleteFormula;
     private javax.swing.JButton bSaveQuestion;
     private javax.swing.JButton bSearch;
     private javax.swing.ButtonGroup buttonGroupQuestionType;

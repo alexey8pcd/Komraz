@@ -79,8 +79,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         makeDefaultFormula();
         addFormulaCopyToStack();
         GRAPHICS = paneForFormulaConstruct.getGraphics();
-        currentQuestionIndex = 0;
-        bPreviousQuestion.setEnabled(false);
         wordsToInsert = new ArrayList<>();
         tableSymbols.setFont(new java.awt.Font("Times New Roman", 1, 18));
     }
@@ -350,7 +348,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         bPutSignMulti = new javax.swing.JButton();
         bPutSignIndex = new javax.swing.JButton();
         bPutSignVector = new javax.swing.JButton();
-        bPreviousQuestion = new javax.swing.JButton();
         bNextQuestion = new javax.swing.JButton();
         paneForFormulaConstruct = new javax.swing.JPanel();
         lQuestionFormulation = new javax.swing.JLabel();
@@ -533,14 +530,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
             }
         });
 
-        bPreviousQuestion.setText("Предыдущий вопрос");
-        bPreviousQuestion.setEnabled(false);
-        bPreviousQuestion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPreviousQuestionActionPerformed(evt);
-            }
-        });
-
         bNextQuestion.setText("Следующий вопрос");
         bNextQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -642,9 +631,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(bPreviousQuestion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(187, 187, 187)
                                 .addComponent(bNextQuestion))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -702,9 +689,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPreviousQuestion)
-                            .addComponent(bNextQuestion)))
+                        .addComponent(bNextQuestion))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -824,17 +809,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         setButtonNextAndPreviousProperties();
         updateLabel();
     }//GEN-LAST:event_bNextQuestionActionPerformed
-
-    private void bPreviousQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviousQuestionActionPerformed
-        setButtonNextAndPreviousProperties();
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            updateQuestion();
-            drawFormula();
-            updateAlphabet();
-        }
-        updateLabel();
-    }//GEN-LAST:event_bPreviousQuestionActionPerformed
 
     private void insertSymbolBeforeSelected(char symbol) {
         if (currentFormula.isSelectedEmpty()
@@ -1061,7 +1035,6 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
     private javax.swing.JButton bClearElement;
     private javax.swing.JButton bCompleteTest;
     private javax.swing.JButton bNextQuestion;
-    private javax.swing.JButton bPreviousQuestion;
     private javax.swing.JButton bPutBrackets;
     private javax.swing.JButton bPutDelta;
     private javax.swing.JButton bPutModule;

@@ -307,7 +307,7 @@ public class Formula implements Iterable<Atom> {
             if (current.top.symbol != null && current.top.symbol == '→') {
                 yPosition = current.getY() - current.getHeight() / 4;
             } else {
-                yPosition = current.getY() - 2;
+                yPosition = current.getY() - 3;
             }
             current.top.setLocation(xPosition, yPosition);
             recalculatePositions(current.top);
@@ -319,7 +319,8 @@ public class Formula implements Iterable<Atom> {
                 xPosition = current.getX() + (current.getWidth()
                         - Atom.computeWidth(current.down)) / 2;
             }
-            yPosition = current.getY() + current.getHeight() - current.down.getHeight() + 2;
+            yPosition = current.getY() + current.getHeight() - 
+                    current.down.getHeight() + 3;
             current.down.setLocation(xPosition, yPosition);
             recalculatePositions(current.down);
         }

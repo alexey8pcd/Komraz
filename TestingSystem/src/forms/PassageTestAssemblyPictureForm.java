@@ -84,7 +84,6 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
 
         labelQuestionNumber = new javax.swing.JLabel();
         lQuestionFormulation = new javax.swing.JLabel();
-        bPreviousQuestion = new javax.swing.JButton();
         bNextQuestion = new javax.swing.JButton();
         bCompleteTest = new javax.swing.JButton();
         paneWork = new javax.swing.JPanel();
@@ -100,14 +99,6 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
         labelQuestionNumber.setText("Вопрос N/M");
 
         lQuestionFormulation.setText("Формулировка вопроса");
-
-        bPreviousQuestion.setText("Предыдущий вопрос");
-        bPreviousQuestion.setEnabled(false);
-        bPreviousQuestion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPreviousQuestionActionPerformed(evt);
-            }
-        });
 
         bNextQuestion.setText("Следующий вопрос");
         bNextQuestion.addActionListener(new java.awt.event.ActionListener() {
@@ -159,9 +150,7 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(bPreviousQuestion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(187, 187, 187)
                                 .addComponent(bNextQuestion))
                             .addComponent(lQuestionFormulation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(22, 22, 22))))
@@ -173,9 +162,7 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPreviousQuestion)
-                            .addComponent(bNextQuestion)))
+                        .addComponent(bNextQuestion))
                     .addComponent(labelQuestionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lQuestionFormulation, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,9 +269,6 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
         this.student = student;
     }
 
-    private void bPreviousQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPreviousQuestionActionPerformed
-    }//GEN-LAST:event_bPreviousQuestionActionPerformed
-
     private void bNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNextQuestionActionPerformed
         if (currentQuestionIndex < questionsAmount - 1) {
             //записать результаты
@@ -302,6 +286,12 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
     }//GEN-LAST:event_bNextQuestionActionPerformed
 
     private void bCompleteTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCompleteTestActionPerformed
+        if (currentQuestionIndex < questionsAmount - 1) {
+            if (!DialogManager.confirmDeleting("Вы ответили не на все вопросы! "
+                    + "Вы действительно хотите завершить тест?")) {
+                return;
+            }
+        }
         //проверить тест
         for (int i = 0; i < amountOfAreasInCurrentQuestion; ++i) {
             if (areasForPlacingPictures[i].getKartinka() != null) {
@@ -396,7 +386,6 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCompleteTest;
     private javax.swing.JButton bNextQuestion;
-    private javax.swing.JButton bPreviousQuestion;
     private javax.swing.JLabel lQuestionFormulation;
     private javax.swing.JLabel labelQuestionNumber;
     private javax.swing.JPanel paneWork;
