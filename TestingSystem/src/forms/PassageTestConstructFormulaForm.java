@@ -297,6 +297,7 @@ public class PassageTestConstructFormulaForm extends javax.swing.JDialog {
         for (TestVopros testVopros : testVoproses) {
             questions.add(testVopros.getVoprosIdVopros());
         }
+        Collections.shuffle(questions);
         currentQuestion = questions.get(currentQuestionIndex);
         questionsAmount = questions.size();
 //        answers = new String[questionsAmount];
