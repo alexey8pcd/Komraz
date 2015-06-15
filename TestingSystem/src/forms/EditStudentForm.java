@@ -43,7 +43,7 @@ public class EditStudentForm extends javax.swing.JDialog {
         textPassword.setText(student.getPassword());
         textPasswordConfirm.setText(student.getPassword());
 
-        this.setTitle("Редактирование студента");
+        this.setTitle("Редактирование данных о студенте");
     }
 
     public void setGroup(Gruppa group) {
