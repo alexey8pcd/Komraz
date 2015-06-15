@@ -42,8 +42,7 @@ public class EditStudentForm extends javax.swing.JDialog {
         textUsername.setText(student.getLogin());
         textPassword.setText(student.getPassword());
         textPasswordConfirm.setText(student.getPassword());
-
-        this.setTitle("Редактирование студента");
+        this.setTitle("Редактирование данных о студента");
     }
 
     public void setGroup(Gruppa group) {
@@ -169,7 +168,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
 
-        if (DialogManager.confirmClosingForm("студента")) {
+        if (DialogManager.confirmClosingForm("данных о студенте")) {
             dispose();
         }
 
@@ -290,7 +289,7 @@ public class EditStudentForm extends javax.swing.JDialog {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
-        if (DialogManager.confirmClosingForm("студента")) {
+        if (DialogManager.confirmClosingForm("данных о студенте")) {
             dispose();
         }
 

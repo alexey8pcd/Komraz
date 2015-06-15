@@ -552,12 +552,22 @@ public class PlacingPicturesForm extends javax.swing.JDialog {
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
         boolean wrongAreasFilled = false;
+        boolean trueAreasFilled = false;
         for (Area area : WRONG_AREAS) {
             if (area.getImage() == null || area.getKartinka() == null) {
                 wrongAreasFilled = true;
+                break;
             }
         }
-        if (wrongAreasFilled) {
+        for (Area area : RIGHT_AREAS) {
+            if (area != null) {
+                if (area.getImage() == null || area.getKartinka() == null) {
+                    trueAreasFilled = true;
+                    break;
+                }
+            }
+        }
+        if (wrongAreasFilled || trueAreasFilled) {
             DialogManager.notify("Предупреждение",
                     "Не допускается пустых областей",
                     DialogManager.TypeOfMessage.OK);
