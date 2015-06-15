@@ -550,11 +550,19 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 }
             }
             question.setBall((Integer) spinnerPoints.getValue());
-            question.setNazvanie(new String(
-                    tQuestionTitle.getText().getBytes(), UTF_8));
-            question.setFormulirovka(new String(
-                    textAreaForQuestionFormulation.getText().getBytes(),
-                    UTF_8));
+            //старое
+//            question.setNazvanie(new String(
+//                    tQuestionTitle.getText().getBytes(), UTF_8));
+//            question.setFormulirovka(new String(
+//                    textAreaForQuestionFormulation.getText().getBytes(),
+//                    UTF_8));
+            //-------------
+            
+            //*****новое*******************************************************
+            question.setNazvanie(tQuestionTitle.getText());
+            question.setFormulirovka(textAreaForQuestionFormulation.getText());
+            //*****************************************************************
+            
             question.setDisciplinaIdDisciplina(subjects.get(
                     listSubjects.getSelectedIndex()));
             question.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
