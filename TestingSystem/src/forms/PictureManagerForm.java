@@ -95,7 +95,6 @@ public class PictureManagerForm extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Менеджер фрагментов");
-        setPreferredSize(new java.awt.Dimension(900, 600));
         setResizable(false);
 
         bClose.setText("Закрыть");
@@ -114,7 +113,7 @@ public class PictureManagerForm extends javax.swing.JDialog {
             }
         });
 
-        bCutImages.setText("<html><center>Разрезание картинок");
+        bCutImages.setText("<html><center>Разрезание изображений");
         bCutImages.setPreferredSize(new java.awt.Dimension(100, 30));
         bCutImages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
