@@ -76,7 +76,7 @@ public class Area {
         if (showNumber) {
             g.setColor(numberColor);
             g.setFont(FONT);
-            g.drawString(String.valueOf(number), x + 10, y + size / 2);
+            g.drawString(String.valueOf(number), x + 10, y + size / 4);
         }
     }
 

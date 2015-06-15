@@ -23,14 +23,16 @@ public class PictureManagerForm extends javax.swing.JDialog {
     private final int PICTURE_SIZE = 140;
     private final int START_X = 10;
     private final int START_Y = 10;
+    private final int PICTURES_LIMIT = 20;
     private List<Kartinka> picturesFromDB;
     private List<Area> imagesWithData;
     private Area selectedArea;
-    
+    private int beginIndex;
 
     public PictureManagerForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        beginIndex = 0;
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         G_PICTURES = paneForPictures.getGraphics();
@@ -53,10 +55,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
                 imagesWithData.clear();
                 for (int i = 0; i < picturesFromDB.size(); i++) {
                     Kartinka picture = picturesFromDB.get(i);
-                    int x = (i % 5) * (PICTURE_SIZE + 2) + START_X;
-                    int y = (i / 5) * (PICTURE_SIZE + 2) + START_Y;
-                    Area area = new Area(x, y, PICTURE_SIZE, 
-                            picture.getIdKartinka(),picture,
+                    Area area = new Area(0, 0, PICTURE_SIZE,
+                            picture.getIdKartinka(), picture,
                             ImageIO.read(new File(picture.getImgLink())));
                     imagesWithData.add(area);
                 }
@@ -70,11 +70,22 @@ public class PictureManagerForm extends javax.swing.JDialog {
         if (imagesWithData != null) {
             G_PICTURES.clearRect(0, 0, paneForPictures.getWidth(),
                     paneForPictures.getHeight());
-            for (int i = 0; i < imagesWithData.size(); ++i) {
-                Area area = imagesWithData.get(i);
-                area.draw(G_PICTURES, Color.white, true, Color.BLUE);
+//            for (int i = 0; i < imagesWithData.size(); ++i) {
+//                Area area = imagesWithData.get(i);
+//                area.draw(G_PICTURES, Color.white, true, Color.BLUE);
+//            }
+            int bound = imagesWithData.size() - beginIndex;
+            if (bound > PICTURES_LIMIT) {
+                bound = PICTURES_LIMIT;
             }
-
+            for (int i = 0; i < bound; ++i) {
+                Area area = imagesWithData.get(beginIndex + i);
+                int x = (i % 5) * (PICTURE_SIZE + 2) + START_X;
+                int y = (i / 5) * (PICTURE_SIZE + 2) + START_Y;
+                area.setX(x);
+                area.setY(y);
+                area.draw(G_PICTURES, Color.WHITE, true, Color.BLUE);
+            }
         }
     }
 
@@ -92,6 +103,8 @@ public class PictureManagerForm extends javax.swing.JDialog {
         bDeletePicture = new javax.swing.JButton();
         bCutImages = new javax.swing.JButton();
         paneForPictures = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Менеджер фрагментов");
@@ -122,6 +135,11 @@ public class PictureManagerForm extends javax.swing.JDialog {
         });
 
         paneForPictures.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        paneForPictures.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                paneForPicturesMouseWheelMoved(evt);
+            }
+        });
         paneForPictures.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 paneForPicturesMousePressed(evt);
@@ -139,6 +157,22 @@ public class PictureManagerForm extends javax.swing.JDialog {
             .addGap(0, 574, Short.MAX_VALUE)
         );
 
+        jButton1.setText("<<");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText(">>");
+        jButton2.setToolTipText("");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,7 +184,9 @@ public class PictureManagerForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                     .addComponent(bCutImages, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bDeletePicture, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bDeletePicture, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(8, 8, 8))
         );
         layout.setVerticalGroup(
@@ -158,14 +194,20 @@ public class PictureManagerForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(paneForPictures, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(paneForPictures, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(13, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bDeletePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(bCutImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addComponent(bClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
+                        .addGap(61, 61, 61))))
         );
 
         pack();
@@ -212,11 +254,36 @@ public class PictureManagerForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_bDeletePictureActionPerformed
 
+    private void paneForPicturesMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_paneForPicturesMouseWheelMoved
+        if (evt.getWheelRotation() < 0) {
+            beginIndex = beginIndex > 1 ? beginIndex - 1 : 0;
+        } else {
+            beginIndex = beginIndex < imagesWithData.size() - PICTURES_LIMIT
+                    ? beginIndex + 1
+                    : beginIndex;
+        }
+        draw();
+    }//GEN-LAST:event_paneForPicturesMouseWheelMoved
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        beginIndex = beginIndex > 1 ? beginIndex - 1 : 0;
+        draw();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        beginIndex = beginIndex < imagesWithData.size() - PICTURES_LIMIT
+                ? beginIndex + 1
+                : beginIndex;
+        draw();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bCutImages;
     private javax.swing.JButton bDeletePicture;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel paneForPictures;
     // End of variables declaration//GEN-END:variables
 
