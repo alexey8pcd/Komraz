@@ -228,6 +228,7 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
             areasForPlacingPictures[i] = area;
         }
         areasContainingPictures = new ArrayList<>();
+        List<Kartinka> list = null;
         try {
             TypedQuery<Kartinka> typedQuery = entityManager.createQuery(
                     "SELECT k FROM Kartinka k, VoprosPeretaskivanieKartinok v, "
@@ -238,31 +239,38 @@ public class PassageTestAssemblyPictureForm extends javax.swing.JDialog {
                     + "Kartinok=v.idVoprosPeretaskivanieKartinok AND "
                     + "k.idKartinka=pk.kartinkaIdKartinka.idKartinka",
                     Kartinka.class);
-            typedQuery.setParameter("id", currentQuestion.getIdVoprosPeretaskivanieKartinok());
-            List<Kartinka> list = typedQuery.getResultList();
-            int rowSize = 5;
-            Collections.shuffle(list);
-            for (int i = 0; i < list.size(); ++i) {
-                int top = i > rowSize
-                        ? TOP_PICTURE_Y + Area.DEFAULT_SIZE + SPAN
-                        : TOP_PICTURE_Y;
-                int left = i > rowSize
-                        ? LEFT_X + (i - rowSize - 1) * (Area.DEFAULT_SIZE + SPAN)
-                        : LEFT_X + i * (Area.DEFAULT_SIZE + SPAN);
-                Area area = new Area(left, top);
-//                Kartinka kartinka = listToQuestion.get(i);
-                Kartinka kartinka = list.get(i);
-                area.setData(kartinka, ImageIO.read(new File(kartinka.getImgLink())));
-                areasContainingPictures.add(area);
-            }
-        } catch (IOException ex) {
+            typedQuery.setParameter("id",
+                    currentQuestion.getIdVoprosPeretaskivanieKartinok());
+            list = typedQuery.getResultList();
+
+        } catch (Exception ex) {
             DialogManager.errorMessage(ex);
         }
-        if (currentQuestion != null) {
-            lQuestionFormulation.setText(currentQuestion.
-                    getVoprosIdVopros().getFormulirovka());
+        if (list != null) {
+            Collections.shuffle(list);
+            try {
+                int rowSize = 5;
+                for (int i = 0; i < list.size(); ++i) {
+                    int top = i > rowSize
+                            ? TOP_PICTURE_Y + Area.DEFAULT_SIZE + SPAN
+                            : TOP_PICTURE_Y;
+                    int left = i > rowSize
+                            ? LEFT_X + (i - rowSize - 1) * (Area.DEFAULT_SIZE + SPAN)
+                            : LEFT_X + i * (Area.DEFAULT_SIZE + SPAN);
+                    Area area = new Area(left, top);
+                    Kartinka kartinka = list.get(i);
+                    area.setData(kartinka, ImageIO.read(new File(kartinka.getImgLink())));
+                    areasContainingPictures.add(area);
+                }
+                if (currentQuestion != null) {
+                    lQuestionFormulation.setText(currentQuestion.
+                            getVoprosIdVopros().getFormulirovka());
+                }
+                updateLabel();
+            } catch (IOException ex) {
+                DialogManager.errorMessage(ex);
+            }
         }
-        updateLabel();
     }
 
     public void setStudent(Student student) {

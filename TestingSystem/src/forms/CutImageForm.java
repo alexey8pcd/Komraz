@@ -225,7 +225,7 @@ public class CutImageForm extends javax.swing.JDialog {
         bHelp = new javax.swing.JButton();
         bSave1 = new javax.swing.JButton();
 
-        setTitle("Разрезание картинок");
+        setTitle("Разрезание изображений");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -276,7 +276,7 @@ public class CutImageForm extends javax.swing.JDialog {
             }
         });
 
-        bLoadImage.setText("Загрузить картинку");
+        bLoadImage.setText("Загрузить изображение");
         bLoadImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bLoadImageActionPerformed(evt);

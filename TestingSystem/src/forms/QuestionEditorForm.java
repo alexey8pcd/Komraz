@@ -265,6 +265,11 @@ public class QuestionEditorForm extends javax.swing.JDialog {
         );
 
         listDifficulty.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listDifficulty.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listDifficultyValueChanged(evt);
+            }
+        });
         sPaneForListDifficulty.setViewportView(listDifficulty);
 
         lSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -550,11 +555,19 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 }
             }
             question.setBall((Integer) spinnerPoints.getValue());
-            question.setNazvanie(new String(
-                    tQuestionTitle.getText().getBytes(), UTF_8));
-            question.setFormulirovka(new String(
-                    textAreaForQuestionFormulation.getText().getBytes(),
-                    UTF_8));
+            //старое
+//            question.setNazvanie(new String(
+//                    tQuestionTitle.getText().getBytes(), UTF_8));
+//            question.setFormulirovka(new String(
+//                    textAreaForQuestionFormulation.getText().getBytes(),
+//                    UTF_8));
+            //-------------
+
+            //*****новое*******************************************************
+            question.setNazvanie(tQuestionTitle.getText());
+            question.setFormulirovka(textAreaForQuestionFormulation.getText());
+            //*****************************************************************
+
             question.setDisciplinaIdDisciplina(subjects.get(
                     listSubjects.getSelectedIndex()));
             question.setKategoriyaSlozhnostiIdKategoriyaSlozhnosti(
@@ -756,6 +769,19 @@ public class QuestionEditorForm extends javax.swing.JDialog {
                 "Disciplina.findAll", Disciplina.class).getResultList();
         listSubjects.updateUI();
     }//GEN-LAST:event_bCancelSearchActionPerformed
+
+    private void listDifficultyValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listDifficultyValueChanged
+        switch (listDifficulty.getSelectedIndex()) {
+            case 0:
+                spinnerPoints.setValue(1);
+                break;
+            case 1:
+                spinnerPoints.setValue(10);
+                break;
+            case 2:
+                spinnerPoints.setValue(20);
+        }
+    }//GEN-LAST:event_listDifficultyValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancelSearch;

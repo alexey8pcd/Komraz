@@ -6,7 +6,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="title" type="java.lang.String" value="&#x420;&#x430;&#x437;&#x440;&#x435;&#x437;&#x430;&#x43d;&#x438;&#x435; &#x43a;&#x430;&#x440;&#x442;&#x438;&#x43d;&#x43e;&#x43a;"/>
+    <Property name="title" type="java.lang.String" value="&#x420;&#x430;&#x437;&#x440;&#x435;&#x437;&#x430;&#x43d;&#x438;&#x435; &#x438;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x439;"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -180,7 +180,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="bLoadImage">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x433;&#x440;&#x443;&#x437;&#x438;&#x442;&#x44c; &#x43a;&#x430;&#x440;&#x442;&#x438;&#x43d;&#x43a;&#x443;"/>
+        <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x433;&#x440;&#x443;&#x437;&#x438;&#x442;&#x44c; &#x438;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x435;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bLoadImageActionPerformed"/>

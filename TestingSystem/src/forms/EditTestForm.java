@@ -14,8 +14,6 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListModel;
 import main.DialogManager;
-import org.eclipse.persistence.config.CacheUsage;
-import org.eclipse.persistence.config.QueryHints;
 import static resources.Parameters.SCREEN_SIZE;
 import sql.DBManager;
 import static sql.DBManager.entityManager;
@@ -29,6 +27,7 @@ public class EditTestForm extends javax.swing.JDialog {
     private Disciplina subject;
     private List<Vopros> allQuestions;
     private Test test;
+    private final StringBuilder BUILDER;
 
     private EditMode workMode;
 
@@ -48,7 +47,14 @@ public class EditTestForm extends javax.swing.JDialog {
 
         @Override
         public Object getElementAt(int index) {
-            return allQuestions.get(index).getNazvanie();
+            BUILDER.setLength(0);
+            BUILDER.append(allQuestions.get(index).getNazvanie());
+            BUILDER.append(" [");
+            BUILDER.append(allQuestions.get(index).
+                    getKategoriyaSlozhnostiIdKategoriyaSlozhnosti().
+                    getNazvanie());
+            BUILDER.append("]");
+            return BUILDER.toString();
         }
     };
     private final ListModel TEST_QUESTION_LIST_MODEL = new AbstractListModel() {
@@ -67,6 +73,7 @@ public class EditTestForm extends javax.swing.JDialog {
     public EditTestForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        BUILDER = new StringBuilder();
         this.setLocation(SCREEN_SIZE.width / 2 - this.getWidth() / 2,
                 SCREEN_SIZE.height / 2 - this.getHeight() / 2);
         TEST_QUESTIONS = new ArrayList<>();
