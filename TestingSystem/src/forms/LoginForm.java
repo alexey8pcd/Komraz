@@ -87,14 +87,12 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        textUsername.setText("krogozi");
         textUsername.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textUsernameKeyPressed(evt);
             }
         });
 
-        passwordText.setText("12345");
         passwordText.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 passwordTextKeyPressed(evt);

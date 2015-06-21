@@ -3,7 +3,6 @@ package forms;
 import entities.Student;
 import entities.Test;
 import entities.TestVopros;
-import entities.Vopros;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractListModel;
